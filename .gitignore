@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ML / generated files
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.h5
+
+# Generated datasets
+data/generated/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
