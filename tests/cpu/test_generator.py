@@ -1,4 +1,4 @@
-"""Unit tests for CPU workload and process generator."""
+"""Unit tests for CPU workload and process generator with ML features."""
 
 import tempfile
 import unittest
@@ -25,6 +25,7 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
             self.assertEqual(p1.arrival_time, p2.arrival_time)
             self.assertEqual(p1.burst_time, p2.burst_time)
             self.assertEqual(p1.priority, p2.priority)
+            self.assertEqual(p1.metadata, p2.metadata)
 
     def test_different_results_with_different_seeds(self):
         gen = CPUWorkloadGenerator()
@@ -32,7 +33,13 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
         w2 = gen.generate(num_processes=10, seed=99)
 
         diff_count = sum(
-            1 for p1, p2 in zip(w1, w2) if (p1.burst_time != p2.burst_time or p1.arrival_time != p2.arrival_time)
+            1
+            for p1, p2 in zip(w1, w2)
+            if (
+                p1.burst_time != p2.burst_time
+                or p1.arrival_time != p2.arrival_time
+                or p1.metadata != p2.metadata
+            )
         )
         self.assertGreater(diff_count, 0)
 
@@ -60,6 +67,79 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
             self.assertLessEqual(p.burst_time, 15.0)
             self.assertGreaterEqual(p.priority, 1)
             self.assertLessEqual(p.priority, 4)
+
+    def test_ml_features_generation_and_ranges(self):
+        config = WorkloadConfig(
+            num_processes=20,
+            instruction_count_range=(5000.0, 50000.0),
+            cpu_intensity_range=(0.2, 0.9),
+            io_wait_ratio_range=(0.1, 0.7),
+            process_complexity_range=(1.5, 4.0),
+            seed=55,
+        )
+        gen = CPUWorkloadGenerator(config=config)
+        workload = gen.generate()
+
+        for p in workload:
+            meta = p.metadata
+            self.assertIn("instruction_count", meta)
+            self.assertIn("cpu_intensity", meta)
+            self.assertIn("io_wait_ratio", meta)
+            self.assertIn("process_complexity", meta)
+
+            self.assertGreaterEqual(meta["instruction_count"], 5000.0)
+            self.assertLessEqual(meta["instruction_count"], 50000.0)
+
+            self.assertGreaterEqual(meta["cpu_intensity"], 0.2)
+            self.assertLessEqual(meta["cpu_intensity"], 0.9)
+
+            self.assertGreaterEqual(meta["io_wait_ratio"], 0.1)
+            self.assertLessEqual(meta["io_wait_ratio"], 0.7)
+
+            self.assertGreaterEqual(meta["process_complexity"], 1.5)
+            self.assertLessEqual(meta["process_complexity"], 4.0)
+
+    def test_correlated_burst_generation(self):
+        config = WorkloadConfig(
+            num_processes=10,
+            correlate_burst_to_features=True,
+            noise_level=0.0,
+            seed=42,
+        )
+        gen = CPUWorkloadGenerator(config=config)
+        workload = gen.generate()
+
+        for p in workload:
+            expected_burst = CPUWorkloadGenerator.calculate_synthetic_burst_time(
+                instruction_count=p.metadata["instruction_count"],
+                cpu_intensity=p.metadata["cpu_intensity"],
+                io_wait_ratio=p.metadata["io_wait_ratio"],
+                process_complexity=p.metadata["process_complexity"],
+                k_scale=config.k_scale,
+                noise=0.0,
+                min_burst=config.burst_range[0],
+                round_digits=config.round_digits,
+            )
+            self.assertEqual(p.burst_time, expected_burst)
+            self.assertGreater(p.burst_time, 0.0)
+
+    def test_synthetic_burst_causal_relationships(self):
+        calc = CPUWorkloadGenerator.calculate_synthetic_burst_time
+
+        # Increasing instruction_count increases burst_time
+        b_low_instr = calc(instruction_count=10000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=2.0)
+        b_high_instr = calc(instruction_count=50000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=2.0)
+        self.assertGreater(b_high_instr, b_low_instr)
+
+        # Increasing process_complexity increases burst_time
+        b_simple = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=1.0)
+        b_complex = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=3.0)
+        self.assertGreater(b_complex, b_simple)
+
+        # Increasing io_wait_ratio decreases CPU burst_time
+        b_low_io = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.1, process_complexity=2.0)
+        b_high_io = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.7, process_complexity=2.0)
+        self.assertGreater(b_low_io, b_high_io)
 
     def test_zero_arrival_distribution(self):
         config = WorkloadConfig(
@@ -114,8 +194,19 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
         df = gen.to_dataframe(workload)
 
         self.assertEqual(len(df), 5)
-        self.assertListEqual(list(df.columns), ["pid", "arrival_time", "burst_time", "priority"])
+        expected_columns = [
+            "pid",
+            "arrival_time",
+            "burst_time",
+            "priority",
+            "instruction_count",
+            "cpu_intensity",
+            "io_wait_ratio",
+            "process_complexity",
+        ]
+        self.assertListEqual(list(df.columns), expected_columns)
         self.assertEqual(set(df["pid"]), {"P1", "P2", "P3", "P4", "P5"})
+        self.assertTrue((df["instruction_count"] > 0).all())
 
     def test_csv_export_and_load(self):
         gen = CPUWorkloadGenerator(seed=42)
@@ -134,6 +225,21 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
                 self.assertEqual(orig.arrival_time, loaded.arrival_time)
                 self.assertEqual(orig.burst_time, loaded.burst_time)
                 self.assertEqual(orig.priority, loaded.priority)
+                self.assertEqual(orig.metadata, loaded.metadata)
+
+    def test_load_legacy_csv_without_ml_features(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            legacy_csv = Path(tmp_dir) / "legacy.csv"
+            legacy_csv.write_text(
+                "pid,arrival_time,burst_time,priority\nP1,0.0,5.0,2\nP2,1.0,3.0,1\n",
+                encoding="utf-8",
+            )
+            loaded = CPUWorkloadGenerator.load_from_csv(legacy_csv)
+            self.assertEqual(len(loaded), 2)
+            self.assertEqual(loaded[0].pid, "P1")
+            self.assertEqual(loaded[0].burst_time, 5.0)
+            self.assertEqual(loaded[0].priority, 2)
+            self.assertEqual(loaded[1].pid, "P2")
 
     def test_invalid_configurations_rejected(self):
         with self.assertRaises(ValueError):
@@ -162,6 +268,34 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             WorkloadConfig(burst_distribution="invalid_dist").validate()
+
+        # ML feature validation checks
+        with self.assertRaises(ValueError):
+            WorkloadConfig(instruction_count_range=(0, 1000)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(instruction_count_range=(5000, 1000)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(cpu_intensity_range=(0.0, 0.5)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(cpu_intensity_range=(0.2, 1.5)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(io_wait_ratio_range=(-0.1, 0.5)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(io_wait_ratio_range=(0.2, 1.0)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(process_complexity_range=(0.0, 2.0)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(process_complexity_range=(3.0, 1.0)).validate()
+
+        with self.assertRaises(ValueError):
+            WorkloadConfig(noise_level=-0.5).validate()
 
     def test_load_csv_missing_file_or_invalid_header(self):
         with self.assertRaises(FileNotFoundError):
