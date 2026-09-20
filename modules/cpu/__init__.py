@@ -1,5 +1,6 @@
 """CPU Scheduling module package."""
 
+from modules.cpu.action_loop import ActionLoopStep, CPUActionLoop
 from modules.cpu.base_scheduler import BaseScheduler, ScheduleResult
 from modules.cpu.fcfs import FCFSScheduler
 from modules.cpu.meta_scheduler import CPUMetaScheduler, MetaScheduleResult
@@ -22,4 +23,7 @@ __all__ = [
     "RoundRobinScheduler",
     "CPUMetaScheduler",
     "MetaScheduleResult",
+    "ActionLoopStep",
+    "CPUActionLoop",
 ]
+
