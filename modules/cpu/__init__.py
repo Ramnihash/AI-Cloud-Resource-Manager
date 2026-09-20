@@ -2,6 +2,7 @@
 
 from modules.cpu.base_scheduler import BaseScheduler, ScheduleResult
 from modules.cpu.fcfs import FCFSScheduler
+from modules.cpu.meta_scheduler import CPUMetaScheduler, MetaScheduleResult
 from modules.cpu.metrics import GanttSlice, SchedulingMetrics, calculate_metrics
 from modules.cpu.priority import PriorityScheduler
 from modules.cpu.process import Process
@@ -19,4 +20,6 @@ __all__ = [
     "SJFScheduler",
     "PriorityScheduler",
     "RoundRobinScheduler",
+    "CPUMetaScheduler",
+    "MetaScheduleResult",
 ]
