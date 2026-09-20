@@ -75,3 +75,17 @@ The SMART feature columns are deterministically sorted alphabetically, followed 
 - **No Raw Data in Git**: Raw Backblaze CSV archives are large external assets and must **not** be committed to Git.
 - **No Automatic Downloads**: Importing the preparation module will never initiate network requests or automatic downloads.
 - **No Machine Learning Predictions**: This module is strictly responsible for dataset ingestion, sanitization, and preparation. Modeling and backup decisions are implemented in subsequent checkpoints.
+
+## Validation Against Official Backblaze Schema
+
+The CP2.5 preparation pipeline was validated against the official Backblaze Hard Drive Data schema.
+
+The validation confirmed that:
+
+- Backblaze daily drive records contain a binary `failure` target using `0` and `1`.
+- SMART attributes follow the `smart_*` naming convention.
+- Different drive models report different SMART attributes, resulting in substantial missing values.
+- The current CP2.5 preparation pipeline is compatible with the Backblaze schema without code changes.
+- Additional Backblaze metadata is excluded because the pipeline selects only `smart_*` attributes and the `failure` target.
+- Full raw Backblaze datasets are not committed to the Git repository.
+- Severe class imbalance, downstream SMART feature selection, and construction of future failure prediction windows are concerns for CP3.8/CP7 rather than changes to the CP2.5 preparation pipeline.
