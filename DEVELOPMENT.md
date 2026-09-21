@@ -684,10 +684,7 @@ Memory
 
 Markov next-page predictor
 
-
-
-Transformer next-page predictor
-
+Tran
 
 
 Memory-pressure forecaster
@@ -699,6 +696,7 @@ Memory leak / abnormal growth detector
 
 
 Device
+
 
 
 
