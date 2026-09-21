@@ -4,42 +4,20 @@ AI-Driven Cloud Resource Manager
 
 Development Specification
 
-
-
 This document is the development source of truth for the project.
 
 Changes to module boundaries, architecture, or major technologies must be discussed by all team members before implementation.
 
-
-
 1\. Project Purpose
-
-
 
 The project is a cloud-hosted OS resource-manager simulator that demonstrates how AI/ML can assist operating-system resource management.
 
-
-
 The system focuses on three OS functionalities:
 
-
-
 CPU / Process Management
-
-
-
 Memory Management
-
-
-
 Device Management
-
-
-
 The core concept is:
-
-
-
 PREDICT → DECIDE → ACT → MEASURE
 
 
@@ -594,31 +572,31 @@ The development architecture follows:
 
 Input / Data Sources
 
-&#x20;       ↓
+&#x20; ↓
 
 Backend / OS Resource Manager
 
-&#x20;       ↓
+&#x20; ↓
 
 &#x20;┌───────────────┬──────────────────┬────────────────────────┐
 
-&#x20;│               │                  │
+&#x20;│ │ │
 
-&#x20;CPU Module   Memory Module     Device Module
+&#x20;CPU Module Memory Module Device Module
 
-&#x20;│               │                  │
+&#x20;│ │ │
 
 &#x20;└───────────────┴──────────────────┴────────────────────────┘
 
-&#x20;       ↓
+&#x20; ↓
 
 ML / Intelligence Layer
 
-&#x20;       ↓
+&#x20; ↓
 
 Decision / Action Layer
 
-&#x20;       ↓
+&#x20; ↓
 
 Monitoring / Dashboard
 
@@ -968,41 +946,41 @@ AI-Cloud-Resource-Manager/
 
 ├── modules/
 
-│   ├── cpu/
+│ ├── cpu/
 
-│   ├── memory/
+│ ├── memory/
 
-│   └── device/
+│ └── device/
 
 │
 
 ├── ml/
 
-│   ├── cpu/
+│ ├── cpu/
 
-│   ├── memory/
+│ ├── memory/
 
-│   └── device/
+│ └── device/
 
 │
 
 ├── data/
 
-│   ├── cpu/
+│ ├── cpu/
 
-│   ├── memory/
+│ ├── memory/
 
-│   └── device/
+│ └── device/
 
 │
 
 ├── common/
 
-│   ├── config/
+│ ├── config/
 
-│   ├── logging/
+│ ├── logging/
 
-│   └── utils/
+│ └── utils/
 
 │
 
@@ -1016,21 +994,21 @@ AI-Cloud-Resource-Manager/
 
 ├── tests/
 
-│   ├── cpu/
+│ ├── cpu/
 
-│   ├── memory/
+│ ├── memory/
 
-│   └── device/
+│ └── device/
 
 │
 
 └── docs/
 
-&#x20;   ├── architecture/
+&#x20; ├── architecture/
 
-&#x20;   ├── results/
+&#x20; ├── results/
 
-&#x20;   └── decisions/
+&#x20; └── decisions/
 
 
 
@@ -1572,31 +1550,31 @@ Basic workflow:
 
 Create / update feature branch
 
-&#x20;       ↓
+&#x20; ↓
 
 Implement
 
-&#x20;       ↓
+&#x20; ↓
 
 Test
 
-&#x20;       ↓
+&#x20; ↓
 
 Commit
 
-&#x20;       ↓
+&#x20; ↓
 
 Push branch
 
-&#x20;       ↓
+&#x20; ↓
 
 Create Pull Request
 
-&#x20;       ↓
+&#x20; ↓
 
 Another member reviews
 
-&#x20;       ↓
+&#x20; ↓
 
 Merge into main
 
@@ -1912,19 +1890,19 @@ For every AI component, ask:
 
 What is being predicted?
 
-&#x20;       ↓
+&#x20; ↓
 
 Why is it being predicted?
 
-&#x20;       ↓
+&#x20; ↓
 
 What decision uses the prediction?
 
-&#x20;       ↓
+&#x20; ↓
 
 What action is taken?
 
-&#x20;       ↓
+&#x20; ↓
 
 How is the action measured?
 
@@ -2217,4 +2195,5 @@ The three core OS modules are the foundation.
 AI, data, backend, dashboard, cloud deployment, storage, logging,
 
 and testing exist to support those modules.
+
 
