@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pandas as pd
-from sklearn.metrics import precision_score, recall_score
+from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
 from ml.device.smart.classifier import (
@@ -24,6 +24,8 @@ class TrainingResult:
     model: object
     precision: float
     recall: float
+    f1: float
+    roc_auc: float
     predictions: pd.Series
     probabilities: pd.Series
 
@@ -87,12 +89,24 @@ def train_classifier(
         zero_division=0,
     )
 
+    f1 = f1_score(
+        y_test,
+        predictions,
+        zero_division=0,
+    )
+
+    roc_auc = roc_auc_score(
+        y_test,
+        probabilities,
+    )
+
     return TrainingResult(
         model_name=model_name,
         model=model,
         precision=float(precision),
         recall=float(recall),
+        f1=float(f1),
+        roc_auc=float(roc_auc),
         predictions=predictions,
         probabilities=probabilities,
     )
-    
