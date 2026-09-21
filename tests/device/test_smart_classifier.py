@@ -20,6 +20,7 @@ class TestSmartClassifier(unittest.TestCase):
         self.assertEqual(config.test_size, 0.2)
         self.assertEqual(config.logistic_max_iter, 1000)
         self.assertEqual(config.random_forest_estimators, 100)
+        self.assertEqual(config.class_weight, "balanced")
 
     def test_create_logistic_regression(self):
         config = ClassifierConfig()
@@ -29,6 +30,7 @@ class TestSmartClassifier(unittest.TestCase):
         self.assertIsInstance(model, LogisticRegression)
         self.assertEqual(model.max_iter, 1000)
         self.assertEqual(model.random_state, 42)
+        self.assertEqual(model.class_weight, "balanced")
 
     def test_create_random_forest(self):
         config = ClassifierConfig()
@@ -39,6 +41,7 @@ class TestSmartClassifier(unittest.TestCase):
         self.assertEqual(model.n_estimators, 100)
         self.assertEqual(model.random_state, 42)
         self.assertEqual(model.n_jobs, -1)
+        self.assertEqual(model.class_weight, "balanced")
 
 
 if __name__ == "__main__":

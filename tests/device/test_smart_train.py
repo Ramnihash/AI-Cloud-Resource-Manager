@@ -39,6 +39,10 @@ class TestSmartTraining(unittest.TestCase):
         self.assertLessEqual(result.precision, 1.0)
         self.assertGreaterEqual(result.recall, 0.0)
         self.assertLessEqual(result.recall, 1.0)
+        self.assertGreaterEqual(result.f1, 0.0)
+        self.assertLessEqual(result.f1, 1.0)
+        self.assertGreaterEqual(result.roc_auc, 0.0)
+        self.assertLessEqual(result.roc_auc, 1.0)
 
     def test_random_forest_training(self):
         result = train_classifier(
@@ -49,6 +53,10 @@ class TestSmartTraining(unittest.TestCase):
         self.assertEqual(result.model_name, "random_forest")
         self.assertEqual(len(result.predictions), 2)
         self.assertEqual(len(result.probabilities), 2)
+        self.assertGreaterEqual(result.f1, 0.0)
+        self.assertLessEqual(result.f1, 1.0)
+        self.assertGreaterEqual(result.roc_auc, 0.0)
+        self.assertLessEqual(result.roc_auc, 1.0)
 
     def test_unsupported_model_raises_error(self):
         with self.assertRaises(ValueError):
