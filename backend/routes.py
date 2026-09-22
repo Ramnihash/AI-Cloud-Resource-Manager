@@ -11,7 +11,7 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
-from typing import Any
+from typing import Any, Optional
 
 import psutil
 from flask import Blueprint, current_app, jsonify, request
@@ -308,4 +308,52 @@ def device_predictive_action():
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
 
+    _get_shared_monitor().record_device_action(result)
+
     return jsonify(dataclasses.asdict(result)), 200
+
+
+def _get_shared_monitor():
+    """Retrieve injected SharedMonitor or initialize a default instance."""
+    monitor = current_app.config.get("SHARED_MONITOR")
+    if monitor is None:
+        from modules.monitoring.shared_monitor import SharedMonitor
+
+        loop = _get_cpu_action_loop()
+        monitor = SharedMonitor(cpu_action_loop=loop)
+        current_app.config["SHARED_MONITOR"] = monitor
+    return monitor
+
+
+@api_bp.route("/api/v1/monitor/overview", methods=["GET"])
+def monitor_overview():
+    """Consolidated cross-subsystem monitoring overview."""
+    raw_history = request.args.get("include_history", "false").strip().lower()
+    if raw_history in ("true", "1", "yes"):
+        include_history = True
+    elif raw_history in ("false", "0", "no", ""):
+        include_history = False
+    else:
+        return jsonify({"error": "Query parameter 'include_history' must be a boolean ('true' or 'false')"}), 400
+
+    raw_pid = request.args.get("pid")
+    pid: Optional[int] = None
+    if raw_pid is not None and raw_pid.strip():
+        try:
+            pid = int(raw_pid.strip())
+            if pid < 0:
+                return jsonify({"error": "Query parameter 'pid' must be a non-negative integer"}), 400
+        except ValueError:
+            return jsonify({"error": "Query parameter 'pid' must be an integer"}), 400
+
+    try:
+        monitor = _get_shared_monitor()
+        snapshot = monitor.get_system_snapshot(include_history=include_history, pid=pid)
+    except psutil.NoSuchProcess as e:
+        return jsonify({"error": f"Process not found: {e}"}), 400
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    return jsonify(snapshot), 200

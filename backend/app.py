@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
@@ -10,15 +10,20 @@ from werkzeug.exceptions import HTTPException
 from backend.routes import api_bp
 from modules.cpu.action_loop import CPUActionLoop
 
+if TYPE_CHECKING:
+    from modules.monitoring.shared_monitor import SharedMonitor
+
 
 def create_app(
     cpu_action_loop: Optional[CPUActionLoop] = None,
+    shared_monitor: Optional[SharedMonitor] = None,
     test_config: Optional[dict[str, Any]] = None,
 ) -> Flask:
     """Create and configure the Flask application instance.
 
     Args:
         cpu_action_loop: Optional injected CPUActionLoop instance.
+        shared_monitor: Optional injected SharedMonitor instance.
         test_config: Optional test configuration mapping.
 
     Returns:
@@ -34,6 +39,9 @@ def create_app(
 
     if cpu_action_loop is not None:
         app.config["CPU_ACTION_LOOP"] = cpu_action_loop
+
+    if shared_monitor is not None:
+        app.config["SHARED_MONITOR"] = shared_monitor
 
     # Register API blueprint
     app.register_blueprint(api_bp)
