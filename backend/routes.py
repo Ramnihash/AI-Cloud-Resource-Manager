@@ -357,3 +357,139 @@ def monitor_overview():
         return jsonify({"error": "Internal server error"}), 500
 
     return jsonify(snapshot), 200
+
+
+def _get_integrated_execution_manager():
+    """Retrieve injected IntegratedExecutionManager or initialize a consistent default instance."""
+    manager = current_app.config.get("INTEGRATED_EXECUTION_MANAGER")
+    if manager is None:
+        from modules.integration.integrated_execution import IntegratedExecutionManager
+
+        shared_mon = _get_shared_monitor()
+        manager = IntegratedExecutionManager(
+            shared_monitor=shared_mon,
+            cpu_action_loop=shared_mon.cpu_action_loop,
+            memory_monitor=shared_mon.memory_monitor,
+        )
+        current_app.config["INTEGRATED_EXECUTION_MANAGER"] = manager
+    return manager
+
+
+@api_bp.route("/api/v1/system/step", methods=["POST"])
+def system_step():
+    """Execute a coordinated multi-resource execution step across CPU, Memory, Device, and Monitoring."""
+    data, err = _extract_json_payload(allow_empty=False)
+    if err:
+        return jsonify({"error": err}), 400
+
+    # 1. Validate processes
+    if "processes" not in data:
+        return jsonify({"error": "Missing required field: processes"}), 400
+    raw_processes = data["processes"]
+    if not isinstance(raw_processes, list):
+        return jsonify({"error": "Field 'processes' must be a list"}), 400
+    if len(raw_processes) == 0:
+        return jsonify({"error": "Workload must contain at least one process"}), 400
+
+    process_objects: list[Process] = []
+    for i, p_dict in enumerate(raw_processes):
+        if not isinstance(p_dict, dict):
+            return jsonify({"error": f"Process at index {i} must be an object"}), 400
+
+        for req_field in ("pid", "arrival_time", "burst_time"):
+            if req_field not in p_dict:
+                return jsonify({"error": f"Process at index {i} missing required field '{req_field}'"}), 400
+
+        pid = p_dict["pid"]
+        if not isinstance(pid, (int, str)):
+            return jsonify({"error": f"Process at index {i} has invalid pid: must be int or str"}), 400
+
+        arr = p_dict["arrival_time"]
+        if isinstance(arr, bool) or not isinstance(arr, (int, float)):
+            return jsonify({"error": f"Process at index {i} has invalid arrival_time: must be number"}), 400
+
+        burst = p_dict["burst_time"]
+        if isinstance(burst, bool) or not isinstance(burst, (int, float)):
+            return jsonify({"error": f"Process at index {i} has invalid burst_time: must be number"}), 400
+        if float(burst) < 0:
+            return jsonify({"error": f"Process at index {i} has negative burst_time: {burst}"}), 400
+
+        priority = p_dict.get("priority", 0)
+        if isinstance(priority, bool) or not isinstance(priority, int):
+            return jsonify({"error": f"Process at index {i} has invalid priority: must be integer"}), 400
+
+        pred_burst = p_dict.get("predicted_burst_time")
+        if pred_burst is not None and (isinstance(pred_burst, bool) or not isinstance(pred_burst, (int, float))):
+            return jsonify({"error": f"Process at index {i} has invalid predicted_burst_time: must be number or null"}), 400
+
+        meta = p_dict.get("metadata", {})
+        if not isinstance(meta, dict):
+            return jsonify({"error": f"Process at index {i} has invalid metadata: must be an object"}), 400
+
+        try:
+            p = Process(
+                pid=pid,
+                arrival_time=float(arr),
+                burst_time=float(burst),
+                priority=int(priority),
+                predicted_burst_time=float(pred_burst) if pred_burst is not None else None,
+                workload_type=p_dict.get("workload_type"),
+                metadata=dict(meta),
+            )
+            process_objects.append(p)
+        except (ValueError, TypeError) as e:
+            return jsonify({"error": f"Invalid process at index {i}: {e}"}), 400
+
+    # 2. Validate compare_with_baseline
+    compare_with_baseline = data.get("compare_with_baseline", False)
+    if not isinstance(compare_with_baseline, bool):
+        return jsonify({"error": "Field 'compare_with_baseline' must be a boolean"}), 400
+
+    # 3. Validate device_actions
+    raw_device_actions = data.get("device_actions")
+    if raw_device_actions is not None:
+        if not isinstance(raw_device_actions, list):
+            return jsonify({"error": "Field 'device_actions' must be a list when provided"}), 400
+        for idx, action_req in enumerate(raw_device_actions):
+            if not isinstance(action_req, dict):
+                return jsonify({"error": f"Device action at index {idx} must be an object"}), 400
+            for req_key in ("device_id", "failure_probability", "device_status"):
+                if req_key not in action_req:
+                    return jsonify({"error": f"Device action at index {idx} missing required field '{req_key}'"}), 400
+
+            dev_id = action_req["device_id"]
+            if not isinstance(dev_id, str) or not dev_id.strip():
+                return jsonify({"error": f"Device action at index {idx} has invalid device_id: must be non-empty string"}), 400
+
+            prob = action_req["failure_probability"]
+            if isinstance(prob, bool) or not isinstance(prob, (int, float)):
+                return jsonify({"error": f"Device action at index {idx} has invalid failure_probability: must be number"}), 400
+            if not (0.0 <= float(prob) <= 1.0):
+                return jsonify({"error": f"Device action at index {idx} failure_probability out of bounds [0.0, 1.0]"}), 400
+
+            status = action_req["device_status"]
+            if not isinstance(status, str) or not status.strip():
+                return jsonify({"error": f"Device action at index {idx} has invalid device_status: must be non-empty string"}), 400
+
+    # 4. Validate pid
+    pid = data.get("pid")
+    if pid is not None and (isinstance(pid, bool) or not isinstance(pid, int) or pid < 0):
+        return jsonify({"error": "Field 'pid' must be a non-negative integer or null"}), 400
+
+    # 5. Execute coordinated step
+    try:
+        manager = _get_integrated_execution_manager()
+        step_record = manager.step(
+            processes=process_objects,
+            device_actions=raw_device_actions,
+            compare_with_baseline=compare_with_baseline,
+            pid=pid,
+        )
+    except psutil.NoSuchProcess as e:
+        return jsonify({"error": f"Process not found: {e}"}), 400
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    return jsonify(step_record.to_dict()), 200

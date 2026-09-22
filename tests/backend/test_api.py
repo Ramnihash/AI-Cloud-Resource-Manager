@@ -36,9 +36,14 @@ class TestBackendAPI(unittest.TestCase):
 
     def setUp(self) -> None:
         self.cpu_action_loop.reset()
-        mon = self.app.config.get("SHARED_MONITOR")
-        if mon is not None:
-            mon.reset()
+        mgr = self.app.config.get("INTEGRATED_EXECUTION_MANAGER")
+        if mgr is not None:
+            mgr.reset()
+        else:
+            mon = self.app.config.get("SHARED_MONITOR")
+            if mon is not None:
+                mon.reset()
+
 
     # --------------------------------------------------------------------------
     # 1. Health Endpoint
@@ -522,6 +527,153 @@ class TestBackendAPI(unittest.TestCase):
             self.assertTrue(response.is_json)
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Hardware sensor monitoring bus failed", response.get_data(as_text=True))
+
+    # --------------------------------------------------------------------------
+    # 10. Integrated Execution Endpoint (CP5.3)
+    # --------------------------------------------------------------------------
+    def test_system_step_valid(self) -> None:
+        """POST /api/v1/system/step executes coordinated multi-resource step."""
+        payload = {
+            "processes": [
+                {
+                    "pid": "P1",
+                    "arrival_time": 0.0,
+                    "burst_time": 10.0,
+                    "priority": 1,
+                }
+            ],
+            "compare_with_baseline": False,
+            "device_actions": [
+                {
+                    "device_id": "disk_0",
+                    "failure_probability": 0.8,
+                    "device_status": "degrading",
+                    "backup_device_id": "disk_backup",
+                }
+            ],
+        }
+        response = self.client.post("/api/v1/system/step", json=payload)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.is_json)
+        data = response.get_json()
+
+        self.assertEqual(data["step_index"], 0)
+        self.assertIn("timestamp", data)
+        self.assertIn("cpu", data)
+        self.assertIn("memory", data)
+        self.assertIn("devices", data)
+        self.assertIn("system_snapshot", data)
+
+        # CPU
+        self.assertEqual(data["cpu"]["process_count"], 1)
+
+        # Memory
+        self.assertIn("ram_percent", data["memory"])
+
+        # Devices
+        self.assertEqual(len(data["devices"]), 1)
+        self.assertEqual(data["devices"][0]["device_id"], "disk_0")
+        self.assertTrue(data["devices"][0]["backup_result"]["triggered"])
+
+        # System snapshot reflects step
+        self.assertEqual(data["system_snapshot"]["cpu"]["total_steps"], 1)
+        self.assertEqual(len(data["system_snapshot"]["devices"]["recent_actions"]), 1)
+
+    def test_system_step_with_baseline(self) -> None:
+        """POST /api/v1/system/step populates baseline and delta when enabled."""
+        payload = {
+            "processes": [
+                {
+                    "pid": 1,
+                    "arrival_time": 0.0,
+                    "burst_time": 12.0,
+                }
+            ],
+            "compare_with_baseline": True,
+        }
+        response = self.client.post("/api/v1/system/step", json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIsNotNone(data["cpu"]["baseline_result"])
+        self.assertIsNotNone(data["cpu"]["action_delta"])
+
+    def test_system_step_with_pid(self) -> None:
+        """POST /api/v1/system/step returns process memory metrics for valid PID."""
+        my_pid = os.getpid()
+        payload = {
+            "processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}],
+            "pid": my_pid,
+        }
+        response = self.client.post("/api/v1/system/step", json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data["memory"]["proc_pid"], my_pid)
+
+    def test_system_step_validation_failures(self) -> None:
+        """POST /api/v1/system/step rejects malformed requests with HTTP 400."""
+        # Missing processes
+        r1 = self.client.post("/api/v1/system/step", json={})
+        self.assertEqual(r1.status_code, 400)
+        self.assertIn("error", r1.get_json())
+
+        # Empty processes
+        r2 = self.client.post("/api/v1/system/step", json={"processes": []})
+        self.assertEqual(r2.status_code, 400)
+
+        # Negative burst time
+        r3 = self.client.post(
+            "/api/v1/system/step",
+            json={"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": -1.0}]},
+        )
+        self.assertEqual(r3.status_code, 400)
+
+        # Non-boolean compare_with_baseline
+        r4 = self.client.post(
+            "/api/v1/system/step",
+            json={
+                "processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}],
+                "compare_with_baseline": "invalid",
+            },
+        )
+        self.assertEqual(r4.status_code, 400)
+
+        # Device action invalid probability
+        r5 = self.client.post(
+            "/api/v1/system/step",
+            json={
+                "processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}],
+                "device_actions": [
+                    {"device_id": "disk_0", "failure_probability": 2.0, "device_status": "ok"}
+                ],
+            },
+        )
+        self.assertEqual(r5.status_code, 400)
+
+        # Non-existent PID
+        r6 = self.client.post(
+            "/api/v1/system/step",
+            json={
+                "processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}],
+                "pid": 99999999,
+            },
+        )
+        self.assertEqual(r6.status_code, 400)
+        self.assertIn("Process not found", r6.get_json()["error"])
+
+    def test_system_step_unexpected_500(self) -> None:
+        """Unexpected exception in system_step returns generic HTTP 500 JSON."""
+        with patch(
+            "modules.integration.integrated_execution.IntegratedExecutionManager.step",
+            side_effect=RuntimeError("Bus arbiter synchronization failed"),
+        ):
+            payload = {
+                "processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}],
+            }
+            response = self.client.post("/api/v1/system/step", json=payload)
+            self.assertEqual(response.status_code, 500)
+            self.assertTrue(response.is_json)
+            self.assertEqual(response.get_json(), {"error": "Internal server error"})
+            self.assertNotIn("Bus arbiter synchronization failed", response.get_data(as_text=True))
 
 
 if __name__ == "__main__":
