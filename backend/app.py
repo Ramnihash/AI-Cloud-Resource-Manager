@@ -11,12 +11,14 @@ from backend.routes import api_bp
 from modules.cpu.action_loop import CPUActionLoop
 
 if TYPE_CHECKING:
+    from modules.integration.integrated_execution import IntegratedExecutionManager
     from modules.monitoring.shared_monitor import SharedMonitor
 
 
 def create_app(
     cpu_action_loop: Optional[CPUActionLoop] = None,
     shared_monitor: Optional[SharedMonitor] = None,
+    integrated_execution_manager: Optional[IntegratedExecutionManager] = None,
     test_config: Optional[dict[str, Any]] = None,
 ) -> Flask:
     """Create and configure the Flask application instance.
@@ -24,6 +26,7 @@ def create_app(
     Args:
         cpu_action_loop: Optional injected CPUActionLoop instance.
         shared_monitor: Optional injected SharedMonitor instance.
+        integrated_execution_manager: Optional injected IntegratedExecutionManager instance.
         test_config: Optional test configuration mapping.
 
     Returns:
@@ -42,6 +45,9 @@ def create_app(
 
     if shared_monitor is not None:
         app.config["SHARED_MONITOR"] = shared_monitor
+
+    if integrated_execution_manager is not None:
+        app.config["INTEGRATED_EXECUTION_MANAGER"] = integrated_execution_manager
 
     # Register API blueprint
     app.register_blueprint(api_bp)
