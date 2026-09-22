@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}CPU — AI Resource Manager{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">CPU / Process Management</h1>
+        <p class="page-subtitle">Classical scheduling, AI-assisted meta-scheduling, and workload prediction</p>
+    </div>
+    <span class="page-meta">SNAPSHOT — AWAITING FIRST STEP</span>
+</div>
+
+<section class="page-grid" aria-label="CPU summary">
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Active Scheduler</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Scheduler</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Selected By</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Workload Prediction</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Workload Class</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Predicted Burst Time</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">CPU Utilization</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Current Utilization</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="page-grid" aria-label="Scheduling metrics" style="margin-top: var(--space-3);">
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Waiting Time</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Turnaround Time</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Response Time</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Scheduling Overhead</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="page-grid" aria-label="Gantt chart" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Gantt Chart</h2>
+            <span class="page-meta">NO SCHEDULE EXECUTED</span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No scheduling data yet</p>
+                <p class="state-desc">
+                    A Gantt chart of process execution order will render here once the
+                    scheduler has run.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Process table" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Process Table</h2>
+            <span class="page-meta">0 PROCESSES</span>
+        </div>
+        <div class="panel-body">
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Arrival</th>
+                            <th>Burst</th>
+                            <th>Priority</th>
+                            <th>Waiting</th>
+                            <th>Turnaround</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7">
+                                <div class="state-block">
+                                    <p class="state-title">No process data yet</p>
+                                    <p class="state-desc">
+                                        Process-level metrics will populate this table once
+                                        the CPU module reports live state.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Recent CPU actions" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Recent CPU Actions</h2>
+            <span class="page-meta">LAST 0 EVENTS</span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No actions recorded yet</p>
+                <p class="state-desc">
+                    Scheduler-selection and workload-classification events will appear
+                    here once the system has been stepped.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

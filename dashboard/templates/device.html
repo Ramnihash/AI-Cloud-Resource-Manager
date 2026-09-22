@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Device — AI Resource Manager{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Device Management &amp; Predictive Maintenance</h1>
+        <p class="page-subtitle">Fleet telemetry, anomaly detection, and predictive recovery actions</p>
+    </div>
+    <span class="page-meta">SNAPSHOT — AWAITING FIRST STEP</span>
+</div>
+
+<section class="page-grid" aria-label="Fleet summary">
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Fleet Health</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Healthy Devices</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Unhealthy Devices</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Devices Monitored</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Total Devices</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Active Anomalies</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                NO ALERTS
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Detected Anomalies</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="page-grid" aria-label="Telemetry metrics" style="margin-top: var(--space-3);">
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Temperature</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Error Rate</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Response Latency</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-3">
+        <div class="panel-body">
+            <div class="metric">
+                <span class="metric-label">Queue Length</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="page-grid" aria-label="Device fleet table" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Device Fleet</h2>
+            <span class="page-meta">0 DEVICES</span>
+        </div>
+        <div class="panel-body">
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Temperature</th>
+                            <th>Error Rate</th>
+                            <th>Latency</th>
+                            <th>Queue</th>
+                            <th>Failure Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8">
+                                <div class="state-block">
+                                    <p class="state-title">No device data yet</p>
+                                    <p class="state-desc">
+                                        Fleet telemetry and health status will populate this
+                                        table once the device module reports live state.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Predictive failure risk" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-6">
+        <div class="panel-header">
+            <h2 class="panel-title">Predictive Failure Risk</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                NO RISK FLAGGED
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No failure-risk data yet</p>
+                <p class="state-desc">
+                    SMART/Backblaze classifier and anomaly-detector output will appear
+                    here once scoring runs.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-6">
+        <div class="panel-header">
+            <h2 class="panel-title">Recovery / I/O Rerouting</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                NO ACTIVE REROUTES
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No rerouting activity yet</p>
+                <p class="state-desc">
+                    Devices flagged as degrading will have I/O rerouted to a backup
+                    device, shown here.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Cloud backup status" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Cloud Backup Status</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                NO BACKUPS TRIGGERED
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="page-grid">
+                <div class="grid-col-4">
+                    <div class="metric">
+                        <span class="metric-label">Last Backup</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="grid-col-4">
+                    <div class="metric">
+                        <span class="metric-label">Backup Success Rate</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="grid-col-4">
+                    <div class="metric">
+                        <span class="metric-label">Data Backed Up</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Recent device actions" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Recent Device Actions</h2>
+            <span class="page-meta">LAST 0 EVENTS</span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No actions recorded yet</p>
+                <p class="state-desc">
+                    Detection, rerouting, and backup actions will appear here once the
+                    system has been stepped.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

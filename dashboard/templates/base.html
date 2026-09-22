@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI-Driven Cloud Resource Manager — operator console for CPU, memory, and device management.">
+    <title>{% block title %}AI Resource Manager{% endblock %}</title>
+
+    <link rel="stylesheet" href="/dashboard/static/css/tokens.css">
+    <link rel="stylesheet" href="/dashboard/static/css/layout.css">
+    <link rel="stylesheet" href="/dashboard/static/css/components.css">
+    <link rel="stylesheet" href="/dashboard/static/css/pages.css">
+</head>
+
+<body>
+
+    <div class="console-shell">
+
+        <nav class="nav-rail" aria-label="Primary navigation">
+            <div class="nav-brand">
+                <span class="nav-brand-mark" aria-hidden="true">●</span>
+                <span class="nav-brand-text">RESOURCE MANAGER</span>
+            </div>
+
+            <ul class="nav-list">
+                <li>
+                    <a href="/dashboard/" class="nav-link{% if request.path == '/dashboard/' %} is-active{% endif %}" {%
+                        if request.path=='/dashboard/' %}aria-current="page" {% endif %}>
+                        System Overview
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/cpu"
+                        class="nav-link{% if request.path == '/dashboard/cpu' %} is-active{% endif %}" {% if
+                        request.path=='/dashboard/cpu' %}aria-current="page" {% endif %}>
+                        CPU
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/memory"
+                        class="nav-link{% if request.path == '/dashboard/memory' %} is-active{% endif %}" {% if
+                        request.path=='/dashboard/memory' %}aria-current="page" {% endif %}>
+                        Memory
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/device"
+                        class="nav-link{% if request.path == '/dashboard/device' %} is-active{% endif %}" {% if
+                        request.path=='/dashboard/device' %}aria-current="page" {% endif %}>
+                        Device
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/activity"
+                        class="nav-link{% if request.path == '/dashboard/activity' %} is-active{% endif %}" {% if
+                        request.path=='/dashboard/activity' %}aria-current="page" {% endif %}>
+                        Activity
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="console-main">
+
+            <header class="top-strip" aria-label="System status">
+                <div class="status-block">
+                    <span class="status-label">System Health</span>
+                    <span class="status-value" id="system-health-value">OPERATIONAL</span>
+                </div>
+
+                <div class="status-block">
+                    <span class="status-label">Last Updated</span>
+                    <span class="status-value" id="last-updated-value">&mdash;</span>
+                </div>
+
+                <div class="status-actions">
+                    <button type="button" class="btn btn-step" id="step-system-btn">
+                        Step System
+                    </button>
+                </div>
+            </header>
+
+            <main id="main-content">
+                {% block content %}{% endblock %}
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="/dashboard/static/js/ui.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

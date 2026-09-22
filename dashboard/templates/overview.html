@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}System Overview — AI Resource Manager{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">System Overview</h1>
+        <p class="page-subtitle">Aggregated state across CPU, memory, and device subsystems</p>
+    </div>
+    <span class="page-meta">SNAPSHOT — AWAITING FIRST STEP</span>
+</div>
+
+<section class="page-grid" aria-labelledby="pipeline-heading">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                IDLE
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="page-grid">
+                <div class="grid-col-3">
+                    <div class="metric">
+                        <span class="metric-label">Observe</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="grid-col-3">
+                    <div class="metric">
+                        <span class="metric-label">Predict</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="grid-col-3">
+                    <div class="metric">
+                        <span class="metric-label">Decide</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="grid-col-3">
+                    <div class="metric">
+                        <span class="metric-label">Act</span>
+                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid" aria-label="Subsystem summaries" style="margin-top: var(--space-3);">
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">CPU</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Active Scheduler</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">CPU Utilization</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Workload Class</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Memory</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">RAM Usage</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Swap Usage</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Page Hit Ratio</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Device</h2>
+            <span class="badge badge-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                STANDBY
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Fleet Health</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+            <div class="metric" style="margin-bottom: var(--space-3);">
+                <span class="metric-label">Active Anomalies</span>
+                <span class="metric-value skeleton">&nbsp;</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Devices Monitored</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="page-grid" aria-label="Recent actions" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Recent Predictive Actions</h2>
+            <span class="page-meta">LAST 0 EVENTS</span>
+        </div>
+        <div class="panel-body">
+            <div class="state-block">
+                <p class="state-title">No actions recorded yet</p>
+                <p class="state-desc">
+                    Predictive actions from the CPU, memory, and device modules will appear
+                    here once the system has been stepped.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
