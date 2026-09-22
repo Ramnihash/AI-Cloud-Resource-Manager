@@ -308,6 +308,8 @@ def device_predictive_action():
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
 
+    _get_shared_monitor().record_device_action(result)
+
     return jsonify(dataclasses.asdict(result)), 200
 
 
