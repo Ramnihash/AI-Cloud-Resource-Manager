@@ -36,6 +36,9 @@ class TestBackendAPI(unittest.TestCase):
 
     def setUp(self) -> None:
         self.cpu_action_loop.reset()
+        mon = self.app.config.get("SHARED_MONITOR")
+        if mon is not None:
+            mon.reset()
 
     # --------------------------------------------------------------------------
     # 1. Health Endpoint
@@ -424,6 +427,101 @@ class TestBackendAPI(unittest.TestCase):
             self.assertTrue(response.is_json)
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Unexpected hardware connection dropped", response.get_data(as_text=True))
+
+    # --------------------------------------------------------------------------
+    # 9. Shared Monitoring Overview Endpoint (CP5.2)
+    # --------------------------------------------------------------------------
+    def test_monitor_overview_valid(self) -> None:
+        """GET /api/v1/monitor/overview returns HTTP 200 with consolidated telemetry."""
+        response = self.client.get("/api/v1/monitor/overview")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.is_json)
+        data = response.get_json()
+
+        self.assertIn("timestamp", data)
+        self.assertEqual(data["status"], "ok")
+        self.assertIn("cpu", data)
+        self.assertIn("memory", data)
+        self.assertIn("devices", data)
+
+        # CPU summary
+        self.assertEqual(data["cpu"]["total_steps"], 0)
+        self.assertNotIn("history", data["cpu"])
+
+        # Memory snapshot
+        self.assertIn("ram_percent", data["memory"])
+        self.assertIn("swap_percent", data["memory"])
+
+        # Device fleet
+        self.assertEqual(data["devices"]["device_count"], 4)
+        self.assertEqual(len(data["devices"]["devices"]), 4)
+
+    def test_monitor_overview_with_history(self) -> None:
+        """GET /api/v1/monitor/overview?include_history=true populates CPU history."""
+        # First execute a step via the CPU endpoint
+        payload = {
+            "processes": [
+                {
+                    "pid": "P1",
+                    "arrival_time": 0.0,
+                    "burst_time": 6.0,
+                }
+            ]
+        }
+        post_resp = self.client.post("/api/v1/cpu/action", json=payload)
+        self.assertEqual(post_resp.status_code, 200)
+
+        # Query overview with history enabled
+        response = self.client.get("/api/v1/monitor/overview?include_history=true")
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data["cpu"]["total_steps"], 1)
+        self.assertIn("history", data["cpu"])
+        self.assertEqual(len(data["cpu"]["history"]), 1)
+        self.assertEqual(data["cpu"]["history"][0]["process_count"], 1)
+
+    def test_monitor_overview_with_pid(self) -> None:
+        """GET /api/v1/monitor/overview?pid=<pid> returns process-level memory stats."""
+        my_pid = os.getpid()
+        response = self.client.get(f"/api/v1/monitor/overview?pid={my_pid}")
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data["memory"]["proc_pid"], my_pid)
+        self.assertIsNotNone(data["memory"]["proc_rss_bytes"])
+
+    def test_monitor_overview_invalid_query_params(self) -> None:
+        """GET /api/v1/monitor/overview validates query parameters."""
+        # Invalid boolean
+        r1 = self.client.get("/api/v1/monitor/overview?include_history=maybe")
+        self.assertEqual(r1.status_code, 400)
+        self.assertIn("error", r1.get_json())
+
+        # Non-integer PID
+        r2 = self.client.get("/api/v1/monitor/overview?pid=not_a_number")
+        self.assertEqual(r2.status_code, 400)
+        self.assertIn("error", r2.get_json())
+
+        # Negative PID
+        r3 = self.client.get("/api/v1/monitor/overview?pid=-5")
+        self.assertEqual(r3.status_code, 400)
+        self.assertIn("error", r3.get_json())
+
+        # Non-existent PID
+        r4 = self.client.get("/api/v1/monitor/overview?pid=99999999")
+        self.assertEqual(r4.status_code, 400)
+        self.assertIn("error", r4.get_json())
+
+    def test_monitor_overview_unexpected_500(self) -> None:
+        """Unexpected internal exception in monitor returns generic HTTP 500 JSON."""
+        with patch(
+            "modules.monitoring.shared_monitor.SharedMonitor.get_system_snapshot",
+            side_effect=RuntimeError("Hardware sensor monitoring bus failed"),
+        ):
+            response = self.client.get("/api/v1/monitor/overview")
+            self.assertEqual(response.status_code, 500)
+            self.assertTrue(response.is_json)
+            self.assertEqual(response.get_json(), {"error": "Internal server error"})
+            self.assertNotIn("Hardware sensor monitoring bus failed", response.get_data(as_text=True))
 
 
 if __name__ == "__main__":
