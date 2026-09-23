@@ -4,123 +4,130 @@
 
 {% block content %}
 
-<div class="page-header">
-    <div>
-        <h1 class="page-title">System Overview</h1>
-        <p class="page-subtitle">Aggregated state across CPU, memory, and device subsystems</p>
-    </div>
-    <span class="page-meta">SNAPSHOT — AWAITING FIRST STEP</span>
-</div>
+<section class="page-grid" aria-label="Live metrics">
 
-<section class="page-grid" aria-labelledby="pipeline-heading">
-    <div class="panel grid-col-12">
-        <div class="panel-header">
-            <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                IDLE
+    <div class="grid-col-3">
+        <div class="gauge-widget theme-cpu">
+            <span class="gauge-widget-label">CPU Utilization</span>
+            <span class="metric-label" style="display: none;">CPU Utilization</span>
+            <span class="gauge" style="width: 168px; height: 168px;">
+                <svg class="gauge-svg" viewBox="0 0 80 80" width="168" height="168">
+                    <circle class="gauge-track" cx="40" cy="40" r="34" stroke-width="6"></circle>
+                    <circle class="gauge-fill" cx="40" cy="40" r="34" stroke-width="6" stroke-dasharray="0 213.6"
+                        stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="gauge-readout">
+                    <span class="gauge-widget-value skeleton">&nbsp;</span>
+                </span>
             </span>
-        </div>
-        <div class="panel-body">
-            <div class="page-grid">
-                <div class="grid-col-3">
-                    <div class="metric">
-                        <span class="metric-label">Observe</span>
-                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-                    </div>
-                </div>
-                <div class="grid-col-3">
-                    <div class="metric">
-                        <span class="metric-label">Predict</span>
-                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-                    </div>
-                </div>
-                <div class="grid-col-3">
-                    <div class="metric">
-                        <span class="metric-label">Decide</span>
-                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-                    </div>
-                </div>
-                <div class="grid-col-3">
-                    <div class="metric">
-                        <span class="metric-label">Act</span>
-                        <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-                    </div>
-                </div>
-            </div>
+            <span class="gauge-widget-sub">of capacity</span>
         </div>
     </div>
+
+    <div class="grid-col-3">
+        <div class="gauge-widget theme-ram">
+            <span class="gauge-widget-label">RAM Usage</span>
+            <span class="metric-label" style="display: none;">RAM Usage</span>
+            <span class="gauge" style="width: 168px; height: 168px;">
+                <svg class="gauge-svg" viewBox="0 0 80 80" width="168" height="168">
+                    <circle class="gauge-track" cx="40" cy="40" r="34" stroke-width="6"></circle>
+                    <circle class="gauge-fill" cx="40" cy="40" r="34" stroke-width="6" stroke-dasharray="0 213.6"
+                        stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="gauge-readout">
+                    <span class="gauge-widget-value skeleton">&nbsp;</span>
+                </span>
+            </span>
+            <span class="gauge-widget-sub">&nbsp;</span>
+        </div>
+    </div>
+
+    <div class="grid-col-3">
+        <div class="gauge-widget theme-swap">
+            <span class="gauge-widget-label">Swap Usage</span>
+            <span class="metric-label" style="display: none;">Swap Usage</span>
+            <span class="gauge" style="width: 168px; height: 168px;">
+                <svg class="gauge-svg" viewBox="0 0 80 80" width="168" height="168">
+                    <circle class="gauge-track" cx="40" cy="40" r="34" stroke-width="6"></circle>
+                    <circle class="gauge-fill" cx="40" cy="40" r="34" stroke-width="6" stroke-dasharray="0 213.6"
+                        stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="gauge-readout">
+                    <span class="gauge-widget-value skeleton">&nbsp;</span>
+                </span>
+            </span>
+            <span class="gauge-widget-sub">&nbsp;</span>
+        </div>
+    </div>
+
+    <div class="grid-col-3">
+        <div class="gauge-widget theme-fleet">
+            <span class="gauge-widget-label">Fleet Health</span>
+            <span class="metric-label" style="display: none;">Fleet Health</span>
+            <span class="gauge" style="width: 168px; height: 168px;">
+                <svg class="gauge-svg" viewBox="0 0 80 80" width="168" height="168">
+                    <circle class="gauge-track" cx="40" cy="40" r="34" stroke-width="6"></circle>
+                    <circle class="gauge-fill" cx="40" cy="40" r="34" stroke-width="6" stroke-dasharray="0 213.6"
+                        stroke-dashoffset="0"></circle>
+                </svg>
+                <span class="gauge-readout">
+                    <span class="gauge-widget-value skeleton">&nbsp;</span>
+                </span>
+            </span>
+            <span class="gauge-widget-sub">&nbsp;</span>
+        </div>
+    </div>
+
 </section>
 
 <section class="page-grid" aria-label="Subsystem summaries" style="margin-top: var(--space-3);">
 
-    <div class="panel grid-col-4">
+    <div class="panel panel-edge grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">CPU</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
+            <span class="status-text is-ok">Standby</span>
         </div>
         <div class="panel-body">
             <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">Active Scheduler</span>
+                <span class="metric-label">Active scheduler</span>
                 <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
             </div>
             <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">CPU Utilization</span>
-                <span class="metric-value skeleton">&nbsp;</span>
+                <span class="metric-label">Total processes</span>
+                <span class="metric-value metric-value-sm is-muted">Awaiting execution</span>
             </div>
             <div class="metric">
-                <span class="metric-label">Workload Class</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                <span class="metric-label">Total steps</span>
+                <span class="metric-value metric-value-sm is-muted">Awaiting execution</span>
             </div>
         </div>
     </div>
 
-    <div class="panel grid-col-4">
+    <div class="panel panel-edge grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">Memory</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
+            <span class="status-text is-ok">Standby</span>
         </div>
         <div class="panel-body">
-            <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">RAM Usage</span>
-                <span class="metric-value skeleton">&nbsp;</span>
-            </div>
-            <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">Swap Usage</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
             <div class="metric">
-                <span class="metric-label">Page Hit Ratio</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                <span class="metric-label">Page hit ratio</span>
+                <span class="metric-value metric-value-sm is-muted">N/A</span>
             </div>
         </div>
     </div>
 
-    <div class="panel grid-col-4">
+    <div class="panel panel-edge grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">Device</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
+            <span class="status-text is-ok">Standby</span>
         </div>
         <div class="panel-body">
             <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">Fleet Health</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-            <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">Active Anomalies</span>
+                <span class="metric-label">Active anomalies</span>
                 <span class="metric-value skeleton">&nbsp;</span>
             </div>
             <div class="metric">
-                <span class="metric-label">Devices Monitored</span>
+                <span class="metric-label">Devices monitored</span>
                 <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
             </div>
         </div>
@@ -132,10 +139,10 @@
     <div class="panel grid-col-12">
         <div class="panel-header">
             <h2 class="panel-title">Recent Predictive Actions</h2>
-            <span class="page-meta">LAST 0 EVENTS</span>
+            <span class="page-meta">Last 0 events</span>
         </div>
         <div class="panel-body">
-            <div class="state-block">
+            <div class="state-block state-block--compact">
                 <p class="state-title">No actions recorded yet</p>
                 <p class="state-desc">
                     Predictive actions from the CPU, memory, and device modules will appear
@@ -146,4 +153,47 @@
     </div>
 </section>
 
+<section class="page-grid" aria-labelledby="pipeline-heading" style="margin-top: var(--space-3);">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
+            <span class="status-text is-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Idle
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="pipeline-flow">
+                <div class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true"></span>
+                    <span class="pipeline-node-label">Observe</span>
+                    <span class="pipeline-node-state">Awaiting step</span>
+                </div>
+                <div class="pipeline-connector" aria-hidden="true"></div>
+                <div class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true"></span>
+                    <span class="pipeline-node-label">Predict</span>
+                    <span class="pipeline-node-state">Awaiting step</span>
+                </div>
+                <div class="pipeline-connector" aria-hidden="true"></div>
+                <div class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true"></span>
+                    <span class="pipeline-node-label">Decide</span>
+                    <span class="pipeline-node-state">Awaiting step</span>
+                </div>
+                <div class="pipeline-connector" aria-hidden="true"></div>
+                <div class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true"></span>
+                    <span class="pipeline-node-label">Act</span>
+                    <span class="pipeline-node-state">Awaiting step</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/dashboard/static/js/overview.js"></script>
 {% endblock %}

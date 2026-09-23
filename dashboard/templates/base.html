@@ -8,6 +8,12 @@
         content="AI-Driven Cloud Resource Manager — operator console for CPU, memory, and device management.">
     <title>{% block title %}AI Resource Manager{% endblock %}</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="/dashboard/static/css/tokens.css">
     <link rel="stylesheet" href="/dashboard/static/css/layout.css">
     <link rel="stylesheet" href="/dashboard/static/css/components.css">
@@ -20,59 +26,66 @@
 
         <nav class="nav-rail" aria-label="Primary navigation">
             <div class="nav-brand">
-                <span class="nav-brand-mark" aria-hidden="true">●</span>
-                <span class="nav-brand-text">RESOURCE MANAGER</span>
+                <span class="nav-brand-word">Resource</span><span
+                    class="nav-brand-word nav-brand-word--accent">Manager</span>
             </div>
 
             <ul class="nav-list">
                 <li>
                     <a href="/dashboard/" class="nav-link{% if request.path == '/dashboard/' %} is-active{% endif %}" {%
                         if request.path=='/dashboard/' %}aria-current="page" {% endif %}>
-                        System Overview
+                        <span class="nav-link-index">01</span>
+                        <span class="nav-link-label">System Overview</span>
                     </a>
                 </li>
                 <li>
                     <a href="/dashboard/cpu"
                         class="nav-link{% if request.path == '/dashboard/cpu' %} is-active{% endif %}" {% if
                         request.path=='/dashboard/cpu' %}aria-current="page" {% endif %}>
-                        CPU
+                        <span class="nav-link-index">02</span>
+                        <span class="nav-link-label">CPU</span>
                     </a>
                 </li>
                 <li>
                     <a href="/dashboard/memory"
                         class="nav-link{% if request.path == '/dashboard/memory' %} is-active{% endif %}" {% if
                         request.path=='/dashboard/memory' %}aria-current="page" {% endif %}>
-                        Memory
+                        <span class="nav-link-index">03</span>
+                        <span class="nav-link-label">Memory</span>
                     </a>
                 </li>
                 <li>
                     <a href="/dashboard/device"
                         class="nav-link{% if request.path == '/dashboard/device' %} is-active{% endif %}" {% if
                         request.path=='/dashboard/device' %}aria-current="page" {% endif %}>
-                        Device
+                        <span class="nav-link-index">04</span>
+                        <span class="nav-link-label">Device</span>
                     </a>
                 </li>
                 <li>
                     <a href="/dashboard/activity"
                         class="nav-link{% if request.path == '/dashboard/activity' %} is-active{% endif %}" {% if
                         request.path=='/dashboard/activity' %}aria-current="page" {% endif %}>
-                        Activity
+                        <span class="nav-link-index">05</span>
+                        <span class="nav-link-label">Activity</span>
                     </a>
                 </li>
             </ul>
+
+            <div class="nav-footer">
+                <span class="nav-footer-line">Console · Local build</span>
+            </div>
         </nav>
 
         <div class="console-main">
 
-            <header class="top-strip" aria-label="System status">
-                <div class="status-block">
-                    <span class="status-label">System Health</span>
-                    <span class="status-value" id="system-health-value">OPERATIONAL</span>
-                </div>
-
-                <div class="status-block">
-                    <span class="status-label">Last Updated</span>
-                    <span class="status-value" id="last-updated-value">&mdash;</span>
+            <header class="hero-status hero-status--ok" aria-label="System status" id="hero-status">
+                <div class="hero-status-main">
+                    <span class="hero-status-value" id="system-health-value">Operational</span>
+                    <span class="hero-status-sub">
+                        System health · updated
+                        <span id="last-updated-value">&mdash;</span>
+                    </span>
                 </div>
 
                 <div class="status-actions">
