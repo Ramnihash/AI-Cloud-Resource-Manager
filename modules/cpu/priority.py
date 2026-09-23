@@ -32,11 +32,11 @@ class PriorityScheduler(BaseScheduler):
         current_time = 0.0
 
         while uncompleted:
-            # Filter available processes that have arrived by current_time
+
             available = [p for p in uncompleted if p.arrival_time <= current_time]
 
             if not available:
-                # Advance time to next arriving process
+
                 next_arrival = min(p.arrival_time for p in uncompleted)
                 gantt_chart.append(
                     GanttSlice(start_time=current_time, end_time=next_arrival, pid=None)
@@ -44,8 +44,8 @@ class PriorityScheduler(BaseScheduler):
                 current_time = next_arrival
                 available = [p for p in uncompleted if p.arrival_time <= current_time]
 
-            # Select process with highest priority (lowest integer value)
-            # Ties broken by arrival time, then PID
+
+
             selected = min(
                 available,
                 key=lambda p: (p.priority, p.arrival_time, str(p.pid)),

@@ -23,7 +23,7 @@ class TestCPUActionLoop(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        # Train ML models with locked random_state=42
+
         cls.predictor = CPUBurstPredictor(random_state=42)
         cls.predictor.train_on_synthetic_workload(num_processes=200, seed=42)
 
@@ -88,7 +88,7 @@ class TestCPUActionLoop(unittest.TestCase):
             )
         return processes
 
-    # 1. Initialization, Defaults, and Type Guards
+
     def test_initialization_defaults_and_guards(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         self.assertIsInstance(loop.baseline_scheduler, FCFSScheduler)
@@ -101,20 +101,20 @@ class TestCPUActionLoop(unittest.TestCase):
         )
         self.assertIs(loop_custom.baseline_scheduler, custom_baseline)
 
-        # Invalid inputs
+
         with self.assertRaises(ValueError):
-            CPUActionLoop(meta_scheduler=None)  # type: ignore[arg-type]
+            CPUActionLoop(meta_scheduler=None)
 
         with self.assertRaises(TypeError):
-            CPUActionLoop(meta_scheduler="invalid")  # type: ignore[arg-type]
+            CPUActionLoop(meta_scheduler="invalid")
 
         with self.assertRaises(TypeError):
             CPUActionLoop(
                 meta_scheduler=self.meta_scheduler,
-                baseline_scheduler="invalid",  # type: ignore[arg-type]
+                baseline_scheduler="invalid",
             )
 
-    # 2. Single Step Execution
+
     def test_single_step_execution(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         batch = [
@@ -131,7 +131,7 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertIsNone(step.baseline_result)
         self.assertIsNone(step.action_delta)
 
-        # Telemetry properties
+
         self.assertIn(step.selected_scheduler, ["SJF", "Round Robin", "Priority", "FCFS"])
         self.assertIn(step.workload_class, ["CPU_BOUND", "IO_BOUND", "PRIORITY_CRITICAL", "BALANCED"])
         self.assertFalse(step.is_fallback)
@@ -142,7 +142,7 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertEqual(len(step.processes), 3)
         self.assertGreater(len(step.gantt_chart), 0)
 
-        # Dictionary serialization
+
         d = step.to_dict()
         self.assertEqual(d["step_index"], 0)
         self.assertEqual(d["process_count"], 3)
@@ -150,7 +150,7 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertIsNone(d["baseline_result"])
         self.assertIsNone(d["action_delta"])
 
-    # 3. Multiple Workload Steps and Run Sequence
+
     def test_multiple_workload_steps_and_run(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         b1 = [self._create_sample_process("B1_1", burst=15.0)]
@@ -171,9 +171,9 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertEqual([s.step_index for s in history], [0, 1, 2])
 
         with self.assertRaises(ValueError):
-            loop.run(None)  # type: ignore[arg-type]
+            loop.run(None)
 
-    # 4. History Isolation and Frozen Step
+
     def test_history_isolation(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         batch = [self._create_sample_process("P1")]
@@ -182,16 +182,16 @@ class TestCPUActionLoop(unittest.TestCase):
         history = loop.get_history()
         self.assertEqual(len(history), 1)
 
-        # Mutating the returned list does not affect internal history
+
         history.clear()
         self.assertEqual(len(loop.get_history()), 1)
 
-        # ActionLoopStep is immutable (frozen)
+
         step = loop.get_history()[0]
         with self.assertRaises(FrozenInstanceError):
-            step.step_index = 999  # type: ignore[misc]
+            step.step_index = 999
 
-    # 5. Reset Behavior
+
     def test_reset(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         b1 = [self._create_sample_process("P1")]
@@ -202,12 +202,12 @@ class TestCPUActionLoop(unittest.TestCase):
         loop.reset()
         self.assertEqual(len(loop.get_history()), 0)
 
-        # Next step should start at index 0 again
+
         next_step = loop.step(b1)
         self.assertEqual(next_step.step_index, 0)
         self.assertEqual(len(loop.get_history()), 1)
 
-    # 6. Fallback Propagation
+
     def test_fallback_propagation(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         fb_batch = self._create_fallback_batch()
@@ -218,7 +218,7 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertEqual(step.workload_class, "BALANCED")
         self.assertEqual(step.selected_scheduler, "FCFS")
 
-    # 7. Optional Baseline Comparison and Action Delta
+
     def test_optional_baseline_comparison(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         batch = [
@@ -226,12 +226,12 @@ class TestCPUActionLoop(unittest.TestCase):
             self._create_sample_process("P2", burst=20.0, arrival=1.0),
         ]
 
-        # 1. Default compare_with_baseline=False
+
         step_no_base = loop.step(batch, compare_with_baseline=False)
         self.assertIsNone(step_no_base.baseline_result)
         self.assertIsNone(step_no_base.action_delta)
 
-        # 2. Enabled compare_with_baseline=True
+
         step_base = loop.step(batch, compare_with_baseline=True)
         self.assertIsNotNone(step_base.baseline_result)
         self.assertIsInstance(step_base.baseline_result, ScheduleResult)
@@ -243,14 +243,14 @@ class TestCPUActionLoop(unittest.TestCase):
         self.assertIn("turnaround_time_delta", delta)
         self.assertIn("response_time_delta", delta)
 
-        # Verify exact delta formula: AI_metric - baseline_metric
+
         meta_m = step_base.metrics
         base_m = step_base.baseline_result.metrics
         self.assertAlmostEqual(delta["waiting_time_delta"], meta_m.avg_waiting_time - base_m.avg_waiting_time, places=4)
         self.assertAlmostEqual(delta["turnaround_time_delta"], meta_m.avg_turnaround_time - base_m.avg_turnaround_time, places=4)
         self.assertAlmostEqual(delta["response_time_delta"], meta_m.avg_response_time - base_m.avg_response_time, places=4)
 
-        # 3. Custom baseline scheduler (RoundRobin)
+
         rr_loop = CPUActionLoop(
             meta_scheduler=self.meta_scheduler,
             baseline_scheduler=RoundRobinScheduler(time_quantum=2.0),
@@ -258,7 +258,7 @@ class TestCPUActionLoop(unittest.TestCase):
         step_rr = rr_loop.step(batch, compare_with_baseline=True)
         self.assertEqual(step_rr.baseline_result.algorithm_name, "Round Robin")
 
-    # 8. Workload and Caller Immutability
+
     def test_workload_immutability(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
         original_processes = [
@@ -269,7 +269,7 @@ class TestCPUActionLoop(unittest.TestCase):
 
         step = loop.step(processes_input, compare_with_baseline=True)
 
-        # Confirm caller's process list elements are unmodified
+
         self.assertEqual(len(processes_input), len(original_processes))
         for orig, current in zip(original_processes, processes_input):
             self.assertEqual(orig.pid, current.pid)
@@ -281,24 +281,24 @@ class TestCPUActionLoop(unittest.TestCase):
             self.assertEqual(current.turnaround_time, 0.0)
             self.assertEqual(current.response_time, 0.0)
 
-        # Completed processes inside step ARE populated
+
         for p in step.processes:
             self.assertIsNotNone(p.start_time)
             self.assertIsNotNone(p.completion_time)
 
-    # 9. Invalid Inputs and Unfitted Underlying Components
+
     def test_invalid_inputs_and_unfitted_guards(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
 
-        # Empty workload raises ValueError (from meta_scheduler)
+
         with self.assertRaises(ValueError):
             loop.step([])
 
-        # Invalid process elements raise TypeError (from meta_scheduler)
-        with self.assertRaises(TypeError):
-            loop.step(["not_a_process"])  # type: ignore[list-item]
 
-        # Unfitted classifier tested through normal public API
+        with self.assertRaises(TypeError):
+            loop.step(["not_a_process"])
+
+
         unfitted_clf = CPUWorkloadClassifier(random_state=42)
         unfitted_meta = CPUMetaScheduler(
             classifier=unfitted_clf,
@@ -309,18 +309,18 @@ class TestCPUActionLoop(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             unfitted_loop.step(batch)
 
-    # 10. Summary Generation
+
     def test_get_summary(self) -> None:
         loop = CPUActionLoop(meta_scheduler=self.meta_scheduler)
 
-        # Empty summary
+
         empty_sum = loop.get_summary()
         self.assertEqual(empty_sum["total_steps"], 0)
         self.assertEqual(empty_sum["total_processes"], 0)
         self.assertEqual(empty_sum["fallback_count"], 0)
         self.assertIsNone(empty_sum["mean_action_delta"])
 
-        # Execute 2 steps with baseline comparison and 1 fallback step without
+
         b1 = [self._create_sample_process("P1", burst=20.0), self._create_sample_process("P2", burst=10.0)]
         b2 = [self._create_sample_process("P3", burst=5.0)]
         fb = self._create_fallback_batch()

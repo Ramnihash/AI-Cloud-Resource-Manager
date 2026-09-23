@@ -66,7 +66,7 @@ def recover_device(
     ValueError
         If any argument is invalid or ``device_status`` is unsupported.
     """
-    # Validate inputs
+
     _validate_nonempty(device_id, "device_id")
     _validate_nonempty(device_status, "device_status")
     if backup_device_id is not None:
@@ -87,7 +87,7 @@ def recover_device(
         )
 
     if status in unhealthy:
-        # Block I/O regardless of backup availability
+
         if backup_device_id is not None:
             return RecoveryResult(
                 device_id=device_id,

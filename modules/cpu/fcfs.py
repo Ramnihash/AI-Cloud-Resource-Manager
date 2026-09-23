@@ -25,14 +25,14 @@ class FCFSScheduler(BaseScheduler):
         if not processes:
             return [], []
 
-        # Sort by arrival time, then by PID for deterministic tie-breaking
+
         sorted_processes = sorted(processes, key=lambda p: (p.arrival_time, str(p.pid)))
         gantt_chart: list[GanttSlice] = []
         completed_processes: list[Process] = []
         current_time = 0.0
 
         for p in sorted_processes:
-            # Handle CPU idle time if next process arrives after current_time
+
             if current_time < p.arrival_time:
                 gantt_chart.append(
                     GanttSlice(start_time=current_time, end_time=p.arrival_time, pid=None)

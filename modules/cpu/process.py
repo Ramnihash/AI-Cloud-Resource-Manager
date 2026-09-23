@@ -20,7 +20,7 @@ class Process:
     burst_time: float
     priority: int = 0
 
-    # Execution state (populated during/after scheduling)
+
     remaining_time: float = field(init=False)
     start_time: Optional[float] = field(default=None, init=False)
     completion_time: Optional[float] = field(default=None, init=False)
@@ -28,7 +28,7 @@ class Process:
     turnaround_time: float = field(default=0.0, init=False)
     response_time: float = field(default=0.0, init=False)
 
-    # Metadata hook for future ML integration (features, predictions, classification)
+
     predicted_burst_time: Optional[float] = None
     workload_type: Optional[str] = None
     metadata: dict[str, Any] = field(default_factory=dict)

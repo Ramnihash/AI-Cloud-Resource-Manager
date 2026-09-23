@@ -45,9 +45,9 @@ class TestBackendAPI(unittest.TestCase):
                 mon.reset()
 
 
-    # --------------------------------------------------------------------------
-    # 1. Health Endpoint
-    # --------------------------------------------------------------------------
+
+
+
     def test_health(self) -> None:
         """GET /health returns HTTP 200 with status ok."""
         response = self.client.get("/health")
@@ -56,9 +56,9 @@ class TestBackendAPI(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(data, {"status": "ok"})
 
-    # --------------------------------------------------------------------------
-    # 2. CPU Action Endpoint (Valid Requests)
-    # --------------------------------------------------------------------------
+
+
+
     def test_cpu_action_valid_workload(self) -> None:
         """POST /api/v1/cpu/action successfully runs a valid workload."""
         payload = {
@@ -132,32 +132,32 @@ class TestBackendAPI(unittest.TestCase):
         self.assertIn("turnaround_time_delta", data["action_delta"])
         self.assertIn("response_time_delta", data["action_delta"])
 
-    # --------------------------------------------------------------------------
-    # 3. CPU Action Endpoint (Invalid Requests)
-    # --------------------------------------------------------------------------
+
+
+
     def test_cpu_action_invalid_requests(self) -> None:
         """POST /api/v1/cpu/action rejects malformed workloads with HTTP 400."""
-        # Missing processes field
+
         r1 = self.client.post("/api/v1/cpu/action", json={"compare_with_baseline": False})
         self.assertEqual(r1.status_code, 400)
         self.assertIn("error", r1.get_json())
 
-        # Empty processes list
+
         r2 = self.client.post("/api/v1/cpu/action", json={"processes": []})
         self.assertEqual(r2.status_code, 400)
         self.assertIn("error", r2.get_json())
 
-        # Processes not a list
+
         r3 = self.client.post("/api/v1/cpu/action", json={"processes": "not_a_list"})
         self.assertEqual(r3.status_code, 400)
         self.assertIn("error", r3.get_json())
 
-        # Missing required process fields (e.g. burst_time)
+
         r4 = self.client.post("/api/v1/cpu/action", json={"processes": [{"pid": "P1", "arrival_time": 0.0}]})
         self.assertEqual(r4.status_code, 400)
         self.assertIn("error", r4.get_json())
 
-        # Negative burst time rejected
+
         r5 = self.client.post(
             "/api/v1/cpu/action",
             json={"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": -5.0}]},
@@ -165,7 +165,7 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r5.status_code, 400)
         self.assertIn("error", r5.get_json())
 
-        # Non-boolean compare_with_baseline
+
         r6 = self.client.post(
             "/api/v1/cpu/action",
             json={"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 5.0}], "compare_with_baseline": "yes"},
@@ -173,9 +173,9 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r6.status_code, 400)
         self.assertIn("error", r6.get_json())
 
-    # --------------------------------------------------------------------------
-    # 4. Memory Page-Replacement Endpoint (FIFO, LRU, Optimal)
-    # --------------------------------------------------------------------------
+
+
+
     def test_memory_page_replacement_fifo(self) -> None:
         """POST /api/v1/memory/page-replacement evaluates FIFO correctly."""
         payload = {
@@ -222,12 +222,12 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(data["page_faults"], 7)
         self.assertEqual(data["page_hits"], 5)
 
-    # --------------------------------------------------------------------------
-    # 5. Memory Page-Replacement Endpoint (Invalid Requests)
-    # --------------------------------------------------------------------------
+
+
+
     def test_memory_page_replacement_invalid(self) -> None:
         """POST /api/v1/memory/page-replacement rejects invalid algorithm and parameters."""
-        # Invalid algorithm name
+
         r1 = self.client.post(
             "/api/v1/memory/page-replacement",
             json={"algorithm": "clock", "num_frames": 3, "reference_string": [1, 2, 3]},
@@ -236,7 +236,7 @@ class TestBackendAPI(unittest.TestCase):
         self.assertIn("error", r1.get_json())
         self.assertIn("Invalid memory algorithm", r1.get_json()["error"])
 
-        # Invalid num_frames (< 1)
+
         r2 = self.client.post(
             "/api/v1/memory/page-replacement",
             json={"algorithm": "fifo", "num_frames": 0, "reference_string": [1, 2, 3]},
@@ -244,7 +244,7 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r2.status_code, 400)
         self.assertIn("error", r2.get_json())
 
-        # Invalid reference string (non-integer element)
+
         r3 = self.client.post(
             "/api/v1/memory/page-replacement",
             json={"algorithm": "fifo", "num_frames": 3, "reference_string": [1, "two", 3]},
@@ -252,9 +252,9 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r3.status_code, 400)
         self.assertIn("error", r3.get_json())
 
-    # --------------------------------------------------------------------------
-    # 6. Memory Monitor Endpoint (Snapshot & Collection)
-    # --------------------------------------------------------------------------
+
+
+
     def test_memory_monitor_snapshot(self) -> None:
         """POST /api/v1/memory/monitor returns system memory snapshot."""
         response = self.client.post("/api/v1/memory/monitor", json={})
@@ -288,24 +288,24 @@ class TestBackendAPI(unittest.TestCase):
 
     def test_memory_monitor_invalid(self) -> None:
         """POST /api/v1/memory/monitor validates parameters and non-existent PIDs."""
-        # Non-existent PID
+
         r1 = self.client.post("/api/v1/memory/monitor", json={"pid": 99999999})
         self.assertEqual(r1.status_code, 400)
         self.assertIn("error", r1.get_json())
 
-        # Collection with missing count
+
         r2 = self.client.post("/api/v1/memory/monitor", json={"interval_s": 0.5})
         self.assertEqual(r2.status_code, 400)
         self.assertIn("error", r2.get_json())
 
-        # Collection with invalid count (< 1)
+
         r3 = self.client.post("/api/v1/memory/monitor", json={"count": 0, "interval_s": 0.0})
         self.assertEqual(r3.status_code, 400)
         self.assertIn("error", r3.get_json())
 
-    # --------------------------------------------------------------------------
-    # 7. Device Predictive-Action Endpoint
-    # --------------------------------------------------------------------------
+
+
+
     def test_device_predictive_action_healthy(self) -> None:
         """POST /api/v1/device/predictive-action succeeds for healthy status."""
         payload = {
@@ -341,7 +341,7 @@ class TestBackendAPI(unittest.TestCase):
 
     def test_device_predictive_action_invalid(self) -> None:
         """POST /api/v1/device/predictive-action rejects invalid device requests."""
-        # Missing required device_status
+
         r1 = self.client.post(
             "/api/v1/device/predictive-action",
             json={"device_id": "disk_01", "failure_probability": 0.5},
@@ -349,7 +349,7 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r1.status_code, 400)
         self.assertIn("error", r1.get_json())
 
-        # Probability out of bounds
+
         r2 = self.client.post(
             "/api/v1/device/predictive-action",
             json={"device_id": "disk_01", "failure_probability": 1.5, "device_status": "healthy"},
@@ -357,7 +357,7 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r2.status_code, 400)
         self.assertIn("error", r2.get_json())
 
-        # Empty device ID
+
         r3 = self.client.post(
             "/api/v1/device/predictive-action",
             json={"device_id": "   ", "failure_probability": 0.5, "device_status": "healthy"},
@@ -365,18 +365,18 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(r3.status_code, 400)
         self.assertIn("error", r3.get_json())
 
-    # --------------------------------------------------------------------------
-    # 8. Malformed / Missing Request Validation & Global Error Handlers
-    # --------------------------------------------------------------------------
+
+
+
     def test_malformed_missing_json(self) -> None:
         """Non-JSON or malformed bodies return HTTP 400 JSON."""
-        # Content-type not application/json
+
         r1 = self.client.post("/api/v1/cpu/action", data="not json", content_type="text/plain")
         self.assertEqual(r1.status_code, 400)
         self.assertTrue(r1.is_json)
         self.assertIn("error", r1.get_json())
 
-        # Malformed JSON syntax
+
         r2 = self.client.post("/api/v1/cpu/action", data="{'broken': json}", content_type="application/json")
         self.assertEqual(r2.status_code, 400)
         self.assertTrue(r2.is_json)
@@ -398,7 +398,7 @@ class TestBackendAPI(unittest.TestCase):
 
     def test_unexpected_exception_returns_generic_500(self) -> None:
         """Unexpected internal exceptions return generic HTTP 500 JSON without exposing details."""
-        # 1. Force unexpected exception in CPUActionLoop.step
+
         with patch.object(
             self.cpu_action_loop, "step", side_effect=RuntimeError("Unforeseen scheduler hardware failure")
         ):
@@ -417,7 +417,7 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Unforeseen scheduler hardware failure", response.get_data(as_text=True))
 
-        # 2. Force unexpected exception in device predictive action handler
+
         with patch(
             "backend.routes.handle_predictive_action",
             side_effect=RuntimeError("Unexpected hardware connection dropped"),
@@ -433,9 +433,9 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Unexpected hardware connection dropped", response.get_data(as_text=True))
 
-    # --------------------------------------------------------------------------
-    # 9. Shared Monitoring Overview Endpoint (CP5.2)
-    # --------------------------------------------------------------------------
+
+
+
     def test_monitor_overview_valid(self) -> None:
         """GET /api/v1/monitor/overview returns HTTP 200 with consolidated telemetry."""
         response = self.client.get("/api/v1/monitor/overview")
@@ -449,21 +449,21 @@ class TestBackendAPI(unittest.TestCase):
         self.assertIn("memory", data)
         self.assertIn("devices", data)
 
-        # CPU summary
+
         self.assertEqual(data["cpu"]["total_steps"], 0)
         self.assertNotIn("history", data["cpu"])
 
-        # Memory snapshot
+
         self.assertIn("ram_percent", data["memory"])
         self.assertIn("swap_percent", data["memory"])
 
-        # Device fleet
+
         self.assertEqual(data["devices"]["device_count"], 4)
         self.assertEqual(len(data["devices"]["devices"]), 4)
 
     def test_monitor_overview_with_history(self) -> None:
         """GET /api/v1/monitor/overview?include_history=true populates CPU history."""
-        # First execute a step via the CPU endpoint
+
         payload = {
             "processes": [
                 {
@@ -476,7 +476,7 @@ class TestBackendAPI(unittest.TestCase):
         post_resp = self.client.post("/api/v1/cpu/action", json=payload)
         self.assertEqual(post_resp.status_code, 200)
 
-        # Query overview with history enabled
+
         response = self.client.get("/api/v1/monitor/overview?include_history=true")
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
@@ -496,22 +496,22 @@ class TestBackendAPI(unittest.TestCase):
 
     def test_monitor_overview_invalid_query_params(self) -> None:
         """GET /api/v1/monitor/overview validates query parameters."""
-        # Invalid boolean
+
         r1 = self.client.get("/api/v1/monitor/overview?include_history=maybe")
         self.assertEqual(r1.status_code, 400)
         self.assertIn("error", r1.get_json())
 
-        # Non-integer PID
+
         r2 = self.client.get("/api/v1/monitor/overview?pid=not_a_number")
         self.assertEqual(r2.status_code, 400)
         self.assertIn("error", r2.get_json())
 
-        # Negative PID
+
         r3 = self.client.get("/api/v1/monitor/overview?pid=-5")
         self.assertEqual(r3.status_code, 400)
         self.assertIn("error", r3.get_json())
 
-        # Non-existent PID
+
         r4 = self.client.get("/api/v1/monitor/overview?pid=99999999")
         self.assertEqual(r4.status_code, 400)
         self.assertIn("error", r4.get_json())
@@ -528,9 +528,9 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Hardware sensor monitoring bus failed", response.get_data(as_text=True))
 
-    # --------------------------------------------------------------------------
-    # 10. Integrated Execution Endpoint (CP5.3)
-    # --------------------------------------------------------------------------
+
+
+
     def test_system_step_valid(self) -> None:
         """POST /api/v1/system/step executes coordinated multi-resource step."""
         payload = {
@@ -564,18 +564,18 @@ class TestBackendAPI(unittest.TestCase):
         self.assertIn("devices", data)
         self.assertIn("system_snapshot", data)
 
-        # CPU
+
         self.assertEqual(data["cpu"]["process_count"], 1)
 
-        # Memory
+
         self.assertIn("ram_percent", data["memory"])
 
-        # Devices
+
         self.assertEqual(len(data["devices"]), 1)
         self.assertEqual(data["devices"][0]["device_id"], "disk_0")
         self.assertTrue(data["devices"][0]["backup_result"]["triggered"])
 
-        # System snapshot reflects step
+
         self.assertEqual(data["system_snapshot"]["cpu"]["total_steps"], 1)
         self.assertEqual(len(data["system_snapshot"]["devices"]["recent_actions"]), 1)
 
@@ -611,23 +611,23 @@ class TestBackendAPI(unittest.TestCase):
 
     def test_system_step_validation_failures(self) -> None:
         """POST /api/v1/system/step rejects malformed requests with HTTP 400."""
-        # Missing processes
+
         r1 = self.client.post("/api/v1/system/step", json={})
         self.assertEqual(r1.status_code, 400)
         self.assertIn("error", r1.get_json())
 
-        # Empty processes
+
         r2 = self.client.post("/api/v1/system/step", json={"processes": []})
         self.assertEqual(r2.status_code, 400)
 
-        # Negative burst time
+
         r3 = self.client.post(
             "/api/v1/system/step",
             json={"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": -1.0}]},
         )
         self.assertEqual(r3.status_code, 400)
 
-        # Non-boolean compare_with_baseline
+
         r4 = self.client.post(
             "/api/v1/system/step",
             json={
@@ -637,7 +637,7 @@ class TestBackendAPI(unittest.TestCase):
         )
         self.assertEqual(r4.status_code, 400)
 
-        # Device action invalid probability
+
         r5 = self.client.post(
             "/api/v1/system/step",
             json={
@@ -649,7 +649,7 @@ class TestBackendAPI(unittest.TestCase):
         )
         self.assertEqual(r5.status_code, 400)
 
-        # Non-existent PID
+
         r6 = self.client.post(
             "/api/v1/system/step",
             json={

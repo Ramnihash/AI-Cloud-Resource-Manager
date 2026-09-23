@@ -17,7 +17,7 @@ class TestSJF(unittest.TestCase):
         scheduler = SJFScheduler()
         result = scheduler.schedule(workload)
 
-        # Expected order: P2 (2), P4 (3), P1 (6), P3 (8)
+
         execution_order = [s.pid for s in result.gantt_chart]
         self.assertEqual(execution_order, ["P2", "P4", "P1", "P3"])
 
@@ -47,7 +47,7 @@ class TestSJF(unittest.TestCase):
         scheduler = SJFScheduler()
         result = scheduler.schedule(workload)
 
-        # At t=7, available are P3 (burst 1) and P2 (burst 4). P3 runs first.
+
         execution_order = [s.pid for s in result.gantt_chart]
         self.assertEqual(execution_order, ["P1", "P3", "P2"])
 

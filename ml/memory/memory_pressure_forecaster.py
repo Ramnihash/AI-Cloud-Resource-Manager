@@ -31,7 +31,7 @@ class MemoryPressureForecaster:
         """
         if not isinstance(window_size, int) or isinstance(window_size, bool) or window_size < 1:
             raise ValueError(f"window_size must be an integer >= 1, got {window_size!r}")
-        
+
         self.window_size = window_size
         self._trained = False
         self.model = None
@@ -40,20 +40,20 @@ class MemoryPressureForecaster:
         """Helper to extract and validate 'ram_percent' from a list of snapshots."""
         if not isinstance(snapshots, list):
             raise TypeError(f"snapshots must be a list, got {type(snapshots).__name__}")
-        
+
         values = []
         for idx, s in enumerate(snapshots):
             if not isinstance(s, dict):
                 raise TypeError(f"snapshot at index {idx} must be a dict, got {type(s).__name__}")
             if "ram_percent" not in s:
                 raise ValueError(f"snapshot at index {idx} missing 'ram_percent' key")
-            
+
             val = s["ram_percent"]
             if not isinstance(val, (int, float)) or isinstance(val, bool):
                 raise TypeError(f"'ram_percent' at index {idx} must be numeric, got {type(val).__name__}")
             if not (0.0 <= val <= 100.0):
                 raise ValueError(f"'ram_percent' at index {idx} must be in [0, 100], got {val}")
-                
+
             values.append(float(val))
         return values
 
@@ -67,7 +67,7 @@ class MemoryPressureForecaster:
             Dictionary with training summary metrics.
         """
         values = self._extract_ram_percent(snapshots)
-        
+
         if len(values) < self.window_size + 1:
             raise ValueError(
                 f"Need at least window_size + 1 ({self.window_size + 1}) snapshots "
@@ -100,7 +100,7 @@ class MemoryPressureForecaster:
         """
         self._require_trained("predict")
         values = self._extract_ram_percent(recent_snapshots)
-        
+
         if len(values) != self.window_size:
             raise ValueError(
                 f"predict requires exactly window_size ({self.window_size}) "
@@ -108,7 +108,7 @@ class MemoryPressureForecaster:
             )
 
         pred_val = self.model.predict([values])[0]
-        # Restrict prediction to valid RAM bounds
+
         pred_val = max(0.0, min(100.0, float(pred_val)))
 
         return {
@@ -140,7 +140,7 @@ class MemoryPressureForecaster:
             y_true.append(values[i + self.window_size])
 
         preds_raw = self.model.predict(X_test)
-        # Clamped predictions
+
         preds = [max(0.0, min(100.0, float(p))) for p in preds_raw]
 
         mae = mean_absolute_error(y_true, preds)

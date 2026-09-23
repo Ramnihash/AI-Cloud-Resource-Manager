@@ -38,7 +38,7 @@ class DeviceTelemetry:
         return asdict(self)
 
 
-# Baseline operational characteristics for each simulated device type
+
 _NORMAL_PROFILES: Dict[str, Dict[str, float]] = {
     "disk": {"base_latency": 6.0, "base_queue": 1.0, "base_io": 30.0},
     "printer": {"base_latency": 15.0, "base_queue": 1.0, "base_io": 5.0},
@@ -73,22 +73,22 @@ def generate_normal_telemetry(
     """
     profile = _NORMAL_PROFILES.get(device.device_type, _DEFAULT_PROFILE)
 
-    # Temperature oscillates smoothly around baseline (~35°C) within ±1.5°C
+
     base_temp = device.temperature if device.temperature > 0.0 else 35.0
     temperature = round(base_temp + 1.5 * math.sin(sample_index * 0.15), 2)
 
-    # Normal error rate is kept very low and non-negative
+
     error_rate = round(max(0.0, 0.001 + 0.0005 * math.sin(sample_index * 0.1)), 5)
 
-    # Response latency stays low and positive, varying smoothly with workload
+
     latency_offset = 0.8 * math.sin(sample_index * 0.2)
     response_latency = round(max(0.1, profile["base_latency"] + latency_offset), 2)
 
-    # Queue length is a small non-negative integer
+
     queue_offset = 0.8 * math.cos(sample_index * 0.25)
     queue_length = max(0, int(round(profile["base_queue"] + queue_offset)))
 
-    # IO activity represents regular, healthy device workload
+
     io_offset = 4.0 * math.cos(sample_index * 0.1)
     io_activity = round(max(0.0, profile["base_io"] + io_offset), 2)
 

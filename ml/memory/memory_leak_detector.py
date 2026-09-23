@@ -31,7 +31,7 @@ class MemoryLeakDetector:
         """
         if not isinstance(window_size, int) or isinstance(window_size, bool) or window_size < 2:
             raise ValueError(f"window_size must be an integer >= 2, got {window_size!r}")
-        
+
         self.window_size = window_size
         self.min_growth_bytes_per_step = min_growth_bytes_per_step
         self.min_r2 = min_r2
@@ -48,23 +48,23 @@ class MemoryLeakDetector:
         """
         if not isinstance(recent_snapshots, list):
             raise TypeError("recent_snapshots must be a list of dictionaries.")
-        
+
         if len(recent_snapshots) < self.window_size:
             raise ValueError(
                 f"Insufficient snapshots for detection. Expected at least {self.window_size}, got {len(recent_snapshots)}"
             )
 
-        # Truncate to the most recent window_size snapshots
+
         window = recent_snapshots[-self.window_size:]
 
-        # Validate PID uniformity and presence of proc_rss_bytes
+
         proc_pid = None
         for i, snap in enumerate(window):
             if "proc_pid" not in snap or snap["proc_pid"] is None:
                 raise ValueError(f"Snapshot at index {i} is missing a valid 'proc_pid'.")
             if not isinstance(snap["proc_pid"], int):
                 raise TypeError(f"Snapshot at index {i} 'proc_pid' must be an integer.")
-            
+
             if proc_pid is None:
                 proc_pid = snap["proc_pid"]
             elif snap["proc_pid"] != proc_pid:
@@ -75,19 +75,19 @@ class MemoryLeakDetector:
             if not isinstance(snap["proc_rss_bytes"], (int, float)):
                 raise TypeError(f"Snapshot at index {i} 'proc_rss_bytes' must be numeric.")
 
-        # Extract data for regression
+
         y = np.array([snap["proc_rss_bytes"] for snap in window])
         X = np.arange(len(window)).reshape(-1, 1)
 
-        # Fit linear regression
+
         model = LinearRegression()
         model.fit(X, y)
 
         slope = model.coef_[0]
-        # Calculate R^2. If y is perfectly constant, score() handles it natively in scikit-learn
+
         r2 = model.score(X, y)
 
-        # Determine if leak
+
         is_leak = bool(slope > self.min_growth_bytes_per_step and r2 > self.min_r2)
 
         return {
@@ -119,7 +119,7 @@ class MemoryLeakDetector:
                 if result["is_leak_detected"] == expected:
                     correct += 1
             except Exception:
-                # Validation errors or exceptions count as a failed prediction
+
                 pass
 
         accuracy = correct / total if total > 0 else 0.0

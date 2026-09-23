@@ -88,13 +88,13 @@ class CPUBurstPredictor:
             X_arr, y_arr, test_size=test_size, random_state=split_seed
         )
 
-        # Calculate and store training-set medians for inference fallback
+
         self.feature_medians = {
             feat: float(np.median(X_train[:, idx]))
             for idx, feat in enumerate(self.FEATURE_NAMES)
         }
 
-        # RandomForestRegressor does not require feature scaling
+
         self.model = RandomForestRegressor(
             n_estimators=self.n_estimators,
             max_depth=self.max_depth,
@@ -103,7 +103,7 @@ class CPUBurstPredictor:
         self.model.fit(X_train, y_train)
         self.is_fitted = True
 
-        # Evaluate on held-out test split
+
         y_pred = self.model.predict(X_test)
         mae = float(mean_absolute_error(y_test, y_pred))
         mse = float(mean_squared_error(y_test, y_pred))
@@ -136,7 +136,7 @@ class CPUBurstPredictor:
         workload = generator.generate()
         df = generator.to_dataframe(workload)
 
-        # Strictly extract only the four approved ML features
+
         X = df[self.FEATURE_NAMES].to_numpy(dtype=np.float64)
         y = df["burst_time"].to_numpy(dtype=np.float64)
 
@@ -166,7 +166,7 @@ class CPUBurstPredictor:
             )
 
         raw_pred = self.model.predict(X_arr)
-        # Guarantee strictly positive burst-time prediction
+
         bounded_pred = np.maximum(self.min_prediction_floor, raw_pred)
         return bounded_pred
 
@@ -182,7 +182,7 @@ class CPUBurstPredictor:
         for feat in self.FEATURE_NAMES:
             val = meta.get(feat, None)
             if val is None or not isinstance(val, (int, float)) or math.isnan(val):
-                # Fallback to stored training-set median
+
                 fallback_val = self.feature_medians.get(feat, 1.0)
                 row.append(float(fallback_val))
             else:

@@ -37,8 +37,8 @@ class TestMetrics(unittest.TestCase):
 
         metrics = calculate_metrics([p1, p2], gantt, overhead_ms=0.15)
 
-        # P1: turnaround = 4 - 0 = 4, waiting = 4 - 4 = 0, response = 0 - 0 = 0
-        # P2: turnaround = 6 - 1 = 5, waiting = 5 - 2 = 3, response = 4 - 1 = 3
+
+
         self.assertEqual(p1.turnaround_time, 4.0)
         self.assertEqual(p1.waiting_time, 0.0)
         self.assertEqual(p1.response_time, 0.0)

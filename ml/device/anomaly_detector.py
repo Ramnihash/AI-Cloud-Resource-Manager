@@ -32,7 +32,7 @@ class _SinusoidalPositionalEncoding(nn.Module):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
 
-        # Shape: (max_len, d_model)
+
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len, dtype=torch.float32).unsqueeze(1)
         div_term = torch.exp(
@@ -44,9 +44,9 @@ class _SinusoidalPositionalEncoding(nn.Module):
         else:
             pe[:, 1::2] = torch.cos(position * div_term[: d_model // 2])
 
-        # Register as a buffer so it moves with the model (to GPU etc.) but is
-        # not a learnable parameter.
-        self.register_buffer("pe", pe.unsqueeze(0))  # (1, max_len, d_model)
+
+
+        self.register_buffer("pe", pe.unsqueeze(0))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Add positional encoding to *x* without modifying it in-place.
@@ -57,7 +57,7 @@ class _SinusoidalPositionalEncoding(nn.Module):
             Shape ``(batch, seq_len, d_model)``.
         """
         seq_len = x.size(1)
-        return self.dropout(x + self.pe[:, :seq_len, :])  # type: ignore[index]
+        return self.dropout(x + self.pe[:, :seq_len, :])
 
 
 class TelemetryTransformerReconstructor(nn.Module):
@@ -90,7 +90,7 @@ class TelemetryTransformerReconstructor(nn.Module):
     ) -> None:
         super().__init__()
 
-        # --- parameter validation ------------------------------------------
+
         if not isinstance(input_dim, int) or input_dim < 1:
             raise ValueError(f"input_dim must be a positive integer, got {input_dim!r}")
         if not isinstance(d_model, int) or d_model < 1:
@@ -111,7 +111,7 @@ class TelemetryTransformerReconstructor(nn.Module):
         self.input_dim = input_dim
         self.d_model = d_model
 
-        # --- layers -----------------------------------------------------------
+
         self.input_projection = nn.Linear(input_dim, d_model)
 
         self.positional_encoding = _SinusoidalPositionalEncoding(
@@ -124,7 +124,7 @@ class TelemetryTransformerReconstructor(nn.Module):
             nhead=nhead,
             dim_feedforward=dim_feedforward,
             dropout=float(dropout),
-            batch_first=True,  # expects (batch, seq, feature)
+            batch_first=True,
         )
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
 
@@ -160,13 +160,13 @@ class TelemetryTransformerReconstructor(nn.Module):
                 f"model input_dim ({self.input_dim})"
             )
 
-        # Project features → d_model, add positional encoding
-        projected = self.input_projection(x)          # (B, T, d_model)
-        encoded_pos = self.positional_encoding(projected)  # (B, T, d_model)
 
-        # Transformer encoder
-        encoded = self.encoder(encoded_pos)            # (B, T, d_model)
+        projected = self.input_projection(x)
+        encoded_pos = self.positional_encoding(projected)
 
-        # Project back to feature space
-        reconstruction = self.output_projection(encoded)  # (B, T, input_dim)
+
+        encoded = self.encoder(encoded_pos)
+
+
+        reconstruction = self.output_projection(encoded)
         return reconstruction

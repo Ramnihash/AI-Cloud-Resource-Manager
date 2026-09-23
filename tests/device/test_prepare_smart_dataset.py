@@ -96,14 +96,14 @@ class TestPrepareSmartDataset(unittest.TestCase):
 
         self.assertTrue(pd.api.types.is_float_dtype(result["smart_5_raw"]))
         self.assertTrue(pd.api.types.is_float_dtype(result["smart_9_raw"]))
-        # No NaNs should remain after imputation
+
         self.assertEqual(result["smart_5_raw"].isna().sum(), 0)
         self.assertEqual(result["smart_9_raw"].isna().sum(), 0)
 
     def test_missing_smart_values_imputed_with_median(self):
         """5. Missing SMART values are imputed using the column's median."""
         fixture_data = {
-            # Median of [10.0, 30.0] is 20.0
+
             "smart_5_raw": [10.0, None, 30.0],
             "failure": [0, 0, 1],
         }
@@ -164,7 +164,7 @@ class TestPrepareSmartDataset(unittest.TestCase):
 
     def test_non_binary_failure_labels_raise_value_error(self):
         """10. Non-binary values in 'failure' column raise ValueError."""
-        # Non-binary numeric label (e.g. 2)
+
         fixture_data_invalid_num = {
             "smart_5_raw": [0, 1],
             "failure": [0, 2],
@@ -173,7 +173,7 @@ class TestPrepareSmartDataset(unittest.TestCase):
         with self.assertRaises(ValueError):
             prepare_smart_dataset(csv_file1)
 
-        # Non-numeric string label (e.g. 'failed')
+
         fixture_data_string = {
             "smart_5_raw": [0, 1],
             "failure": ["healthy", "failed"],

@@ -49,17 +49,17 @@ import csv
 import random
 
 
-# ── Module-level constants ────────────────────────────────────────────────────
+
 
 VALID_PATTERNS = ("uniform", "locality", "sequential")
 
-# Locality pattern tunables — kept as module-level constants so tests can
-# reference them without magic numbers.
-_HOT_FRACTION = 0.25    # fraction of pages that form the hot working set
-_HOT_PROBABILITY = 0.80  # probability of drawing from the hot set
 
 
-# ── Generator ─────────────────────────────────────────────────────────────────
+_HOT_FRACTION = 0.25
+_HOT_PROBABILITY = 0.80
+
+
+
 
 class PageReferenceGenerator:
     """Synthetic page-reference sequence generator.
@@ -125,18 +125,18 @@ class PageReferenceGenerator:
         """
         self._validate(num_pages, length, pattern)
 
-        # Isolated RNG — does not affect global random state
+
         rng = random.Random(seed)
 
-        # ── Generate sequence ─────────────────────────────────────────────
+
         if pattern == "uniform":
             sequence = self._generate_uniform(rng, num_pages, length)
         elif pattern == "locality":
             sequence = self._generate_locality(rng, num_pages, length)
-        else:  # "sequential"
+        else:
             sequence = self._generate_sequential(num_pages, length)
 
-        # ── Optional CSV save ─────────────────────────────────────────────
+
         saved_to = None
         if save_path is not None:
             self._save_csv(sequence, save_path)
@@ -151,7 +151,7 @@ class PageReferenceGenerator:
             "saved_to":  saved_to,
         }
 
-    # ── Pattern generators ────────────────────────────────────────────────────
+
 
     @staticmethod
     def _generate_uniform(rng: random.Random, num_pages: int, length: int) -> list:
@@ -177,11 +177,11 @@ class PageReferenceGenerator:
 
         sequence = []
         for _ in range(length):
-            # ── Hot reference ─────────────────────────────────────────────
+
             if not cold_set or rng.random() < _HOT_PROBABILITY:
                 sequence.append(rng.choice(hot_set))
             else:
-                # ── Cold reference ────────────────────────────────────────
+
                 sequence.append(rng.choice(cold_set))
         return sequence
 
@@ -190,7 +190,7 @@ class PageReferenceGenerator:
         """Cyclic sequential pattern: 0, 1, 2, ..., num_pages-1, 0, 1, ..."""
         return [i % num_pages for i in range(length)]
 
-    # ── File I/O ──────────────────────────────────────────────────────────────
+
 
     @staticmethod
     def _save_csv(sequence: list, path: str) -> None:
@@ -201,7 +201,7 @@ class PageReferenceGenerator:
             for page in sequence:
                 writer.writerow([page])
 
-    # ── Validation ────────────────────────────────────────────────────────────
+
 
     @staticmethod
     def _validate(num_pages: int, length: int, pattern: str) -> None:

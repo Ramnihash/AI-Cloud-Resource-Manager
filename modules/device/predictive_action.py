@@ -77,14 +77,14 @@ def handle_predictive_action(
         Propagated from the underlying backup or recovery modules when inputs
         are invalid.
     """
-    # Step 1 – backup decision and simulated cloud backup
+
     backup_result = handle_failure_risk(
         device_id=device_id,
         failure_probability=failure_probability,
         threshold=threshold,
     )
 
-    # Step 2 – simulated I/O blocking and device rerouting
+
     recovery_result = recover_device(
         device_id=device_id,
         device_status=device_status,

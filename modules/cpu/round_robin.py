@@ -36,20 +36,20 @@ class RoundRobinScheduler(BaseScheduler):
 
         merge_slices = kwargs.get("merge_consecutive", self.merge_consecutive)
 
-        # Sort input processes by arrival time, then PID
+
         unarrived = deque(sorted(processes, key=lambda p: (p.arrival_time, str(p.pid))))
         ready_queue: deque[Process] = deque()
         completed_processes: list[Process] = []
         gantt_chart: list[GanttSlice] = []
         current_time = 0.0
 
-        # Prime the ready queue with initial arrivals
+
         while unarrived and unarrived[0].arrival_time <= current_time:
             ready_queue.append(unarrived.popleft())
 
         while ready_queue or unarrived:
             if not ready_queue:
-                # CPU is idle until next process arrives
+
                 next_arrival = unarrived[0].arrival_time
                 if next_arrival > current_time:
                     gantt_chart.append(
@@ -57,19 +57,19 @@ class RoundRobinScheduler(BaseScheduler):
                     )
                     current_time = next_arrival
 
-                # Enqueue all processes arriving at this new current_time
+
                 while unarrived and unarrived[0].arrival_time <= current_time:
                     ready_queue.append(unarrived.popleft())
 
-            # Dequeue next process from ready queue
+
             current_process = ready_queue.popleft()
 
-            # Record initial response time if not yet started
+
             if current_process.start_time is None:
                 current_process.start_time = current_time
                 current_process.response_time = current_process.start_time - current_process.arrival_time
 
-            # Compute slice duration
+
             slice_duration = min(quantum, current_process.remaining_time)
             finish_slice_time = current_time + slice_duration
 
@@ -84,17 +84,17 @@ class RoundRobinScheduler(BaseScheduler):
 
             current_process.remaining_time -= slice_duration
 
-            # Enqueue any processes arriving during this execution slice BEFORE re-enqueuing current_process
+
             while unarrived and unarrived[0].arrival_time <= finish_slice_time:
                 ready_queue.append(unarrived.popleft())
 
             current_time = finish_slice_time
 
             if current_process.remaining_time > 0:
-                # Process not yet finished; place at back of ready queue
+
                 ready_queue.append(current_process)
             else:
-                # Process completed
+
                 current_process.completion_time = current_time
                 current_process.turnaround_time = current_process.completion_time - current_process.arrival_time
                 current_process.waiting_time = current_process.turnaround_time - current_process.burst_time

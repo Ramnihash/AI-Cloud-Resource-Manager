@@ -104,7 +104,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
             Process("P2", arrival_time=0.0, burst_time=4.0, priority=1, predicted_burst_time=4.0),
         ]
 
-    # 1. CPU_BOUND → SJF
+
     def test_cpu_bound_maps_to_sjf(self) -> None:
         clf = StubWorkloadClassifier(predicted_class=CLASS_CPU_BOUND)
         meta = CPUMetaScheduler(classifier=clf)
@@ -116,7 +116,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertFalse(result.is_fallback)
         self.assertEqual(result.schedule_result.algorithm_name, "SJF")
 
-    # 2. IO_BOUND → Round Robin
+
     def test_io_bound_maps_to_round_robin(self) -> None:
         clf = StubWorkloadClassifier(predicted_class=CLASS_IO_BOUND)
         meta = CPUMetaScheduler(classifier=clf)
@@ -128,7 +128,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertFalse(result.is_fallback)
         self.assertEqual(result.schedule_result.algorithm_name, "Round Robin")
 
-    # 3. PRIORITY_CRITICAL → Priority
+
     def test_priority_critical_maps_to_priority(self) -> None:
         clf = StubWorkloadClassifier(predicted_class=CLASS_PRIORITY_CRITICAL)
         meta = CPUMetaScheduler(classifier=clf)
@@ -140,7 +140,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertFalse(result.is_fallback)
         self.assertEqual(result.schedule_result.algorithm_name, "Priority")
 
-    # 4. BALANCED → FCFS
+
     def test_balanced_maps_to_fcfs(self) -> None:
         clf = StubWorkloadClassifier(predicted_class=CLASS_BALANCED)
         meta = CPUMetaScheduler(classifier=clf)
@@ -152,7 +152,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertFalse(result.is_fallback)
         self.assertEqual(result.schedule_result.algorithm_name, "FCFS")
 
-    # 5. Low-confidence fallback → FCFS
+
     def test_low_confidence_fallback_maps_to_fcfs(self) -> None:
         clf = StubWorkloadClassifier(
             predicted_class=CLASS_CPU_BOUND,
@@ -170,23 +170,23 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertEqual(result.selected_scheduler, "FCFS")
         self.assertEqual(result.schedule_result.algorithm_name, "FCFS")
 
-    # 6. Selected scheduler is actually invoked
+
     def test_selected_scheduler_is_actually_invoked(self) -> None:
-        # SJF: P2 (burst 4) must execute before P1 (burst 10)
+
         clf_sjf = StubWorkloadClassifier(CLASS_CPU_BOUND)
         meta_sjf = CPUMetaScheduler(classifier=clf_sjf)
         result_sjf = meta_sjf.schedule(self.default_workload)
         execution_pids = [s.pid for s in result_sjf.gantt_chart if not s.is_idle]
         self.assertEqual(execution_pids, ["P2", "P1"])
 
-        # Priority: P2 (priority 1) must execute before P1 (priority 2)
+
         clf_pri = StubWorkloadClassifier(CLASS_PRIORITY_CRITICAL)
         meta_pri = CPUMetaScheduler(classifier=clf_pri)
         result_pri = meta_pri.schedule(self.default_workload)
         execution_pids_pri = [s.pid for s in result_pri.gantt_chart if not s.is_idle]
         self.assertEqual(execution_pids_pri, ["P2", "P1"])
 
-        # Round Robin: with quantum 2.0, P1 (burst 4) and P2 (burst 4) alternate
+
         rr_workload = [
             Process("P1", 0.0, 4.0, 1, predicted_burst_time=4.0),
             Process("P2", 0.0, 4.0, 1, predicted_burst_time=4.0),
@@ -197,7 +197,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         rr_slices = [s.pid for s in result_rr.gantt_chart if not s.is_idle]
         self.assertEqual(rr_slices, ["P1", "P2", "P1", "P2"])
 
-    # 7. Caller workload remains unchanged
+
     def test_caller_workload_remains_unchanged(self) -> None:
         original_processes = [
             Process(
@@ -217,7 +217,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
                 metadata={"cpu_intensity": 0.7, "io_wait_ratio": 0.3},
             ),
         ]
-        # Record snapshots
+
         original_dicts = [p.to_dict() for p in original_processes]
 
         predictor = CPUBurstPredictor(random_state=42)
@@ -229,7 +229,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         )
         meta.schedule(original_processes)
 
-        # Verify every caller process object was completely untouched
+
         for p, original_dict in zip(original_processes, original_dicts):
             self.assertEqual(p.to_dict(), original_dict)
             self.assertIsNone(p.start_time)
@@ -239,7 +239,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
             self.assertEqual(p.remaining_time, p.burst_time)
             self.assertIsNone(p.predicted_burst_time)
 
-    # 8. Missing predicted burst with supplied predictor works
+
     def test_missing_predicted_burst_with_supplied_predictor_works(self) -> None:
         workload = [
             Process(
@@ -265,14 +265,14 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         )
         result = meta.schedule(workload)
 
-        # Succeeded
+
         self.assertEqual(result.selected_scheduler, "FCFS")
-        # Caller original is still None
+
         self.assertIsNone(workload[0].predicted_burst_time)
-        # Result process has predicted_burst_time populated
+
         self.assertIsNotNone(result.processes[0].predicted_burst_time)
 
-    # 9. Missing predicted burst without predictor raises ValueError
+
     def test_missing_predicted_burst_without_predictor_raises_value_error(self) -> None:
         workload = [
             Process("P1", 0.0, 5.0, 1, predicted_burst_time=None),
@@ -285,23 +285,23 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
             meta.schedule(workload)
         self.assertIn("missing predicted_burst_time", str(ctx.exception))
 
-    # 10. Empty workload raises ValueError
+
     def test_empty_workload_raises_value_error(self) -> None:
         meta = CPUMetaScheduler(classifier=StubWorkloadClassifier())
         with self.assertRaises(ValueError) as ctx:
             meta.schedule([])
         self.assertIn("empty process workload", str(ctx.exception))
 
-    # 11. Invalid process type raises TypeError
+
     def test_invalid_process_type_raises_type_error(self) -> None:
         meta = CPUMetaScheduler(classifier=StubWorkloadClassifier())
         with self.assertRaises(TypeError):
-            meta.schedule([{"pid": "P1", "burst_time": 5.0}])  # type: ignore
+            meta.schedule([{"pid": "P1", "burst_time": 5.0}])
 
         with self.assertRaises(TypeError):
-            meta.schedule(["invalid_process_string"])  # type: ignore
+            meta.schedule(["invalid_process_string"])
 
-    # 12. Unfitted classifier raises RuntimeError
+
     def test_unfitted_classifier_raises_runtime_error(self) -> None:
         unfitted = CPUWorkloadClassifier()
         self.assertFalse(unfitted.is_fitted)
@@ -314,7 +314,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             meta.classify_workload(self.default_workload)
 
-    # 13. Unfitted burst predictor raises RuntimeError
+
     def test_unfitted_burst_predictor_raises_runtime_error(self) -> None:
         unfitted_pred = CPUBurstPredictor()
         self.assertFalse(unfitted_pred.is_fitted)
@@ -330,9 +330,9 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             meta.classify_workload(self.default_workload)
 
-    # 14. Missing custom scheduler raises clear KeyError
+
     def test_missing_custom_scheduler_raises_clear_key_error(self) -> None:
-        custom_schedulers = {"FCFS": FCFSScheduler()}  # Missing SJF
+        custom_schedulers = {"FCFS": FCFSScheduler()}
         meta = CPUMetaScheduler(
             classifier=StubWorkloadClassifier(CLASS_CPU_BOUND),
             schedulers=custom_schedulers,
@@ -341,7 +341,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
             meta.schedule(self.default_workload)
         self.assertIn("SJF", str(ctx.exception))
 
-    # 15. Result structure and serialization
+
     def test_result_structure_and_serialization(self) -> None:
         clf = StubWorkloadClassifier(CLASS_CPU_BOUND, confidence=0.92)
         meta = CPUMetaScheduler(classifier=clf)
@@ -365,7 +365,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertIn("scheduler_kwargs_used", data)
         self.assertEqual(data["selected_scheduler"], "SJF")
 
-    # 16. Injected / custom schedulers work correctly
+
     def test_injected_custom_schedulers_work_correctly(self) -> None:
         mock_sjf = RecordingMockScheduler(name="MockSJF")
         custom_registry = {
@@ -384,7 +384,7 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertEqual(len(mock_sjf.invocations), 1)
         self.assertEqual(len(mock_sjf.invocations[0]["processes"]), 2)
 
-    # 17. Consecutive runs do not leak scheduler state
+
     def test_consecutive_runs_do_not_leak_scheduler_state(self) -> None:
         clf = StubWorkloadClassifier(CLASS_IO_BOUND)
         meta = CPUMetaScheduler(classifier=clf)
@@ -411,20 +411,20 @@ class TestCPUMetaSchedulerUnit(unittest.TestCase):
         self.assertEqual(pids_2, {"B1", "B2", "B3"})
         self.assertTrue(pids_1.isdisjoint(pids_2))
 
-    # Kwargs validation & filtering
+
     def test_scheduler_kwargs_filtering_and_validation(self) -> None:
         clf_rr = StubWorkloadClassifier(CLASS_IO_BOUND)
         meta_rr = CPUMetaScheduler(classifier=clf_rr)
 
-        # RR receives time_quantum
+
         result_rr = meta_rr.schedule(self.default_workload, time_quantum=3.5)
         self.assertEqual(result_rr.scheduler_kwargs_used, {"time_quantum": 3.5})
 
-        # Negative quantum for RR raises ValueError
+
         with self.assertRaises(ValueError):
             meta_rr.schedule(self.default_workload, time_quantum=-1.0)
 
-        # SJF does NOT receive time_quantum (filtered out)
+
         clf_sjf = StubWorkloadClassifier(CLASS_CPU_BOUND)
         meta_sjf = CPUMetaScheduler(classifier=clf_sjf)
         result_sjf = meta_sjf.schedule(self.default_workload, time_quantum=3.5)
@@ -436,11 +436,11 @@ class TestCPUMetaSchedulerIntegration(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        # Fit a real CPUBurstPredictor on synthetic processes
+
         cls.burst_predictor = CPUBurstPredictor(random_state=42)
         cls.burst_predictor.train_on_synthetic_workload(seed=42, num_processes=40)
 
-        # Fit a real CPUWorkloadClassifier on a balanced dataset
+
         cls.classifier = CPUWorkloadClassifier(random_state=42)
         cls.classifier.train_on_synthetic_dataset(seed=42, target_per_class=50)
 
@@ -451,7 +451,7 @@ class TestCPUMetaSchedulerIntegration(unittest.TestCase):
             burst_predictor=self.burst_predictor,
         )
 
-        # Raw workload with feature metadata and no predicted_burst_time
+
         raw_workload = [
             Process(
                 pid=f"Proc_{i}",
@@ -468,20 +468,20 @@ class TestCPUMetaSchedulerIntegration(unittest.TestCase):
             for i in range(12)
         ]
 
-        # Verify all input processes initially have predicted_burst_time as None
+
         for p in raw_workload:
             self.assertIsNone(p.predicted_burst_time)
 
-        # Execute end-to-end
+
         result = meta.schedule(raw_workload)
 
-        # 1. Decision checks
+
         self.assertIn(result.selected_scheduler, ["SJF", "Round Robin", "Priority", "FCFS"])
         self.assertIn(result.workload_class, [CLASS_CPU_BOUND, CLASS_IO_BOUND, CLASS_PRIORITY_CRITICAL, CLASS_BALANCED])
         self.assertGreaterEqual(result.confidence, 0.0)
         self.assertLessEqual(result.confidence, 1.0)
 
-        # 2. Execution checks
+
         self.assertEqual(len(result.processes), 12)
         self.assertGreater(len(result.gantt_chart), 0)
         self.assertEqual(result.metrics.completed_process_count, 12)
@@ -489,7 +489,7 @@ class TestCPUMetaSchedulerIntegration(unittest.TestCase):
         self.assertGreaterEqual(result.metrics.avg_waiting_time, 0.0)
         self.assertGreaterEqual(result.metrics.avg_turnaround_time, 0.0)
 
-        # 3. Caller immutability checks
+
         for p in raw_workload:
             self.assertIsNone(p.predicted_burst_time)
             self.assertIsNone(p.start_time)

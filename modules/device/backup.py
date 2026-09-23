@@ -114,7 +114,7 @@ def create_backup(
             message="Backup not triggered: failure probability below threshold.",
         )
 
-    # Simulated successful backup – deterministic location.
+
     location = f"cloud://backup/{device_id}"
     return BackupResult(
         device_id=device_id,

@@ -14,7 +14,7 @@ class PositionalEncoding(nn.Module):
         )
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
-        # Shape: (1, max_len, d_model) for batch_first=True
+
         pe = pe.unsqueeze(0)
         self.register_buffer("pe", pe)
 
@@ -50,15 +50,15 @@ class TransformerModel(nn.Module):
         Returns:
             Tensor of shape [batch_size, num_pages] containing logits for the next page.
         """
-        # [batch_size, seq_len, d_model]
+
         src = self.embedding(src)
         src = self.pos_encoder(src)
-        # [batch_size, seq_len, d_model]
+
         output = self.transformer_encoder(src)
-        # We only care about the output at the last time step for next page prediction
-        # [batch_size, d_model]
+
+
         last_hidden = output[:, -1, :]
-        # [batch_size, num_pages]
+
         logits = self.linear(last_hidden)
         return logits
 
@@ -130,14 +130,14 @@ class TransformerPagePredictor:
             raise ValueError(f"epochs must be an integer >= 1, got {epochs!r}")
         if not isinstance(lr, (float, int)) or isinstance(lr, bool) or lr <= 0:
             raise ValueError(f"lr must be a positive float, got {lr!r}")
-            
+
         if len(sequence) < self.context_len + 1:
             raise ValueError(
                 f"sequence must have at least context_len + 1 ({self.context_len + 1}) "
                 f"elements, got {len(sequence)}"
             )
 
-        # Validate sequence values
+
         for p in sequence:
             if not (0 <= p < self.num_pages):
                 raise ValueError(f"Page ID {p} in sequence is out of bounds [0, {self.num_pages - 1}]")
@@ -148,7 +148,7 @@ class TransformerPagePredictor:
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(self.model.parameters(), lr=lr)
 
-        # Prepare dataset: sliding windows of size context_len
+
         X = []
         Y = []
         for i in range(len(sequence) - self.context_len):
@@ -159,7 +159,7 @@ class TransformerPagePredictor:
         Y_tensor = torch.tensor(Y, dtype=torch.long)
 
         final_loss = 0.0
-        # For simplicity and CPU performance on small sequences, we process the whole batch at once.
+
         for epoch in range(epochs):
             optimizer.zero_grad()
             logits = self.model(X_tensor)
@@ -189,7 +189,7 @@ class TransformerPagePredictor:
             List of dicts: {"page": int, "probability": float} sorted descending.
         """
         self._require_trained("predict")
-        
+
         if not isinstance(context, list):
             raise TypeError(f"context must be a list, got {type(context).__name__}")
         if len(context) != self.context_len:
@@ -208,8 +208,8 @@ class TransformerPagePredictor:
             x = torch.tensor([context], dtype=torch.long)
             logits = self.model(x)
             probs = torch.softmax(logits, dim=-1).squeeze(0)
-            
-            # Get top_k probabilities and indices
+
+
             k = min(top_k, self.num_pages)
             top_probs, top_indices = torch.topk(probs, k)
 
@@ -219,7 +219,7 @@ class TransformerPagePredictor:
                     "page": idx.item(),
                     "probability": prob.item()
                 })
-                
+
         return candidates
 
     def evaluate(self, test_sequence: list, top_k: int = 1) -> dict:
@@ -233,7 +233,7 @@ class TransformerPagePredictor:
             Dictionary with evaluation metrics.
         """
         self._require_trained("evaluate")
-        
+
         if not isinstance(test_sequence, list):
             raise TypeError(f"test_sequence must be a list, got {type(test_sequence).__name__}")
         if len(test_sequence) < self.context_len + 1:

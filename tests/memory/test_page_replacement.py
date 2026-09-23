@@ -28,29 +28,29 @@ from modules.memory.page_replacement import (
     OptimalPageReplacement,
 )
 
-# ---------------------------------------------------------------------------
-# Shared constants
-# ---------------------------------------------------------------------------
+
+
+
 CLASSIC_REF = [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5]
 CLASSIC_FRAMES = 3
 
 
-# ---------------------------------------------------------------------------
-# FIFO tests
-# ---------------------------------------------------------------------------
+
+
+
 class TestFIFOPageReplacement(unittest.TestCase):
     """Tests for FIFOPageReplacement."""
 
     def setUp(self):
         self.algo = FIFOPageReplacement(num_frames=CLASSIC_FRAMES)
 
-    # ── Ground-truth fault count ─────────────────────────────────────────
+
     def test_fifo_known_sequence(self):
         """Classic textbook sequence must produce exactly 9 page faults."""
         result = self.algo.run(CLASSIC_REF)
         self.assertEqual(result["page_faults"], 9)
 
-    # ── Boundary: all pages fit in frames ────────────────────────────────
+
     def test_fifo_no_faults_when_all_fit(self):
         """All distinct pages fit in frames → only 4 cold-start faults."""
         algo = FIFOPageReplacement(num_frames=4)
@@ -58,7 +58,7 @@ class TestFIFOPageReplacement(unittest.TestCase):
         self.assertEqual(result["page_faults"], 4)
         self.assertEqual(result["page_hits"], 4)
 
-    # ── Boundary: single frame ───────────────────────────────────────────
+
     def test_fifo_single_frame(self):
         """1 frame: every unique page access is a fault."""
         algo = FIFOPageReplacement(num_frames=1)
@@ -66,14 +66,14 @@ class TestFIFOPageReplacement(unittest.TestCase):
         self.assertEqual(result["page_faults"], 5)
         self.assertEqual(result["page_hits"], 0)
 
-    # ── Repeated identical page ──────────────────────────────────────────
+
     def test_fifo_repeated_same_page(self):
         """Accessing the same page repeatedly → exactly 1 fault."""
         result = FIFOPageReplacement(num_frames=3).run([7, 7, 7, 7, 7])
         self.assertEqual(result["page_faults"], 1)
         self.assertEqual(result["page_hits"], 4)
 
-    # ── Metrics consistency ──────────────────────────────────────────────
+
     def test_fifo_metrics_sum(self):
         """hits + faults must equal len(reference_string)."""
         result = self.algo.run(CLASSIC_REF)
@@ -87,7 +87,7 @@ class TestFIFOPageReplacement(unittest.TestCase):
         self.assertGreaterEqual(result["hit_ratio"], 0.0)
         self.assertLessEqual(result["hit_ratio"], 1.0)
 
-    # ── Snapshot correctness ─────────────────────────────────────────────
+
     def test_fifo_frame_snapshots_length(self):
         """frame_snapshots must have exactly one entry per reference."""
         result = self.algo.run(CLASSIC_REF)
@@ -100,22 +100,22 @@ class TestFIFOPageReplacement(unittest.TestCase):
             self.assertLessEqual(len(snapshot), CLASSIC_FRAMES)
 
 
-# ---------------------------------------------------------------------------
-# LRU tests
-# ---------------------------------------------------------------------------
+
+
+
 class TestLRUPageReplacement(unittest.TestCase):
     """Tests for LRUPageReplacement."""
 
     def setUp(self):
         self.algo = LRUPageReplacement(num_frames=CLASSIC_FRAMES)
 
-    # ── Ground-truth fault count ─────────────────────────────────────────
+
     def test_lru_known_sequence(self):
         """Verified sequence [1,2,3,4,1,2,5,1,2,3,4,5] with 3 frames → 10 faults."""
         result = self.algo.run(CLASSIC_REF)
         self.assertEqual(result["page_faults"], 10)
 
-    # ── Boundary: single frame ───────────────────────────────────────────
+
     def test_lru_single_frame(self):
         """1 frame: every unique page access is a fault."""
         algo = LRUPageReplacement(num_frames=1)
@@ -123,14 +123,14 @@ class TestLRUPageReplacement(unittest.TestCase):
         self.assertEqual(result["page_faults"], 5)
         self.assertEqual(result["page_hits"], 0)
 
-    # ── Repeated identical page ──────────────────────────────────────────
+
     def test_lru_repeated_same_page(self):
         """Accessing the same page repeatedly → exactly 1 fault."""
         result = LRUPageReplacement(num_frames=3).run([5, 5, 5, 5, 5])
         self.assertEqual(result["page_faults"], 1)
         self.assertEqual(result["page_hits"], 4)
 
-    # ── Metrics consistency ──────────────────────────────────────────────
+
     def test_lru_hit_ratio_range(self):
         """hit_ratio must lie in [0.0, 1.0]."""
         result = self.algo.run(CLASSIC_REF)
@@ -144,7 +144,7 @@ class TestLRUPageReplacement(unittest.TestCase):
             result["page_hits"] + result["page_faults"], len(CLASSIC_REF)
         )
 
-    # ── Snapshot correctness ─────────────────────────────────────────────
+
     def test_lru_frame_snapshots_length(self):
         """frame_snapshots must have exactly one entry per reference."""
         result = self.algo.run(CLASSIC_REF)
@@ -157,22 +157,22 @@ class TestLRUPageReplacement(unittest.TestCase):
             self.assertLessEqual(len(snapshot), CLASSIC_FRAMES)
 
 
-# ---------------------------------------------------------------------------
-# Optimal tests
-# ---------------------------------------------------------------------------
+
+
+
 class TestOptimalPageReplacement(unittest.TestCase):
     """Tests for OptimalPageReplacement."""
 
     def setUp(self):
         self.algo = OptimalPageReplacement(num_frames=CLASSIC_FRAMES)
 
-    # ── Ground-truth fault count ─────────────────────────────────────────
+
     def test_optimal_known_sequence(self):
         """Verified sequence [1,2,3,4,1,2,5,1,2,3,4,5] with 3 frames → 7 faults."""
         result = self.algo.run(CLASSIC_REF)
         self.assertEqual(result["page_faults"], 7)
 
-    # ── Lower-bound property ─────────────────────────────────────────────
+
     def test_optimal_lower_bound_vs_fifo(self):
         """Optimal faults must be <= FIFO faults on the same input."""
         fifo_faults = FIFOPageReplacement(CLASSIC_FRAMES).run(CLASSIC_REF)["page_faults"]
@@ -185,7 +185,7 @@ class TestOptimalPageReplacement(unittest.TestCase):
         opt_faults = self.algo.run(CLASSIC_REF)["page_faults"]
         self.assertLessEqual(opt_faults, lru_faults)
 
-    # ── Boundary: single frame ───────────────────────────────────────────
+
     def test_optimal_single_frame(self):
         """1 frame: every unique page access is a fault."""
         algo = OptimalPageReplacement(num_frames=1)
@@ -193,14 +193,14 @@ class TestOptimalPageReplacement(unittest.TestCase):
         self.assertEqual(result["page_faults"], 5)
         self.assertEqual(result["page_hits"], 0)
 
-    # ── Repeated identical page ──────────────────────────────────────────
+
     def test_optimal_repeated_same_page(self):
         """Accessing the same page repeatedly → exactly 1 fault."""
         result = OptimalPageReplacement(num_frames=3).run([3, 3, 3, 3, 3])
         self.assertEqual(result["page_faults"], 1)
         self.assertEqual(result["page_hits"], 4)
 
-    # ── Metrics consistency ──────────────────────────────────────────────
+
     def test_optimal_metrics_sum(self):
         """hits + faults must equal len(reference_string)."""
         result = self.algo.run(CLASSIC_REF)
@@ -208,7 +208,7 @@ class TestOptimalPageReplacement(unittest.TestCase):
             result["page_hits"] + result["page_faults"], len(CLASSIC_REF)
         )
 
-    # ── Snapshot correctness ─────────────────────────────────────────────
+
     def test_optimal_frame_snapshots_length(self):
         """frame_snapshots must have exactly one entry per reference."""
         result = self.algo.run(CLASSIC_REF)
@@ -221,9 +221,9 @@ class TestOptimalPageReplacement(unittest.TestCase):
             self.assertLessEqual(len(snapshot), CLASSIC_FRAMES)
 
 
-# ---------------------------------------------------------------------------
-# Cross-algorithm structural tests
-# ---------------------------------------------------------------------------
+
+
+
 class TestResultStructure(unittest.TestCase):
     """Cross-algorithm tests for result dict completeness and consistency."""
 

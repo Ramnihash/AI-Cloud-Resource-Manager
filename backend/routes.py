@@ -382,7 +382,7 @@ def system_step():
     if err:
         return jsonify({"error": err}), 400
 
-    # 1. Validate processes
+
     if "processes" not in data:
         return jsonify({"error": "Missing required field: processes"}), 400
     raw_processes = data["processes"]
@@ -440,12 +440,12 @@ def system_step():
         except (ValueError, TypeError) as e:
             return jsonify({"error": f"Invalid process at index {i}: {e}"}), 400
 
-    # 2. Validate compare_with_baseline
+
     compare_with_baseline = data.get("compare_with_baseline", False)
     if not isinstance(compare_with_baseline, bool):
         return jsonify({"error": "Field 'compare_with_baseline' must be a boolean"}), 400
 
-    # 3. Validate device_actions
+
     raw_device_actions = data.get("device_actions")
     if raw_device_actions is not None:
         if not isinstance(raw_device_actions, list):
@@ -471,12 +471,12 @@ def system_step():
             if not isinstance(status, str) or not status.strip():
                 return jsonify({"error": f"Device action at index {idx} has invalid device_status: must be non-empty string"}), 400
 
-    # 4. Validate pid
+
     pid = data.get("pid")
     if pid is not None and (isinstance(pid, bool) or not isinstance(pid, int) or pid < 0):
         return jsonify({"error": "Field 'pid' must be a non-negative integer or null"}), 400
 
-    # 5. Execute coordinated step
+
     try:
         manager = _get_integrated_execution_manager()
         step_record = manager.step(

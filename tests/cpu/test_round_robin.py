@@ -13,12 +13,12 @@ class TestRoundRobin(unittest.TestCase):
             Process(pid="P3", arrival_time=0, burst_time=1),
         ]
 
-        # Quantum = 2
+
         scheduler = RoundRobinScheduler(time_quantum=2.0)
         result = scheduler.schedule(workload)
 
-        # Expected sequence:
-        # P1 (0-2), P2 (2-4), P3 (4-5: completes), P1 (5-7), P2 (7-8: completes), P1 (8-9: completes)
+
+
         expected_gantt = [
             ("P1", 0.0, 2.0),
             ("P2", 2.0, 4.0),
@@ -36,7 +36,7 @@ class TestRoundRobin(unittest.TestCase):
         self.assertEqual(completed["P2"].completion_time, 8.0)
         self.assertEqual(completed["P1"].completion_time, 9.0)
 
-        # Response times (time until first CPU allocation)
+
         self.assertEqual(completed["P1"].response_time, 0.0)
         self.assertEqual(completed["P2"].response_time, 2.0)
         self.assertEqual(completed["P3"].response_time, 4.0)
@@ -53,11 +53,11 @@ class TestRoundRobin(unittest.TestCase):
 
         scheduler = RoundRobinScheduler(time_quantum=2.0)
 
-        # Run with default quantum = 2: P1(0-2), P2(2-4), P1(4-6), P2(6-7), P1(7-9) -> 5 slices
+
         res_q2 = scheduler.schedule(workload)
         self.assertEqual(len(res_q2.gantt_chart), 5)
 
-        # Override with quantum = 10 (>= total bursts, operates as FCFS): P1(0-6), P2(6-9) -> 2 slices
+
         res_q10 = scheduler.schedule(workload, time_quantum=10.0)
         self.assertEqual(len(res_q10.gantt_chart), 2)
         self.assertEqual(res_q10.gantt_chart[0].pid, "P1")
@@ -66,8 +66,8 @@ class TestRoundRobin(unittest.TestCase):
         self.assertEqual(res_q10.gantt_chart[1].end_time, 9.0)
 
     def test_round_robin_arrival_during_execution_slice(self):
-        # P1 arrives at t=0, P2 arrives at t=1 while P1 is running its 0-2 slice.
-        # At t=2, P2 must be enqueued before P1 is re-enqueued.
+
+
         workload = [
             Process(pid="P1", arrival_time=0, burst_time=4),
             Process(pid="P2", arrival_time=1, burst_time=2),
@@ -76,7 +76,7 @@ class TestRoundRobin(unittest.TestCase):
         scheduler = RoundRobinScheduler(time_quantum=2.0)
         result = scheduler.schedule(workload)
 
-        # Order: P1 (0-2), P2 (2-4), P1 (4-6)
+
         order = [s.pid for s in result.gantt_chart]
         self.assertEqual(order, ["P1", "P2", "P1"])
 

@@ -126,17 +126,17 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
     def test_synthetic_burst_causal_relationships(self):
         calc = CPUWorkloadGenerator.calculate_synthetic_burst_time
 
-        # Increasing instruction_count increases burst_time
+
         b_low_instr = calc(instruction_count=10000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=2.0)
         b_high_instr = calc(instruction_count=50000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=2.0)
         self.assertGreater(b_high_instr, b_low_instr)
 
-        # Increasing process_complexity increases burst_time
+
         b_simple = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=1.0)
         b_complex = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.2, process_complexity=3.0)
         self.assertGreater(b_complex, b_simple)
 
-        # Increasing io_wait_ratio decreases CPU burst_time
+
         b_low_io = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.1, process_complexity=2.0)
         b_high_io = calc(instruction_count=20000, cpu_intensity=0.5, io_wait_ratio=0.7, process_complexity=2.0)
         self.assertGreater(b_low_io, b_high_io)
@@ -269,7 +269,7 @@ class TestCPUWorkloadGenerator(unittest.TestCase):
         with self.assertRaises(ValueError):
             WorkloadConfig(burst_distribution="invalid_dist").validate()
 
-        # ML feature validation checks
+
         with self.assertRaises(ValueError):
             WorkloadConfig(instruction_count_range=(0, 1000)).validate()
 

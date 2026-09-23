@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import matplotlib
-matplotlib.use("Agg")  # Headless backend
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -55,7 +55,7 @@ from modules.cpu.round_robin import RoundRobinScheduler
 from modules.cpu.sjf import SJFScheduler
 
 
-# Reference Performance Targets (Non-failing benchmarks for report reference)
+
 REFERENCE_CRITERIA = {
     "burst_predictor": {
         "mae_target": 2.0,
@@ -99,7 +99,7 @@ def evaluate_burst_predictor(
     predictor = CPUBurstPredictor(random_state=seed)
     eval_metrics = predictor.fit(X, y, test_size=test_size, random_state=seed)
 
-    # Predict on held-out test set for timing & plotting
+
     t0 = time.perf_counter()
     y_pred = predictor.predict(X_test)
     inference_time_ms = (time.perf_counter() - t0) * 1000.0
@@ -157,7 +157,7 @@ def evaluate_workload_classifier(
     classifier = CPUWorkloadClassifier(random_state=seed, min_confidence=0.40)
     eval_metrics = classifier.fit(X, y, test_size=test_size, random_state=seed)
 
-    # Inference on test set for timing and fallback calculation
+
     t0 = time.perf_counter()
     y_pred = classifier.predict(X_test)
     probas = classifier.predict_proba(X_test)
@@ -224,28 +224,28 @@ def generate_evaluation_scenarios(
 
     scenarios: dict[str, list[Process]] = {}
 
-    # Scenario 1: CPU_BOUND (20 processes)
+
     cfg_cpu = gen._generate_candidate_config(CLASS_CPU_BOUND, rng)
     cfg_cpu.num_processes = 20
     scenarios["CPU_BOUND"] = CPUWorkloadGenerator(config=cfg_cpu).generate(seed=seed)
 
-    # Scenario 2: IO_BOUND (20 processes)
+
     cfg_io = gen._generate_candidate_config(CLASS_IO_BOUND, rng)
     cfg_io.num_processes = 20
     scenarios["IO_BOUND"] = CPUWorkloadGenerator(config=cfg_io).generate(seed=seed + 1)
 
-    # Scenario 3: PRIORITY_CRITICAL (20 processes)
+
     cfg_pri = gen._generate_candidate_config(CLASS_PRIORITY_CRITICAL, rng)
     cfg_pri.num_processes = 20
     scenarios["PRIORITY_CRITICAL"] = CPUWorkloadGenerator(config=cfg_pri).generate(seed=seed + 2)
 
-    # Scenario 4: BALANCED (20 processes)
+
     cfg_bal = gen._generate_candidate_config(CLASS_BALANCED, rng)
     cfg_bal.num_processes = 20
     scenarios["BALANCED"] = CPUWorkloadGenerator(config=cfg_bal).generate(seed=seed + 3)
 
-    # Scenario 5: Degraded / Low-Confidence Fallback (20 processes)
-    # Tuned to split tree votes across all 4 classes, yielding confidence strictly < 0.40
+
+
     bursts = [
         8.0, 8.5, 9.0, 9.5, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0,
         16.0, 17.0, 18.0, 19.0, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5,
@@ -253,18 +253,18 @@ def generate_evaluation_scenarios(
     fb_processes: list[Process] = []
     for i in range(20):
         b = bursts[i]
-        pri = 1 if i < 9 else 4  # 9 priority-1, 11 priority-4 -> priority_variance = 2.2275
+        pri = 1 if i < 9 else 4
         cpu = 0.715
         io = 0.552
         comp = 2.5
-        # Calibrate instruction count to align predictor's prediction with b
+
         ic = b * 2500.0 * (1.0 + io) / (comp * cpu)
         p = Process(
             pid=f"FB_{i}",
             arrival_time=float(i * 0.5),
             burst_time=b,
             priority=pri,
-            predicted_burst_time=None,  # Automatically populated by CPUBurstPredictor
+            predicted_burst_time=None,
             metadata={
                 "cpu_intensity": cpu,
                 "io_wait_ratio": io,
@@ -301,7 +301,7 @@ def run_scheduler_benchmark(
             "algorithms": {},
         }
 
-        # 1. Evaluate Meta-Scheduler
+
         cloned_workload_meta = [p.copy() for p in workload]
         t_meta_start = time.perf_counter()
         meta_result: MetaScheduleResult = meta_scheduler.schedule(cloned_workload_meta)
@@ -318,7 +318,7 @@ def run_scheduler_benchmark(
             "features_used": meta_result.classification_result.features_used,
         }
 
-        # Record Meta-Scheduler performance metrics
+
         benchmark_results[scenario_name]["algorithms"]["Meta-Scheduler"] = {
             "selected_by_meta": True,
             "effective_algorithm": meta_result.selected_scheduler,
@@ -333,10 +333,10 @@ def run_scheduler_benchmark(
             "gantt_slice_count": len(meta_result.gantt_chart),
         }
 
-        # 2. Evaluate 4 Static Baseline Schedulers on identical workload copies
+
         for sched_name, sched_instance in schedulers.items():
             cloned_workload = [p.copy() for p in workload]
-            # Ensure predicted burst times are present for SJF
+
             if any(p.predicted_burst_time is None for p in cloned_workload):
                 meta_scheduler.burst_predictor.predict_workload(cloned_workload, inplace=True)
 
@@ -375,7 +375,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
     md.append("**Architecture:** PREDICT → CLASSIFY → DECIDE → ACT → MEASURE  \n")
     md.append("---\n")
 
-    # Table 1: Burst Time Predictor
+
     md.append("## 1. Burst Time Prediction (Regression Evaluation)\n")
     md.append("| Metric | Value | Reference Criteria | Status |")
     md.append("|:---|:---:|:---:|:---:|")
@@ -386,7 +386,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
     md.append(f"| **Dataset Size** | {reg['total_samples']} samples (Train: {reg['train_size']}, Test: {reg['test_size']}) | 80/20 Split | Validated |")
     md.append(f"| **Inference Latency** | `{reg['inference_time_per_sample_us']:.2f} µs/process` | < 1 ms | Validated |\n")
 
-    # Table 2: Workload Classifier
+
     md.append("## 2. Workload/Job-Mix Classification Evaluation\n")
     md.append("| Metric | Value | Reference Criteria | Status |")
     md.append("|:---|:---:|:---:|:---:|")
@@ -396,7 +396,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
     md.append(f"| **Test Fallback Frequency** | `{clf['fallback_test_count']} / {clf['test_batches']} ({clf['fallback_test_rate'] * 100:.2f}%)` | Controlled | Validated |")
     md.append(f"| **Total Evaluated Batches** | {clf['total_batches']} batches (250/class) | 80/20 Stratified Split | Validated |\n")
 
-    # Table 3: Per-Class Breakdown
+
     md.append("### Per-Class Classification Report\n")
     md.append("| Workload Class | Precision | Recall | F1-Score | Support |")
     md.append("|:---|:---:|:---:|:---:|:---:|")
@@ -409,7 +409,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
         md.append(f"| **{cls_name}** | `{p:.4f}` | `{r:.4f}` | `{f:.4f}` | {s} |")
     md.append("\n")
 
-    # Table 4: Confusion Matrix
+
     md.append("### Confusion Matrix\n")
     cm_labels = clf["confusion_matrix"]["labels"]
     cm_matrix = clf["confusion_matrix"]["matrix"]
@@ -421,7 +421,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
         md.append(f"| **{actual_lbl}** | {row_vals} |")
     md.append("\n---\n")
 
-    # Table 5: Meta-Scheduler Decision & Routing Audit
+
     md.append("## 3. Meta-Scheduler Decision & Policy Routing Audit\n")
     md.append("| Scenario Profile | Ground Truth Class | Predicted Class | Confidence | Fallback? | Selected Scheduler | Selection Policy Status |")
     md.append("|:---|:---:|:---:|:---:|:---:|:---:|:---:|")
@@ -436,7 +436,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
         md.append(f"| **{sc_name}** | `{gt}` | `{pred_c}` | `{conf:.4f}` | `{fb}` | **{sched}** | `{status}` |")
     md.append("\n---\n")
 
-    # Table 6: Cross-Scenario Scheduling Benchmark (The Full 5x5 Grid)
+
     md.append("## 4. Scheduling Performance Benchmark (Full Grid)\n")
     md.append("| Scenario | Algorithm | Selected? | Avg Waiting ($W$) | Avg Turnaround (TAT) | Avg Response ($R$) | CPU Util (%) | Makespan | Overhead (ms) |")
     md.append("|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|")
@@ -452,7 +452,7 @@ def generate_markdown_report(evaluation_data: dict[str, Any]) -> str:
             )
     md.append("\n---\n")
 
-    # Key Findings
+
     md.append("## 5. Architectural Findings & Key Takeaways\n")
     md.append("1. **Adaptive Job-Mix Matching**: Fixed algorithms only perform well on their targeted workload type (SJF on CPU-bound, Round Robin on I/O-bound). The AI-Assisted Meta-Scheduler dynamically chooses the configured algorithm matching the workload profile.")
     md.append("2. **Negligible Decision Overhead**: Total meta-scheduler classification and routing overhead is on the order of a few milliseconds, which is negligible compared to enterprise cloud makespans.")
@@ -466,7 +466,7 @@ def generate_evaluation_plots(evaluation_data: dict[str, Any], output_dir: Path)
     output_dir.mkdir(parents=True, exist_ok=True)
     plot_files: list[str] = []
 
-    # Chart 1: Actual vs. Predicted Burst Time
+
     plot_data = evaluation_data["burst_predictor"].get("plot_data", {})
     if plot_data:
         y_test = np.array(plot_data["y_test"])
@@ -489,7 +489,7 @@ def generate_evaluation_plots(evaluation_data: dict[str, Any], output_dir: Path)
         plt.close()
         plot_files.append(str(p1))
 
-    # Chart 2: Confusion Matrix Heatmap
+
     cm_info = evaluation_data["workload_classifier"]["metrics"]["confusion_matrix"]
     labels = cm_info["labels"]
     matrix = np.array(cm_info["matrix"])
@@ -502,7 +502,7 @@ def generate_evaluation_plots(evaluation_data: dict[str, Any], output_dir: Path)
     plt.xticks(tick_marks, labels, rotation=35, ha="right", fontsize=9)
     plt.yticks(tick_marks, labels, fontsize=9)
 
-    # Text annotations inside cells
+
     thresh = matrix.max() / 2.0
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
@@ -519,7 +519,7 @@ def generate_evaluation_plots(evaluation_data: dict[str, Any], output_dir: Path)
     plt.close()
     plot_files.append(str(p2))
 
-    # Chart 3: Turnaround Time Comparison across Scenarios
+
     bench = evaluation_data["benchmark_scenarios"]
     scenarios = list(bench.keys())
     schedulers = ["FCFS", "SJF", "Round Robin", "Priority", "Meta-Scheduler"]
@@ -545,7 +545,7 @@ def generate_evaluation_plots(evaluation_data: dict[str, Any], output_dir: Path)
     plt.close()
     plot_files.append(str(p3))
 
-    # Chart 4: Response Time Comparison across Scenarios
+
     plt.figure(figsize=(10, 5.5))
     for idx, sched in enumerate(schedulers):
         responses = [bench[sc]["algorithms"][sched]["avg_response_time"] for sc in scenarios]
@@ -575,28 +575,28 @@ def run_full_evaluation(output_dir: str = "reports/cpu", seed: int = 42) -> dict
     print("CP3.3: STARTING COMPLETE AI-ASSISTED CPU SCHEDULING EVALUATION")
     print("=" * 70)
 
-    # 1. Burst Predictor
+
     print("[1/5] Evaluating Burst Predictor (RandomForestRegressor)...")
     eval_burst = evaluate_burst_predictor(seed=seed)
     predictor = eval_burst["predictor_instance"]
     print(f"      MAE: {eval_burst['metrics']['mae']:.4f} | R²: {eval_burst['metrics']['r2']:.4f}")
 
-    # 2. Workload Classifier
+
     print("[2/5] Evaluating Workload Classifier (RandomForestClassifier)...")
     eval_clf = evaluate_workload_classifier(predictor=predictor, seed=seed)
     classifier = eval_clf["classifier_instance"]
     print(f"      Accuracy: {eval_clf['metrics']['accuracy'] * 100:.2f}% | Macro F1: {eval_clf['metrics']['macro_f1']:.4f}")
 
-    # 3. Meta-Scheduler
+
     print("[3/5] Instantiating Production CPUMetaScheduler...")
     meta_scheduler = CPUMetaScheduler(classifier=classifier, burst_predictor=predictor)
 
-    # 4. Scenarios & Benchmark
+
     print("[4/5] Generating 5 Representative Scenarios & Running 25 Benchmark Simulations...")
     scenarios = generate_evaluation_scenarios(predictor=predictor, seed=seed)
     benchmark_data = run_scheduler_benchmark(meta_scheduler=meta_scheduler, scenarios=scenarios)
 
-    # Assemble complete payload
+
     evaluation_summary = {
         "timestamp_utc": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
         "reproducibility": {
@@ -619,20 +619,20 @@ def run_full_evaluation(output_dir: str = "reports/cpu", seed: int = 42) -> dict
         "benchmark_scenarios": benchmark_data,
     }
 
-    # 5. Export JSON
+
     json_path = out_path / "evaluation_summary.json"
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(evaluation_summary, f, indent=2)
     print(f"[5/5] Exported summary JSON to {json_path}")
 
-    # Export Markdown
+
     md_content = generate_markdown_report(evaluation_summary)
     md_path = out_path / "benchmark_tables.md"
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"      Exported benchmark Markdown to {md_path}")
 
-    # Export Charts
+
     plots = generate_evaluation_plots(evaluation_summary, out_path)
     print(f"      Generated {len(plots)} visualization plots in {out_path}")
 

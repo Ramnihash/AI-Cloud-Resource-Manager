@@ -14,7 +14,7 @@ class GanttSlice:
 
     start_time: float
     end_time: float
-    pid: Optional[int | str] = None  # None or 'IDLE' indicates CPU idle time
+    pid: Optional[int | str] = None
 
     def __post_init__(self) -> None:
         self.start_time = float(self.start_time)
@@ -52,10 +52,10 @@ class SchedulingMetrics:
     avg_waiting_time: float
     avg_turnaround_time: float
     avg_response_time: float
-    cpu_utilization: float  # Percentage (0.0 to 100.0)
-    total_time: float  # Total elapsed makespan
-    total_busy_time: float  # Total time CPU was executing processes
-    total_idle_time: float  # Total time CPU was idle
+    cpu_utilization: float
+    total_time: float
+    total_busy_time: float
+    total_idle_time: float
     completed_process_count: int
     scheduling_overhead_ms: float = 0.0
 

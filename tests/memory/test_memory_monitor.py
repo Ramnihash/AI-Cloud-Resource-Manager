@@ -40,14 +40,14 @@ import psutil
 from modules.memory.memory_monitor import MemoryMonitor, CSV_COLUMNS
 
 
-# ---------------------------------------------------------------------------
-# Shared constants
-# ---------------------------------------------------------------------------
 
-# All 14 keys that every snapshot dict must contain
+
+
+
+
 EXPECTED_SNAPSHOT_KEYS = set(CSV_COLUMNS)
 
-# Use the current process as a safe target for per-process tests
+
 CURRENT_PID = os.getpid()
 
 
@@ -55,9 +55,9 @@ def _make_mon():
     return MemoryMonitor()
 
 
-# ---------------------------------------------------------------------------
-# 1. take_snapshot — system-wide (pid=None)
-# ---------------------------------------------------------------------------
+
+
+
 class TestTakeSnapshot(unittest.TestCase):
     """Structural and invariant tests for take_snapshot() without a PID."""
 
@@ -86,7 +86,7 @@ class TestTakeSnapshot(unittest.TestCase):
         except ValueError as exc:
             self.fail(f"timestamp is not valid ISO-8601: {exc}")
 
-    # ── RAM invariants ────────────────────────────────────────────────────
+
 
     def test_ram_total_positive(self):
         self.assertGreater(self.snap["ram_total_bytes"], 0)
@@ -107,7 +107,7 @@ class TestTakeSnapshot(unittest.TestCase):
     def test_ram_percent_is_float(self):
         self.assertIsInstance(self.snap["ram_percent"], float)
 
-    # ── Swap invariants ───────────────────────────────────────────────────
+
 
     def test_swap_total_non_negative(self):
         self.assertGreaterEqual(self.snap["swap_total_bytes"], 0)
@@ -125,7 +125,7 @@ class TestTakeSnapshot(unittest.TestCase):
     def test_swap_percent_is_float(self):
         self.assertIsInstance(self.snap["swap_percent"], float)
 
-    # ── Process fields absent when pid=None ───────────────────────────────
+
 
     def test_proc_pid_is_none(self):
         self.assertIsNone(self.snap["proc_pid"])
@@ -140,9 +140,9 @@ class TestTakeSnapshot(unittest.TestCase):
         self.assertIsNone(self.snap["proc_memory_percent"])
 
 
-# ---------------------------------------------------------------------------
-# 2. take_snapshot — with a known live PID
-# ---------------------------------------------------------------------------
+
+
+
 class TestTakeSnapshotWithProcess(unittest.TestCase):
     """Per-process field tests using the current process as a safe target."""
 
@@ -183,9 +183,9 @@ class TestTakeSnapshotWithProcess(unittest.TestCase):
             self.mon.take_snapshot(pid=999999)
 
 
-# ---------------------------------------------------------------------------
-# 3. collect — structural tests
-# ---------------------------------------------------------------------------
+
+
+
 class TestCollect(unittest.TestCase):
     """Tests for collect() structure, count, and ordering."""
 
@@ -248,9 +248,9 @@ class TestCollect(unittest.TestCase):
         self.assertEqual(len(result["snapshots"]), 1)
 
 
-# ---------------------------------------------------------------------------
-# 4. collect — CSV save
-# ---------------------------------------------------------------------------
+
+
+
 class TestCollectSaveToFile(unittest.TestCase):
     """CSV output tests using a temporary file."""
 
@@ -258,7 +258,7 @@ class TestCollectSaveToFile(unittest.TestCase):
         self.mon = _make_mon()
         tmp_fd, self.tmp_path = tempfile.mkstemp(suffix=".csv")
         os.close(tmp_fd)
-        os.unlink(self.tmp_path)  # let the monitor create it fresh
+        os.unlink(self.tmp_path)
 
     def tearDown(self):
         if os.path.exists(self.tmp_path):
@@ -295,7 +295,7 @@ class TestCollectSaveToFile(unittest.TestCase):
         self._collect_and_save(n=n)
         with open(self.tmp_path, newline="") as f:
             reader = csv.reader(f)
-            next(reader)  # skip header
+            next(reader)
             data_rows = list(reader)
         self.assertEqual(len(data_rows), n)
 
@@ -311,9 +311,9 @@ class TestCollectSaveToFile(unittest.TestCase):
                     self.fail(f"CSV timestamp not ISO-8601: {exc}")
 
 
-# ---------------------------------------------------------------------------
-# 5. collect — in-memory only (save_path=None)
-# ---------------------------------------------------------------------------
+
+
+
 class TestCollectInMemoryOnly(unittest.TestCase):
     """Tests confirming that no file is written when save_path is omitted."""
 
@@ -331,9 +331,9 @@ class TestCollectInMemoryOnly(unittest.TestCase):
         self.assertEqual(before, after, msg="Unexpected file(s) created in cwd")
 
 
-# ---------------------------------------------------------------------------
-# 6. collect — memory value invariants across multiple snapshots
-# ---------------------------------------------------------------------------
+
+
+
 class TestMemoryConstraints(unittest.TestCase):
     """Safe per-field invariants verified across a small collection."""
 
@@ -372,9 +372,9 @@ class TestMemoryConstraints(unittest.TestCase):
                 self.assertLessEqual(snap["swap_percent"], 100.0)
 
 
-# ---------------------------------------------------------------------------
-# 7. Invalid inputs
-# ---------------------------------------------------------------------------
+
+
+
 class TestInvalidInputs(unittest.TestCase):
 
     def setUp(self):
@@ -393,9 +393,9 @@ class TestInvalidInputs(unittest.TestCase):
             self.mon.collect(n=1, interval_s=-0.1)
 
 
-# ---------------------------------------------------------------------------
-# 8. Result structure
-# ---------------------------------------------------------------------------
+
+
+
 class TestResultStructure(unittest.TestCase):
     """Verify the top-level collect() result dict structure."""
 
@@ -417,7 +417,7 @@ class TestResultStructure(unittest.TestCase):
     def test_take_snapshot_result_is_plain_snapshot_dict(self):
         """take_snapshot() returns a snapshot dict, not a wrapper dict."""
         snap = self.mon.take_snapshot()
-        # Should have snapshot keys, NOT collect() wrapper keys
+
         self.assertIn("timestamp", snap)
         self.assertIn("ram_total_bytes", snap)
         self.assertNotIn("snapshots", snap)
