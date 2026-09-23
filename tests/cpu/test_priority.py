@@ -7,10 +7,10 @@ from modules.cpu.process import Process
 
 class TestPriority(unittest.TestCase):
     def test_priority_simultaneous_arrival(self):
-        # Lower integer = higher priority
+
         workload = [
             Process(pid="P1", arrival_time=0, burst_time=10, priority=3),
-            Process(pid="P2", arrival_time=0, burst_time=1, priority=1),  # Highest priority
+            Process(pid="P2", arrival_time=0, burst_time=1, priority=1),
             Process(pid="P3", arrival_time=0, burst_time=2, priority=4),
             Process(pid="P4", arrival_time=0, burst_time=5, priority=2),
         ]
@@ -18,7 +18,7 @@ class TestPriority(unittest.TestCase):
         scheduler = PriorityScheduler()
         result = scheduler.schedule(workload)
 
-        # Expected order: P2 (priority 1), P4 (priority 2), P1 (priority 3), P3 (priority 4)
+
         execution_order = [s.pid for s in result.gantt_chart]
         self.assertEqual(execution_order, ["P2", "P4", "P1", "P3"])
 
@@ -29,18 +29,18 @@ class TestPriority(unittest.TestCase):
         self.assertEqual(completed["P3"].completion_time, 18.0)
 
     def test_priority_non_preemption_staggered(self):
-        # P1 starts at t=0. Higher-priority processes arrive while P1 is executing.
-        # Non-preemption requires P1 to complete before higher priority takes over.
+
+
         workload = [
             Process(pid="P1", arrival_time=0, burst_time=4, priority=3),
             Process(pid="P2", arrival_time=1, burst_time=2, priority=2),
-            Process(pid="P3", arrival_time=2, burst_time=3, priority=1),  # Highest priority
+            Process(pid="P3", arrival_time=2, burst_time=3, priority=1),
         ]
 
         scheduler = PriorityScheduler()
         result = scheduler.schedule(workload)
 
-        # P1 runs 0-4. At t=4, P3 (pri 1) runs 4-7. Then P2 (pri 2) runs 7-9.
+
         execution_order = [s.pid for s in result.gantt_chart]
         self.assertEqual(execution_order, ["P1", "P3", "P2"])
 
@@ -58,7 +58,7 @@ class TestPriority(unittest.TestCase):
         scheduler = PriorityScheduler()
         result = scheduler.schedule(workload)
 
-        # Both priority 1, but P2 arrived first at t=0
+
         self.assertEqual(result.gantt_chart[0].pid, "P2")
         self.assertEqual(result.gantt_chart[1].pid, "P1")
 

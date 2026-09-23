@@ -55,7 +55,7 @@ class TestIntegratedExecutionManager(unittest.TestCase):
             shared_monitor=shared,
         )
 
-        # Verify instance identity
+
         self.assertIs(manager.cpu_action_loop, self.cpu_action_loop)
         self.assertIs(manager.shared_monitor.cpu_action_loop, self.cpu_action_loop)
         self.assertIs(manager.cpu_action_loop, manager.shared_monitor.cpu_action_loop)
@@ -84,20 +84,20 @@ class TestIntegratedExecutionManager(unittest.TestCase):
         self.assertEqual(step.step_index, 0)
         self.assertIn("timestamp", step.to_dict())
 
-        # CPU result
+
         self.assertEqual(step.cpu_result["process_count"], 2)
         self.assertIn("selected_scheduler", step.cpu_result)
         self.assertIn("schedule_result", step.cpu_result["meta_result"])
         self.assertIn("metrics", step.cpu_result["meta_result"]["schedule_result"])
 
-        # Memory result
+
         self.assertIn("ram_percent", step.memory_result)
         self.assertIn("swap_percent", step.memory_result)
 
-        # Device results empty
+
         self.assertEqual(step.device_results, [])
 
-        # System snapshot updated
+
         self.assertEqual(step.system_snapshot["cpu"]["total_steps"], 1)
         self.assertEqual(step.system_snapshot["status"], "ok")
 
@@ -135,7 +135,7 @@ class TestIntegratedExecutionManager(unittest.TestCase):
         self.assertTrue(dev_res["recovery_result"]["recovered"])
         self.assertTrue(dev_res["recovery_result"]["rerouted"])
 
-        # Recorded in SharedMonitor
+
         self.assertEqual(len(step.system_snapshot["devices"]["recent_actions"]), 1)
         self.assertEqual(
             step.system_snapshot["devices"]["recent_actions"][0]["device_id"],
@@ -189,7 +189,7 @@ class TestIntegratedExecutionManager(unittest.TestCase):
         self.assertEqual(history[0].step_index, 0)
         self.assertEqual(history[1].step_index, 1)
 
-        # get_history returns a protected copy
+
         history.clear()
         self.assertEqual(len(manager.get_history()), 2)
 
@@ -222,10 +222,10 @@ class TestIntegratedExecutionManager(unittest.TestCase):
             manager.step(processes=[])
 
         with self.assertRaises(TypeError):
-            manager.step(processes="not_a_list")  # type: ignore
+            manager.step(processes="not_a_list")
 
         with self.assertRaises(TypeError):
-            manager.step(processes=[{"pid": "P1", "burst_time": 5.0}])  # type: ignore
+            manager.step(processes=[{"pid": "P1", "burst_time": 5.0}])
 
         with self.assertRaises(ValueError):
             manager.step(processes=[Process(pid="P1", arrival_time=0.0, burst_time=-5.0)])
@@ -235,18 +235,18 @@ class TestIntegratedExecutionManager(unittest.TestCase):
         manager = IntegratedExecutionManager(cpu_action_loop=self.cpu_action_loop)
         procs = [Process(pid="P1", arrival_time=0.0, burst_time=5.0)]
 
-        # device_actions not a list
-        with self.assertRaises(TypeError):
-            manager.step(processes=procs, device_actions="not_a_list")  # type: ignore
 
-        # missing required field: device_status
+        with self.assertRaises(TypeError):
+            manager.step(processes=procs, device_actions="not_a_list")
+
+
         with self.assertRaises(ValueError):
             manager.step(
                 processes=procs,
                 device_actions=[{"device_id": "disk_0", "failure_probability": 0.5}],
             )
 
-        # probability out of bounds
+
         with self.assertRaises(ValueError):
             manager.step(
                 processes=procs,
@@ -255,7 +255,7 @@ class TestIntegratedExecutionManager(unittest.TestCase):
                 ],
             )
 
-        # empty device_id
+
         with self.assertRaises(ValueError):
             manager.step(
                 processes=procs,
@@ -273,7 +273,7 @@ class TestIntegratedExecutionManager(unittest.TestCase):
             manager.step(processes=procs, pid=-1)
 
         with self.assertRaises(ValueError):
-            manager.step(processes=procs, pid="invalid")  # type: ignore
+            manager.step(processes=procs, pid="invalid")
 
         with self.assertRaises(psutil.NoSuchProcess):
             manager.step(processes=procs, pid=99999999)

@@ -73,7 +73,7 @@ class IntegratedExecutionManager:
         """
         if shared_monitor is not None:
             self.shared_monitor = shared_monitor
-            # Enforce instance consistency with shared_monitor
+
             if cpu_action_loop is not None:
                 self.cpu_action_loop = cpu_action_loop
                 self.shared_monitor.cpu_action_loop = cpu_action_loop
@@ -112,7 +112,7 @@ class IntegratedExecutionManager:
             classifier.train_on_synthetic_dataset(seed=42, target_per_class=10)
             meta = CPUMetaScheduler(classifier=classifier, burst_predictor=predictor)
             self.cpu_action_loop = CPUActionLoop(meta_scheduler=meta)
-            # Ensure SharedMonitor uses the exact same instance
+
             self.shared_monitor.cpu_action_loop = self.cpu_action_loop
         return self.cpu_action_loop
 
@@ -139,7 +139,7 @@ class IntegratedExecutionManager:
             TypeError: If input element types are invalid.
             psutil.NoSuchProcess: If supplied PID does not exist.
         """
-        # 1. Validate processes
+
         if not processes:
             raise ValueError("Workload must contain at least one process.")
         if not isinstance(processes, list):
@@ -152,11 +152,11 @@ class IntegratedExecutionManager:
             if p.burst_time < 0:
                 raise ValueError(f"Process at index {i} has negative burst_time: {p.burst_time}")
 
-        # 2. Validate compare_with_baseline
+
         if not isinstance(compare_with_baseline, bool):
             raise TypeError("compare_with_baseline must be a boolean.")
 
-        # 3. Validate device_actions
+
         if device_actions is not None:
             if not isinstance(device_actions, list):
                 raise TypeError("device_actions must be a list of dictionaries when provided.")
@@ -181,14 +181,14 @@ class IntegratedExecutionManager:
                 if not isinstance(status, str) or not status.strip():
                     raise ValueError(f"device_action at index {idx} has invalid device_status: must be non-empty string")
 
-        # 4. Validate PID
+
         if pid is not None:
             if isinstance(pid, bool) or not isinstance(pid, int) or pid < 0:
                 raise ValueError(f"pid must be a non-negative integer, got {pid}")
 
         now_timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-        # 5. Execute CPU scheduling pipeline
+
         cpu_loop = self._ensure_cpu_action_loop()
         cpu_step_record = cpu_loop.step(
             processes=processes,
@@ -196,7 +196,7 @@ class IntegratedExecutionManager:
         )
         cpu_result = cpu_step_record.to_dict()
 
-        # 6. Execute Device actions (if supplied) and record in SharedMonitor
+
         executed_device_results: list[dict[str, Any]] = []
         if device_actions:
             for action_dict in device_actions:
@@ -220,16 +220,16 @@ class IntegratedExecutionManager:
                 self.shared_monitor.record_device_action(pred_result)
                 executed_device_results.append(asdict(pred_result))
 
-        # 7. Observe Memory state (observational psutil snapshot)
+
         memory_result = self.memory_monitor.take_snapshot(pid=pid)
 
-        # 8. Synthesize Shared Monitoring snapshot reflecting updated state
+
         system_snapshot = self.shared_monitor.get_system_snapshot(
             include_history=False,
             pid=pid,
         )
 
-        # 9. Record and return integrated step
+
         step_record = IntegratedExecutionStep(
             step_index=self._step_counter,
             timestamp=now_timestamp,
@@ -253,7 +253,7 @@ class IntegratedExecutionManager:
         self._history.clear()
         self._step_counter = 0
         if self.shared_monitor is not None:
-            # shared_monitor.reset() already resets its owned cpu_action_loop, avoiding double reset
+
             self.shared_monitor.reset()
         elif self.cpu_action_loop is not None:
             self.cpu_action_loop.reset()

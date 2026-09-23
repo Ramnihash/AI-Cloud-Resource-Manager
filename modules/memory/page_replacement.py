@@ -138,28 +138,28 @@ class FIFOPageReplacement(PageReplacementAlgorithm):
         """
         start = time.perf_counter()
 
-        frames_set = set()       # O(1) membership check for hit/fault detection
-        arrival_order = deque()  # Tracks arrival order; NO maxlen — explicit eviction
+        frames_set = set()
+        arrival_order = deque()
         frame_snapshots = []
         page_faults = 0
         page_hits = 0
 
         for page in reference_string:
             if page in frames_set:
-                # ── Hit: page already in memory ──────────────────────────
+
                 page_hits += 1
             else:
-                # ── Fault: page not in memory ─────────────────────────────
+
                 page_faults += 1
                 if len(frames_set) == self.num_frames:
-                    # Frames are full — evict the oldest arrival (FIFO victim)
+
                     victim = arrival_order.popleft()
                     frames_set.remove(victim)
-                # Load the new page into memory
+
                 arrival_order.append(page)
                 frames_set.add(page)
 
-            # Snapshot: current frame contents in FIFO arrival order (oldest first)
+
             frame_snapshots.append(list(arrival_order))
 
         elapsed_ms = (time.perf_counter() - start) * 1000
@@ -197,7 +197,7 @@ class LRUPageReplacement(PageReplacementAlgorithm):
         """
         start = time.perf_counter()
 
-        # Keys = page numbers; order = LRU (front) → MRU (back)
+
         lru_cache = OrderedDict()
         frame_snapshots = []
         page_faults = 0
@@ -205,19 +205,19 @@ class LRUPageReplacement(PageReplacementAlgorithm):
 
         for page in reference_string:
             if page in lru_cache:
-                # ── Hit: move page to the MRU end ────────────────────────
+
                 lru_cache.move_to_end(page)
                 page_hits += 1
             else:
-                # ── Fault ────────────────────────────────────────────────
+
                 page_faults += 1
                 if len(lru_cache) == self.num_frames:
-                    # Frames full — evict the LRU page (front of OrderedDict)
+
                     lru_cache.popitem(last=False)
-                # Load the new page (most recently used → back of dict)
+
                 lru_cache[page] = True
 
-            # Snapshot: pages in LRU → MRU order
+
             frame_snapshots.append(list(lru_cache.keys()))
 
         elapsed_ms = (time.perf_counter() - start) * 1000
@@ -252,30 +252,30 @@ class OptimalPageReplacement(PageReplacementAlgorithm):
         """
         start = time.perf_counter()
 
-        frames = []            # List of pages currently in memory (ordered by load time)
+        frames = []
         frame_snapshots = []
         page_faults = 0
         page_hits = 0
 
         for i, page in enumerate(reference_string):
             if page in frames:
-                # ── Hit ──────────────────────────────────────────────────
+
                 page_hits += 1
             else:
-                # ── Fault ────────────────────────────────────────────────
+
                 page_faults += 1
                 if len(frames) < self.num_frames:
-                    # Frames not yet full — load without eviction
+
                     frames.append(page)
                 else:
-                    # Frames full — find and evict the optimal victim
+
                     victim = self._find_optimal_victim(
                         frames, reference_string, future_start=i + 1
                     )
                     frames.remove(victim)
                     frames.append(page)
 
-            # Snapshot: current frame contents in load order
+
             frame_snapshots.append(list(frames))
 
         elapsed_ms = (time.perf_counter() - start) * 1000
@@ -313,7 +313,7 @@ class OptimalPageReplacement(PageReplacementAlgorithm):
             try:
                 distance = future.index(frame_page)
             except ValueError:
-                # Page never referenced again — optimal eviction candidate
+
                 return frame_page
             if distance > max_distance:
                 max_distance = distance

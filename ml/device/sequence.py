@@ -9,7 +9,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-# The five model input features in the required order.
+
 TELEMETRY_FEATURES: list[str] = [
     "temperature",
     "error_rate",
@@ -18,7 +18,7 @@ TELEMETRY_FEATURES: list[str] = [
     "io_activity",
 ]
 
-# Metadata columns that must be present but are not used as model inputs.
+
 _REQUIRED_COLUMNS: frozenset[str] = frozenset(TELEMETRY_FEATURES) | {
     "device_id",
     "timestamp",
@@ -27,7 +27,7 @@ _REQUIRED_COLUMNS: frozenset[str] = frozenset(TELEMETRY_FEATURES) | {
 
 def _validate_inputs(dataframe: pd.DataFrame, window_size: int) -> None:
     """Raise ValueError for any invalid input."""
-    # window_size must be a proper integer >= 2
+
     if not isinstance(window_size, int) or isinstance(window_size, bool):
         raise ValueError(
             f"window_size must be an integer, got {type(window_size).__name__!r}"
@@ -37,7 +37,7 @@ def _validate_inputs(dataframe: pd.DataFrame, window_size: int) -> None:
             f"window_size must be at least 2, got {window_size}"
         )
 
-    # All required columns must be present
+
     missing = _REQUIRED_COLUMNS - set(dataframe.columns)
     if missing:
         raise ValueError(
@@ -83,10 +83,10 @@ def create_telemetry_sequences(
     all_windows: list[np.ndarray] = []
 
     for device_id, group in dataframe.groupby("device_id", sort=True):
-        # Sort by timestamp within this device
+
         sorted_group = group.sort_values("timestamp", kind="stable")
 
-        # Extract only the five model-input features in the required order
+
         feature_array: np.ndarray = sorted_group[TELEMETRY_FEATURES].to_numpy(
             dtype=np.float64
         )
@@ -95,10 +95,10 @@ def create_telemetry_sequences(
         n_windows_for_device = n_rows - window_size + 1
 
         if n_windows_for_device < 1:
-            # This device has fewer records than window_size – skip it.
+
             continue
 
-        # Create sliding windows for this device
+
         for start in range(n_windows_for_device):
             all_windows.append(feature_array[start : start + window_size])
 

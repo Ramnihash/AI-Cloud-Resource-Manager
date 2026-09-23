@@ -37,7 +37,7 @@ class TestCPUEvaluation(unittest.TestCase):
             burst_predictor=cls.predictor,
         )
 
-    # 1. Burst Predictor Evaluation Metrics
+
     def test_burst_predictor_evaluation_structure(self) -> None:
         result = evaluate_burst_predictor(seed=42, num_processes=100)
         metrics = result["metrics"]
@@ -51,7 +51,7 @@ class TestCPUEvaluation(unittest.TestCase):
         self.assertIn("y_test", result["plot_data"])
         self.assertIn("y_pred", result["plot_data"])
 
-    # 2. Workload Classifier Evaluation Metrics
+
     def test_workload_classifier_evaluation_structure(self) -> None:
         result = evaluate_workload_classifier(
             predictor=self.predictor,
@@ -70,7 +70,7 @@ class TestCPUEvaluation(unittest.TestCase):
         self.assertLessEqual(metrics["macro_f1"], 1.0)
         self.assertEqual(len(metrics["confusion_matrix"]["labels"]), 4)
 
-    # 3. Five Scenarios Generation & Sizing
+
     def test_scenarios_generation_and_sizing(self) -> None:
         scenarios = generate_evaluation_scenarios(predictor=self.predictor, seed=42)
         self.assertEqual(
@@ -80,19 +80,19 @@ class TestCPUEvaluation(unittest.TestCase):
         for sc_name, procs in scenarios.items():
             self.assertEqual(len(procs), 20, f"Scenario {sc_name} must contain exactly 20 processes")
 
-    # 4. Fallback Scenario Confidence < 0.40
+
     def test_scenario_5_low_confidence_fallback(self) -> None:
         scenarios = generate_evaluation_scenarios(predictor=self.predictor, seed=42)
         fb_procs = scenarios["FALLBACK"]
         res = self.meta_scheduler.schedule(fb_procs)
 
-        # Confirm actual confidence < 0.40
+
         self.assertLess(res.confidence, 0.40)
         self.assertTrue(res.is_fallback)
         self.assertEqual(res.workload_class, "BALANCED")
         self.assertEqual(res.selected_scheduler, "FCFS")
 
-    # 5. Full 5x5 Benchmark Execution
+
     def test_run_scheduler_benchmark_grid(self) -> None:
         scenarios = generate_evaluation_scenarios(predictor=self.predictor, seed=42)
         benchmark_data = run_scheduler_benchmark(
@@ -109,7 +109,7 @@ class TestCPUEvaluation(unittest.TestCase):
                 self.assertGreater(metrics["cpu_utilization"], 0.0)
                 self.assertGreater(metrics["makespan"], 0.0)
 
-    # 6. Markdown Report Generation
+
     def test_generate_markdown_report(self) -> None:
         eval_data = {
             "burst_predictor": {
@@ -188,7 +188,7 @@ class TestCPUEvaluation(unittest.TestCase):
         self.assertIn("Burst Time Prediction", md)
         self.assertIn("Confusion Matrix", md)
 
-    # 7. End-to-end file export in temporary directory
+
     def test_run_full_evaluation_file_generation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             plots = generate_evaluation_plots(

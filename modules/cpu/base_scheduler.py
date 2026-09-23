@@ -42,14 +42,14 @@ class BaseScheduler(ABC):
         Input safety guarantee: The caller's process list and individual process
         objects are cloned to prevent permanent mutation.
         """
-        # Protect caller workload by deep-copying process objects
+
         workload = [p.copy() for p in processes]
 
         start_time = time.perf_counter()
         completed_processes, gantt_chart = self._run_schedule(workload, **kwargs)
         overhead_ms = (time.perf_counter() - start_time) * 1000.0
 
-        # Sort completed processes by PID or original order for stable inspection
+
         metrics = calculate_metrics(completed_processes, gantt_chart, overhead_ms=overhead_ms)
 
         return ScheduleResult(

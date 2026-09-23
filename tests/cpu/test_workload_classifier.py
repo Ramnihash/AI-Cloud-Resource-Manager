@@ -32,7 +32,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         cls.classifier = CPUWorkloadClassifier(random_state=42)
         cls.metrics = cls.classifier.train_on_synthetic_dataset(seed=42)
 
-    # 1. Training succeeds
+
     def test_model_training_succeeds_and_is_fitted(self) -> None:
         self.assertTrue(self.classifier.is_fitted)
         self.assertIsNotNone(self.classifier.model)
@@ -40,7 +40,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         for c in WORKLOAD_CLASSES:
             self.assertIn(c, self.classifier.classes_)
 
-    # 2. Actual accuracy >= 0.90
+
     def test_actual_accuracy_meets_target_criteria(self) -> None:
         accuracy = self.metrics["accuracy"]
         self.assertIsInstance(accuracy, float)
@@ -50,7 +50,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
             f"Expected accuracy >= 0.90, got {accuracy:.4f}",
         )
 
-    # 3. Actual macro F1 >= 0.90
+
     def test_actual_macro_f1_meets_target_criteria(self) -> None:
         macro_f1 = self.metrics["macro_f1"]
         self.assertIsInstance(macro_f1, float)
@@ -61,7 +61,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         )
         self.assertTrue(self.metrics["target_criteria_met"])
 
-    # 4. Confusion matrix shape and classes
+
     def test_confusion_matrix_structure_and_classes(self) -> None:
         cm_dict = self.metrics["confusion_matrix"]
         self.assertIn("labels", cm_dict)
@@ -70,10 +70,10 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
 
         matrix = np.asarray(cm_dict["matrix"])
         self.assertEqual(matrix.shape, (4, 4))
-        # Total test samples must equal sum of confusion matrix entries
+
         self.assertEqual(int(np.sum(matrix)), self.metrics["test_size"])
 
-    # 5. Exact feature isolation
+
     def test_exact_feature_isolation(self) -> None:
         expected_features = [
             "mean_predicted_burst_time",
@@ -84,24 +84,24 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         ]
         self.assertEqual(CPUWorkloadClassifier.FEATURE_NAMES, expected_features)
 
-        # Passing wrong number of features must raise ValueError
+
         with self.assertRaises(ValueError):
             self.classifier.predict(np.zeros((1, 4)))
         with self.assertRaises(ValueError):
             self.classifier.predict(np.zeros((1, 6)))
 
-    # 6. No true burst_time leakage
+
     def test_no_true_burst_time_leakage(self) -> None:
         forbidden = ["burst_time", "arrival_time", "pid", "priority"]
         for feat in forbidden:
             self.assertNotIn(feat, CPUWorkloadClassifier.FEATURE_NAMES)
 
-        # Feature extractor ignores true burst_time
+
         procs = [
             Process(
                 pid="P1",
                 arrival_time=0.0,
-                burst_time=99999.0,  # Extreme burst_time
+                burst_time=99999.0,
                 priority=2,
                 predicted_burst_time=5.0,
                 metadata={"cpu_intensity": 0.5, "io_wait_ratio": 0.2},
@@ -111,7 +111,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         self.assertEqual(features["mean_predicted_burst_time"], 5.0)
         self.assertNotIn("burst_time", features)
 
-    # 7. Input immutability
+
     def test_input_immutability(self) -> None:
         procs = [
             Process(
@@ -129,7 +129,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         result = self.classifier.predict_workload(procs)
         self.assertIsInstance(result, ClassificationResult)
 
-        # Confirm no fields mutated
+
         for original, after in zip(snapshots, procs):
             self.assertEqual(original.pid, after.pid)
             self.assertEqual(original.arrival_time, after.arrival_time)
@@ -138,14 +138,14 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
             self.assertEqual(original.predicted_burst_time, after.predicted_burst_time)
             self.assertEqual(original.metadata, after.metadata)
 
-    # 8. Deterministic predictions
+
     def test_deterministic_predictions(self) -> None:
         features = [[5.0, 1.5, 0.3, 0.75, 0.5]]
         pred1 = self.classifier.predict(features)
         pred2 = self.classifier.predict(features)
         self.assertEqual(list(pred1), list(pred2))
 
-    # 9. Probability sums to 1.0
+
     def test_probability_sums_to_one(self) -> None:
         X = np.array([
             [5.0, 1.5, 0.3, 0.75, 0.5],
@@ -158,7 +158,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         for row in probas:
             self.assertAlmostEqual(float(np.sum(row)), 1.0, places=5)
 
-    # 10. Confidence calculation
+
     def test_confidence_calculation(self) -> None:
         X = np.array([[5.0, 1.5, 0.3, 0.75, 0.5]])
         probas = self.classifier.predict_proba(X)[0]
@@ -170,9 +170,9 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         self.assertEqual(confidence, expected_confidence)
         self.assertFalse(is_fallback)
 
-    # 11. Low-confidence fallback
+
     def test_low_confidence_fallback(self) -> None:
-        # Create classifier with high confidence threshold (0.999) to force fallback
+
         fallback_clf = CPUWorkloadClassifier(min_confidence=0.999, random_state=42)
         fallback_clf.model = self.classifier.model
         fallback_clf.classes_ = self.classifier.classes_
@@ -194,7 +194,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         self.assertTrue(result.is_fallback)
         self.assertEqual(result.effective_class, CLASS_BALANCED)
 
-    # 12. Unfitted guards
+
     def test_unfitted_guards(self) -> None:
         unfitted = CPUWorkloadClassifier()
         self.assertFalse(unfitted.is_fitted)
@@ -208,7 +208,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             unfitted.save("dummy.joblib")
 
-    # 13. Save and load persistence
+
     def test_save_and_load_persistence(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             artifact_path = Path(tmp_dir) / "test_classifier.joblib"
@@ -225,7 +225,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
                 self.classifier.evaluation_metrics["accuracy"],
             )
 
-            # Assert identical predictions
+
             X = np.array([[70.0, 15.0, 0.85, 0.15, 0.5]])
             np.testing.assert_array_equal(self.classifier.predict(X), loaded.predict(X))
             np.testing.assert_allclose(
@@ -234,7 +234,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
                 rtol=1e-5,
             )
 
-    # 14. Corrupt artifact rejection
+
     def test_corrupt_artifact_rejection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             corrupt_path = Path(tmp_dir) / "corrupt.joblib"
@@ -246,7 +246,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             CPUWorkloadClassifier.load("non_existent_file.joblib")
 
-    # 15. Missing predicted burst handling
+
     def test_missing_predicted_burst_handling(self) -> None:
         procs = [
             Process(
@@ -254,7 +254,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
                 arrival_time=0.0,
                 burst_time=10.0,
                 priority=2,
-                predicted_burst_time=None,  # Missing!
+                predicted_burst_time=None,
                 metadata={
                     "instruction_count": 20000.0,
                     "cpu_intensity": 0.5,
@@ -265,22 +265,22 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
             for i in range(10)
         ]
 
-        # Calling without burst_predictor must raise ValueError
+
         with self.assertRaises(ValueError):
             self.classifier.predict_workload(procs, burst_predictor=None)
 
-        # Providing burst_predictor succeeds and does not mutate caller's objects
+
         predictor = CPUBurstPredictor(random_state=42)
         predictor.train_on_synthetic_workload(seed=42)
 
         result = self.classifier.predict_workload(procs, burst_predictor=predictor)
         self.assertIsInstance(result, ClassificationResult)
 
-        # Caller's processes must STILL have predicted_burst_time=None!
+
         for p in procs:
             self.assertIsNone(p.predicted_burst_time)
 
-    # 16. End-to-end CP3.1 predictor → classifier
+
     def test_end_to_end_predictor_to_classifier(self) -> None:
         generator = CPUWorkloadGenerator(
             config=WorkloadConfig(
@@ -294,12 +294,12 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         predictor = CPUBurstPredictor(random_state=42)
         predictor.train_on_synthetic_workload(seed=42)
 
-        # Step 1: Predict burst times
+
         predictor.predict_workload(workload, inplace=True)
         for p in workload:
             self.assertIsNotNone(p.predicted_burst_time)
 
-        # Step 2: Classify workload
+
         result = self.classifier.predict_workload(workload)
         self.assertIsInstance(result, ClassificationResult)
         self.assertIn(result.predicted_class, WORKLOAD_CLASSES)
@@ -308,7 +308,7 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         self.assertLessEqual(result.confidence, 1.0)
         self.assertEqual(len(result.features_used), 5)
 
-    # 17. Invalid and empty inputs raise
+
     def test_invalid_and_empty_inputs_raise(self) -> None:
         with self.assertRaises(ValueError):
             self.classifier.predict_workload([])

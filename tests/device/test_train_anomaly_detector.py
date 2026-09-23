@@ -17,13 +17,13 @@ import torch
 from ml.device.anomaly_detector import TelemetryTransformerReconstructor
 from ml.device.train_anomaly_detector import train_anomaly_detector
 
-# ---------------------------------------------------------------------------
-# Shared helpers
-# ---------------------------------------------------------------------------
 
-_N_SEQ = 20       # number of sequences – intentionally tiny
-_WIN = 8          # window size
-_FEAT = 5         # feature dimension
+
+
+
+_N_SEQ = 20
+_WIN = 8
+_FEAT = 5
 
 
 def _normal_numpy(n: int = _N_SEQ, win: int = _WIN) -> np.ndarray:
@@ -46,9 +46,9 @@ def _tiny_model() -> TelemetryTransformerReconstructor:
     )
 
 
-# ---------------------------------------------------------------------------
-# 1. Valid NumPy input trains successfully
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestValidNumPyInput(unittest.TestCase):
     def test_numpy_sequences_train_successfully(self):
@@ -61,9 +61,9 @@ class TestValidNumPyInput(unittest.TestCase):
         self.assertEqual(len(history), 2)
 
 
-# ---------------------------------------------------------------------------
-# 2. Valid torch.Tensor input trains successfully
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestValidTensorInput(unittest.TestCase):
     def test_tensor_sequences_train_successfully(self):
@@ -76,9 +76,9 @@ class TestValidTensorInput(unittest.TestCase):
         self.assertEqual(len(history), 2)
 
 
-# ---------------------------------------------------------------------------
-# 3. Returned model is TelemetryTransformerReconstructor
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestReturnedModelType(unittest.TestCase):
     def test_returned_model_is_correct_type(self):
@@ -96,9 +96,9 @@ class TestReturnedModelType(unittest.TestCase):
         self.assertIsInstance(model, TelemetryTransformerReconstructor)
 
 
-# ---------------------------------------------------------------------------
-# 4. History contains exactly one loss value per epoch
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestHistoryLength(unittest.TestCase):
     def test_history_length_equals_epochs(self):
@@ -112,9 +112,9 @@ class TestHistoryLength(unittest.TestCase):
                 self.assertEqual(len(history), n_epochs)
 
 
-# ---------------------------------------------------------------------------
-# 5. All history values are finite
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestHistoryFiniteness(unittest.TestCase):
     def test_all_history_values_are_finite(self):
@@ -130,16 +130,16 @@ class TestHistoryFiniteness(unittest.TestCase):
                 )
 
 
-# ---------------------------------------------------------------------------
-# 6. Training changes model parameters
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestParametersChange(unittest.TestCase):
     def test_training_changes_model_parameters(self):
         torch.manual_seed(42)
         model = _tiny_model()
 
-        # Snapshot parameters before training
+
         params_before = [p.clone().detach() for p in model.parameters()]
 
         torch.manual_seed(0)
@@ -155,9 +155,9 @@ class TestParametersChange(unittest.TestCase):
         self.assertTrue(changed, "No model parameters changed after training")
 
 
-# ---------------------------------------------------------------------------
-# 7. 2D input raises ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInvalidShape2D(unittest.TestCase):
     def test_2d_input_raises_value_error(self):
@@ -166,9 +166,9 @@ class TestInvalidShape2D(unittest.TestCase):
             train_anomaly_detector(data_2d, epochs=1)
 
 
-# ---------------------------------------------------------------------------
-# 8. Wrong feature dimension raises ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInvalidFeatureDim(unittest.TestCase):
     def test_wrong_feature_dim_raises_value_error(self):
@@ -182,9 +182,9 @@ class TestInvalidFeatureDim(unittest.TestCase):
             train_anomaly_detector(data_wrong, epochs=1)
 
 
-# ---------------------------------------------------------------------------
-# 9. Empty sequence input raises ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestEmptySequences(unittest.TestCase):
     def test_zero_sequences_raises_value_error(self):
@@ -193,9 +193,9 @@ class TestEmptySequences(unittest.TestCase):
             train_anomaly_detector(data_empty, epochs=1)
 
 
-# ---------------------------------------------------------------------------
-# 10. Non-finite values raise ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestNonFiniteValues(unittest.TestCase):
     def test_nan_raises_value_error(self):
@@ -217,9 +217,9 @@ class TestNonFiniteValues(unittest.TestCase):
             train_anomaly_detector(data, epochs=1)
 
 
-# ---------------------------------------------------------------------------
-# 11. Invalid epochs raise ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInvalidEpochs(unittest.TestCase):
     def test_zero_epochs_raises(self):
@@ -232,17 +232,17 @@ class TestInvalidEpochs(unittest.TestCase):
 
     def test_float_epochs_raises(self):
         with self.assertRaises(ValueError):
-            train_anomaly_detector(_normal_numpy(), epochs=2.0)  # type: ignore[arg-type]
+            train_anomaly_detector(_normal_numpy(), epochs=2.0)
 
     def test_bool_epochs_raises(self):
-        # bool is a subclass of int; must be explicitly rejected
+
         with self.assertRaises(ValueError):
             train_anomaly_detector(_normal_numpy(), epochs=True)
 
 
-# ---------------------------------------------------------------------------
-# 12. Invalid learning rate raises ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInvalidLearningRate(unittest.TestCase):
     def test_zero_lr_raises(self):
@@ -258,9 +258,9 @@ class TestInvalidLearningRate(unittest.TestCase):
             train_anomaly_detector(_normal_numpy(), epochs=1, learning_rate=True)
 
 
-# ---------------------------------------------------------------------------
-# 13. Invalid batch size raises ValueError
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInvalidBatchSize(unittest.TestCase):
     def test_zero_batch_size_raises(self):
@@ -273,16 +273,16 @@ class TestInvalidBatchSize(unittest.TestCase):
 
     def test_float_batch_size_raises(self):
         with self.assertRaises(ValueError):
-            train_anomaly_detector(_normal_numpy(), epochs=1, batch_size=8.0)  # type: ignore[arg-type]
+            train_anomaly_detector(_normal_numpy(), epochs=1, batch_size=8.0)
 
     def test_bool_batch_size_raises(self):
         with self.assertRaises(ValueError):
             train_anomaly_detector(_normal_numpy(), epochs=1, batch_size=True)
 
 
-# ---------------------------------------------------------------------------
-# 14. CPU training works
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestCPUTraining(unittest.TestCase):
     def test_trained_model_is_on_cpu(self):
@@ -305,9 +305,9 @@ class TestCPUTraining(unittest.TestCase):
         self.assertEqual(len(history), 1)
 
 
-# ---------------------------------------------------------------------------
-# 15. Small training run completes quickly
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestTrainingSpeed(unittest.TestCase):
     def test_small_run_completes_within_time_limit(self):
@@ -324,9 +324,9 @@ class TestTrainingSpeed(unittest.TestCase):
         )
 
 
-# ---------------------------------------------------------------------------
-# 16. Input data is not modified in-place
-# ---------------------------------------------------------------------------
+
+
+
 
 class TestInputNotModified(unittest.TestCase):
     def test_numpy_input_not_modified(self):

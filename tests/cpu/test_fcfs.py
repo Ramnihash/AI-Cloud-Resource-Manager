@@ -16,7 +16,7 @@ class TestFCFS(unittest.TestCase):
         scheduler = FCFSScheduler()
         result = scheduler.schedule(workload)
 
-        # Verify order of completion
+
         completed = {p.pid: p for p in result.processes}
         self.assertEqual(completed["P1"].completion_time, 4.0)
         self.assertEqual(completed["P1"].waiting_time, 0.0)
@@ -47,7 +47,7 @@ class TestFCFS(unittest.TestCase):
         scheduler = FCFSScheduler()
         result = scheduler.schedule(workload)
 
-        # Check Gantt chart contains the idle block
+
         gantt = result.gantt_chart
         self.assertEqual(len(gantt), 3)
         self.assertEqual(gantt[0].start_time, 0.0)
@@ -75,14 +75,14 @@ class TestFCFS(unittest.TestCase):
         scheduler = FCFSScheduler()
         result = scheduler.schedule(original_workload)
 
-        # Check that original process instances are completely unmodified
+
         self.assertIsNone(p1.completion_time)
         self.assertEqual(p1.remaining_time, 5.0)
         self.assertEqual(p1.waiting_time, 0.0)
         self.assertIsNone(p2.completion_time)
         self.assertEqual(p2.remaining_time, 3.0)
 
-        # But scheduled result has completed state
+
         self.assertIsNotNone(result.processes[0].completion_time)
 
     def test_fcfs_empty_workload(self):

@@ -53,7 +53,7 @@ from sklearn.model_selection import train_test_split
 from ml.cpu.burst_predictor import CPUBurstPredictor
 from modules.cpu.process import Process
 
-# Locked CP3.2 Class Definitions
+
 CLASS_CPU_BOUND = "CPU_BOUND"
 CLASS_IO_BOUND = "IO_BOUND"
 CLASS_PRIORITY_CRITICAL = "PRIORITY_CRITICAL"
@@ -170,13 +170,13 @@ class CPUWorkloadClassifier:
             stratify=y_arr,
         )
 
-        # Calculate and store medians ONLY from X_train for deterministic imputation
+
         self.feature_medians = {
             feat: float(np.median(X_train[:, idx]))
             for idx, feat in enumerate(self.FEATURE_NAMES)
         }
 
-        # Train RandomForestClassifier without StandardScaler
+
         self.model = RandomForestClassifier(
             n_estimators=self.n_estimators,
             max_depth=self.max_depth,
@@ -186,7 +186,7 @@ class CPUWorkloadClassifier:
         self.classes_ = [str(c) for c in self.model.classes_]
         self.is_fitted = True
 
-        # Calculate actual evaluation metrics on test split
+
         y_pred = self.model.predict(X_test)
         accuracy = float(accuracy_score(y_test, y_pred))
         macro_f1 = float(f1_score(y_test, y_pred, average="macro"))
@@ -295,7 +295,7 @@ class CPUWorkloadClassifier:
         default_median = 0.5
 
         for p in processes:
-            # 1. predicted_burst_time
+
             p_burst = p.predicted_burst_time
             if p_burst is None or not math.isfinite(float(p_burst)):
                 fallback_burst = self.feature_medians.get("mean_predicted_burst_time", 10.0)
@@ -303,10 +303,10 @@ class CPUWorkloadClassifier:
             else:
                 pred_bursts.append(float(p_burst))
 
-            # 2. priority
+
             priorities.append(float(p.priority))
 
-            # 3. metadata (impute non-finite values from training medians)
+
             meta = p.metadata if isinstance(p.metadata, dict) else {}
 
             cpu_val = meta.get("cpu_intensity", None)
@@ -329,7 +329,7 @@ class CPUWorkloadClassifier:
         mean_io = float(np.mean(io_waits))
         p_var = float(np.var(priorities, ddof=0))
 
-        # Safeguard aggregate non-finite values with training medians
+
         if not math.isfinite(mean_pred):
             mean_pred = self.feature_medians.get("mean_predicted_burst_time", 10.0)
         if not math.isfinite(std_pred):
@@ -376,17 +376,17 @@ class CPUWorkloadClassifier:
                 )
             if not burst_predictor.is_fitted:
                 raise RuntimeError("Provided burst_predictor is not fitted.")
-            # Operate on a copy to guarantee caller's Process objects are never mutated
+
             target_processes = [p.copy() for p in processes]
             burst_predictor.predict_workload(target_processes, inplace=True)
         else:
             target_processes = processes
 
-        # Extract features
+
         features_dict = self._extract_workload_features(target_processes)
         feature_vector = [features_dict[name] for name in self.FEATURE_NAMES]
 
-        # Calculate prediction and probabilities
+
         probas = self.predict_proba([feature_vector])[0]
         best_idx = int(np.argmax(probas))
         confidence = round(float(probas[best_idx]), 4)
@@ -397,7 +397,7 @@ class CPUWorkloadClassifier:
             for cls_name, p in zip(self.classes_, probas)
         }
 
-        # Fallback decision
+
         if confidence < self.min_confidence:
             is_fallback = True
             effective_class = self.DEFAULT_FALLBACK_CLASS

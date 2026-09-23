@@ -171,7 +171,7 @@ class CPUActionLoop:
         Returns:
             ActionLoopStep recording the complete telemetry for this step.
         """
-        # Validate input types before cloning
+
         if not processes:
             raise ValueError("Cannot schedule an empty process workload.")
         for i, p in enumerate(processes):
@@ -180,13 +180,13 @@ class CPUActionLoop:
                     f"All elements in processes must be Process instances, got {type(p).__name__} at index {i}"
                 )
 
-        # Protect caller workload immutability
+
         cloned_workload = [p.copy() for p in processes]
 
-        # Execute primary AI-Assisted scheduling pipeline
+
         meta_result = self.meta_scheduler.schedule(cloned_workload, **kwargs)
 
-        # Optional comparative baseline evaluation
+
         baseline_result: Optional[ScheduleResult] = None
         action_delta: Optional[dict[str, float]] = None
 
@@ -194,9 +194,9 @@ class CPUActionLoop:
             cloned_workload_baseline = [p.copy() for p in processes]
             baseline_result = self._baseline_scheduler.schedule(cloned_workload_baseline)
 
-            # Action delta explicitly defined as: AI_metric - baseline_metric
-            # Lower values are better for waiting time, turnaround time, and response time.
-            # Negative delta (< 0) represents an improvement; positive (> 0) represents a trade-off.
+
+
+
             meta_m = meta_result.metrics
             base_m = baseline_result.metrics
             action_delta = {

@@ -140,7 +140,7 @@ class TestGenerateDataset(unittest.TestCase):
             self.assertEqual(len(loaded_df), len(df))
             self.assertEqual(list(loaded_df.columns), list(df.columns))
 
-            # Verify schema validation on save
+
             incomplete_df = df.drop(columns=["label"])
             with self.assertRaises(ValueError):
                 save_device_telemetry_dataset(incomplete_df, Path(tmp_dir) / "invalid.csv")

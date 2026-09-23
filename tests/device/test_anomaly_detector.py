@@ -94,7 +94,7 @@ class TestInputValidation(unittest.TestCase):
             self.model(x)
 
     def test_wrong_feature_dim_raises(self):
-        # Model expects input_dim=5; pass 7 features
+
         x = torch.randn(2, 8, 7)
         with self.assertRaises(ValueError):
             self.model(x)
@@ -126,7 +126,7 @@ class TestForwardBehavior(unittest.TestCase):
     def test_model_runs_on_cpu(self):
         model = _make_model()
         model.eval()
-        x = torch.randn(2, 8, 5)  # CPU tensor by default
+        x = torch.randn(2, 8, 5)
         with torch.no_grad():
             out = model(x)
         self.assertEqual(out.device.type, "cpu")

@@ -35,7 +35,7 @@ def create_app(
     """
     app = Flask(__name__)
 
-    # Default application configurations
+
     app.config["JSON_SORT_KEYS"] = False
 
     if test_config:
@@ -50,8 +50,8 @@ def create_app(
     if integrated_execution_manager is not None:
         app.config["INTEGRATED_EXECUTION_MANAGER"] = integrated_execution_manager
 
-    # Register API blueprint
-    app.register_blueprint(api_bp)
+
+        app.register_blueprint(api_bp)
 
     # Register dashboard blueprint
     app.register_blueprint(dashboard_bp)
@@ -86,7 +86,7 @@ def create_app(
     def handle_unexpected_exception(error):
         if isinstance(error, HTTPException):
             return jsonify({"error": error.description or error.name}), error.code
-        # Internal unexpected exception: hide traceback and return clean JSON 500
+
         return jsonify({"error": "Internal server error"}), 500
 
     return app

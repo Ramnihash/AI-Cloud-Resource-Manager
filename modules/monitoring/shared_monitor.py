@@ -92,7 +92,7 @@ class SharedMonitor:
         now_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
         now_ts = time.time()
 
-        # 1. CPU Telemetry (reusing existing CPUActionLoop APIs)
+
         if self.cpu_action_loop is not None:
             cpu_summary = self.cpu_action_loop.get_summary()
             cpu_data: dict[str, Any] = dict(cpu_summary)
@@ -114,10 +114,10 @@ class SharedMonitor:
             if include_history:
                 cpu_data["history"] = []
 
-        # 2. Memory Telemetry (reusing existing MemoryMonitor API)
+
         memory_data = self.memory_monitor.take_snapshot(pid=pid)
 
-        # 3. Device Telemetry (reusing existing device fleet and telemetry APIs)
+
         devices_data: list[dict[str, Any]] = []
         for device in self.fleet:
             telemetry = generate_normal_telemetry(
@@ -130,9 +130,9 @@ class SharedMonitor:
             devices_data.append(device_entry)
         self._sample_counter += 1
 
-        # 4. Status Determination
-        # Use neutral status representation based on existing device statuses from modules.device.recovery
-        # without inventing new arbitrary metric thresholds.
+
+
+
         any_unhealthy = any(
             getattr(d, "status", "").strip().lower() in {"unhealthy", "degrading", "failed"}
             for d in self.fleet

@@ -52,7 +52,7 @@ import time
 import psutil
 
 
-# ── Public schema constant ────────────────────────────────────────────────────
+
 
 CSV_COLUMNS = (
     "timestamp",
@@ -72,7 +72,7 @@ CSV_COLUMNS = (
 )
 
 
-# ── Monitor ───────────────────────────────────────────────────────────────────
+
 
 class MemoryMonitor:
     """Live system memory monitor using psutil.
@@ -175,13 +175,13 @@ class MemoryMonitor:
         snapshots = []
 
         for i in range(n):
-            # ── Capture snapshot ──────────────────────────────────────────
+
             snapshots.append(self._snapshot(pid))
-            # ── Sleep between samples (not after the last one) ────────────
+
             if i < n - 1 and interval_s > 0:
                 time.sleep(interval_s)
 
-        # ── Optional CSV save ─────────────────────────────────────────────
+
         saved_to = None
         if save_path is not None:
             self._save_csv(snapshots, save_path)
@@ -194,7 +194,7 @@ class MemoryMonitor:
             "saved_to":   saved_to,
         }
 
-    # ── Private helpers ───────────────────────────────────────────────────────
+
 
     @staticmethod
     def _snapshot(pid=None) -> dict:
@@ -203,20 +203,20 @@ class MemoryMonitor:
         sw = psutil.swap_memory()
 
         snapshot = {
-            # ── Timestamp ────────────────────────────────────────────────
+
             "timestamp":           datetime.datetime.utcnow().isoformat(),
-            # ── RAM ──────────────────────────────────────────────────────
+
             "ram_total_bytes":     vm.total,
             "ram_available_bytes": vm.available,
             "ram_used_bytes":      vm.used,
             "ram_free_bytes":      vm.free,
             "ram_percent":         float(vm.percent),
-            # ── Swap ─────────────────────────────────────────────────────
+
             "swap_total_bytes":    sw.total,
             "swap_used_bytes":     sw.used,
             "swap_free_bytes":     sw.free,
             "swap_percent":        float(sw.percent),
-            # ── Process (None when not requested) ────────────────────────
+
             "proc_pid":            None,
             "proc_rss_bytes":      None,
             "proc_vms_bytes":      None,
@@ -224,7 +224,7 @@ class MemoryMonitor:
         }
 
         if pid is not None:
-            # ── Per-process metrics (raises NoSuchProcess if pid invalid) ─
+
             proc = psutil.Process(pid)
             mi = proc.memory_info()
             snapshot["proc_pid"]            = pid
@@ -241,7 +241,7 @@ class MemoryMonitor:
             writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
             writer.writeheader()
             for snap in snapshots:
-                # Write None as empty string for cleaner CSV output
+
                 row = {k: ("" if snap[k] is None else snap[k]) for k in CSV_COLUMNS}
                 writer.writerow(row)
 

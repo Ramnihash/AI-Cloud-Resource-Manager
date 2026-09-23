@@ -141,7 +141,7 @@ class TestAbnormalTelemetry(unittest.TestCase):
         sample_idx = 4
         normal = generate_normal_telemetry(self.disk, timestamp=self.timestamp, sample_index=sample_idx)
 
-        # High Temperature: only temperature changes
+
         abn_temp = generate_abnormal_telemetry(
             self.disk, timestamp=self.timestamp, pattern=AbnormalPattern.HIGH_TEMPERATURE, sample_index=sample_idx
         )
@@ -151,7 +151,7 @@ class TestAbnormalTelemetry(unittest.TestCase):
         self.assertEqual(abn_temp.queue_length, normal.queue_length)
         self.assertEqual(abn_temp.io_activity, normal.io_activity)
 
-        # High Error Rate: only error_rate changes
+
         abn_err = generate_abnormal_telemetry(
             self.disk, timestamp=self.timestamp, pattern=AbnormalPattern.HIGH_ERROR_RATE, sample_index=sample_idx
         )
@@ -161,7 +161,7 @@ class TestAbnormalTelemetry(unittest.TestCase):
         self.assertEqual(abn_err.queue_length, normal.queue_length)
         self.assertEqual(abn_err.io_activity, normal.io_activity)
 
-        # High Latency: only response_latency changes
+
         abn_lat = generate_abnormal_telemetry(
             self.disk, timestamp=self.timestamp, pattern=AbnormalPattern.HIGH_LATENCY, sample_index=sample_idx
         )
@@ -171,7 +171,7 @@ class TestAbnormalTelemetry(unittest.TestCase):
         self.assertEqual(abn_lat.queue_length, normal.queue_length)
         self.assertEqual(abn_lat.io_activity, normal.io_activity)
 
-        # High Queue: only queue_length changes
+
         abn_q = generate_abnormal_telemetry(
             self.disk, timestamp=self.timestamp, pattern=AbnormalPattern.HIGH_QUEUE, sample_index=sample_idx
         )
@@ -181,7 +181,7 @@ class TestAbnormalTelemetry(unittest.TestCase):
         self.assertNotEqual(abn_q.queue_length, normal.queue_length)
         self.assertEqual(abn_q.io_activity, normal.io_activity)
 
-        # Abnormal IO: only io_activity changes
+
         abn_io = generate_abnormal_telemetry(
             self.disk, timestamp=self.timestamp, pattern=AbnormalPattern.ABNORMAL_IO, sample_index=sample_idx
         )

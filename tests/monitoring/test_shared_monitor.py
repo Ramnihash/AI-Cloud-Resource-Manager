@@ -70,15 +70,15 @@ class TestSharedMonitor(unittest.TestCase):
         self.assertIn("memory", snap)
         self.assertIn("devices", snap)
 
-        # Status is neutral "ok" by default
+
         self.assertEqual(snap["status"], "ok")
 
-        # Memory structure
+
         self.assertIn("ram_total_bytes", snap["memory"])
         self.assertIn("ram_percent", snap["memory"])
         self.assertIn("swap_percent", snap["memory"])
 
-        # Device structure
+
         self.assertEqual(snap["devices"]["device_count"], 4)
         self.assertEqual(len(snap["devices"]["devices"]), 4)
         self.assertEqual(snap["devices"]["recent_actions"], [])
@@ -87,21 +87,21 @@ class TestSharedMonitor(unittest.TestCase):
         """Snapshot accurately reflects CPUActionLoop execution and respects include_history."""
         monitor = SharedMonitor(cpu_action_loop=self.cpu_action_loop)
 
-        # Before any step
+
         snap1 = monitor.get_system_snapshot(include_history=False)
         self.assertEqual(snap1["cpu"]["total_steps"], 0)
         self.assertNotIn("history", snap1["cpu"])
 
-        # Execute 1 step
+
         proc = Process(pid="P1", arrival_time=0.0, burst_time=10.0)
         self.cpu_action_loop.step([proc])
 
-        # Without history
+
         snap2 = monitor.get_system_snapshot(include_history=False)
         self.assertEqual(snap2["cpu"]["total_steps"], 1)
         self.assertNotIn("history", snap2["cpu"])
 
-        # With history
+
         snap3 = monitor.get_system_snapshot(include_history=True)
         self.assertEqual(snap3["cpu"]["total_steps"], 1)
         self.assertIn("history", snap3["cpu"])
@@ -145,7 +145,7 @@ class TestSharedMonitor(unittest.TestCase):
         """record_device_action stores recent predictive action results up to max_recent_actions."""
         monitor = SharedMonitor(max_recent_actions=2)
 
-        # Record dataclass
+
         res1 = PredictiveActionResult(
             device_id="disk_0",
             failure_probability=0.85,
@@ -170,13 +170,13 @@ class TestSharedMonitor(unittest.TestCase):
         self.assertEqual(len(snap1["devices"]["recent_actions"]), 1)
         self.assertEqual(snap1["devices"]["recent_actions"][0]["device_id"], "disk_0")
 
-        # Record dict
+
         res2 = {"device_id": "disk_1", "failure_probability": 0.9}
         monitor.record_device_action(res2)
         snap2 = monitor.get_system_snapshot()
         self.assertEqual(len(snap2["devices"]["recent_actions"]), 2)
 
-        # Eviction on exceeding max_recent_actions
+
         res3 = {"device_id": "disk_2", "failure_probability": 0.95}
         monitor.record_device_action(res3)
         snap3 = monitor.get_system_snapshot()
@@ -188,15 +188,15 @@ class TestSharedMonitor(unittest.TestCase):
         """record_device_action rejects invalid types."""
         monitor = SharedMonitor()
         with self.assertRaises(TypeError):
-            monitor.record_device_action("invalid_string_not_dict_or_dataclass")  # type: ignore
+            monitor.record_device_action("invalid_string_not_dict_or_dataclass")
 
     def test_overall_status_neutral(self) -> None:
         """Overall status reflects neutral 'ok' unless a device is explicitly in an unhealthy state."""
-        # 1. Normal fleet -> "ok"
+
         m1 = SharedMonitor()
         self.assertEqual(m1.get_system_snapshot()["status"], "ok")
 
-        # 2. Fleet with degrading device -> "degraded"
+
         degraded_fleet = [
             Device(device_id="disk_0", device_type=DeviceType.DISK, status="degrading"),
             Device(device_id="NIC_0", device_type=DeviceType.NIC, status="ok"),
@@ -204,7 +204,7 @@ class TestSharedMonitor(unittest.TestCase):
         m2 = SharedMonitor(fleet=degraded_fleet)
         self.assertEqual(m2.get_system_snapshot()["status"], "degraded")
 
-        # 3. Fleet with failed device -> "degraded"
+
         failed_fleet = [
             Device(device_id="disk_0", device_type=DeviceType.DISK, status="failed"),
         ]

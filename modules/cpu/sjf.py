@@ -40,11 +40,11 @@ class SJFScheduler(BaseScheduler):
         current_time = 0.0
 
         while uncompleted:
-            # Find all processes that have arrived by current_time
+
             available = [p for p in uncompleted if p.arrival_time <= current_time]
 
             if not available:
-                # No process has arrived yet; advance time to next arriving process
+
                 next_arrival = min(p.arrival_time for p in uncompleted)
                 gantt_chart.append(
                     GanttSlice(start_time=current_time, end_time=next_arrival, pid=None)
@@ -52,7 +52,7 @@ class SJFScheduler(BaseScheduler):
                 current_time = next_arrival
                 available = [p for p in uncompleted if p.arrival_time <= current_time]
 
-            # Select process with minimum burst time, breaking ties by arrival time then PID
+
             selected = min(
                 available,
                 key=lambda p: (get_decision_burst(p), p.arrival_time, str(p.pid)),

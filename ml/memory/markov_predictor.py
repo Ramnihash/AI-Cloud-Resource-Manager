@@ -71,7 +71,7 @@ class MarkovPagePredictor:
         self._training_length: int = 0
         self._trained: bool = False
 
-    # ── Public methods ────────────────────────────────────────────────────────
+
 
     def train(self, sequence: list) -> dict:
         """Learn transition probabilities from *sequence*.
@@ -110,12 +110,12 @@ class MarkovPagePredictor:
                 f"got {len(sequence)}"
             )
 
-        # ── Count transitions ─────────────────────────────────────────────
+
         counts: dict = defaultdict(lambda: defaultdict(int))
         for i in range(len(sequence) - 1):
             counts[sequence[i]][sequence[i + 1]] += 1
 
-        # ── Normalise to probabilities ────────────────────────────────────
+
         table: dict = {}
         for from_page, to_counts in counts.items():
             total = sum(to_counts.values())
@@ -265,7 +265,7 @@ class MarkovPagePredictor:
             "top_k":             top_k,
         }
 
-    # ── Private helpers ───────────────────────────────────────────────────────
+
 
     def _require_trained(self, method_name: str) -> None:
         """Raise RuntimeError if :meth:`train` has not yet been called."""

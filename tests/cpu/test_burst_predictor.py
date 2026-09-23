@@ -17,7 +17,7 @@ from modules.cpu.sjf import SJFScheduler
 class TestCPUBurstPredictor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Generate 2,000 synthetic processes once for test efficiency
+
         cls.config = WorkloadConfig(
             num_processes=2000,
             correlate_burst_to_features=True,
@@ -41,7 +41,7 @@ class TestCPUBurstPredictor(unittest.TestCase):
         expected_keys = {"mae", "mse", "rmse", "r2"}
         self.assertEqual(set(self.metrics.keys()), expected_keys)
 
-        # Check values are finite numbers
+
         for key, val in self.metrics.items():
             self.assertTrue(np.isfinite(val))
             self.assertIsInstance(val, float)
@@ -57,11 +57,11 @@ class TestCPUBurstPredictor(unittest.TestCase):
         self.assertTrue(np.all(preds >= self.predictor.min_prediction_floor))
 
     def test_predictions_have_correct_shape(self):
-        # Single row
+
         pred_single = self.predictor.predict(self.X[0])
         self.assertEqual(pred_single.shape, (1,))
 
-        # Batch of 10
+
         pred_batch = self.predictor.predict(self.X[:10])
         self.assertEqual(pred_batch.shape, (10,))
 
@@ -137,11 +137,11 @@ class TestCPUBurstPredictor(unittest.TestCase):
         self.assertEqual(pred1, pred2)
 
     def test_missing_ml_metadata_uses_training_medians(self):
-        # Process without metadata
+
         proc_empty = Process(pid="P_EMPTY", arrival_time=0.0, burst_time=5.0, priority=1)
         pred_empty = self.predictor.predict_process(proc_empty)
 
-        # Expected feature vector using stored training medians
+
         median_features = [
             self.predictor.feature_medians[feat]
             for feat in CPUBurstPredictor.FEATURE_NAMES
@@ -192,14 +192,14 @@ class TestCPUBurstPredictor(unittest.TestCase):
                 CPUBurstPredictor.load(corrupt_path)
 
     def test_sjf_integration_with_predicted_burst(self):
-        # Generate 5 processes and attach predicted_burst_time
+
         workload = [p.copy() for p in self.workload[:5]]
         self.predictor.predict_workload(workload, inplace=True)
 
         for p in workload:
             self.assertIsNotNone(p.predicted_burst_time)
 
-        # Run non-preemptive SJF using predicted bursts
+
         scheduler = SJFScheduler(use_predicted_burst=True)
         result = scheduler.schedule(workload)
 

@@ -29,19 +29,19 @@ from torch.utils.data import DataLoader, TensorDataset
 
 from ml.device.anomaly_detector import TelemetryTransformerReconstructor
 
-# Public API -----------------------------------------------------------------
+
 __all__ = ["train_anomaly_detector"]
 
-# Types accepted as input data
+
 _ArrayLike = Union[np.ndarray, torch.Tensor]
 
-# Expected number of telemetry features
+
 _EXPECTED_FEATURES: int = 5
 
 
-# ---------------------------------------------------------------------------
-# Validation helpers
-# ---------------------------------------------------------------------------
+
+
+
 
 def _validate_hyperparameters(
     epochs: int,
@@ -86,7 +86,7 @@ def _validate_and_convert(data: _ArrayLike) -> torch.Tensor:
     ValueError
         For any shape, type, or value problem.
     """
-    # Accept NumPy arrays and Torch tensors; reject everything else
+
     if isinstance(data, np.ndarray):
         tensor = torch.from_numpy(data).float()
     elif isinstance(data, torch.Tensor):
@@ -97,10 +97,10 @@ def _validate_and_convert(data: _ArrayLike) -> torch.Tensor:
             f"got {type(data).__name__!r}"
         )
 
-    # Ensure the tensor is on CPU
+
     tensor = tensor.cpu()
 
-    # Shape checks
+
     if tensor.dim() != 3:
         raise ValueError(
             f"normal_sequences must be 3-dimensional "
@@ -118,7 +118,7 @@ def _validate_and_convert(data: _ArrayLike) -> torch.Tensor:
             f"got shape {tuple(tensor.shape)}"
         )
 
-    # Finiteness check – catches NaN and ±inf
+
     if not torch.isfinite(tensor).all():
         raise ValueError(
             "normal_sequences contains non-finite values (NaN or ±inf). "
@@ -128,9 +128,9 @@ def _validate_and_convert(data: _ArrayLike) -> torch.Tensor:
     return tensor
 
 
-# ---------------------------------------------------------------------------
-# Public training function
-# ---------------------------------------------------------------------------
+
+
+
 
 def train_anomaly_detector(
     normal_sequences: _ArrayLike,
@@ -171,33 +171,33 @@ def train_anomaly_detector(
         If *normal_sequences* has the wrong shape, contains non-finite values,
         or any hyperparameter is invalid.
     """
-    # --- validate hyperparameters first so errors surface early ---------------
+
     _validate_hyperparameters(epochs, learning_rate, batch_size)
 
-    # --- validate and convert input data --------------------------------------
+
     tensor = _validate_and_convert(normal_sequences)
 
-    # --- build model if not provided ------------------------------------------
+
     if model is None:
         model = TelemetryTransformerReconstructor()
 
-    # Ensure model is on CPU (this task trains on CPU only)
+
     model = model.cpu()
 
-    # --- optimiser and loss ---------------------------------------------------
+
     optimiser = torch.optim.Adam(model.parameters(), lr=learning_rate)
     criterion = nn.MSELoss()
 
-    # --- data loader ----------------------------------------------------------
+
     dataset = TensorDataset(tensor)
     loader = DataLoader(
         dataset,
         batch_size=batch_size,
-        shuffle=True,      # shuffle each epoch for better generalisation
+        shuffle=True,
         drop_last=False,
     )
 
-    # --- training loop --------------------------------------------------------
+
     history: list[float] = []
 
     model.train()
@@ -215,8 +215,8 @@ def train_anomaly_detector(
             epoch_loss_sum += loss.item()
             num_batches += 1
 
-        # Guard against an empty loader (shouldn't happen given validation, but
-        # defensive programming ensures a finite history entry).
+
+
         epoch_mean_loss = epoch_loss_sum / num_batches if num_batches > 0 else math.nan
         history.append(epoch_mean_loss)
 

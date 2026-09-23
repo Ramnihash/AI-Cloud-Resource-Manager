@@ -31,9 +31,9 @@ from ml.memory.page_reference_generator import (
 )
 
 
-# ---------------------------------------------------------------------------
-# Shared helpers
-# ---------------------------------------------------------------------------
+
+
+
 
 def _make_gen():
     return PageReferenceGenerator()
@@ -48,9 +48,9 @@ def _all_results(num_pages=16, length=50, seed=0):
     ]
 
 
-# ---------------------------------------------------------------------------
-# 1. Uniform pattern
-# ---------------------------------------------------------------------------
+
+
+
 class TestUniformPattern(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -81,9 +81,9 @@ class TestUniformPattern(unittest.TestCase):
         self.assertNotEqual(r1["sequence"], r2["sequence"])
 
 
-# ---------------------------------------------------------------------------
-# 2. Locality pattern
-# ---------------------------------------------------------------------------
+
+
+
 class TestLocalityPattern(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -107,18 +107,18 @@ class TestLocalityPattern(unittest.TestCase):
         result = self.gen.generate(
             num_pages=num_pages, length=length, pattern="locality", seed=42
         )
-        # Count page frequencies
+
         counts = {}
         for p in result["sequence"]:
             counts[p] = counts.get(p, 0) + 1
 
-        # Top hot_size pages by frequency
-        hot_size = max(1, int(num_pages * _HOT_FRACTION))   # = 5
+
+        hot_size = max(1, int(num_pages * _HOT_FRACTION))
         top_counts = sorted(counts.values(), reverse=True)
         top_share = sum(top_counts[:hot_size]) / length
 
-        # With _HOT_PROBABILITY=0.8, top pages should account for >> 25% (uniform share)
-        # Conservative threshold: 0.5 (well below 80% but well above 25%)
+
+
         self.assertGreater(
             top_share, 0.5,
             msg=(
@@ -133,9 +133,9 @@ class TestLocalityPattern(unittest.TestCase):
         self.assertEqual(r1["sequence"], r2["sequence"])
 
 
-# ---------------------------------------------------------------------------
-# 3. Sequential pattern
-# ---------------------------------------------------------------------------
+
+
+
 class TestSequentialPattern(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -157,7 +157,7 @@ class TestSequentialPattern(unittest.TestCase):
         length = 10
         result = self.gen.generate(num_pages=num_pages, length=length, pattern="sequential")
         expected = [i % num_pages for i in range(length)]
-        # Expected: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1]
+
         self.assertEqual(result["sequence"], expected)
 
     def test_sequential_is_deterministic_regardless_of_seed(self):
@@ -167,9 +167,9 @@ class TestSequentialPattern(unittest.TestCase):
         self.assertEqual(r1["sequence"], r2["sequence"])
 
 
-# ---------------------------------------------------------------------------
-# 4. Seed reproducibility (cross-pattern)
-# ---------------------------------------------------------------------------
+
+
+
 class TestSeedReproducibility(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -191,7 +191,7 @@ class TestSeedReproducibility(unittest.TestCase):
         ref = stdlib_random.randint(0, 10_000)
 
         stdlib_random.seed(123)
-        # Run a generator call between the two identical seeds
+
         self.gen.generate(num_pages=50, length=500, pattern="uniform", seed=0)
         after = stdlib_random.randint(0, 10_000)
 
@@ -201,14 +201,14 @@ class TestSeedReproducibility(unittest.TestCase):
         )
 
 
-# ---------------------------------------------------------------------------
-# 5. CSV save
-# ---------------------------------------------------------------------------
+
+
+
 class TestSaveToFile(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
-        # Create a temporary file path; delete the (empty) temp file so the
-        # generator can write a fresh one.
+
+
         tmp_fd, self.tmp_path = tempfile.mkstemp(suffix=".csv")
         os.close(tmp_fd)
         os.unlink(self.tmp_path)
@@ -243,7 +243,7 @@ class TestSaveToFile(unittest.TestCase):
         self._generate_and_save(length=length)
         with open(self.tmp_path, newline="") as f:
             reader = csv.reader(f)
-            next(reader)  # skip header
+            next(reader)
             data_rows = list(reader)
         self.assertEqual(len(data_rows), length)
 
@@ -253,7 +253,7 @@ class TestSaveToFile(unittest.TestCase):
         self._generate_and_save(num_pages=num_pages)
         with open(self.tmp_path, newline="") as f:
             reader = csv.reader(f)
-            next(reader)  # skip header
+            next(reader)
             for row in reader:
                 page = int(row[0])
                 self.assertGreaterEqual(page, 0)
@@ -265,9 +265,9 @@ class TestSaveToFile(unittest.TestCase):
         self.assertEqual(result["saved_to"], self.tmp_path)
 
 
-# ---------------------------------------------------------------------------
-# 6. In-memory only (save_path=None)
-# ---------------------------------------------------------------------------
+
+
+
 class TestInMemoryOnly(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -285,9 +285,9 @@ class TestInMemoryOnly(unittest.TestCase):
         self.assertEqual(before, after, msg="Unexpected file(s) created in cwd")
 
 
-# ---------------------------------------------------------------------------
-# 7. Edge cases
-# ---------------------------------------------------------------------------
+
+
+
 class TestEdgeCases(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -323,9 +323,9 @@ class TestEdgeCases(unittest.TestCase):
                 self.assertTrue(all(0 <= x <= 15 for x in result["sequence"]))
 
 
-# ---------------------------------------------------------------------------
-# 8. Invalid inputs
-# ---------------------------------------------------------------------------
+
+
+
 class TestInvalidInputs(unittest.TestCase):
     def setUp(self):
         self.gen = _make_gen()
@@ -355,9 +355,9 @@ class TestInvalidInputs(unittest.TestCase):
             self.gen.generate(num_pages=10, length=10, pattern="")
 
 
-# ---------------------------------------------------------------------------
-# 9. Result structure
-# ---------------------------------------------------------------------------
+
+
+
 
 REQUIRED_KEYS = {"sequence", "num_pages", "length", "pattern", "seed", "saved_to"}
 

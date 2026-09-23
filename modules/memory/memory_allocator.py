@@ -32,7 +32,7 @@ class MemoryAllocator:
     Subclasses must override :meth:`_find_block` and set ``_algorithm_name``.
     """
 
-    _algorithm_name = "MemoryAllocator"  # overridden by each subclass
+    _algorithm_name = "MemoryAllocator"
 
     def allocate(self, blocks: list, requests: list) -> dict:
         """Simulate memory allocation for all requests against the given blocks.
@@ -82,7 +82,7 @@ class MemoryAllocator:
         self._validate(blocks, requests)
         start = time.perf_counter()
 
-        # Work on a mutable copy — never mutate the caller's list
+
         current_blocks = list(blocks)
         allocations = []
 
@@ -90,7 +90,7 @@ class MemoryAllocator:
             idx = self._find_block(current_blocks, req_size)
 
             if idx is not None:
-                # ── Successful allocation ─────────────────────────────────
+
                 block_size_before = current_blocks[idx]
                 current_blocks[idx] -= req_size
                 allocations.append({
@@ -101,7 +101,7 @@ class MemoryAllocator:
                     "remaining":    current_blocks[idx],
                 })
             else:
-                # ── No suitable block found ───────────────────────────────
+
                 allocations.append({
                     "request_size": req_size,
                     "allocated":    False,
@@ -215,7 +215,7 @@ class BestFitAllocator(MemoryAllocator):
         best_size = None
         for i, b in enumerate(blocks):
             if b >= size:
-                # Strictly less-than: first occurrence wins on equal sizes
+
                 if best_size is None or b < best_size:
                     best_size = b
                     best_idx = i
@@ -239,7 +239,7 @@ class WorstFitAllocator(MemoryAllocator):
         worst_size = None
         for i, b in enumerate(blocks):
             if b >= size:
-                # Strictly greater-than: first occurrence wins on equal sizes
+
                 if worst_size is None or b > worst_size:
                     worst_size = b
                     worst_idx = i

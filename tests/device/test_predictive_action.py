@@ -9,7 +9,7 @@ from modules.device.predictive_action import (
 
 
 class TestPredictiveAction(unittest.TestCase):
-    # 1. High risk + degrading + backup device
+
     def test_high_risk_degrading_with_backup(self):
         result = handle_predictive_action(
             device_id="disk_0",
@@ -21,15 +21,15 @@ class TestPredictiveAction(unittest.TestCase):
         self.assertIsInstance(result, PredictiveActionResult)
         self.assertEqual(result.device_id, "disk_0")
         self.assertAlmostEqual(result.failure_probability, 0.85)
-        # backup
+
         self.assertTrue(result.backup_result.triggered)
         self.assertTrue(result.backup_result.success)
-        # recovery
+
         self.assertTrue(result.recovery_result.io_blocked)
         self.assertTrue(result.recovery_result.rerouted)
         self.assertEqual(result.recovery_result.backup_device_id, "disk_backup")
 
-    # 2. High risk + failed + backup device
+
     def test_high_risk_failed_with_backup(self):
         result = handle_predictive_action(
             device_id="disk_1",
@@ -42,7 +42,7 @@ class TestPredictiveAction(unittest.TestCase):
         self.assertTrue(result.recovery_result.rerouted)
         self.assertEqual(result.recovery_result.backup_device_id, "disk_spare")
 
-    # 3. Low risk + healthy device – no actions taken
+
     def test_low_risk_healthy(self):
         result = handle_predictive_action(
             device_id="disk_2",
@@ -54,7 +54,7 @@ class TestPredictiveAction(unittest.TestCase):
         self.assertFalse(result.recovery_result.io_blocked)
         self.assertFalse(result.recovery_result.rerouted)
 
-    # 4. Probability exactly equal to threshold → backup triggered
+
     def test_probability_equal_to_threshold(self):
         result = handle_predictive_action(
             device_id="disk_3",
@@ -64,7 +64,7 @@ class TestPredictiveAction(unittest.TestCase):
         )
         self.assertTrue(result.backup_result.triggered)
 
-    # 5. Invalid failure probability
+
     def test_invalid_failure_probability(self):
         with self.assertRaises(ValueError):
             handle_predictive_action(
@@ -73,7 +73,7 @@ class TestPredictiveAction(unittest.TestCase):
                 device_status="healthy",
             )
 
-    # 6. Invalid device status
+
     def test_invalid_device_status(self):
         with self.assertRaises(ValueError):
             handle_predictive_action(
@@ -82,7 +82,7 @@ class TestPredictiveAction(unittest.TestCase):
                 device_status="unknown_status",
             )
 
-    # 7. Invalid threshold
+
     def test_invalid_threshold(self):
         with self.assertRaises(ValueError):
             handle_predictive_action(
@@ -92,7 +92,7 @@ class TestPredictiveAction(unittest.TestCase):
                 threshold=1.5,
             )
 
-    # 8. Empty / whitespace device_id
+
     def test_empty_device_id(self):
         with self.assertRaises(ValueError):
             handle_predictive_action(
@@ -101,7 +101,7 @@ class TestPredictiveAction(unittest.TestCase):
                 device_status="healthy",
             )
 
-    # 9. Empty backup_device_id when supplied
+
     def test_empty_backup_device_id(self):
         with self.assertRaises(ValueError):
             handle_predictive_action(
