@@ -509,3 +509,70 @@
 .data-table thead th {
     font-size: var(--fs-sm);
 }
+
+.panel.is-critical,
+.panel-glass.is-critical {
+    border-color: var(--status-crit);
+    box-shadow:
+        var(--panel-glass-shadow-outer),
+        var(--panel-glass-shadow-inner-hi);
+}
+
+/* Control pipeline strip (top of Overview) */
+
+.pipeline-strip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+}
+
+.pipeline-strip-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex-shrink: 0;
+    padding-right: var(--space-5);
+    border-right: var(--border-width) solid var(--border-soft);
+}
+
+.pipeline-strip .pipeline-flow {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.pipeline-strip .pipeline-node {
+    flex: 0 0 auto;
+}
+
+.pipeline-strip .pipeline-connector {
+    flex: 1 1 var(--space-5);
+    max-width: none;
+    margin: 0 var(--space-3);
+}
+
+@media (max-width: 1024px) {
+    .pipeline-strip {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .pipeline-strip-head {
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 0;
+        padding-bottom: var(--space-2);
+        border-right: none;
+        border-bottom: var(--border-width) solid var(--border-soft);
+    }
+}
+
+@media (max-width: 768px) {
+    .pipeline-strip .pipeline-flow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+    }
+}

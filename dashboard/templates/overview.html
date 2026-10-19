@@ -7,9 +7,52 @@
 <div class="page-header page-header--overview">
     <div>
         <h1 class="page-title">System Overview</h1>
-        <p class="page-subtitle">Observe → Predict → Decide → Act across CPU, memory and device modules</p>
+        <p class="page-subtitle">Live view of the CPU, memory and device modules</p>
     </div>
 </div>
+
+<section class="pipeline-strip panel" aria-labelledby="pipeline-heading">
+        <div class="pipeline-strip-head">
+            <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
+            <span class="status-text is-ok">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Idle
+            </span>
+        </div>
+        <ol class="pipeline-flow">
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">1</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Observe</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">2</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Predict</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">3</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Decide</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">4</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Act</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+        </ol>
+</section>
 
 <section class="page-grid" aria-label="Live metrics">
 
@@ -170,52 +213,6 @@
     </div>
 </section>
 
-<section class="page-grid section-gap" aria-labelledby="pipeline-heading">
-    <div class="panel grid-col-12">
-        <div class="panel-header">
-            <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
-            <span class="status-text is-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                Idle
-            </span>
-        </div>
-        <div class="panel-body">
-            <ol class="pipeline-flow">
-                <li class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true">1</span>
-                    <span class="pipeline-node-text">
-                        <span class="pipeline-node-label">Observe</span>
-                        <span class="pipeline-node-state">Awaiting step</span>
-                    </span>
-                </li>
-                <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true">2</span>
-                    <span class="pipeline-node-text">
-                        <span class="pipeline-node-label">Predict</span>
-                        <span class="pipeline-node-state">Awaiting step</span>
-                    </span>
-                </li>
-                <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true">3</span>
-                    <span class="pipeline-node-text">
-                        <span class="pipeline-node-label">Decide</span>
-                        <span class="pipeline-node-state">Awaiting step</span>
-                    </span>
-                </li>
-                <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true">4</span>
-                    <span class="pipeline-node-text">
-                        <span class="pipeline-node-label">Act</span>
-                        <span class="pipeline-node-state">Awaiting step</span>
-                    </span>
-                </li>
-            </ol>
-        </div>
-    </div>
-</section>
 
 {% endblock %}
 

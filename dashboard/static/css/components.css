@@ -766,3 +766,30 @@
 .nav-link .nav-link-index {
     display: none;
 }
+
+/* Active tab: filled pill, no side bar or glow */
+
+.nav-link.is-active {
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px var(--border-soft);
+    color: var(--text-hi);
+}
+
+.nav-link.is-active .nav-link-icon {
+    color: var(--accent-hi);
+}
+
+/* Critical cards: plain red border, no outer glow */
+
+.gauge-widget.is-critical {
+    border-color: var(--status-crit);
+    box-shadow:
+        var(--widget-shadow-outer),
+        var(--widget-shadow-inner-hi);
+}
+
+@media (max-width: 768px) {
+    .nav-link.is-active {
+        box-shadow: inset 0 0 0 1px var(--border-soft);
+    }
+}
