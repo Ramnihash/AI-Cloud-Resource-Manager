@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from data.cpu.workload_classifier_data import (
+    generate_class_workload,
     ALL_DATASET_COLUMNS,
     CLASS_BALANCED,
     CLASS_CPU_BOUND,
@@ -369,6 +370,30 @@ class TestWorkloadClassifierData(unittest.TestCase):
 
 
         self.assertAlmostEqual(min(io_wait_lows), 0.60, places=2)
+
+
+class TestGenerateClassWorkload(unittest.TestCase):
+    """Tests for single-batch generation biased towards one workload class."""
+
+    def test_each_class_is_produced_with_features(self) -> None:
+        for target in WORKLOAD_CLASSES:
+            processes, label = generate_class_workload(target, num_processes=8, seed=11)
+            self.assertEqual(label, target)
+            self.assertEqual(len(processes), 8)
+            for p in processes:
+                for feature in ("cpu_intensity", "io_wait_ratio", "instruction_count", "process_complexity"):
+                    self.assertIn(feature, p.metadata)
+
+    def test_same_seed_is_deterministic(self) -> None:
+        a, _ = generate_class_workload("IO_BOUND", num_processes=5, seed=3)
+        b, _ = generate_class_workload("IO_BOUND", num_processes=5, seed=3)
+        self.assertEqual([(p.pid, p.burst_time) for p in a], [(p.pid, p.burst_time) for p in b])
+
+    def test_invalid_arguments(self) -> None:
+        with self.assertRaises(ValueError):
+            generate_class_workload("GPU_BOUND", num_processes=5)
+        with self.assertRaises(ValueError):
+            generate_class_workload("BALANCED", num_processes=0)
 
 
 if __name__ == "__main__":

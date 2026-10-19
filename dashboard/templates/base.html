@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI-Driven Cloud Resource Manager — operator console for CPU, memory, and device management.">
+    <title>{% block title %}AI Resource Manager{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/dashboard/static/css/tokens.css">
+    <link rel="stylesheet" href="/dashboard/static/css/layout.css">
+    <link rel="stylesheet" href="/dashboard/static/css/components.css">
+    <link rel="stylesheet" href="/dashboard/static/css/pages.css">
+</head>
+
+<body>
+
+    <div class="console-shell">
+
+        <nav class="nav-rail" aria-label="Primary navigation">
+            <div class="nav-brand">
+                <span class="nav-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>
+                </span>
+                <span class="nav-brand-text">
+                    <span class="nav-brand-word">Resource</span><span class="nav-brand-word nav-brand-word--accent">Manager</span>
+                    <span class="nav-brand-sub">AI operator console</span>
+                </span>
+            </div>
+
+            <ul class="nav-list">
+                <li>
+                    <a href="/dashboard/" class="nav-link{% if request.path == '/dashboard/' %} is-active{% endif %}"{% if request.path == '/dashboard/' %} aria-current="page"{% endif %}>
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                        <span class="nav-link-label">System Overview</span>
+                        <span class="nav-link-index">01</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/cpu" class="nav-link{% if request.path == '/dashboard/cpu' %} is-active{% endif %}"{% if request.path == '/dashboard/cpu' %} aria-current="page"{% endif %}>
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+                        <span class="nav-link-label">CPU</span>
+                        <span class="nav-link-index">02</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/memory" class="nav-link{% if request.path == '/dashboard/memory' %} is-active{% endif %}"{% if request.path == '/dashboard/memory' %} aria-current="page"{% endif %}>
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11v2M10 11v2M14 11v2M18 11v2M6 17v3M18 17v3"/></svg>
+                        <span class="nav-link-label">Memory</span>
+                        <span class="nav-link-index">03</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/device" class="nav-link{% if request.path == '/dashboard/device' %} is-active{% endif %}"{% if request.path == '/dashboard/device' %} aria-current="page"{% endif %}>
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+                        <span class="nav-link-label">Device</span>
+                        <span class="nav-link-index">04</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/activity" class="nav-link{% if request.path == '/dashboard/activity' %} is-active{% endif %}"{% if request.path == '/dashboard/activity' %} aria-current="page"{% endif %}>
+                        <svg class="nav-link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+                        <span class="nav-link-label">Activity</span>
+                        <span class="nav-link-index">05</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-footer">
+                <span class="nav-footer-line">Console · Local build</span>
+            </div>
+        </nav>
+
+        <div class="console-main">
+
+            <header class="hero-status hero-status--ok" aria-label="System status" id="hero-status">
+                <div class="hero-status-main">
+                    <span class="hero-status-pill">
+                        <span class="hero-status-dot" aria-hidden="true"></span>
+                        <span class="hero-status-value" id="system-health-value" aria-live="polite">Operational</span>
+                    </span>
+                    <span class="hero-status-sub">
+                        Last updated
+                        <span id="last-updated-value">&mdash;</span>
+                    </span>
+                </div>
+
+                <div class="status-actions">
+                    <span class="step-feedback" id="step-feedback" role="status" aria-live="polite"></span>
+                    <button type="button" class="btn btn-step" id="step-system-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 4l12 8-12 8z"/></svg>
+                        <span class="btn-label">Step System</span>
+                    </button>
+                </div>
+            </header>
+
+            <main id="main-content">
+                {% block content %}{% endblock %}
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="/dashboard/static/js/ui.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

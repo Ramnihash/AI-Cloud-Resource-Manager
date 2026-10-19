@@ -8,6 +8,7 @@ from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 
 from backend.routes import api_bp
+from dashboard.routes import dashboard_bp
 from modules.cpu.action_loop import CPUActionLoop
 
 if TYPE_CHECKING:
@@ -49,10 +50,12 @@ def create_app(
     if integrated_execution_manager is not None:
         app.config["INTEGRATED_EXECUTION_MANAGER"] = integrated_execution_manager
 
-
     app.register_blueprint(api_bp)
 
+    # Register dashboard blueprint
+    app.register_blueprint(dashboard_bp)
 
+    # Register global JSON error handlers (no Python tracebacks exposed)
     @app.errorhandler(400)
     def bad_request(error):
         msg = getattr(error, "description", "Invalid request")
@@ -91,3 +94,4 @@ def create_app(
 if __name__ == "__main__":
     application = create_app()
     application.run(host="0.0.0.0", port=5000, debug=False)
+

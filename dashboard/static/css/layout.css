@@ -1,0 +1,385 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    color: var(--text-hi);
+    font-family: var(--font-sans);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-normal);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background-color: var(--bg-0);
+    background-image:
+        radial-gradient(ellipse 140% 100% at 50% -10%, var(--bg-gradient-a), transparent 65%),
+        linear-gradient(180deg, var(--bg-gradient-b) 0%, var(--bg-gradient-c) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+::selection {
+    background-color: var(--accent-dim);
+    color: var(--text-hi);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) var(--bg-1);
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--bg-1);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--line);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--bg-1);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-dim);
+}
+
+.console-shell {
+    display: grid;
+    grid-template-columns: var(--nav-width) 1fr;
+    min-height: 100vh;
+}
+
+.nav-rail {
+    grid-column: 1;
+    background-color: var(--panel-glass-bg);
+    backdrop-filter: blur(var(--panel-glass-blur)) saturate(var(--panel-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--panel-glass-blur)) saturate(var(--panel-glass-saturate));
+    border-right: var(--border-subtle);
+    box-shadow:
+        var(--panel-glass-shadow-inner-hi),
+        var(--panel-glass-shadow-inner-side);
+    padding: var(--space-4) var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.console-main {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+}
+
+/* ============================================================
+   HERO STATUS — compact system-health header
+   ============================================================ */
+
+.hero-status {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--panel-glass-bg);
+    backdrop-filter: blur(var(--panel-glass-blur)) saturate(var(--panel-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--panel-glass-blur)) saturate(var(--panel-glass-saturate));
+    border-bottom: var(--border-subtle);
+    box-shadow: var(--panel-glass-shadow-inner-lo);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-top-strip);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.hero-status::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 480px 160px at 0% 50%, var(--hero-glow-color, var(--accent-dim)), transparent 70%);
+    opacity: 0.4;
+    pointer-events: none;
+    transition: background var(--transition-slow), opacity var(--transition-slow);
+}
+
+.hero-status-main {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+}
+
+.hero-status-value {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-tight);
+    line-height: var(--lh-tight);
+    color: var(--text-hi);
+    transition: color var(--transition-slow), text-shadow var(--transition-slow);
+}
+
+.hero-status-sub {
+    font-size: var(--fs-xs);
+    color: var(--text-mid);
+    font-weight: var(--fw-regular);
+}
+
+.hero-status-sub span {
+    font-family: var(--font-mono);
+    color: var(--text-low);
+    font-size: var(--fs-xs);
+}
+
+.hero-status--ok {
+    --hero-glow-color: var(--accent-dim);
+}
+
+.hero-status--ok .hero-status-value {
+    color: var(--text-hi);
+}
+
+.hero-status--warn {
+    --hero-glow-color: rgba(232, 162, 61, 0.35);
+}
+
+.hero-status--warn .hero-status-value {
+    color: var(--status-warn);
+    text-shadow: 0 0 16px rgba(232, 162, 61, 0.35);
+}
+
+.hero-status--critical {
+    --hero-glow-color: var(--status-crit-glow);
+}
+
+.hero-status--critical .hero-status-value {
+    color: var(--status-crit);
+    text-shadow: 0 0 18px var(--status-crit-glow);
+}
+
+.status-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+#main-content {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+    .console-shell {
+        grid-template-columns: 72px 1fr;
+    }
+
+    .nav-rail {
+        padding: var(--space-3) var(--space-2);
+    }
+
+    #main-content {
+        padding: var(--space-3);
+    }
+}
+
+@media (max-width: 768px) {
+    .console-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+    }
+
+    .nav-rail {
+        grid-column: 1;
+        grid-row: 1;
+        position: static;
+        height: auto;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-bottom: var(--border-subtle);
+    }
+
+    .console-main {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: auto;
+    }
+
+    .hero-status {
+        flex-wrap: wrap;
+        padding: var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .hero-status-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .hero-status-value {
+        font-size: var(--fs-lg);
+    }
+
+    .status-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    #main-content {
+        padding: var(--space-3);
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content {
+        padding: var(--space-2);
+    }
+}
+/* ============================================================
+   UI REFRESH — shell
+   ============================================================ */
+
+html {
+    background-color: var(--bg-gradient-c);
+}
+
+html,
+body {
+    height: auto;
+    min-height: 100%;
+}
+
+.hero-status {
+    min-height: var(--top-strip-height);
+    padding: var(--space-2) var(--space-5);
+}
+
+.hero-status::before {
+    opacity: 0.25;
+}
+
+.hero-status-main {
+    align-items: center;
+}
+
+.hero-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px var(--space-3) 6px 10px;
+    border-radius: var(--radius-full);
+    border: var(--border-width) solid var(--border-soft);
+    background-color: var(--surface-1);
+}
+
+.hero-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--status-ok-green);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18);
+}
+
+.hero-status-value {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-normal);
+}
+
+.hero-status-sub {
+    font-size: var(--fs-sm);
+    color: var(--text-low);
+}
+
+.hero-status-sub span {
+    color: var(--text-mid);
+    font-size: var(--fs-sm);
+    margin-left: var(--space-1);
+}
+
+.hero-status--warn .hero-status-dot {
+    background-color: var(--status-warn);
+    box-shadow: 0 0 0 3px rgba(232, 162, 61, 0.2);
+}
+
+.hero-status--critical .hero-status-dot {
+    background-color: var(--status-crit);
+    box-shadow: 0 0 0 3px var(--status-crit-glow);
+}
+
+.hero-status--warn .hero-status-value,
+.hero-status--critical .hero-status-value {
+    text-shadow: none;
+}
+
+#main-content {
+    padding: var(--space-5);
+}
+
+@media (max-width: 1024px) {
+    #main-content {
+        padding: var(--space-4);
+    }
+
+    .hero-status {
+        padding: var(--space-2) var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        padding: var(--space-3);
+    }
+
+    .hero-status {
+        padding: var(--space-3);
+    }
+
+    .hero-status-main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-2);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+body {
+    background-attachment: scroll;
+}

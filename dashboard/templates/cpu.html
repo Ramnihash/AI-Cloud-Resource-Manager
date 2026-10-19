@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}CPU — AI Resource Manager{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">CPU Scheduling</h1>
+        <p class="page-subtitle">Workload classification, scheduler selection and the resulting schedule</p>
+    </div>
+    <span class="page-meta" id="cpu-meta">No steps yet</span>
+</div>
+
+<div class="state-banner" id="cpu-error" role="alert" hidden></div>
+
+<section class="page-grid" aria-label="Scheduler decision">
+
+    <article class="panel panel-module module-cpu grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Active Scheduler</h2>
+            <span class="status-text is-ok" id="cpu-decision-status">Standby</span>
+        </div>
+        <div class="panel-body metric-stack">
+            <div class="metric">
+                <span class="metric-label">Scheduler</span>
+                <span class="metric-value metric-value-sm is-muted" id="cpu-scheduler">No steps yet</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Selection</span>
+                <span class="metric-value metric-value-sm metric-value--text is-muted" id="cpu-selection">No steps yet</span>
+            </div>
+        </div>
+    </article>
+
+    <article class="panel panel-module module-cpu grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Workload</h2>
+            <span class="status-text is-ok" id="cpu-confidence">&nbsp;</span>
+        </div>
+        <div class="panel-body metric-stack">
+            <div class="metric">
+                <span class="metric-label">Classified as</span>
+                <span class="metric-value metric-value-sm is-muted" id="cpu-class">No steps yet</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Processes in last step</span>
+                <span class="metric-value metric-value-sm is-muted" id="cpu-process-count">No steps yet</span>
+            </div>
+        </div>
+    </article>
+
+    <article class="panel panel-module module-cpu grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Class Probabilities</h2>
+        </div>
+        <div class="panel-body">
+            <ul class="prob-list" id="cpu-probs">
+                <li class="prob-empty">Appear after the first step</li>
+            </ul>
+        </div>
+    </article>
+
+</section>
+
+<section class="page-grid section-gap" aria-label="Scheduling metrics">
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Avg waiting time</span>
+        <span class="kpi-value" id="kpi-waiting">&mdash;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Avg turnaround time</span>
+        <span class="kpi-value" id="kpi-turnaround">&mdash;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Avg response time</span>
+        <span class="kpi-value" id="kpi-response">&mdash;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Scheduling overhead</span>
+        <span class="kpi-value" id="kpi-overhead">&mdash;</span>
+    </div>
+</section>
+
+<section class="page-grid section-gap" aria-label="Gantt chart">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Gantt Chart</h2>
+            <span class="page-meta" id="gantt-meta">No schedule yet</span>
+        </div>
+        <div class="panel-body">
+            <div id="gantt-empty" class="state-block state-block--compact">
+                <span class="state-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 6h10M7 12h12M5 18h8"/></svg>
+                </span>
+                <p class="state-title">No schedule yet</p>
+                <p class="state-desc">Press Step System. The execution timeline of that step will be drawn here.</p>
+            </div>
+            <div id="gantt" class="gantt" hidden>
+                <div class="gantt-track" id="gantt-track" role="img" aria-label="Process execution timeline"></div>
+                <div class="gantt-axis" id="gantt-axis" aria-hidden="true"></div>
+                <ul class="gantt-legend" id="gantt-legend"></ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid section-gap" aria-label="Process table">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Processes</h2>
+            <span class="page-meta" id="proc-meta">0 processes</span>
+        </div>
+        <div class="panel-body">
+            <div class="table-scroll">
+                <table class="data-table" id="proc-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">PID</th>
+                            <th scope="col">Arrival</th>
+                            <th scope="col">Burst</th>
+                            <th scope="col">Predicted burst</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">Completion</th>
+                            <th scope="col">Waiting</th>
+                            <th scope="col">Turnaround</th>
+                            <th scope="col">Response</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proc-body">
+                        <tr>
+                            <td colspan="10">
+                                <div class="state-block state-block--compact">
+                                    <p class="state-title">No process data yet</p>
+                                    <p class="state-desc">Per-process timings appear here after a step has run.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page-grid section-gap" aria-label="Scheduler decisions">
+    <div class="panel grid-col-12">
+        <div class="panel-header">
+            <h2 class="panel-title">Recent Decisions</h2>
+            <span class="page-meta" id="decisions-meta">0 steps</span>
+        </div>
+        <div class="panel-body" id="decisions-body">
+            <div class="state-block state-block--compact">
+                <p class="state-title">No decisions recorded yet</p>
+                <p class="state-desc">Each step records the workload class, chosen scheduler and whether a fallback was used.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/dashboard/static/js/cpu.js"></script>
+{% endblock %}

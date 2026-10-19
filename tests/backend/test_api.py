@@ -675,6 +675,116 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Bus arbiter synchronization failed", response.get_data(as_text=True))
 
+    def test_system_step_generated_profiles(self) -> None:
+        """POST /api/v1/system/step with workload_profile generates a matching workload."""
+        expected = {
+            "cpu_bound": "CPU_BOUND",
+            "io_bound": "IO_BOUND",
+            "priority_critical": "PRIORITY_CRITICAL",
+            "balanced": "BALANCED",
+        }
+        for profile, label in expected.items():
+            response = self.client.post(
+                "/api/v1/system/step",
+                json={"workload_profile": profile, "num_processes": 6, "seed": 7},
+            )
+            self.assertEqual(response.status_code, 200, profile)
+            data = response.get_json()
+            self.assertEqual(data["generated_workload"]["profile"], profile)
+            self.assertEqual(data["generated_workload"]["rule_label"], label)
+            self.assertEqual(data["cpu"]["process_count"], 6)
+            processes = data["cpu"]["meta_result"]["schedule_result"]["processes"]
+            for p in processes:
+                self.assertEqual(p["workload_type"], profile)
+                for feature in ("cpu_intensity", "io_wait_ratio", "instruction_count", "process_complexity"):
+                    self.assertIn(feature, p["metadata"])
+            predicted = {p["predicted_burst_time"] for p in processes}
+            self.assertGreater(len(predicted), 1, f"{profile}: predicted bursts should vary per process")
+
+    def test_system_step_generated_profile_is_reproducible(self) -> None:
+        """Same workload_profile and seed produce the same processes."""
+        payload = {"workload_profile": "random", "num_processes": 5, "seed": 123}
+        first = self.client.post("/api/v1/system/step", json=payload).get_json()
+        second = self.client.post("/api/v1/system/step", json=payload).get_json()
+        self.assertEqual(first["generated_workload"]["profile"], second["generated_workload"]["profile"])
+        procs = lambda d: [(p["pid"], p["burst_time"]) for p in d["cpu"]["meta_result"]["schedule_result"]["processes"]]
+        self.assertEqual(sorted(procs(first)), sorted(procs(second)))
+
+    def test_system_step_generated_profile_validation(self) -> None:
+        """Invalid workload_profile, num_processes or seed return HTTP 400."""
+        bad_payloads = [
+            {"workload_profile": "gpu_bound"},
+            {"workload_profile": 3},
+            {"workload_profile": "balanced", "num_processes": 0},
+            {"workload_profile": "balanced", "num_processes": 51},
+            {"workload_profile": "balanced", "num_processes": True},
+            {"workload_profile": "balanced", "seed": "x"},
+        ]
+        for payload in bad_payloads:
+            response = self.client.post("/api/v1/system/step", json=payload)
+            self.assertEqual(response.status_code, 400, payload)
+            self.assertIn("error", response.get_json())
+
+    def test_system_history_empty(self) -> None:
+        """GET /api/v1/system/history returns an empty list before any step."""
+        response = self.client.get("/api/v1/system/history")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"total_steps": 0, "steps": []})
+
+    def test_system_history_newest_first_and_limit(self) -> None:
+        """GET /api/v1/system/history returns recorded steps newest first, capped by limit."""
+        payload = {"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 4.0}]}
+        for _ in range(3):
+            self.assertEqual(self.client.post("/api/v1/system/step", json=payload).status_code, 200)
+
+        data = self.client.get("/api/v1/system/history?limit=2").get_json()
+        self.assertEqual(data["total_steps"], 3)
+        self.assertEqual([s["step_index"] for s in data["steps"]], [2, 1])
+        self.assertIn("cpu", data["steps"][0])
+
+    def test_system_history_invalid_limit(self) -> None:
+        """GET /api/v1/system/history rejects a non-integer or out-of-range limit."""
+        for value in ("abc", "0", "201"):
+            response = self.client.get("/api/v1/system/history?limit=" + value)
+            self.assertEqual(response.status_code, 400)
+            self.assertIn("limit", response.get_json()["error"])
+
+
+    def test_memory_analysis_success(self) -> None:
+        """POST /api/v1/memory/analysis returns predictor, forecaster, leak and action output."""
+        response = self.client.post("/api/v1/memory/analysis", json={
+            "reference_string": [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5],
+            "num_frames": 3, "samples": 8, "interval_s": 0,
+        })
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        markov = data["page_prediction"][0]
+        self.assertEqual(markov["predictor"], "Markov")
+        self.assertIn(markov["action"]["action"], ("PROTECT", "PREFETCH"))
+        self.assertEqual(data["samples"]["count"], 8)
+        self.assertEqual(data["samples"]["pid"], os.getpid())
+        self.assertIn("predicted_ram_percent", data["pressure_forecast"])
+        self.assertIn("is_leak_detected", data["leak_detection"])
+        self.assertIn(data["health_action"]["action"],
+                      ("NO_ACTION", "RESTART_PROCESS", "ALERT_HIGH_PRESSURE"))
+        if len(data["page_prediction"]) > 1:
+            self.assertIn("available", data["page_prediction"][1])
+
+    def test_memory_analysis_validation(self) -> None:
+        """POST /api/v1/memory/analysis rejects bad input with 400."""
+        bad = [
+            {},
+            {"reference_string": [1, 2]},
+            {"reference_string": [1, 2, "x"]},
+            {"reference_string": [1, 2, -3]},
+            {"reference_string": [1, 2, 3], "num_frames": 0},
+            {"reference_string": [1, 2, 3], "samples": 3},
+            {"reference_string": [1, 2, 3], "interval_s": 5},
+        ]
+        for body in bad:
+            response = self.client.post("/api/v1/memory/analysis", json=body)
+            self.assertEqual(response.status_code, 400, body)
+
 
 if __name__ == "__main__":
     unittest.main()

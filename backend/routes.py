@@ -11,6 +11,8 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import os
+import random
 from typing import Any, Optional
 
 import psutil
@@ -19,7 +21,12 @@ from flask import Blueprint, current_app, jsonify, request
 from modules.cpu.action_loop import CPUActionLoop
 from modules.cpu.process import Process
 from modules.device.predictive_action import handle_predictive_action
+from ml.memory.markov_predictor import MarkovPagePredictor
+from ml.memory.memory_leak_detector import MemoryLeakDetector
+from ml.memory.memory_pressure_forecaster import MemoryPressureForecaster
+from modules.memory.memory_health_action import MemoryHealthActionLayer
 from modules.memory.memory_monitor import MemoryMonitor
+from modules.memory.page_prediction_action import PagePredictionActionLayer
 from modules.memory.page_replacement import (
     FIFOPageReplacement,
     LRUPageReplacement,
@@ -256,6 +263,115 @@ def memory_monitor():
     return jsonify(result), 200
 
 
+@api_bp.route("/api/v1/memory/analysis", methods=["POST"])
+def memory_analysis():
+    """Run the memory intelligence layer on a reference string and live RAM samples.
+
+    Page predictors are trained on the supplied reference string. The pressure
+    forecaster and leak detector use samples of this backend process and the
+    host RAM collected by MemoryMonitor during the request.
+    """
+    data, err = _extract_json_payload(allow_empty=False)
+    if err:
+        return jsonify({"error": err}), 400
+
+    ref = data.get("reference_string")
+    if not isinstance(ref, list) or len(ref) < 3:
+        return jsonify({"error": "Field 'reference_string' must be a list of at least 3 integers"}), 400
+    for idx, page in enumerate(ref):
+        if isinstance(page, bool) or not isinstance(page, int) or page < 0:
+            return jsonify({"error": f"Element at index {idx} in 'reference_string' must be a non-negative integer"}), 400
+
+    num_frames = data.get("num_frames", 3)
+    if isinstance(num_frames, bool) or not isinstance(num_frames, int) or not 1 <= num_frames <= 20:
+        return jsonify({"error": "Field 'num_frames' must be an integer between 1 and 20"}), 400
+
+    samples = data.get("samples", 12)
+    if isinstance(samples, bool) or not isinstance(samples, int) or not 8 <= samples <= 30:
+        return jsonify({"error": "Field 'samples' must be an integer between 8 and 30"}), 400
+
+    interval_s = data.get("interval_s", 0.2)
+    if isinstance(interval_s, bool) or not isinstance(interval_s, (int, float)) or not 0 <= interval_s <= 1:
+        return jsonify({"error": "Field 'interval_s' must be a number between 0 and 1"}), 400
+
+    try:
+        frames_result = LRUPageReplacement(num_frames=num_frames).run(reference_string=ref)
+        snapshots_in = frames_result.get("frame_snapshots") or frames_result.get("snapshots") or []
+        memory_state = [p for p in (snapshots_in[-1] if snapshots_in else []) if p is not None]
+
+        current_page = ref[-1]
+        prediction_layer = PagePredictionActionLayer()
+        pages = []
+
+        markov = MarkovPagePredictor()
+        markov.train(ref)
+        candidates = markov.predict(current_page, top_k=3)
+        pages.append({
+            "predictor": "Markov",
+            "available": True,
+            "candidates": candidates,
+            "action": prediction_layer.evaluate_and_act(candidates, memory_state, "Markov"),
+        })
+
+        try:
+            from ml.memory.transformer_predictor import TransformerPagePredictor
+        except ImportError:
+            pages.append({"predictor": "Transformer", "available": False,
+                          "reason": "PyTorch is not installed on the backend"})
+        else:
+            context_len = 2
+            if len(ref) <= context_len:
+                pages.append({"predictor": "Transformer", "available": False,
+                              "reason": "Reference string is too short for the context window"})
+            else:
+                transformer = TransformerPagePredictor(
+                    num_pages=max(ref) + 1, context_len=context_len, d_model=16, nhead=2)
+                transformer.train(ref, epochs=20)
+                t_cands = transformer.predict(ref[-context_len:], top_k=3)
+                pages.append({
+                    "predictor": "Transformer",
+                    "available": True,
+                    "candidates": t_cands,
+                    "action": prediction_layer.evaluate_and_act(t_cands, memory_state, "Transformer"),
+                })
+
+        pid = os.getpid()
+        snaps = MemoryMonitor().collect(n=samples, interval_s=float(interval_s), pid=pid)["snapshots"]
+
+        window = min(5, len(snaps) - 1)
+        forecaster = MemoryPressureForecaster(window_size=window)
+        forecaster.train(snaps)
+        pressure = forecaster.predict(snaps[-window:])
+
+        leak_window = min(8, len(snaps))
+        leak = MemoryLeakDetector(window_size=leak_window).detect(snaps)
+
+        health = MemoryHealthActionLayer().evaluate_and_act(leak, pressure)
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    return jsonify({
+        "reference_length": len(ref),
+        "num_frames": num_frames,
+        "frames_policy": "LRU",
+        "memory_state": memory_state,
+        "current_page": current_page,
+        "page_prediction": pages,
+        "samples": {
+            "count": len(snaps),
+            "interval_s": float(interval_s),
+            "pid": pid,
+            "ram_percent": [s["ram_percent"] for s in snaps],
+            "rss_bytes": [s["proc_rss_bytes"] for s in snaps],
+        },
+        "pressure_forecast": {**pressure, "window_size": window},
+        "leak_detection": {**leak, "window_size": leak_window},
+        "health_action": health,
+    }), 200
+
+
 @api_bp.route("/api/v1/device/predictive-action", methods=["POST"])
 def device_predictive_action():
     """Execute simulated device failure-risk action pipeline."""
@@ -375,6 +491,58 @@ def _get_integrated_execution_manager():
     return manager
 
 
+WORKLOAD_PROFILES = {
+    "cpu_bound": "CPU_BOUND",
+    "io_bound": "IO_BOUND",
+    "priority_critical": "PRIORITY_CRITICAL",
+    "balanced": "BALANCED",
+}
+
+
+def _generate_profile_workload(
+    data: dict[str, Any],
+) -> tuple[list[dict[str, Any]], Optional[dict[str, Any]], Optional[str]]:
+    """Generate a process list for a named workload profile using the CPU workload generator."""
+    from data.cpu.workload_classifier_data import generate_class_workload
+
+    profile = data.get("workload_profile")
+    if not isinstance(profile, str) or profile not in (*WORKLOAD_PROFILES, "random"):
+        allowed = ", ".join([*WORKLOAD_PROFILES, "random"])
+        return [], None, f"Field 'workload_profile' must be one of: {allowed}"
+
+    num_processes = data.get("num_processes", 8)
+    if isinstance(num_processes, bool) or not isinstance(num_processes, int) or not 1 <= num_processes <= 50:
+        return [], None, "Field 'num_processes' must be an integer between 1 and 50"
+
+    seed = data.get("seed")
+    if seed is not None and (isinstance(seed, bool) or not isinstance(seed, int)):
+        return [], None, "Field 'seed' must be an integer or null"
+
+    rng = random.Random(seed)
+    if profile == "random":
+        profile = rng.choice(list(WORKLOAD_PROFILES))
+
+    processes, label = generate_class_workload(
+        WORKLOAD_PROFILES[profile],
+        num_processes=num_processes,
+        seed=rng.randint(0, 10_000_000),
+    )
+    raw_processes = []
+    for p in processes:
+        raw_processes.append(
+            {
+                "pid": p.pid,
+                "arrival_time": p.arrival_time,
+                "burst_time": p.burst_time,
+                "priority": p.priority,
+                "workload_type": profile,
+                "metadata": dict(p.metadata),
+            }
+        )
+    info = {"profile": profile, "rule_label": label, "num_processes": len(raw_processes)}
+    return raw_processes, info, None
+
+
 @api_bp.route("/api/v1/system/step", methods=["POST"])
 def system_step():
     """Execute a coordinated multi-resource execution step across CPU, Memory, Device, and Monitoring."""
@@ -383,9 +551,15 @@ def system_step():
         return jsonify({"error": err}), 400
 
 
-    if "processes" not in data:
-        return jsonify({"error": "Missing required field: processes"}), 400
-    raw_processes = data["processes"]
+    generated_workload: Optional[dict[str, Any]] = None
+    if "processes" not in data and "workload_profile" in data:
+        raw_processes, generated_workload, gen_err = _generate_profile_workload(data)
+        if gen_err:
+            return jsonify({"error": gen_err}), 400
+    elif "processes" not in data:
+        return jsonify({"error": "Missing required field: processes (or workload_profile)"}), 400
+    else:
+        raw_processes = data["processes"]
     if not isinstance(raw_processes, list):
         return jsonify({"error": "Field 'processes' must be a list"}), 400
     if len(raw_processes) == 0:
@@ -492,4 +666,27 @@ def system_step():
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
 
-    return jsonify(step_record.to_dict()), 200
+    response = step_record.to_dict()
+    if generated_workload is not None:
+        response["generated_workload"] = generated_workload
+    return jsonify(response), 200
+
+
+@api_bp.route("/api/v1/system/history", methods=["GET"])
+def system_history():
+    """Return recorded integrated execution steps, newest first (read-only)."""
+    raw_limit = request.args.get("limit", "20").strip()
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        return jsonify({"error": "Query parameter 'limit' must be an integer"}), 400
+    if limit < 1 or limit > 200:
+        return jsonify({"error": "Query parameter 'limit' must be between 1 and 200"}), 400
+
+    try:
+        history = _get_integrated_execution_manager().get_history()
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    steps = [record.to_dict() for record in reversed(history[-limit:])]
+    return jsonify({"total_steps": len(history), "steps": steps}), 200
