@@ -6,199 +6,143 @@
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">Predictive Memory Management</h1>
-        <p class="page-subtitle">Page replacement, next-page prediction, and system memory monitoring</p>
+        <h1 class="page-title">Memory</h1>
+        <p class="page-subtitle">Live system memory and page replacement policy comparison</p>
     </div>
-    <span class="page-meta">SNAPSHOT — AWAITING FIRST STEP</span>
+    <span class="page-meta" id="mem-meta">Loading…</span>
 </div>
 
-<section class="page-grid" aria-label="Memory summary">
+<div class="state-banner" id="mem-error" role="alert" hidden></div>
 
-    <div class="panel grid-col-4">
-        <div class="panel-header">
-            <h2 class="panel-title">RAM Usage</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
-        </div>
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Current Usage</span>
-                <span class="metric-value skeleton">&nbsp;</span>
-            </div>
-        </div>
+<section class="page-grid" aria-label="System memory">
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">RAM used</span>
+        <span class="kpi-value" id="kpi-ram-pct">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ram-sub">&nbsp;</span>
     </div>
-
-    <div class="panel grid-col-4">
-        <div class="panel-header">
-            <h2 class="panel-title">Swap Usage</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
-        </div>
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Current Usage</span>
-                <span class="metric-value skeleton">&nbsp;</span>
-            </div>
-        </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">RAM available</span>
+        <span class="kpi-value" id="kpi-ram-avail">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ram-total">&nbsp;</span>
     </div>
-
-    <div class="panel grid-col-4">
-        <div class="panel-header">
-            <h2 class="panel-title">Memory Pressure</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
-        </div>
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Forecasted Pressure</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-        </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Swap used</span>
+        <span class="kpi-value" id="kpi-swap-pct">&mdash;</span>
+        <span class="kpi-sub" id="kpi-swap-sub">&nbsp;</span>
     </div>
-
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Host monitoring</span>
+        <span class="kpi-value kpi-value--text">Live</span>
+        <span class="kpi-sub">Read from this machine by psutil</span>
+    </div>
 </section>
 
-<section class="page-grid" aria-label="Page replacement" style="margin-top: var(--space-3);">
-
-    <div class="panel grid-col-6">
+<section class="page-grid section-gap" aria-label="RAM trend">
+    <div class="panel panel-module module-memory grid-col-12">
         <div class="panel-header">
-            <h2 class="panel-title">Page Replacement</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>RAM usage over time</h2>
+            <button type="button" class="btn btn-quiet" id="ram-sample-btn">
+                <span class="btn-label">Sample again</span>
+            </button>
         </div>
         <div class="panel-body">
-            <div class="metric" style="margin-bottom: var(--space-3);">
-                <span class="metric-label">Active Algorithm</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Next-Page Predictor</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
+            <div id="ram-chart" class="line-chart" role="img" aria-label="RAM usage percentage over the sampled interval"></div>
+            <p class="chart-note" id="ram-chart-note">Collecting samples…</p>
         </div>
     </div>
-
-    <div class="panel grid-col-6">
-        <div class="panel-header">
-            <h2 class="panel-title">Prediction Accuracy</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                STANDBY
-            </span>
-        </div>
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Accuracy</span>
-                <span class="metric-value skeleton">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
 </section>
 
-<section class="page-grid" aria-label="Page fault metrics" style="margin-top: var(--space-3);">
-
-    <div class="panel grid-col-3">
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Page Faults</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel grid-col-3">
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Hit Ratio</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel grid-col-3">
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Miss Ratio</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel grid-col-3">
-        <div class="panel-body">
-            <div class="metric">
-                <span class="metric-label">Execution Time</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-<section class="page-grid" aria-label="Memory health" style="margin-top: var(--space-3);">
-    <div class="panel grid-col-12">
+<section class="page-grid section-gap" aria-label="Page replacement">
+    <div class="panel panel-module module-memory grid-col-12">
         <div class="panel-header">
-            <h2 class="panel-title">Memory Health / Leak Status</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                NO ALERTS
-            </span>
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Page replacement</h2>
+            <span class="page-meta" id="pr-meta">FIFO · LRU · Optimal</span>
         </div>
         <div class="panel-body">
-            <div class="state-block">
-                <p class="state-title">No memory health data yet</p>
-                <p class="state-desc">
-                    Memory-pressure forecasts, leak detection, and abnormal-growth alerts
-                    will appear here once monitoring is active.
-                </p>
+            <form class="pr-form" id="pr-form" novalidate>
+                <label class="field field--grow">
+                    <span class="field-label">Reference string (page numbers, comma separated)</span>
+                    <input class="field-input" id="pr-refs" type="text" inputmode="numeric"
+                        value="1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5" autocomplete="off">
+                </label>
+                <label class="field">
+                    <span class="field-label">Frames</span>
+                    <input class="field-input field-input--narrow" id="pr-frames" type="number" min="1" max="20" value="3">
+                </label>
+                <button type="submit" class="btn btn-step" id="pr-run">
+                    <span class="btn-label">Run comparison</span>
+                </button>
+            </form>
+            <p class="field-error" id="pr-form-error" role="alert" hidden></p>
+
+            <div id="pr-empty" class="state-block state-block--compact">
+                <p class="state-title">No comparison yet</p>
+                <p class="state-desc">The textbook reference string above is prefilled. Press Run comparison to send it to the backend with each policy.</p>
+            </div>
+
+            <div id="pr-results" hidden>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Policy</th>
+                                <th scope="col">Page faults</th>
+                                <th scope="col">Page hits</th>
+                                <th scope="col">Hit ratio</th>
+                                <th scope="col">Miss ratio</th>
+                                <th scope="col">Execution time</th>
+                                <th scope="col" class="col-bar">Faults</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pr-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="subhead">
+                    <h3 class="subhead-title">Frame contents</h3>
+                    <div class="seg" role="tablist" aria-label="Policy" id="pr-tabs"></div>
+                </div>
+                <div class="table-scroll">
+                    <table class="frame-grid" id="frame-grid" aria-label="Frame contents after each reference"></table>
+                </div>
+                <p class="chart-note">Highlighted columns are page faults. Faults are derived from the frame contents the backend returned.</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="page-grid" aria-label="Page reference activity" style="margin-top: var(--space-3);">
-    <div class="panel grid-col-12">
+<section class="page-grid section-gap" aria-label="Memory intelligence">
+    <article class="panel grid-col-4">
         <div class="panel-header">
-            <h2 class="panel-title">Page Reference Activity</h2>
-            <span class="page-meta">NO SEQUENCE LOADED</span>
+            <h2 class="panel-title">Next-page prediction</h2>
+            <span class="status-text">Not connected</span>
         </div>
         <div class="panel-body">
-            <div class="state-block">
-                <p class="state-title">No page-reference data yet</p>
-                <p class="state-desc">
-                    A visualization of the page-reference sequence and replacement
-                    decisions will render here once available.
-                </p>
-            </div>
+            <p class="gap-text">Markov and Transformer page predictors exist in <code>ml/memory</code>, but no backend endpoint runs them yet.</p>
         </div>
-    </div>
-</section>
-
-<section class="page-grid" aria-label="Recent memory actions" style="margin-top: var(--space-3);">
-    <div class="panel grid-col-12">
+    </article>
+    <article class="panel grid-col-4">
         <div class="panel-header">
-            <h2 class="panel-title">Recent Memory Actions</h2>
-            <span class="page-meta">LAST 0 EVENTS</span>
+            <h2 class="panel-title">Memory pressure forecast</h2>
+            <span class="status-text">Not connected</span>
         </div>
         <div class="panel-body">
-            <div class="state-block">
-                <p class="state-title">No actions recorded yet</p>
-                <p class="state-desc">
-                    Prefetch, protect, and memory-health actions will appear here once
-                    the system has been stepped.
-                </p>
-            </div>
+            <p class="gap-text">The pressure forecaster exists, but no endpoint returns a forecast, so none is shown here.</p>
         </div>
-    </div>
+    </article>
+    <article class="panel grid-col-4">
+        <div class="panel-header">
+            <h2 class="panel-title">Leak detection and actions</h2>
+            <span class="status-text">Not connected</span>
+        </div>
+        <div class="panel-body">
+            <p class="gap-text">The leak detector and the prefetch/protect and health action layers are only used by the demo script, not by the API.</p>
+        </div>
+    </article>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="/dashboard/static/js/memory.js"></script>
 {% endblock %}
