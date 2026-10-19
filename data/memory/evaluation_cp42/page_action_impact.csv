@@ -1,0 +1,4 @@
+case,frames,references,baseline_faults,guided_demand_faults,guided_prefetch_loads,guided_total_loads,fault_change,load_change,useful_prefetches,wasted_prefetches,protect_decisions
+cyclic,3,40,40,1,39,40,-39,0,39,0,0
+locality,3,80,22,21,1,22,-1,0,1,0,48
+classic,3,36,30,7,33,40,-23,10,29,4,2

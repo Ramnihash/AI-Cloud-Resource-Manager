@@ -1,0 +1,1140 @@
+{
+  "num_pages": 32,
+  "trace_length": 256,
+  "window_size": 8,
+  "base_seed": 2026,
+  "patterns": [
+    "uniform",
+    "sequential",
+    "looping",
+    "mixed"
+  ],
+  "traces_per_pattern": {
+    "train": 24,
+    "validation": 8,
+    "test": 8
+  },
+  "note": "Split by independent trace ID before window creation. Sequential traces are identical by design; evaluate memorization/generalization separately.",
+  "traces": [
+    {
+      "trace_id": "train_uniform_000",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2026,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_001",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2027,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_002",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2028,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_003",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2029,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_004",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2030,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_005",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2031,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_006",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2032,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_007",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2033,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_008",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2034,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_009",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2035,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_010",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2036,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_011",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2037,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_012",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2038,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_013",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2039,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_014",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2040,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_015",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2041,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_016",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2042,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_017",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2043,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_018",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2044,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_019",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2045,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_020",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2046,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_021",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2047,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_022",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2048,
+      "length": 256
+    },
+    {
+      "trace_id": "train_uniform_023",
+      "split": "train",
+      "pattern": "uniform",
+      "seed": 2049,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_000",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12026,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_001",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12027,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_002",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12028,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_003",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12029,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_004",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12030,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_005",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12031,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_006",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12032,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_007",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12033,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_008",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12034,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_009",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12035,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_010",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12036,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_011",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12037,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_012",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12038,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_013",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12039,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_014",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12040,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_015",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12041,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_016",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12042,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_017",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12043,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_018",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12044,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_019",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12045,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_020",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12046,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_021",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12047,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_022",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12048,
+      "length": 256
+    },
+    {
+      "trace_id": "train_sequential_023",
+      "split": "train",
+      "pattern": "sequential",
+      "seed": 12049,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_000",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22026,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_001",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22027,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_002",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22028,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_003",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22029,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_004",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22030,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_005",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22031,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_006",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22032,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_007",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22033,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_008",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22034,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_009",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22035,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_010",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22036,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_011",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22037,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_012",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22038,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_013",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22039,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_014",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22040,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_015",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22041,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_016",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22042,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_017",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22043,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_018",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22044,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_019",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22045,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_020",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22046,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_021",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22047,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_022",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22048,
+      "length": 256
+    },
+    {
+      "trace_id": "train_looping_023",
+      "split": "train",
+      "pattern": "looping",
+      "seed": 22049,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_000",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32026,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_001",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32027,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_002",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32028,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_003",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32029,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_004",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32030,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_005",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32031,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_006",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32032,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_007",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32033,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_008",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32034,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_009",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32035,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_010",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32036,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_011",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32037,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_012",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32038,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_013",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32039,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_014",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32040,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_015",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32041,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_016",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32042,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_017",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32043,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_018",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32044,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_019",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32045,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_020",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32046,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_021",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32047,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_022",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32048,
+      "length": 256
+    },
+    {
+      "trace_id": "train_mixed_023",
+      "split": "train",
+      "pattern": "mixed",
+      "seed": 32049,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_000",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102026,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_001",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102027,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_002",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102028,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_003",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102029,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_004",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102030,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_005",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102031,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_006",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102032,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_uniform_007",
+      "split": "validation",
+      "pattern": "uniform",
+      "seed": 102033,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_000",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112026,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_001",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112027,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_002",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112028,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_003",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112029,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_004",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112030,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_005",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112031,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_006",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112032,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_sequential_007",
+      "split": "validation",
+      "pattern": "sequential",
+      "seed": 112033,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_000",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122026,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_001",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122027,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_002",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122028,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_003",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122029,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_004",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122030,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_005",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122031,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_006",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122032,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_looping_007",
+      "split": "validation",
+      "pattern": "looping",
+      "seed": 122033,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_000",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132026,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_001",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132027,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_002",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132028,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_003",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132029,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_004",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132030,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_005",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132031,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_006",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132032,
+      "length": 256
+    },
+    {
+      "trace_id": "validation_mixed_007",
+      "split": "validation",
+      "pattern": "mixed",
+      "seed": 132033,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_000",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202026,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_001",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202027,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_002",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202028,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_003",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202029,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_004",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202030,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_005",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202031,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_006",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202032,
+      "length": 256
+    },
+    {
+      "trace_id": "test_uniform_007",
+      "split": "test",
+      "pattern": "uniform",
+      "seed": 202033,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_000",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212026,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_001",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212027,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_002",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212028,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_003",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212029,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_004",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212030,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_005",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212031,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_006",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212032,
+      "length": 256
+    },
+    {
+      "trace_id": "test_sequential_007",
+      "split": "test",
+      "pattern": "sequential",
+      "seed": 212033,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_000",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222026,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_001",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222027,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_002",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222028,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_003",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222029,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_004",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222030,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_005",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222031,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_006",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222032,
+      "length": 256
+    },
+    {
+      "trace_id": "test_looping_007",
+      "split": "test",
+      "pattern": "looping",
+      "seed": 222033,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_000",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232026,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_001",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232027,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_002",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232028,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_003",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232029,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_004",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232030,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_005",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232031,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_006",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232032,
+      "length": 256
+    },
+    {
+      "trace_id": "test_mixed_007",
+      "split": "test",
+      "pattern": "mixed",
+      "seed": 232033,
+      "length": 256
+    }
+  ]
+}

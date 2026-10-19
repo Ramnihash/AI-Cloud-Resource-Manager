@@ -1,0 +1,77 @@
+{
+  "page_prediction": {
+    "test_windows": 7936,
+    "markov_top1": 0.3506804435483871,
+    "transformer_top1": 0.3563508064516129,
+    "markov_top3": 0.3868447580645162,
+    "transformer_top3": 0.40877016129032256
+  },
+  "page_actions": [
+    {
+      "case": "cyclic",
+      "frames": "3",
+      "references": "40",
+      "baseline_faults": "40",
+      "guided_demand_faults": "1",
+      "guided_prefetch_loads": "39",
+      "guided_total_loads": "40",
+      "fault_change": "-39",
+      "load_change": "0",
+      "useful_prefetches": "39",
+      "wasted_prefetches": "0",
+      "protect_decisions": "0"
+    },
+    {
+      "case": "locality",
+      "frames": "3",
+      "references": "80",
+      "baseline_faults": "22",
+      "guided_demand_faults": "21",
+      "guided_prefetch_loads": "1",
+      "guided_total_loads": "22",
+      "fault_change": "-1",
+      "load_change": "0",
+      "useful_prefetches": "1",
+      "wasted_prefetches": "0",
+      "protect_decisions": "48"
+    },
+    {
+      "case": "classic",
+      "frames": "3",
+      "references": "36",
+      "baseline_faults": "30",
+      "guided_demand_faults": "7",
+      "guided_prefetch_loads": "33",
+      "guided_total_loads": "40",
+      "fault_change": "-23",
+      "load_change": "10",
+      "useful_prefetches": "29",
+      "wasted_prefetches": "4",
+      "protect_decisions": "2"
+    }
+  ],
+  "pressure_forecasting": {
+    "MAE": 0.07434693511712236,
+    "MSE": 0.008366882710691843,
+    "total_predictions": 18,
+    "source": "live_logs/baseline.csv",
+    "split": "chronological_70_30",
+    "train_snapshots": 42,
+    "test_snapshots": 18,
+    "window_size": 5,
+    "caution": "Short single-session baseline; not a broad generalization benchmark."
+  },
+  "leak_detection": {
+    "samples": 20,
+    "true_positive": 10,
+    "true_negative": 10,
+    "false_positive": 0,
+    "false_negative": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "source": "fixed labeled synthetic RSS traces",
+    "caution": "Synthetic classification performance does not establish real-world leak detection accuracy."
+  }
+}

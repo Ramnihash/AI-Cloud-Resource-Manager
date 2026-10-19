@@ -1,0 +1,108 @@
+{
+  "dataset": "data\\memory\\page_sequences_v1",
+  "num_pages": 32,
+  "window_size": 8,
+  "split_rows": {
+    "train": 23808,
+    "validation": 7936,
+    "test": 7936
+  },
+  "seed": 2026,
+  "epochs": 5,
+  "batch_size": 256,
+  "learning_rate": 0.001,
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 3.1639931791572162,
+      "validation_top1": 0.3416078629032258
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.573888255703834,
+      "validation_top1": 0.3475302419354839
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.2704714203393586,
+      "validation_top1": 0.3581149193548387
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.087185227742759,
+      "validation_top1": 0.3519405241935484
+    },
+    {
+      "epoch": 5,
+      "train_loss": 1.9662116214793215,
+      "validation_top1": 0.3645413306451613
+    }
+  ],
+  "markov": {
+    "metrics": {
+      "looping": {
+        "samples": 1984,
+        "top1_accuracy": 0.025201612903225805,
+        "top3_accuracy": 0.0751008064516129
+      },
+      "mixed": {
+        "samples": 1984,
+        "top1_accuracy": 0.34223790322580644,
+        "top3_accuracy": 0.3855846774193548
+      },
+      "overall": {
+        "samples": 7936,
+        "top1_accuracy": 0.3506804435483871,
+        "top3_accuracy": 0.3868447580645161
+      },
+      "sequential": {
+        "samples": 1984,
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0
+      },
+      "uniform": {
+        "samples": 1984,
+        "top1_accuracy": 0.03528225806451613,
+        "top3_accuracy": 0.08669354838709678
+      }
+    },
+    "inference_seconds": 0.1038334000040777
+  },
+  "transformer": {
+    "metrics": {
+      "looping": {
+        "samples": 1984,
+        "top1_accuracy": 0.07459677419354839,
+        "top3_accuracy": 0.1743951612903226
+      },
+      "mixed": {
+        "samples": 1984,
+        "top1_accuracy": 0.3155241935483871,
+        "top3_accuracy": 0.36794354838709675
+      },
+      "overall": {
+        "samples": 7936,
+        "top1_accuracy": 0.3563508064516129,
+        "top3_accuracy": 0.40877016129032256
+      },
+      "sequential": {
+        "samples": 1984,
+        "top1_accuracy": 1.0,
+        "top3_accuracy": 1.0
+      },
+      "uniform": {
+        "samples": 1984,
+        "top1_accuracy": 0.03528225806451613,
+        "top3_accuracy": 0.09274193548387097
+      }
+    },
+    "inference_seconds": 0.07969129999401048,
+    "weights": "data\\memory\\evaluation_cp34\\transformer_best.pt"
+  },
+  "notes": [
+    "Both models evaluated on identical held-out test windows.",
+    "Markov uses first-order transitions only; Transformer uses 8-page context.",
+    "Sequential traces repeat by design; inspect per-pattern scores.",
+    "Inference timing includes Python/CSV-row batch overhead and is not a hardware-neutral benchmark."
+  ]
+}
