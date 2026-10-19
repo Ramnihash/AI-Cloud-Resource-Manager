@@ -493,3 +493,23 @@ def system_step():
         return jsonify({"error": "Internal server error"}), 500
 
     return jsonify(step_record.to_dict()), 200
+
+
+@api_bp.route("/api/v1/system/history", methods=["GET"])
+def system_history():
+    """Return recorded integrated execution steps, newest first (read-only)."""
+    raw_limit = request.args.get("limit", "20").strip()
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        return jsonify({"error": "Query parameter 'limit' must be an integer"}), 400
+    if limit < 1 or limit > 200:
+        return jsonify({"error": "Query parameter 'limit' must be between 1 and 200"}), 400
+
+    try:
+        history = _get_integrated_execution_manager().get_history()
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    steps = [record.to_dict() for record in reversed(history[-limit:])]
+    return jsonify({"total_steps": len(history), "steps": steps}), 200

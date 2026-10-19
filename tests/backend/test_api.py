@@ -675,6 +675,30 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Bus arbiter synchronization failed", response.get_data(as_text=True))
 
+    def test_system_history_empty(self) -> None:
+        """GET /api/v1/system/history returns an empty list before any step."""
+        response = self.client.get("/api/v1/system/history")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"total_steps": 0, "steps": []})
+
+    def test_system_history_newest_first_and_limit(self) -> None:
+        """GET /api/v1/system/history returns recorded steps newest first, capped by limit."""
+        payload = {"processes": [{"pid": "P1", "arrival_time": 0.0, "burst_time": 4.0}]}
+        for _ in range(3):
+            self.assertEqual(self.client.post("/api/v1/system/step", json=payload).status_code, 200)
+
+        data = self.client.get("/api/v1/system/history?limit=2").get_json()
+        self.assertEqual(data["total_steps"], 3)
+        self.assertEqual([s["step_index"] for s in data["steps"]], [2, 1])
+        self.assertIn("cpu", data["steps"][0])
+
+    def test_system_history_invalid_limit(self) -> None:
+        """GET /api/v1/system/history rejects a non-integer or out-of-range limit."""
+        for value in ("abc", "0", "201"):
+            response = self.client.get("/api/v1/system/history?limit=" + value)
+            self.assertEqual(response.status_code, 400)
+            self.assertIn("limit", response.get_json()["error"])
+
 
 if __name__ == "__main__":
     unittest.main()
