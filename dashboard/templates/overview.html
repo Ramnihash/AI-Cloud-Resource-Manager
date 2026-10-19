@@ -4,6 +4,13 @@
 
 {% block content %}
 
+<div class="page-header page-header--overview">
+    <div>
+        <h1 class="page-title">System Overview</h1>
+        <p class="page-subtitle">Observe → Predict → Decide → Act across CPU, memory and device modules</p>
+    </div>
+</div>
+
 <section class="page-grid" aria-label="Live metrics">
 
     <div class="grid-col-3">
@@ -80,62 +87,69 @@
 
 </section>
 
-<section class="page-grid" aria-label="Subsystem summaries" style="margin-top: var(--space-3);">
+<section class="page-grid section-gap" aria-label="Subsystem summaries">
 
-    <div class="panel panel-edge grid-col-4">
+    <article class="panel panel-module module-cpu grid-col-4">
         <div class="panel-header">
-            <h2 class="panel-title">CPU</h2>
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>CPU</h2>
             <span class="status-text is-ok">Standby</span>
         </div>
-        <div class="panel-body">
-            <div class="metric" style="margin-bottom: var(--space-3);">
+        <div class="panel-body metric-stack">
+            <div class="metric">
                 <span class="metric-label">Active scheduler</span>
-                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+                <span class="metric-value metric-value-sm is-muted">No steps yet</span>
             </div>
-            <div class="metric" style="margin-bottom: var(--space-3);">
+            <div class="metric">
                 <span class="metric-label">Total processes</span>
-                <span class="metric-value metric-value-sm is-muted">Awaiting execution</span>
+                <span class="metric-value metric-value-sm is-muted">No steps yet</span>
             </div>
             <div class="metric">
                 <span class="metric-label">Total steps</span>
-                <span class="metric-value metric-value-sm is-muted">Awaiting execution</span>
+                <span class="metric-value metric-value-sm is-muted">No steps yet</span>
             </div>
         </div>
-    </div>
+        <a class="panel-link" href="/dashboard/cpu">View CPU details <span aria-hidden="true">→</span></a>
+    </article>
 
-    <div class="panel panel-edge grid-col-4">
+    <article class="panel panel-module module-memory grid-col-4">
         <div class="panel-header">
-            <h2 class="panel-title">Memory</h2>
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Memory</h2>
             <span class="status-text is-ok">Standby</span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body metric-stack">
+            <div class="metric">
+                <span class="metric-label">RAM available</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
+            </div>
             <div class="metric">
                 <span class="metric-label">Page hit ratio</span>
-                <span class="metric-value metric-value-sm is-muted">N/A</span>
+                <span class="metric-value metric-value-sm is-muted">Not reported yet</span>
             </div>
         </div>
-    </div>
+        <a class="panel-link" href="/dashboard/memory">View Memory details <span aria-hidden="true">→</span></a>
+    </article>
 
-    <div class="panel panel-edge grid-col-4">
+    <article class="panel panel-module module-device grid-col-4">
         <div class="panel-header">
-            <h2 class="panel-title">Device</h2>
+            <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Device</h2>
             <span class="status-text is-ok">Standby</span>
         </div>
-        <div class="panel-body">
-            <div class="metric" style="margin-bottom: var(--space-3);">
+        <div class="panel-body metric-stack">
+            <div class="metric">
                 <span class="metric-label">Active anomalies</span>
-                <span class="metric-value skeleton">&nbsp;</span>
+                <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
             </div>
             <div class="metric">
                 <span class="metric-label">Devices monitored</span>
                 <span class="metric-value metric-value-sm skeleton">&nbsp;</span>
             </div>
         </div>
-    </div>
+        <a class="panel-link" href="/dashboard/device">View Device details <span aria-hidden="true">→</span></a>
+    </article>
 
 </section>
 
-<section class="page-grid" aria-label="Recent actions" style="margin-top: var(--space-3);">
+<section class="page-grid section-gap" aria-label="Recent actions">
     <div class="panel grid-col-12">
         <div class="panel-header">
             <h2 class="panel-title">Recent Predictive Actions</h2>
@@ -143,9 +157,12 @@
         </div>
         <div class="panel-body">
             <div class="state-block state-block--compact">
+                <span class="state-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+                </span>
                 <p class="state-title">No actions recorded yet</p>
                 <p class="state-desc">
-                    Predictive actions from the CPU, memory, and device modules will appear
+                    Predictive actions from the CPU, memory and device modules will appear
                     here once the system has been stepped.
                 </p>
             </div>
@@ -153,7 +170,7 @@
     </div>
 </section>
 
-<section class="page-grid" aria-labelledby="pipeline-heading" style="margin-top: var(--space-3);">
+<section class="page-grid section-gap" aria-labelledby="pipeline-heading">
     <div class="panel grid-col-12">
         <div class="panel-header">
             <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
@@ -163,31 +180,39 @@
             </span>
         </div>
         <div class="panel-body">
-            <div class="pipeline-flow">
-                <div class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true"></span>
-                    <span class="pipeline-node-label">Observe</span>
-                    <span class="pipeline-node-state">Awaiting step</span>
-                </div>
-                <div class="pipeline-connector" aria-hidden="true"></div>
-                <div class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true"></span>
-                    <span class="pipeline-node-label">Predict</span>
-                    <span class="pipeline-node-state">Awaiting step</span>
-                </div>
-                <div class="pipeline-connector" aria-hidden="true"></div>
-                <div class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true"></span>
-                    <span class="pipeline-node-label">Decide</span>
-                    <span class="pipeline-node-state">Awaiting step</span>
-                </div>
-                <div class="pipeline-connector" aria-hidden="true"></div>
-                <div class="pipeline-node">
-                    <span class="pipeline-node-dot" aria-hidden="true"></span>
-                    <span class="pipeline-node-label">Act</span>
-                    <span class="pipeline-node-state">Awaiting step</span>
-                </div>
-            </div>
+            <ol class="pipeline-flow">
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">1</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Observe</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">2</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Predict</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">3</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Decide</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+                <li class="pipeline-connector" aria-hidden="true"></li>
+                <li class="pipeline-node">
+                    <span class="pipeline-node-dot" aria-hidden="true">4</span>
+                    <span class="pipeline-node-text">
+                        <span class="pipeline-node-label">Act</span>
+                        <span class="pipeline-node-state">Awaiting step</span>
+                    </span>
+                </li>
+            </ol>
         </div>
     </div>
 </section>

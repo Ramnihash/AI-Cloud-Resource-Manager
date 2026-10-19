@@ -50,8 +50,7 @@ def create_app(
     if integrated_execution_manager is not None:
         app.config["INTEGRATED_EXECUTION_MANAGER"] = integrated_execution_manager
 
-
-        app.register_blueprint(api_bp)
+    app.register_blueprint(api_bp)
 
     # Register dashboard blueprint
     app.register_blueprint(dashboard_bp)

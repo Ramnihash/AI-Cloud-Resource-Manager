@@ -25,7 +25,7 @@
         if (!el) {
             return;
         }
-        el.classList.remove("skeleton");
+        el.classList.remove("skeleton", "is-muted");
         el.textContent = text;
     }
 
@@ -201,6 +201,13 @@
             return;
         }
 
+        if (typeof cpu.total_steps === "number" && cpu.total_steps > 0) {
+            setMetricValue("Total steps", String(cpu.total_steps));
+            if (typeof cpu.total_processes === "number") {
+                setMetricValue("Total processes", String(cpu.total_processes));
+            }
+        }
+
         if (cpu.scheduler_distribution && typeof cpu.scheduler_distribution === "object") {
             var schedulerNames = Object.keys(cpu.scheduler_distribution);
             if (schedulerNames.length > 0) {
@@ -241,6 +248,10 @@
             if (ramUsed !== null && ramTotal !== null) {
                 setWidgetSub("RAM Usage", ramUsed + " / " + ramTotal);
             }
+        }
+
+        if (memory.ram_available_bytes !== undefined && memory.ram_available_bytes !== null) {
+            setMetricValue("RAM available", formatBytes(memory.ram_available_bytes));
         }
 
         if (

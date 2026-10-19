@@ -517,3 +517,252 @@
         display: none;
     }
 }
+/* ============================================================
+   UI REFRESH — navigation and buttons
+   ============================================================ */
+
+.nav-rail {
+    background-color: rgba(10, 11, 14, 0.55);
+    padding: var(--space-4) var(--space-3);
+    gap: var(--space-4);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: 0;
+    padding: 0 var(--space-1);
+}
+
+.nav-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--accent), #7C6CF0);
+    color: #fff;
+}
+
+.nav-brand-mark svg,
+.nav-link-icon,
+.btn svg,
+.state-icon svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.nav-brand-text {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 1.25;
+}
+
+.nav-brand-sub {
+    flex-basis: 100%;
+    color: var(--text-low);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-regular);
+    letter-spacing: var(--ls-normal);
+}
+
+.nav-list {
+    gap: var(--space-1);
+}
+
+.nav-link {
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    border-left: none;
+    border-radius: var(--radius-md);
+    font-size: var(--fs-base);
+}
+
+.nav-link-icon {
+    flex-shrink: 0;
+    color: var(--text-low);
+    transition: color var(--transition-fast);
+}
+
+.nav-link-index {
+    font-size: var(--fs-xs);
+    opacity: 0.8;
+}
+
+.nav-link:hover {
+    background-color: var(--surface-2);
+}
+
+.nav-link:hover .nav-link-icon {
+    color: var(--text-hi);
+}
+
+.nav-link.is-active {
+    background-color: var(--accent-soft);
+    color: var(--text-hi);
+    box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.nav-link.is-active .nav-link-icon {
+    color: var(--accent-hi);
+}
+
+.btn {
+    min-height: 40px;
+    gap: var(--space-2);
+    border-radius: var(--radius-md);
+}
+
+.btn-step {
+    padding: 0 var(--space-4);
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: #fff;
+    text-transform: none;
+    font-size: var(--fs-sm);
+    letter-spacing: var(--ls-normal);
+    box-shadow: 0 6px 18px rgba(91, 141, 239, 0.28);
+}
+
+.btn-step:hover {
+    background-color: var(--accent-hi);
+    border-color: var(--accent-hi);
+    color: #0B1426;
+}
+
+.btn-step:active {
+    background-color: var(--accent);
+    transform: translateY(1px);
+}
+
+.btn-step svg {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* Gauge cards: shell only. Ring size, thickness, colours and glow are untouched. */
+
+.gauge-widget {
+    gap: var(--space-3);
+}
+
+.gauge-widget-label {
+    color: var(--text-mid);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-wider);
+    text-transform: uppercase;
+}
+
+.gauge-widget-sub {
+    color: var(--text-mid);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+}
+
+.gauge-widget-value {
+    font-size: var(--fs-xl);
+    letter-spacing: var(--ls-tight);
+}
+
+/* Pipeline */
+
+.pipeline-flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pipeline-node {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.pipeline-node-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background-color: var(--surface-2);
+    border-color: var(--border-soft);
+    color: var(--text-mid);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+}
+
+.pipeline-node-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.pipeline-node-label {
+    color: var(--text-hi);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+}
+
+.pipeline-node-state {
+    color: var(--text-low);
+    font-size: var(--fs-sm);
+}
+
+.pipeline-connector {
+    flex: 1 1 var(--space-6);
+    max-width: 120px;
+    top: 0;
+    margin: 0 var(--space-3);
+}
+
+.pipeline-node.is-active .pipeline-node-dot {
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .nav-brand-text,
+    .nav-link-label,
+    .nav-link-index,
+    .nav-footer {
+        display: none;
+    }
+
+    .nav-brand,
+    .nav-link {
+        justify-content: center;
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-rail {
+        gap: var(--space-3);
+    }
+
+    .nav-link.is-active {
+        box-shadow: inset 0 -3px 0 var(--accent);
+    }
+
+    .nav-link {
+        width: 44px;
+    }
+}
+
+.nav-link {
+    gap: var(--space-3);
+}
+
+.nav-link .nav-link-index {
+    display: none;
+}

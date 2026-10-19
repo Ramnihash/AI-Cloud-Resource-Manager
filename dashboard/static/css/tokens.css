@@ -9,15 +9,21 @@
     --bg-gradient-c: #131418;
     --bg-vignette: rgba(0, 0, 0, 0.35);
 
-    --line: #383A40;
+    --line: #34363D;
 
     --text-hi: #F2F3F5;
-    --text-mid: #9A9DA6;
-    --text-low: #5C5F66;
+    --text-mid: #B3B7C0;
+    --text-low: #8C909A;
 
     --accent: #5B8DEF;
     --accent-dim: #1F3A66;
     --accent-hi: #8AB4FF;
+    --accent-soft: rgba(91, 141, 239, 0.14);
+
+    --surface-1: rgba(255, 255, 255, 0.025);
+    --surface-2: rgba(255, 255, 255, 0.05);
+    --border-soft: rgba(255, 255, 255, 0.07);
+    --status-ok-green: #34D399;
 
     --status-ok: #F2F3F5;
     --status-warn: #E8A23D;
@@ -68,9 +74,9 @@
     --font-mono: "IBM Plex Mono", "JetBrains Mono", "SFMono-Regular",
         Consolas, "Liberation Mono", Menlo, monospace;
 
-    --fs-xs: 0.6875rem;
-    --fs-sm: 0.75rem;
-    --fs-base: 0.875rem;
+    --fs-xs: 0.75rem;
+    --fs-sm: 0.8125rem;
+    --fs-base: 0.9375rem;
     --fs-md: 1rem;
     --fs-lg: 1.25rem;
     --fs-xl: 1.5rem;
@@ -102,7 +108,7 @@
     --space-8: 64px;
     --space-9: 80px;
 
-    --nav-width: 220px;
+    --nav-width: 232px;
     --content-max-width: 1440px;
     --top-strip-height: 56px;
 
