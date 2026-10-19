@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from backend.app import create_app
+from ml.device import anomaly_service
 from ml.cpu.burst_predictor import CPUBurstPredictor
 from ml.cpu.workload_classifier import CPUWorkloadClassifier
 from modules.cpu.action_loop import CPUActionLoop
@@ -783,6 +784,47 @@ class TestBackendAPI(unittest.TestCase):
         ]
         for body in bad:
             response = self.client.post("/api/v1/memory/analysis", json=body)
+            self.assertEqual(response.status_code, 400, body)
+
+
+    def test_anomaly_score_model_not_trained(self) -> None:
+        """POST /api/v1/device/anomaly-score returns 503 when the model is unavailable."""
+        error = anomaly_service.ModelUnavailableError("Anomaly detector is not trained yet.")
+        with patch.object(anomaly_service, "load_bundle", side_effect=error):
+            response = self.client.post("/api/v1/device/anomaly-score", json={"device_id": "disk_0"})
+        self.assertEqual(response.status_code, 503)
+        self.assertIn("not trained", response.get_json()["error"])
+
+    def test_anomaly_score_success(self) -> None:
+        """POST /api/v1/device/anomaly-score returns score, decision and derived risk."""
+        bundle = {"threshold": 1.0, "window_size": 10, "trained_at": "2026-01-01T00:00:00+00:00"}
+        with patch.object(anomaly_service, "load_bundle", return_value=bundle), \
+                patch.object(anomaly_service, "score_window", return_value=2.0):
+            response = self.client.post(
+                "/api/v1/device/anomaly-score",
+                json={"device_id": "disk_0", "pattern": "high_temperature"},
+            )
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertTrue(data["is_anomalous"])
+        self.assertEqual(data["failure_risk"], 1.0)
+        self.assertEqual(data["pattern"], "high_temperature")
+        self.assertGreater(data["latest_telemetry"]["temperature"], 70)
+
+    def test_anomaly_score_normal_window_below_threshold(self) -> None:
+        bundle = {"threshold": 1.0, "window_size": 10, "trained_at": None}
+        with patch.object(anomaly_service, "load_bundle", return_value=bundle), \
+                patch.object(anomaly_service, "score_window", return_value=0.1):
+            data = self.client.post("/api/v1/device/anomaly-score", json={"device_id": "NIC_0"}).get_json()
+        self.assertFalse(data["is_anomalous"])
+        self.assertEqual(data["pattern"], "normal")
+        self.assertLess(data["failure_risk"], 0.7)
+
+    def test_anomaly_score_validation(self) -> None:
+        """POST /api/v1/device/anomaly-score rejects bad input with 400."""
+        for body in ({}, {"device_id": ""}, {"device_id": "nope"},
+                     {"device_id": "disk_0", "pattern": "melting"}):
+            response = self.client.post("/api/v1/device/anomaly-score", json=body)
             self.assertEqual(response.status_code, 400, body)
 
 
