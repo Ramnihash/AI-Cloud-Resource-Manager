@@ -1102,6 +1102,6 @@ select.field-input {
 }
 
 select.field-input option {
-    background-color: var(--surface-1);
+    background-color: var(--bg-1);
     color: var(--text-hi);
 }
