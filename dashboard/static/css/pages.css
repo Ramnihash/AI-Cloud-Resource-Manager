@@ -1075,3 +1075,14 @@
     font-size: var(--fs-sm);
     color: var(--text-hi);
 }
+
+.kv-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 14px;
+}
+.kv-label { color: var(--text-mid); }
+.kv-value { color: var(--text-high, #fff); font-weight: 600; text-align: right; }

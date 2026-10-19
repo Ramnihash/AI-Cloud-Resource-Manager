@@ -115,28 +115,28 @@
     <article class="panel grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">Next-page prediction</h2>
-            <span class="status-text">Not connected</span>
+            <span class="status-text" id="mi-page-status">Run the comparison</span>
         </div>
-        <div class="panel-body">
-            <p class="gap-text">Markov and Transformer page predictors exist in <code>ml/memory</code>, but no backend endpoint runs them yet.</p>
+        <div class="panel-body" id="mi-page-body">
+            <p class="gap-text">Runs the Markov (and Transformer, if PyTorch is installed) predictors on the reference string above.</p>
         </div>
     </article>
     <article class="panel grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">Memory pressure forecast</h2>
-            <span class="status-text">Not connected</span>
+            <span class="status-text" id="mi-pressure-status">Run the comparison</span>
         </div>
-        <div class="panel-body">
-            <p class="gap-text">The pressure forecaster exists, but no endpoint returns a forecast, so none is shown here.</p>
+        <div class="panel-body" id="mi-pressure-body">
+            <p class="gap-text">Forecasts the next RAM percentage from live samples collected by the backend.</p>
         </div>
     </article>
     <article class="panel grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title">Leak detection and actions</h2>
-            <span class="status-text">Not connected</span>
+            <span class="status-text" id="mi-leak-status">Run the comparison</span>
         </div>
-        <div class="panel-body">
-            <p class="gap-text">The leak detector and the prefetch/protect and health action layers are only used by the demo script, not by the API.</p>
+        <div class="panel-body" id="mi-leak-body">
+            <p class="gap-text">Checks the backend process RSS for steady growth and shows the action the health layer chose.</p>
         </div>
     </article>
 </section>

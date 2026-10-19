@@ -339,6 +339,71 @@
         grid.appendChild(status);
     }
 
+    var ANALYSIS_ENDPOINT = "/api/v1/memory/analysis";
+
+    function kv(label, value) {
+        var row = el("div", "kv-row");
+        row.appendChild(el("span", "kv-label", label));
+        row.appendChild(el("span", "kv-value", value));
+        return row;
+    }
+
+    function fillBody(id, nodes) {
+        var body = byId(id);
+        clear(body);
+        nodes.forEach(function (n) { body.appendChild(n); });
+    }
+
+    function renderAnalysis(data) {
+        var pageNodes = [];
+        data.page_prediction.forEach(function (p) {
+            pageNodes.push(el("h3", "subhead-title", p.predictor));
+            if (!p.available) {
+                pageNodes.push(el("p", "gap-text", "Unavailable: " + p.reason));
+                return;
+            }
+            var top = p.candidates.map(function (c) { return "page " + c.page + " (" + pct(c.probability * 100, 0) + ")"; }).join(", ");
+            pageNodes.push(kv("Next page", top || "none"));
+            pageNodes.push(kv("Action", p.action.action));
+            pageNodes.push(el("p", "chart-note", p.action.reason));
+        });
+        pageNodes.push(el("p", "chart-note", "Current page " + data.current_page + " · frames " + data.memory_state.join(", ") + " (" + data.frames_policy + ")"));
+        fillBody("mi-page-body", pageNodes);
+        setText("mi-page-status", "Live");
+
+        var pf = data.pressure_forecast;
+        fillBody("mi-pressure-body", [
+            kv("Predicted RAM", pct(pf.predicted_ram_percent, 1)),
+            kv("Latest RAM", pct(data.samples.ram_percent[data.samples.ram_percent.length - 1], 1)),
+            el("p", "chart-note", "Linear autoregression, window " + pf.window_size + ", trained on " + data.samples.count + " samples taken " + data.samples.interval_s + "s apart.")
+        ]);
+        setText("mi-pressure-status", "Live");
+
+        var lk = data.leak_detection;
+        var h = data.health_action;
+        fillBody("mi-leak-body", [
+            kv("Leak detected", lk.is_leak_detected ? "Yes" : "No"),
+            kv("Growth", Math.round(lk.growth_rate_bytes_per_step) + " B/step"),
+            kv("Trend R²", lk.trend_r2_score.toFixed(2)),
+            kv("Action", h.action),
+            el("p", "chart-note", h.reason + ". Process: this backend (PID " + data.samples.pid + "), window " + lk.window_size + ".")
+        ]);
+        setText("mi-leak-status", "Live");
+    }
+
+    function analysisFailed(error) {
+        ["page", "pressure", "leak"].forEach(function (k) {
+            setText("mi-" + k + "-status", "Failed");
+            fillBody("mi-" + k + "-body", [el("p", "gap-text", describeError(error))]);
+        });
+    }
+
+    function runAnalysis(pages, frames) {
+        ["page", "pressure", "leak"].forEach(function (k) { setText("mi-" + k + "-status", "Running…"); });
+        return postJson(ANALYSIS_ENDPOINT, { reference_string: pages, num_frames: frames, samples: 12, interval_s: 0.2 })
+            .then(renderAnalysis, analysisFailed);
+    }
+
     function runComparison(event) {
         event.preventDefault();
         var errorEl = byId("pr-form-error");
@@ -372,6 +437,7 @@
                 renderComparison();
                 renderTabs();
                 renderFrames();
+                return runAnalysis(parsed.pages, frames);
             })
             .catch(function (error) {
                 errorEl.hidden = false;

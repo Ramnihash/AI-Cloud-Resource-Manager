@@ -11,6 +11,7 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import os
 import random
 from typing import Any, Optional
 
@@ -20,7 +21,12 @@ from flask import Blueprint, current_app, jsonify, request
 from modules.cpu.action_loop import CPUActionLoop
 from modules.cpu.process import Process
 from modules.device.predictive_action import handle_predictive_action
+from ml.memory.markov_predictor import MarkovPagePredictor
+from ml.memory.memory_leak_detector import MemoryLeakDetector
+from ml.memory.memory_pressure_forecaster import MemoryPressureForecaster
+from modules.memory.memory_health_action import MemoryHealthActionLayer
 from modules.memory.memory_monitor import MemoryMonitor
+from modules.memory.page_prediction_action import PagePredictionActionLayer
 from modules.memory.page_replacement import (
     FIFOPageReplacement,
     LRUPageReplacement,
@@ -255,6 +261,115 @@ def memory_monitor():
             return jsonify({"error": "Internal server error"}), 500
 
     return jsonify(result), 200
+
+
+@api_bp.route("/api/v1/memory/analysis", methods=["POST"])
+def memory_analysis():
+    """Run the memory intelligence layer on a reference string and live RAM samples.
+
+    Page predictors are trained on the supplied reference string. The pressure
+    forecaster and leak detector use samples of this backend process and the
+    host RAM collected by MemoryMonitor during the request.
+    """
+    data, err = _extract_json_payload(allow_empty=False)
+    if err:
+        return jsonify({"error": err}), 400
+
+    ref = data.get("reference_string")
+    if not isinstance(ref, list) or len(ref) < 3:
+        return jsonify({"error": "Field 'reference_string' must be a list of at least 3 integers"}), 400
+    for idx, page in enumerate(ref):
+        if isinstance(page, bool) or not isinstance(page, int) or page < 0:
+            return jsonify({"error": f"Element at index {idx} in 'reference_string' must be a non-negative integer"}), 400
+
+    num_frames = data.get("num_frames", 3)
+    if isinstance(num_frames, bool) or not isinstance(num_frames, int) or not 1 <= num_frames <= 20:
+        return jsonify({"error": "Field 'num_frames' must be an integer between 1 and 20"}), 400
+
+    samples = data.get("samples", 12)
+    if isinstance(samples, bool) or not isinstance(samples, int) or not 8 <= samples <= 30:
+        return jsonify({"error": "Field 'samples' must be an integer between 8 and 30"}), 400
+
+    interval_s = data.get("interval_s", 0.2)
+    if isinstance(interval_s, bool) or not isinstance(interval_s, (int, float)) or not 0 <= interval_s <= 1:
+        return jsonify({"error": "Field 'interval_s' must be a number between 0 and 1"}), 400
+
+    try:
+        frames_result = LRUPageReplacement(num_frames=num_frames).run(reference_string=ref)
+        snapshots_in = frames_result.get("frame_snapshots") or frames_result.get("snapshots") or []
+        memory_state = [p for p in (snapshots_in[-1] if snapshots_in else []) if p is not None]
+
+        current_page = ref[-1]
+        prediction_layer = PagePredictionActionLayer()
+        pages = []
+
+        markov = MarkovPagePredictor()
+        markov.train(ref)
+        candidates = markov.predict(current_page, top_k=3)
+        pages.append({
+            "predictor": "Markov",
+            "available": True,
+            "candidates": candidates,
+            "action": prediction_layer.evaluate_and_act(candidates, memory_state, "Markov"),
+        })
+
+        try:
+            from ml.memory.transformer_predictor import TransformerPagePredictor
+        except ImportError:
+            pages.append({"predictor": "Transformer", "available": False,
+                          "reason": "PyTorch is not installed on the backend"})
+        else:
+            context_len = 2
+            if len(ref) <= context_len:
+                pages.append({"predictor": "Transformer", "available": False,
+                              "reason": "Reference string is too short for the context window"})
+            else:
+                transformer = TransformerPagePredictor(
+                    num_pages=max(ref) + 1, context_len=context_len, d_model=16, nhead=2)
+                transformer.train(ref, epochs=20)
+                t_cands = transformer.predict(ref[-context_len:], top_k=3)
+                pages.append({
+                    "predictor": "Transformer",
+                    "available": True,
+                    "candidates": t_cands,
+                    "action": prediction_layer.evaluate_and_act(t_cands, memory_state, "Transformer"),
+                })
+
+        pid = os.getpid()
+        snaps = MemoryMonitor().collect(n=samples, interval_s=float(interval_s), pid=pid)["snapshots"]
+
+        window = min(5, len(snaps) - 1)
+        forecaster = MemoryPressureForecaster(window_size=window)
+        forecaster.train(snaps)
+        pressure = forecaster.predict(snaps[-window:])
+
+        leak_window = min(8, len(snaps))
+        leak = MemoryLeakDetector(window_size=leak_window).detect(snaps)
+
+        health = MemoryHealthActionLayer().evaluate_and_act(leak, pressure)
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    return jsonify({
+        "reference_length": len(ref),
+        "num_frames": num_frames,
+        "frames_policy": "LRU",
+        "memory_state": memory_state,
+        "current_page": current_page,
+        "page_prediction": pages,
+        "samples": {
+            "count": len(snaps),
+            "interval_s": float(interval_s),
+            "pid": pid,
+            "ram_percent": [s["ram_percent"] for s in snaps],
+            "rss_bytes": [s["proc_rss_bytes"] for s in snaps],
+        },
+        "pressure_forecast": {**pressure, "window_size": window},
+        "leak_detection": {**leak, "window_size": leak_window},
+        "health_action": health,
+    }), 200
 
 
 @api_bp.route("/api/v1/device/predictive-action", methods=["POST"])

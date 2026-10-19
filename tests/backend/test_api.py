@@ -750,5 +750,41 @@ class TestBackendAPI(unittest.TestCase):
             self.assertIn("limit", response.get_json()["error"])
 
 
+    def test_memory_analysis_success(self) -> None:
+        """POST /api/v1/memory/analysis returns predictor, forecaster, leak and action output."""
+        response = self.client.post("/api/v1/memory/analysis", json={
+            "reference_string": [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5],
+            "num_frames": 3, "samples": 8, "interval_s": 0,
+        })
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        markov = data["page_prediction"][0]
+        self.assertEqual(markov["predictor"], "Markov")
+        self.assertIn(markov["action"]["action"], ("PROTECT", "PREFETCH"))
+        self.assertEqual(data["samples"]["count"], 8)
+        self.assertEqual(data["samples"]["pid"], os.getpid())
+        self.assertIn("predicted_ram_percent", data["pressure_forecast"])
+        self.assertIn("is_leak_detected", data["leak_detection"])
+        self.assertIn(data["health_action"]["action"],
+                      ("NO_ACTION", "RESTART_PROCESS", "ALERT_HIGH_PRESSURE"))
+        if len(data["page_prediction"]) > 1:
+            self.assertIn("available", data["page_prediction"][1])
+
+    def test_memory_analysis_validation(self) -> None:
+        """POST /api/v1/memory/analysis rejects bad input with 400."""
+        bad = [
+            {},
+            {"reference_string": [1, 2]},
+            {"reference_string": [1, 2, "x"]},
+            {"reference_string": [1, 2, -3]},
+            {"reference_string": [1, 2, 3], "num_frames": 0},
+            {"reference_string": [1, 2, 3], "samples": 3},
+            {"reference_string": [1, 2, 3], "interval_s": 5},
+        ]
+        for body in bad:
+            response = self.client.post("/api/v1/memory/analysis", json=body)
+            self.assertEqual(response.status_code, 400, body)
+
+
 if __name__ == "__main__":
     unittest.main()
