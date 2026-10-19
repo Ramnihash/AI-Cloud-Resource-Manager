@@ -7,9 +7,49 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Demo workload sent with each step: 4-8 processes with random
-    // arrival, burst and priority. The backend does all scheduling.
+    function randomFloat(min, max, digits) {
+        var value = Math.random() * (max - min) + min;
+        var factor = Math.pow(10, digits === undefined ? 2 : digits);
+        return Math.round(value * factor) / factor;
+    }
+
+    // Demo workload profiles. Feature ranges follow the CPU module's synthetic
+    // training data (data/cpu/workload_classifier_data.py), so the burst
+    // predictor and workload classifier receive the metadata they were trained on.
+    var WORKLOAD_PROFILES = [
+        {
+            name: "cpu_bound",
+            priority: [2, 5], burst: [15, 30],
+            cpu: [0.75, 1.0], io: [0.0, 0.35],
+            instructions: [40000, 100000], complexity: [2.5, 5.0]
+        },
+        {
+            name: "io_bound",
+            priority: [2, 5], burst: [2, 10],
+            cpu: [0.1, 0.5], io: [0.65, 0.9],
+            instructions: [5000, 40000], complexity: [1.0, 3.0]
+        },
+        {
+            name: "priority_critical",
+            priority: [1, 10], burst: [3, 15],
+            cpu: [0.1, 0.6], io: [0.05, 0.45],
+            instructions: [5000, 50000], complexity: [1.0, 3.5]
+        },
+        {
+            name: "balanced",
+            priority: [2, 5], burst: [4, 14],
+            cpu: [0.3, 0.6], io: [0.2, 0.5],
+            instructions: [10000, 40000], complexity: [1.5, 3.0]
+        }
+    ];
+    var nextProfile = randomInt(0, WORKLOAD_PROFILES.length - 1);
+
+    // Each step sends 4-8 processes from the next profile in turn, with
+    // metadata features. The backend does all prediction and scheduling.
     function buildDemoWorkload() {
+        var profile = WORKLOAD_PROFILES[nextProfile];
+        nextProfile = (nextProfile + 1) % WORKLOAD_PROFILES.length;
+
         var count = randomInt(4, 8);
         var processes = [];
         var arrival = 0;
@@ -17,8 +57,15 @@
             processes.push({
                 pid: i,
                 arrival_time: arrival,
-                burst_time: randomInt(1, 12),
-                priority: randomInt(1, 5)
+                burst_time: randomInt(profile.burst[0], profile.burst[1]),
+                priority: i === 1 && profile.name === "priority_critical" ? 1 : randomInt(profile.priority[0], profile.priority[1]),
+                workload_type: profile.name,
+                metadata: {
+                    cpu_intensity: randomFloat(profile.cpu[0], profile.cpu[1]),
+                    io_wait_ratio: randomFloat(profile.io[0], profile.io[1]),
+                    instruction_count: randomInt(profile.instructions[0], profile.instructions[1]),
+                    process_complexity: randomFloat(profile.complexity[0], profile.complexity[1], 1)
+                }
             });
             arrival += randomInt(0, 3);
         }

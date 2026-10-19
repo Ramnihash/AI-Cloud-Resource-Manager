@@ -57,6 +57,15 @@
         banner.textContent = message || "";
     }
 
+    function comparePid(a, b) {
+        var na = Number(a);
+        var nb = Number(b);
+        if (!isNaN(na) && !isNaN(nb)) {
+            return na - nb;
+        }
+        return String(a).localeCompare(String(b));
+    }
+
     function seriesIndex(pids, pid) {
         var i = pids.indexOf(String(pid));
         return i < 0 ? 0 : i % SERIES_COUNT;
@@ -127,6 +136,8 @@
                 pids.push(String(s.pid));
             }
         });
+        // Colour follows the process id, not completion order.
+        pids.sort(comparePid);
 
         var end = 0;
         segments.forEach(function (s) {
@@ -182,7 +193,8 @@
     }
 
     function renderProcesses(schedule) {
-        var rows = Array.isArray(schedule.processes) ? schedule.processes : [];
+        var rows = Array.isArray(schedule.processes) ? schedule.processes.slice() : [];
+        rows.sort(function (a, b) { return comparePid(a.pid, b.pid); });
         var body = byId("proc-body");
         clear(body);
         setText("proc-meta", rows.length + (rows.length === 1 ? " process" : " processes"), true);
