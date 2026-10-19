@@ -191,10 +191,13 @@
             utilPercent = Number(cpu.mean_metrics.cpu_utilization);
         }
 
+        // Scheduler utilization near 100% means no idle time, which is not a
+        // fault, so the CPU ring never switches to the critical (red) state.
         setGaugeValue(
             "CPU Utilization",
             utilPercent,
-            utilPercent !== null ? utilPercent.toFixed(1) + "%" : undefined
+            utilPercent !== null ? utilPercent.toFixed(1) + "%" : undefined,
+            { critThreshold: Infinity }
         );
 
         if (!cpu) {
@@ -342,8 +345,172 @@
             });
     }
 
+    function setText(id, text) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.textContent = text;
+        }
+    }
+
+    function formatNumber(value, digits) {
+        if (typeof value !== "number" || isNaN(value)) {
+            return null;
+        }
+        return value.toFixed(digits === undefined ? 1 : digits);
+    }
+
+    function setStage(stage, text, state) {
+        var node = document.querySelector('.pipeline-node[data-stage="' + stage + '"]');
+        if (!node) {
+            return;
+        }
+        var stateEl = node.querySelector(".pipeline-node-state");
+        if (stateEl && text) {
+            stateEl.textContent = text;
+        }
+        node.classList.remove("is-complete", "is-error");
+        if (state) {
+            node.classList.add("is-" + state);
+        }
+    }
+
+    function buildRow(module, title, detail) {
+        var row = document.createElement("li");
+        row.className = "step-row step-row--" + module;
+
+        var tag = document.createElement("span");
+        tag.className = "step-row-module";
+        tag.textContent = module.toUpperCase();
+
+        var text = document.createElement("span");
+        text.className = "step-row-text";
+
+        var titleEl = document.createElement("span");
+        titleEl.className = "step-row-title";
+        titleEl.textContent = title;
+        text.appendChild(titleEl);
+
+        if (detail) {
+            var detailEl = document.createElement("span");
+            detailEl.className = "step-row-detail";
+            detailEl.textContent = detail;
+            text.appendChild(detailEl);
+        }
+
+        row.appendChild(tag);
+        row.appendChild(text);
+        return row;
+    }
+
+    function renderLatestStep(record) {
+        var body = document.getElementById("latest-step-body");
+        if (!body || !record) {
+            return;
+        }
+
+        var cpu = record.cpu || {};
+        var meta = cpu.meta_result || {};
+        var schedule = meta.schedule_result || {};
+        var metrics = schedule.metrics || {};
+        var memory = record.memory || {};
+        var devices = Array.isArray(record.devices) ? record.devices : [];
+        var list = document.createElement("ul");
+        list.className = "step-list";
+
+        if (cpu.workload_class) {
+            var conf = formatNumber(typeof cpu.confidence === "number" ? cpu.confidence * 100 : NaN, 0);
+            list.appendChild(buildRow(
+                "cpu",
+                "Workload classified as " + cpu.workload_class,
+                conf !== null ? conf + "% confidence" : null
+            ));
+        }
+
+        if (cpu.selected_scheduler) {
+            list.appendChild(buildRow(
+                "cpu",
+                "Scheduler selected: " + cpu.selected_scheduler + (cpu.is_fallback ? " (fallback)" : ""),
+                typeof cpu.process_count === "number" ? cpu.process_count + " processes scheduled" : null
+            ));
+        }
+
+        var perf = [];
+        if (formatNumber(metrics.avg_waiting_time) !== null) {
+            perf.push("avg waiting " + formatNumber(metrics.avg_waiting_time));
+        }
+        if (formatNumber(metrics.avg_turnaround_time) !== null) {
+            perf.push("avg turnaround " + formatNumber(metrics.avg_turnaround_time));
+        }
+        if (formatNumber(metrics.cpu_utilization) !== null) {
+            perf.push("utilization " + formatNumber(metrics.cpu_utilization) + "%");
+        }
+        if (perf.length) {
+            list.appendChild(buildRow("cpu", "Schedule executed", perf.join(" · ")));
+        }
+
+        if (formatNumber(memory.ram_percent) !== null) {
+            list.appendChild(buildRow("memory", "Memory snapshot recorded", "RAM " + formatNumber(memory.ram_percent) + "% used"));
+        }
+
+        if (devices.length) {
+            devices.forEach(function (item) {
+                var id = item && (item.device_id || item.id);
+                var action = item && (item.action || item.action_type || item.decision);
+                list.appendChild(buildRow("device", (id || "Device") + (action ? ": " + action : ""), item && item.outcome ? String(item.outcome) : null));
+            });
+        } else {
+            list.appendChild(buildRow("device", "No device actions in this step", null));
+        }
+
+        body.textContent = "";
+        body.appendChild(list);
+
+        var stepNo = typeof record.step_index === "number" ? record.step_index + 1 : null;
+        var when = typeof cpu.timestamp === "number" ? new Date(cpu.timestamp * 1000).toLocaleTimeString() : null;
+        setText("latest-step-meta", (stepNo !== null ? "Step " + stepNo : "Latest step") + (when ? " · " + when : ""));
+    }
+
+    function renderPipeline(record) {
+        var cpu = record.cpu || {};
+        var memory = record.memory || {};
+        var metrics = ((cpu.meta_result || {}).schedule_result || {}).metrics || {};
+        var conf = formatNumber(typeof cpu.confidence === "number" ? cpu.confidence * 100 : NaN, 0);
+        var ram = formatNumber(memory.ram_percent);
+
+        setStage("observe", (typeof cpu.process_count === "number" ? cpu.process_count + " processes" : "Observed") + (ram !== null ? " · RAM " + ram + "%" : ""), "complete");
+        setStage("predict", cpu.workload_class ? cpu.workload_class + (conf !== null ? " · " + conf + "%" : "") : "Predicted", "complete");
+        setStage("decide", cpu.selected_scheduler ? cpu.selected_scheduler + (cpu.is_fallback ? " (fallback)" : "") : "Decided", "complete");
+        setStage("act", formatNumber(metrics.total_time) !== null ? "Ran " + formatNumber(metrics.total_time) + " time units" : "Executed", "complete");
+
+        var stepNo = typeof record.step_index === "number" ? record.step_index + 1 : null;
+        setText("pipeline-status-text", stepNo !== null ? "Step " + stepNo + " complete" : "Step complete");
+        var status = document.getElementById("pipeline-status");
+        if (status) {
+            status.classList.remove("is-critical");
+        }
+        setText("cpu-panel-status", "Active");
+    }
+
+    function onStepFailed(event) {
+        setText("pipeline-status-text", "Last step failed");
+        var status = document.getElementById("pipeline-status");
+        if (status) {
+            status.classList.add("is-critical");
+        }
+        if (window.console && console.error && event && event.detail) {
+            console.error("System step failed:", event.detail.message);
+        }
+    }
+
     function init() {
         loadOverview();
+
+        document.addEventListener("system:stepped", function (event) {
+            renderLatestStep(event.detail);
+            renderPipeline(event.detail);
+            loadOverview();
+        });
+        document.addEventListener("system:step-failed", onStepFailed);
     }
 
     if (document.readyState === "loading") {

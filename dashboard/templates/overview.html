@@ -14,13 +14,13 @@
 <section class="pipeline-strip panel" aria-labelledby="pipeline-heading">
         <div class="pipeline-strip-head">
             <h2 class="panel-title" id="pipeline-heading">Control Pipeline</h2>
-            <span class="status-text is-ok">
+            <span class="status-text is-ok" id="pipeline-status">
                 <span class="badge-dot" aria-hidden="true"></span>
-                Idle
+                <span id="pipeline-status-text">Idle</span>
             </span>
         </div>
         <ol class="pipeline-flow">
-                <li class="pipeline-node">
+                <li class="pipeline-node" data-stage="observe">
                     <span class="pipeline-node-dot" aria-hidden="true">1</span>
                     <span class="pipeline-node-text">
                         <span class="pipeline-node-label">Observe</span>
@@ -28,7 +28,7 @@
                     </span>
                 </li>
                 <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
+                <li class="pipeline-node" data-stage="predict">
                     <span class="pipeline-node-dot" aria-hidden="true">2</span>
                     <span class="pipeline-node-text">
                         <span class="pipeline-node-label">Predict</span>
@@ -36,7 +36,7 @@
                     </span>
                 </li>
                 <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
+                <li class="pipeline-node" data-stage="decide">
                     <span class="pipeline-node-dot" aria-hidden="true">3</span>
                     <span class="pipeline-node-text">
                         <span class="pipeline-node-label">Decide</span>
@@ -44,7 +44,7 @@
                     </span>
                 </li>
                 <li class="pipeline-connector" aria-hidden="true"></li>
-                <li class="pipeline-node">
+                <li class="pipeline-node" data-stage="act">
                     <span class="pipeline-node-dot" aria-hidden="true">4</span>
                     <span class="pipeline-node-text">
                         <span class="pipeline-node-label">Act</span>
@@ -135,7 +135,7 @@
     <article class="panel panel-module module-cpu grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>CPU</h2>
-            <span class="status-text is-ok">Standby</span>
+            <span class="status-text is-ok" id="cpu-panel-status">Standby</span>
         </div>
         <div class="panel-body metric-stack">
             <div class="metric">
@@ -195,18 +195,18 @@
 <section class="page-grid section-gap" aria-label="Recent actions">
     <div class="panel grid-col-12">
         <div class="panel-header">
-            <h2 class="panel-title">Recent Predictive Actions</h2>
-            <span class="page-meta">Last 0 events</span>
+            <h2 class="panel-title">Latest Step</h2>
+            <span class="page-meta" id="latest-step-meta">No steps yet</span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" id="latest-step-body">
             <div class="state-block state-block--compact">
                 <span class="state-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
                 </span>
-                <p class="state-title">No actions recorded yet</p>
+                <p class="state-title">No steps run yet</p>
                 <p class="state-desc">
-                    Predictive actions from the CPU, memory and device modules will appear
-                    here once the system has been stepped.
+                    Press Step System to run a workload through the scheduler. The decisions
+                    from that step will appear here.
                 </p>
             </div>
         </div>

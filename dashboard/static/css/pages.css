@@ -576,3 +576,63 @@
         gap: var(--space-3);
     }
 }
+
+/* Latest step list */
+
+.step-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.step-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: var(--border-width) solid var(--border-soft);
+}
+
+.step-row:last-child {
+    border-bottom: none;
+}
+
+.step-row-module {
+    flex: 0 0 72px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-wide);
+}
+
+.step-row--cpu .step-row-module {
+    color: var(--gauge-cpu);
+}
+
+.step-row--memory .step-row-module {
+    color: var(--gauge-ram);
+}
+
+.step-row--device .step-row-module {
+    color: var(--gauge-fleet);
+}
+
+.step-row-text {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-3);
+    row-gap: 2px;
+    min-width: 0;
+}
+
+.step-row-title {
+    color: var(--text-hi);
+    font-size: var(--fs-base);
+}
+
+.step-row-detail {
+    color: var(--text-low);
+    font-size: var(--fs-sm);
+}
