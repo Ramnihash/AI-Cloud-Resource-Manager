@@ -70,9 +70,25 @@ class SharedMonitor:
                 f"action_result must be a PredictiveActionResult or dict, got {type(action_result).__name__}"
             )
 
+        action_dict.setdefault("recorded_at", datetime.datetime.now(datetime.timezone.utc).isoformat())
         self._recent_device_actions.append(action_dict)
         if len(self._recent_device_actions) > self.max_recent_actions:
             self._recent_device_actions = self._recent_device_actions[-self.max_recent_actions:]
+
+        self._apply_action_to_fleet(action_dict)
+
+    def _apply_action_to_fleet(self, action_dict: dict[str, Any]) -> None:
+        """Reflect a recovery outcome in the fleet: blocked I/O marks the device failed.
+
+        A device whose I/O was blocked becomes ``failed`` (traffic may have been
+        rerouted to a backup); a device reported healthy goes back to ``ok``.
+        """
+        recovery = action_dict.get("recovery_result")
+        if not isinstance(recovery, dict):
+            return
+        for device in self.fleet:
+            if device.device_id == action_dict.get("device_id"):
+                device.status = "failed" if recovery.get("io_blocked") else "ok"
 
     def get_system_snapshot(
         self,
@@ -156,4 +172,6 @@ class SharedMonitor:
         if self.cpu_action_loop is not None:
             self.cpu_action_loop.reset()
         self._recent_device_actions.clear()
+        for device in self.fleet:
+            device.status = "ok"
         self._sample_counter = 0

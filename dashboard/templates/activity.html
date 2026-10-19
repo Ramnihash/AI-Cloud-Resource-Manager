@@ -6,52 +6,68 @@
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">Activity / System Event Log</h1>
-        <p class="page-subtitle">Reverse-chronological log of predictive and scheduling actions</p>
+        <h1 class="page-title">Activity</h1>
+        <p class="page-subtitle">Reverse-chronological log of scheduling, memory and device actions</p>
     </div>
-    <span class="page-meta">LAST 0 EVENTS</span>
+    <span class="page-meta" id="act-meta">Loading…</span>
 </div>
 
-<section class="page-grid" aria-label="Event log">
+<div class="state-banner" id="act-error" role="alert" hidden></div>
+
+<section class="page-grid" aria-label="Activity summary">
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Events logged</span>
+        <span class="kpi-value" id="kpi-ev-total">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ev-sub">&nbsp;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Steps run</span>
+        <span class="kpi-value" id="kpi-ev-steps">&mdash;</span>
+        <span class="kpi-sub">Since the backend started</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Scheduler fallbacks</span>
+        <span class="kpi-value" id="kpi-ev-fallbacks">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ev-fallbacks-sub">&nbsp;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Device actions</span>
+        <span class="kpi-value" id="kpi-ev-device">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ev-device-sub">&nbsp;</span>
+    </div>
+</section>
+
+<section class="page-grid section-gap" aria-label="Event log">
     <div class="panel grid-col-12">
         <div class="panel-header">
-            <h2 class="panel-title">Engineering Log</h2>
-            <span class="badge badge-ok">
-                <span class="badge-dot" aria-hidden="true"></span>
-                NO EVENTS
-            </span>
+            <h2 class="panel-title">Event log</h2>
+            <div class="seg" role="tablist" aria-label="Filter by module" id="act-filter"></div>
         </div>
         <div class="panel-body">
             <div class="table-scroll">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Timestamp</th>
-                            <th>Module</th>
-                            <th>Action</th>
-                            <th>Resource</th>
-                            <th>Result</th>
-                            <th>Details</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Module</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Resource</th>
+                            <th scope="col">Result</th>
+                            <th scope="col">Details</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="6">
-                                <div class="state-block">
-                                    <p class="state-title">No actions recorded yet</p>
-                                    <p class="state-desc">
-                                        CPU, memory, and device actions will appear here in
-                                        reverse-chronological order once the system has been
-                                        stepped.
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="act-body">
+                        <tr><td colspan="6"><div class="state-block state-block--compact"><p class="state-title">Loading events…</p></div></td></tr>
                     </tbody>
                 </table>
             </div>
+            <p class="chart-note">Built from the backend's own records: the last 50 system steps (CPU scheduling and a memory snapshot per step) and recorded device actions. The log lives in backend memory and clears when the server restarts.</p>
         </div>
     </div>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="/dashboard/static/js/activity.js"></script>
 {% endblock %}

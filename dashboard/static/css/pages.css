@@ -1086,3 +1086,22 @@
 }
 .kv-label { color: var(--text-mid); }
 .kv-value { color: var(--text-high, #fff); font-weight: 600; text-align: right; }
+
+.mod-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    --module-color: var(--accent);
+}
+.mod-tag.module-cpu { --module-color: var(--gauge-cpu); }
+.mod-tag.module-memory { --module-color: var(--gauge-ram); }
+.mod-tag.module-device { --module-color: var(--gauge-fleet); }
+
+select.field-input {
+    color-scheme: dark;
+}
+
+select.field-input option {
+    background-color: var(--surface-1);
+    color: var(--text-hi);
+}
