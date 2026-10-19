@@ -63,7 +63,11 @@
         if (!isNaN(na) && !isNaN(nb)) {
             return na - nb;
         }
-        return String(a).localeCompare(String(b));
+        return String(a).localeCompare(String(b), undefined, { numeric: true });
+    }
+
+    function pidLabel(pid) {
+        return /^\d+$/.test(String(pid)) ? "P" + pid : String(pid);
     }
 
     function seriesIndex(pids, pid) {
@@ -160,7 +164,7 @@
             seg.style.width = (dur / end * 100) + "%";
             if (!s.is_idle) {
                 seg.style.setProperty("--seg-color", "var(--series-" + (seriesIndex(pids, s.pid) + 1) + ")");
-                seg.appendChild(el("span", "gantt-seg-label", "P" + s.pid));
+                seg.appendChild(el("span", "gantt-seg-label", pidLabel(s.pid)));
             }
             var label = (s.is_idle ? "Idle" : "Process " + s.pid) + ": " + num(start) + " to " + num(start + dur) + " (" + num(dur) + " units)";
             seg.title = label;
@@ -185,7 +189,7 @@
             var swatch = el("span", "gantt-swatch");
             swatch.style.setProperty("--seg-color", "var(--series-" + ((idx % SERIES_COUNT) + 1) + ")");
             item.appendChild(swatch);
-            item.appendChild(el("span", null, "P" + pid));
+            item.appendChild(el("span", null, pidLabel(pid)));
             legend.appendChild(item);
         });
 
@@ -201,7 +205,7 @@
         rows.forEach(function (p) {
             var tr = document.createElement("tr");
             [
-                ["P" + p.pid, "cell-strong"],
+                [pidLabel(p.pid), "cell-strong"],
                 [numOrDash(p.arrival_time)],
                 [numOrDash(p.burst_time)],
                 [numOrDash(p.predicted_burst_time)],

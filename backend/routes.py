@@ -11,6 +11,7 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import random
 from typing import Any, Optional
 
 import psutil
@@ -375,6 +376,58 @@ def _get_integrated_execution_manager():
     return manager
 
 
+WORKLOAD_PROFILES = {
+    "cpu_bound": "CPU_BOUND",
+    "io_bound": "IO_BOUND",
+    "priority_critical": "PRIORITY_CRITICAL",
+    "balanced": "BALANCED",
+}
+
+
+def _generate_profile_workload(
+    data: dict[str, Any],
+) -> tuple[list[dict[str, Any]], Optional[dict[str, Any]], Optional[str]]:
+    """Generate a process list for a named workload profile using the CPU workload generator."""
+    from data.cpu.workload_classifier_data import generate_class_workload
+
+    profile = data.get("workload_profile")
+    if not isinstance(profile, str) or profile not in (*WORKLOAD_PROFILES, "random"):
+        allowed = ", ".join([*WORKLOAD_PROFILES, "random"])
+        return [], None, f"Field 'workload_profile' must be one of: {allowed}"
+
+    num_processes = data.get("num_processes", 8)
+    if isinstance(num_processes, bool) or not isinstance(num_processes, int) or not 1 <= num_processes <= 50:
+        return [], None, "Field 'num_processes' must be an integer between 1 and 50"
+
+    seed = data.get("seed")
+    if seed is not None and (isinstance(seed, bool) or not isinstance(seed, int)):
+        return [], None, "Field 'seed' must be an integer or null"
+
+    rng = random.Random(seed)
+    if profile == "random":
+        profile = rng.choice(list(WORKLOAD_PROFILES))
+
+    processes, label = generate_class_workload(
+        WORKLOAD_PROFILES[profile],
+        num_processes=num_processes,
+        seed=rng.randint(0, 10_000_000),
+    )
+    raw_processes = []
+    for p in processes:
+        raw_processes.append(
+            {
+                "pid": p.pid,
+                "arrival_time": p.arrival_time,
+                "burst_time": p.burst_time,
+                "priority": p.priority,
+                "workload_type": profile,
+                "metadata": dict(p.metadata),
+            }
+        )
+    info = {"profile": profile, "rule_label": label, "num_processes": len(raw_processes)}
+    return raw_processes, info, None
+
+
 @api_bp.route("/api/v1/system/step", methods=["POST"])
 def system_step():
     """Execute a coordinated multi-resource execution step across CPU, Memory, Device, and Monitoring."""
@@ -383,9 +436,15 @@ def system_step():
         return jsonify({"error": err}), 400
 
 
-    if "processes" not in data:
-        return jsonify({"error": "Missing required field: processes"}), 400
-    raw_processes = data["processes"]
+    generated_workload: Optional[dict[str, Any]] = None
+    if "processes" not in data and "workload_profile" in data:
+        raw_processes, generated_workload, gen_err = _generate_profile_workload(data)
+        if gen_err:
+            return jsonify({"error": gen_err}), 400
+    elif "processes" not in data:
+        return jsonify({"error": "Missing required field: processes (or workload_profile)"}), 400
+    else:
+        raw_processes = data["processes"]
     if not isinstance(raw_processes, list):
         return jsonify({"error": "Field 'processes' must be a list"}), 400
     if len(raw_processes) == 0:
@@ -492,7 +551,10 @@ def system_step():
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
 
-    return jsonify(step_record.to_dict()), 200
+    response = step_record.to_dict()
+    if generated_workload is not None:
+        response["generated_workload"] = generated_workload
+    return jsonify(response), 200
 
 
 @api_bp.route("/api/v1/system/history", methods=["GET"])

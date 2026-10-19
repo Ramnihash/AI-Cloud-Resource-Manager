@@ -675,6 +675,56 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.get_json(), {"error": "Internal server error"})
             self.assertNotIn("Bus arbiter synchronization failed", response.get_data(as_text=True))
 
+    def test_system_step_generated_profiles(self) -> None:
+        """POST /api/v1/system/step with workload_profile generates a matching workload."""
+        expected = {
+            "cpu_bound": "CPU_BOUND",
+            "io_bound": "IO_BOUND",
+            "priority_critical": "PRIORITY_CRITICAL",
+            "balanced": "BALANCED",
+        }
+        for profile, label in expected.items():
+            response = self.client.post(
+                "/api/v1/system/step",
+                json={"workload_profile": profile, "num_processes": 6, "seed": 7},
+            )
+            self.assertEqual(response.status_code, 200, profile)
+            data = response.get_json()
+            self.assertEqual(data["generated_workload"]["profile"], profile)
+            self.assertEqual(data["generated_workload"]["rule_label"], label)
+            self.assertEqual(data["cpu"]["process_count"], 6)
+            processes = data["cpu"]["meta_result"]["schedule_result"]["processes"]
+            for p in processes:
+                self.assertEqual(p["workload_type"], profile)
+                for feature in ("cpu_intensity", "io_wait_ratio", "instruction_count", "process_complexity"):
+                    self.assertIn(feature, p["metadata"])
+            predicted = {p["predicted_burst_time"] for p in processes}
+            self.assertGreater(len(predicted), 1, f"{profile}: predicted bursts should vary per process")
+
+    def test_system_step_generated_profile_is_reproducible(self) -> None:
+        """Same workload_profile and seed produce the same processes."""
+        payload = {"workload_profile": "random", "num_processes": 5, "seed": 123}
+        first = self.client.post("/api/v1/system/step", json=payload).get_json()
+        second = self.client.post("/api/v1/system/step", json=payload).get_json()
+        self.assertEqual(first["generated_workload"]["profile"], second["generated_workload"]["profile"])
+        procs = lambda d: [(p["pid"], p["burst_time"]) for p in d["cpu"]["meta_result"]["schedule_result"]["processes"]]
+        self.assertEqual(sorted(procs(first)), sorted(procs(second)))
+
+    def test_system_step_generated_profile_validation(self) -> None:
+        """Invalid workload_profile, num_processes or seed return HTTP 400."""
+        bad_payloads = [
+            {"workload_profile": "gpu_bound"},
+            {"workload_profile": 3},
+            {"workload_profile": "balanced", "num_processes": 0},
+            {"workload_profile": "balanced", "num_processes": 51},
+            {"workload_profile": "balanced", "num_processes": True},
+            {"workload_profile": "balanced", "seed": "x"},
+        ]
+        for payload in bad_payloads:
+            response = self.client.post("/api/v1/system/step", json=payload)
+            self.assertEqual(response.status_code, 400, payload)
+            self.assertIn("error", response.get_json())
+
     def test_system_history_empty(self) -> None:
         """GET /api/v1/system/history returns an empty list before any step."""
         response = self.client.get("/api/v1/system/history")

@@ -227,6 +227,101 @@ def samples_to_dataframe(samples: list[WorkloadClassificationSample]) -> pd.Data
     return df[ALL_DATASET_COLUMNS]
 
 
+def candidate_config_for_class(target_class: str, rng: random.Random) -> WorkloadConfig:
+    """Create a candidate WorkloadConfig biased to efficiently produce a specific class."""
+    if target_class == CLASS_PRIORITY_CRITICAL:
+        return WorkloadConfig(
+            priority_range=(1, rng.randint(6, 10)),
+            io_wait_ratio_range=(0.05, round(rng.uniform(0.3, 0.5), 2)),
+            cpu_intensity_range=(0.1, round(rng.uniform(0.4, 0.65), 2)),
+            instruction_count_range=(5000.0, round(rng.uniform(30000.0, 60000.0), 1)),
+            process_complexity_range=(1.0, round(rng.uniform(2.5, 4.0), 1)),
+            correlate_burst_to_features=True,
+            noise_level=0.1,
+        )
+    elif target_class == CLASS_IO_BOUND:
+        return WorkloadConfig(
+            priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
+            io_wait_ratio_range=(
+                round(rng.uniform(0.60, 0.70), 2),
+                round(rng.uniform(0.75, 0.90), 2),
+            ),
+            cpu_intensity_range=(0.1, round(rng.uniform(0.4, 0.65), 2)),
+            instruction_count_range=(5000.0, round(rng.uniform(30000.0, 60000.0), 1)),
+            process_complexity_range=(1.0, round(rng.uniform(2.0, 4.0), 1)),
+            correlate_burst_to_features=True,
+            noise_level=0.1,
+        )
+    elif target_class == CLASS_CPU_BOUND:
+        return WorkloadConfig(
+            priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
+            io_wait_ratio_range=(0.0, round(rng.uniform(0.2, 0.45), 2)),
+            cpu_intensity_range=(
+                round(rng.uniform(0.72, 0.80), 2),
+                round(rng.uniform(0.85, 1.0), 2),
+            ),
+            instruction_count_range=(round(rng.uniform(15000.0, 65000.0), 1), 100000.0),
+            process_complexity_range=(round(rng.uniform(1.5, 3.5), 1), 5.0),
+            correlate_burst_to_features=True,
+            noise_level=0.1,
+        )
+    else:  # CLASS_BALANCED
+        return WorkloadConfig(
+            priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
+            io_wait_ratio_range=(
+                round(rng.uniform(0.1, 0.25), 2),
+                round(rng.uniform(0.35, 0.55), 2),
+            ),
+            cpu_intensity_range=(
+                round(rng.uniform(0.2, 0.35), 2),
+                round(rng.uniform(0.45, 0.65), 2),
+            ),
+            instruction_count_range=(
+                round(rng.uniform(5000.0, 15000.0), 1),
+                round(rng.uniform(25000.0, 45000.0), 1),
+            ),
+            process_complexity_range=(
+                round(rng.uniform(1.2, 2.0), 1),
+                round(rng.uniform(2.2, 3.5), 1),
+            ),
+            correlate_burst_to_features=True,
+            noise_level=0.1,
+        )
+
+
+def generate_class_workload(
+    target_class: str,
+    num_processes: int,
+    seed: Optional[int] = None,
+    max_attempts: int = 50,
+) -> tuple[list[Process], str]:
+    """Generate one workload batch biased towards `target_class`.
+
+    Uses the same candidate configurations as the training dataset, and retries
+    until `label_batch` assigns the requested class or `max_attempts` is reached.
+
+    Returns:
+        The generated processes and the label `label_batch` assigned to them,
+        which equals `target_class` unless every attempt missed.
+    """
+    if target_class not in WORKLOAD_CLASSES:
+        raise ValueError(f"Unknown workload class: {target_class}")
+    if num_processes < 1:
+        raise ValueError(f"num_processes must be at least 1, got {num_processes}")
+
+    rng = random.Random(seed)
+    processes: list[Process] = []
+    label = CLASS_BALANCED
+    for _ in range(max(1, max_attempts)):
+        cfg = candidate_config_for_class(target_class, rng)
+        cfg.seed = rng.randint(0, 10_000_000)
+        processes = CPUWorkloadGenerator(config=cfg).generate(num_processes=num_processes)
+        label = label_batch(processes)
+        if label == target_class:
+            break
+    return processes, label
+
+
 class WorkloadClassificationDatasetGenerator:
     """Generator for balanced synthetic CPU workload classification datasets.
 
@@ -267,64 +362,7 @@ class WorkloadClassificationDatasetGenerator:
 
     def _generate_candidate_config(self, target_class: str, rng: random.Random) -> WorkloadConfig:
         """Create a candidate WorkloadConfig biased to efficiently produce a specific class."""
-        if target_class == CLASS_PRIORITY_CRITICAL:
-            return WorkloadConfig(
-                priority_range=(1, rng.randint(6, 10)),
-                io_wait_ratio_range=(0.05, round(rng.uniform(0.3, 0.5), 2)),
-                cpu_intensity_range=(0.1, round(rng.uniform(0.4, 0.65), 2)),
-                instruction_count_range=(5000.0, round(rng.uniform(30000.0, 60000.0), 1)),
-                process_complexity_range=(1.0, round(rng.uniform(2.5, 4.0), 1)),
-                correlate_burst_to_features=True,
-                noise_level=0.1,
-            )
-        elif target_class == CLASS_IO_BOUND:
-            return WorkloadConfig(
-                priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
-                io_wait_ratio_range=(
-                    round(rng.uniform(0.60, 0.70), 2),
-                    round(rng.uniform(0.75, 0.90), 2),
-                ),
-                cpu_intensity_range=(0.1, round(rng.uniform(0.4, 0.65), 2)),
-                instruction_count_range=(5000.0, round(rng.uniform(30000.0, 60000.0), 1)),
-                process_complexity_range=(1.0, round(rng.uniform(2.0, 4.0), 1)),
-                correlate_burst_to_features=True,
-                noise_level=0.1,
-            )
-        elif target_class == CLASS_CPU_BOUND:
-            return WorkloadConfig(
-                priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
-                io_wait_ratio_range=(0.0, round(rng.uniform(0.2, 0.45), 2)),
-                cpu_intensity_range=(
-                    round(rng.uniform(0.72, 0.80), 2),
-                    round(rng.uniform(0.85, 1.0), 2),
-                ),
-                instruction_count_range=(round(rng.uniform(15000.0, 65000.0), 1), 100000.0),
-                process_complexity_range=(round(rng.uniform(1.5, 3.5), 1), 5.0),
-                correlate_burst_to_features=True,
-                noise_level=0.1,
-            )
-        else:  # CLASS_BALANCED
-            return WorkloadConfig(
-                priority_range=(rng.randint(2, 3), rng.randint(4, 5)),
-                io_wait_ratio_range=(
-                    round(rng.uniform(0.1, 0.25), 2),
-                    round(rng.uniform(0.35, 0.55), 2),
-                ),
-                cpu_intensity_range=(
-                    round(rng.uniform(0.2, 0.35), 2),
-                    round(rng.uniform(0.45, 0.65), 2),
-                ),
-                instruction_count_range=(
-                    round(rng.uniform(5000.0, 15000.0), 1),
-                    round(rng.uniform(25000.0, 45000.0), 1),
-                ),
-                process_complexity_range=(
-                    round(rng.uniform(1.2, 2.0), 1),
-                    round(rng.uniform(2.2, 3.5), 1),
-                ),
-                correlate_burst_to_features=True,
-                noise_level=0.1,
-            )
+        return candidate_config_for_class(target_class, rng)
 
     def generate_dataset(
         self,
