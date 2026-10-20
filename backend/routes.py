@@ -21,6 +21,7 @@ from flask import Blueprint, current_app, jsonify, request
 from modules.cpu.action_loop import CPUActionLoop
 from modules.cpu.process import Process
 from modules.device.predictive_action import handle_predictive_action
+from ml.device import anomaly_service
 from ml.memory.markov_predictor import MarkovPagePredictor
 from ml.memory.memory_leak_detector import MemoryLeakDetector
 from ml.memory.memory_pressure_forecaster import MemoryPressureForecaster
@@ -427,6 +428,65 @@ def device_predictive_action():
     _get_shared_monitor().record_device_action(result)
 
     return jsonify(dataclasses.asdict(result)), 200
+
+
+@api_bp.route("/api/v1/device/anomaly-score", methods=["POST"])
+def device_anomaly_score():
+    """Score a simulated telemetry window with the trained anomaly detector.
+
+    Returns the reconstruction-error score, the detector threshold, the
+    anomaly decision and a failure-risk value for the predictive-action form.
+    """
+    data, err = _extract_json_payload(allow_empty=False)
+    if err:
+        return jsonify({"error": err}), 400
+
+    device_id = data.get("device_id")
+    if not isinstance(device_id, str) or not device_id.strip():
+        return jsonify({"error": "Field 'device_id' must be a non-empty string"}), 400
+
+    pattern = data.get("pattern")
+    if pattern in ("", "normal"):
+        pattern = None
+    if pattern is not None and pattern not in anomaly_service.FAULT_PATTERNS:
+        allowed = ", ".join(anomaly_service.FAULT_PATTERNS)
+        return jsonify({"error": f"Invalid pattern. Allowed: normal, {allowed}"}), 400
+
+    from modules.device.fleet import create_default_fleet
+
+    device = next((d for d in create_default_fleet() if d.device_id == device_id.strip()), None)
+    if device is None:
+        return jsonify({"error": f"Unknown device '{device_id}'"}), 400
+
+    try:
+        bundle = anomaly_service.load_bundle()
+    except anomaly_service.ModelUnavailableError as e:
+        return jsonify({"error": str(e)}), 503
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    try:
+        window, samples = anomaly_service.build_window(
+            device, pattern, bundle["window_size"], start_index=random.randint(0, 1000)
+        )
+        score = anomaly_service.score_window(bundle, window)
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+    threshold = bundle["threshold"]
+    return jsonify({
+        "device_id": device.device_id,
+        "pattern": pattern or "normal",
+        "window_size": bundle["window_size"],
+        "anomaly_score": score,
+        "threshold": threshold,
+        "is_anomalous": bool(score > threshold),
+        "failure_risk": anomaly_service.risk_from_score(score, threshold),
+        "latest_telemetry": samples[-1],
+        "model_trained_at": bundle["trained_at"],
+    }), 200
 
 
 def _get_shared_monitor():

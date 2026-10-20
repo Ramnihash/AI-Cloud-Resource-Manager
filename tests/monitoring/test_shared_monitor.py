@@ -225,5 +225,27 @@ class TestSharedMonitor(unittest.TestCase):
         self.assertEqual(self.cpu_action_loop.get_summary()["total_steps"], 0)
 
 
+    def test_blocked_io_marks_device_failed_and_healthy_restores_it(self) -> None:
+        """A recovery that blocked I/O marks the device failed; a healthy report restores it."""
+        monitor = SharedMonitor()
+        blocked = {"device_id": "disk_0", "recovery_result": {"io_blocked": True, "rerouted": True}}
+        monitor.record_device_action(blocked)
+        snapshot = monitor.get_system_snapshot()
+        statuses = {d["device_id"]: d["status"] for d in snapshot["devices"]["devices"]}
+        self.assertEqual(statuses["disk_0"], "failed")
+        self.assertEqual(statuses["NIC_0"], "ok")
+        self.assertEqual(snapshot["status"], "degraded")
+
+        monitor.record_device_action({"device_id": "disk_0", "recovery_result": {"io_blocked": False}})
+        snapshot = monitor.get_system_snapshot()
+        self.assertEqual(snapshot["status"], "ok")
+
+    def test_reset_restores_device_status(self) -> None:
+        monitor = SharedMonitor()
+        monitor.record_device_action({"device_id": "disk_0", "recovery_result": {"io_blocked": True}})
+        monitor.reset()
+        self.assertTrue(all(d.status == "ok" for d in monitor.fleet))
+
+
 if __name__ == "__main__":
     unittest.main()

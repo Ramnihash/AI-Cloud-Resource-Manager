@@ -3,6 +3,7 @@
 
     var OVERVIEW_ENDPOINT = "/api/v1/monitor/overview";
     var ACTION_ENDPOINT = "/api/v1/device/predictive-action";
+    var SCAN_ENDPOINT = "/api/v1/device/anomaly-score";
     var HEALTHY = ["ok", "healthy", "available", "normal"];
 
     var fleet = [];
@@ -182,12 +183,14 @@
         }
         var ok = triggered.filter(function (a) { return a.backup_result.success; });
         var last = triggered[triggered.length - 1].backup_result;
+        var real = String(last.backup_location || "").indexOf("s3://") === 0;
+        setText("dev-backup-status", !last.success ? "Last backup failed" : (real ? "S3" : "Simulated"));
         [
             ["Backups triggered", String(triggered.length)],
             ["Succeeded", ok.length + " of " + triggered.length],
             ["Last location", last.backup_location || "—"]
         ].forEach(function (pair) {
-            var r = el("div", "kv-row");
+            var r = el("div", "kv-row" + (pair[1].length > 24 ? " kv-row--stack" : ""));
             r.appendChild(el("span", "kv-label", pair[0]));
             r.appendChild(el("span", "kv-value", pair[1]));
             body.appendChild(r);
@@ -277,8 +280,41 @@
             });
     }
 
+    function runScan() {
+        var errorEl = byId("act-error");
+        var device = byId("act-device").value;
+        errorEl.hidden = true;
+        if (!device) {
+            errorEl.hidden = false;
+            errorEl.textContent = "No device available.";
+            return;
+        }
+        var btn = byId("act-scan");
+        var label = btn.querySelector(".btn-label");
+        btn.disabled = true;
+        label.textContent = "Scanning…";
+        postJson(SCAN_ENDPOINT, { device_id: device, pattern: byId("act-fault").value || "normal" })
+            .then(function (r) {
+                byId("act-prob").value = r.failure_risk.toFixed(2);
+                byId("act-status").value = r.is_anomalous ? "degrading" : "healthy";
+                setText("scan-result", device + " (" + r.pattern.replace(/_/g, " ") + "): anomaly score " +
+                    r.anomaly_score.toFixed(3) + " vs threshold " + r.threshold.toFixed(3) + " → " +
+                    (r.is_anomalous ? "anomalous" : "normal") + ", risk " + r.failure_risk.toFixed(2) +
+                    ". Probability and status filled in below.");
+            })
+            .catch(function (error) {
+                errorEl.hidden = false;
+                errorEl.textContent = describeError(error);
+            })
+            .then(function () {
+                btn.disabled = false;
+                label.textContent = "Scan with detector";
+            });
+    }
+
     function init() {
         load();
+        byId("act-scan").addEventListener("click", runScan);
         byId("dev-refresh").addEventListener("click", load);
         byId("act-form").addEventListener("submit", runAction);
         document.addEventListener("system:stepped", load);

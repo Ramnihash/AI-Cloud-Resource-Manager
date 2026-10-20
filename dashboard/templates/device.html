@@ -83,6 +83,20 @@
                     <select class="field-input" id="act-device"></select>
                 </label>
                 <label class="field">
+                    <span class="field-label">Simulated fault</span>
+                    <select class="field-input" id="act-fault">
+                        <option value="">None (normal)</option>
+                        <option value="high_temperature">High temperature</option>
+                        <option value="high_error_rate">High error rate</option>
+                        <option value="high_latency">High latency</option>
+                        <option value="high_queue">High queue</option>
+                        <option value="abnormal_io">Abnormal I/O</option>
+                    </select>
+                </label>
+                <button type="button" class="btn btn-quiet" id="act-scan">
+                    <span class="btn-label">Scan with detector</span>
+                </button>
+                <label class="field">
                     <span class="field-label">Failure probability (0 to 1)</span>
                     <input class="field-input field-input--narrow" id="act-prob" type="number" min="0" max="1" step="0.05" value="0.85">
                 </label>
@@ -103,7 +117,8 @@
                 </button>
             </form>
             <p class="field-error" id="act-error" role="alert" hidden></p>
-            <p class="chart-note">The probability is entered by you. The SMART failure classifier is not connected to this endpoint, so no score is invented here. The backup is simulated: it records a location but copies no data.</p>
+            <p class="chart-note" id="scan-result">Scan runs the trained telemetry anomaly detector on a simulated window for the chosen device and fills in the probability and status below. You can also type the probability yourself.</p>
+            <p class="chart-note">The risk value is derived from the detector's reconstruction error: a score at the detector threshold maps to 0.70, which is the backup threshold. The SMART disk classifier is not used here. Backups go to S3 when the server has a bucket configured, otherwise they are simulated. The simulated devices hold no files, so a backup stores a record of the event, not data.</p>
         </div>
     </div>
 </section>
@@ -112,7 +127,7 @@
     <div class="panel panel-module module-device grid-col-4">
         <div class="panel-header">
             <h2 class="panel-title"><span class="module-dot" aria-hidden="true"></span>Cloud backup</h2>
-            <span class="status-text">Simulated</span>
+            <span class="status-text" id="dev-backup-status">Simulated</span>
         </div>
         <div class="panel-body" id="dev-backup-body">
             <div class="state-block state-block--compact"><p class="state-title">No backups yet</p></div>
