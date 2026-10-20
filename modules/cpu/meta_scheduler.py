@@ -15,7 +15,6 @@ classical schedulers in modules/cpu/.
 
 from __future__ import annotations
 
-import copy
 import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Optional
@@ -30,7 +29,7 @@ from modules.cpu.sjf import SJFScheduler
 
 if TYPE_CHECKING:
     from ml.cpu.burst_predictor import CPUBurstPredictor
-    from ml.cpu.workload_classifier import ClassificationResult, CPUWorkloadClassifier
+    from ml.cpu.workload_classifier import CPUWorkloadClassifier
 
 
 logger = logging.getLogger(__name__)

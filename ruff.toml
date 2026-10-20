@@ -1,0 +1,10 @@
+# Lint: real errors only (unused imports/variables, undefined names, syntax).
+# Long lines are not enforced; the codebase already uses wide lines.
+extend-exclude = ["results", ".venv"]
+
+[lint]
+select = ["E", "F"]
+ignore = ["E501"]
+
+[lint.per-file-ignores]
+"tests/memory/test_transformer_predictor.py" = ["F401"]
