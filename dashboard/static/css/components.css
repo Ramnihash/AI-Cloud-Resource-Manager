@@ -835,3 +835,16 @@
     cursor: pointer;
 }
 .btn-reset:hover { color: var(--text, #fff); }
+
+.connection-banner {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 20px;
+    background: #5a1f24;
+    color: #ffd9dc;
+    font-size: var(--fs-sm, 14px);
+    text-align: center;
+    border-bottom: 1px solid #8a2f37;
+}
+.connection-banner[hidden] { display: none; }

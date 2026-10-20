@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/device/anomaly-score",
+    "body": {
+      "device_id": "disk_0",
+      "pattern": "high_temperature"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "anomaly_score": 171.8585968017578,
+      "device_id": "disk_0",
+      "failure_risk": 1.0,
+      "is_anomalous": true,
+      "latest_telemetry": {
+        "device_id": "disk_0",
+        "error_rate": 0.00131,
+        "io_activity": 33.14,
+        "queue_length": 1,
+        "response_latency": 6.78,
+        "temperature": 82.5,
+        "timestamp": 635.0
+      },
+      "model_trained_at": "2026-10-19T18:01:19.292366+00:00",
+      "pattern": "high_temperature",
+      "threshold": 0.0012529356172308326,
+      "window_size": 10
+    }
+  }
+}

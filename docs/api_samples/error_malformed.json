@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/cpu/action",
+    "body": [
+      "not",
+      "an",
+      "object"
+    ]
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "error": "JSON payload must be a JSON object"
+    }
+  }
+}

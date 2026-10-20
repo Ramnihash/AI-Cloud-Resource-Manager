@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/system/reset",
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "status": "reset"
+    }
+  }
+}
