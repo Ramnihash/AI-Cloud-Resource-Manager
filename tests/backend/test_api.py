@@ -340,6 +340,15 @@ class TestBackendAPI(unittest.TestCase):
         self.assertTrue(data["recovery_result"]["rerouted"])
         self.assertEqual(data["recovery_result"]["backup_device_id"], "disk_backup_01")
 
+    def test_device_predictive_action_context_is_validated(self) -> None:
+        base = {"device_id": "disk_0", "failure_probability": 0.9, "device_status": "degrading"}
+        ok = self.client.post("/api/v1/device/predictive-action", json={**base, "context": {"anomaly_score": 0.3}})
+        self.assertEqual(ok.status_code, 200)
+        for bad in ("text", [1, 2], {"blob": "x" * 5000}):
+            response = self.client.post("/api/v1/device/predictive-action", json={**base, "context": bad})
+            self.assertEqual(response.status_code, 400, bad if not isinstance(bad, dict) else "big")
+            self.assertIn("error", response.get_json())
+
     def test_device_predictive_action_invalid(self) -> None:
         """POST /api/v1/device/predictive-action rejects invalid device requests."""
 

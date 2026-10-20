@@ -11,6 +11,7 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import json
 import logging
 import math
 import os
@@ -43,6 +44,7 @@ logger = logging.getLogger(__name__)
 MAX_PROCESSES = 1000
 MAX_TIME_VALUE = 10_000.0
 MAX_TOTAL_BURST = 50_000.0
+MAX_CONTEXT_BYTES = 4096
 
 
 def _check_workload_limits(processes: list[Process]) -> str | None:
@@ -455,6 +457,17 @@ def device_predictive_action():
         if not (0.0 <= float(threshold) <= 1.0):
             return jsonify({"error": "Field 'threshold' must be between 0.0 and 1.0 inclusive"}), 400
 
+    context = data.get("context")
+    if context is not None:
+        if not isinstance(context, dict):
+            return jsonify({"error": "Field 'context' must be an object or null"}), 400
+        try:
+            context_size = len(json.dumps(context))
+        except (TypeError, ValueError):
+            return jsonify({"error": "Field 'context' must be JSON serializable"}), 400
+        if context_size > MAX_CONTEXT_BYTES:
+            return jsonify({"error": f"Field 'context' must be at most {MAX_CONTEXT_BYTES} bytes"}), 400
+
     kwargs: dict[str, Any] = {
         "device_id": device_id.strip(),
         "failure_probability": float(prob),
@@ -463,6 +476,8 @@ def device_predictive_action():
     }
     if threshold is not None:
         kwargs["threshold"] = float(threshold)
+    if context:
+        kwargs["context"] = context
 
     try:
         result = handle_predictive_action(**kwargs)

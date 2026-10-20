@@ -7,6 +7,7 @@ device recovery actions in a single deterministic call.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any, Optional
 
 from modules.device.backup import BackupResult
 from modules.device.backup_manager import handle_failure_risk
@@ -41,6 +42,7 @@ def handle_predictive_action(
     device_status: str,
     backup_device_id: str | None = None,
     threshold: float = 0.7,
+    context: Optional[dict[str, Any]] = None,
 ) -> PredictiveActionResult:
     """Execute the full prediction-to-action pipeline for one device.
 
@@ -64,6 +66,8 @@ def handle_predictive_action(
         Identifier of a backup device to reroute I/O to, if available.
     threshold: float, default ``0.7``
         Failure-risk threshold for triggering a backup action.
+    context: dict | None, optional
+        Extra facts stored in the cloud backup record (telemetry, anomaly score).
 
     Returns
     -------
@@ -82,6 +86,7 @@ def handle_predictive_action(
         device_id=device_id,
         failure_probability=failure_probability,
         threshold=threshold,
+        context=context,
     )
 
 

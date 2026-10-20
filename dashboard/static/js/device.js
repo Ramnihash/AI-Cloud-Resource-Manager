@@ -7,6 +7,7 @@
     var HEALTHY = ["ok", "healthy", "available", "normal"];
 
     var fleet = [];
+    var lastScan = null;
 
     function byId(id) {
         return document.getElementById(id);
@@ -240,6 +241,21 @@
             });
     }
 
+    // Facts stored with the cloud backup: the device's health state and, when the
+    // detector was run for this device, its telemetry window and anomaly score.
+    function buildBackupContext(device) {
+        var context = { source: "dashboard", health_state: byId("act-status").value };
+        if (lastScan && lastScan.device_id === device) {
+            context.anomaly_score = lastScan.anomaly_score;
+            context.threshold = lastScan.threshold;
+            context.is_anomalous = lastScan.is_anomalous;
+            context.pattern = lastScan.pattern;
+            context.latest_telemetry = lastScan.latest_telemetry;
+            context.model_trained_at = lastScan.model_trained_at;
+        }
+        return context;
+    }
+
     function runAction(event) {
         event.preventDefault();
         var errorEl = byId("act-error");
@@ -267,7 +283,8 @@
             device_id: device,
             failure_probability: prob,
             device_status: byId("act-status").value,
-            backup_device_id: backup || null
+            backup_device_id: backup || null,
+            context: buildBackupContext(device)
         })
             .then(load)
             .catch(function (error) {
@@ -295,6 +312,7 @@
         label.textContent = "Scanning…";
         postJson(SCAN_ENDPOINT, { device_id: device, pattern: byId("act-fault").value || "normal" })
             .then(function (r) {
+                lastScan = r;
                 byId("act-prob").value = r.failure_risk.toFixed(2);
                 byId("act-status").value = r.is_anomalous ? "degrading" : "healthy";
                 setText("scan-result", device + " (" + r.pattern.replace(/_/g, " ") + "): anomaly score " +

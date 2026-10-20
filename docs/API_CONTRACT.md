@@ -48,7 +48,8 @@ and `interval_s` (number, 0 or more) it returns a series instead of one snapshot
 `high_queue`, `abnormal_io`).
 
 **`/api/v1/device/predictive-action`**: `device_id`, `failure_probability` (0 to 1) and
-`device_status` required; `backup_device_id` and `threshold` (0 to 1) optional.
+`device_status` required; `backup_device_id`, `threshold` (0 to 1) and `context` (object, at most
+4096 bytes when serialized) optional. `context` is stored inside the cloud backup record.
 Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealthy`,
 `degrading`, `failed`. Any other value returns 400.
 
@@ -74,7 +75,7 @@ Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealt
 - **device/anomaly-score**: `device_id`, `pattern`, `window_size`, `anomaly_score`, `threshold`,
   `is_anomalous`, `failure_risk`, `latest_telemetry`, `model_trained_at`.
 - **device/predictive-action**: `device_id`, `failure_probability`, `backup_result`
-  (`triggered`, `success`, `backup_location`, `message`), `recovery_result` (`recovered`,
+  (`triggered`, `success`, `backup_location`, `message`, and for S3 uploads `sha256` and `size_bytes`), `recovery_result` (`recovered`,
   `io_blocked`, `rerouted`, `backup_device_id`, `message`).
 - **system/step**: `step_index`, `timestamp`, `cpu`, `memory`, `devices`, `system_snapshot`,
   `generated_workload` (only when `workload_profile` was used).
@@ -99,3 +100,14 @@ Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealt
 - In-memory state (step history, device actions) is lost when the service restarts.
 - The sample for `anomaly-score` in `api_samples/` shows 503 unless it was captured on a machine
   with PyTorch and the trained model.
+
+## Cloud backup record
+
+When `BACKUP_S3_BUCKET` is set, a triggered backup uploads one JSON object to
+`s3://<bucket>/device-backups/<device_id>/<timestamp>.json` with: `device_id`,
+`failure_probability`, `threshold`, `reason`, `backed_up_at`, `source_host`, `simulated: true`
+(the devices are simulated, so there are no real device files), `schema_version` and `context`
+(for example health state, anomaly score and the latest telemetry from the Device page).
+The upload sends a SHA-256 checksum that S3 verifies, stores the digest as object metadata,
+retries up to 3 times and gives up after short timeouts so one slow upload cannot hold the
+single worker. Without the bucket variable the backup is simulated and has no digest or size.

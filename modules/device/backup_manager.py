@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any, Optional
+
 from modules.device.backup import BackupResult, create_backup
 
 
@@ -9,6 +11,7 @@ def handle_failure_risk(
     device_id: str,
     failure_probability: float,
     threshold: float = 0.7,
+    context: Optional[dict[str, Any]] = None,
 ) -> BackupResult:
     """Handle a disk's failure‑risk prediction.
 
@@ -31,4 +34,4 @@ def handle_failure_risk(
     BackupResult
         The result of the simulated backup action.
     """
-    return create_backup(device_id, failure_probability, threshold)
+    return create_backup(device_id, failure_probability, threshold, context)
