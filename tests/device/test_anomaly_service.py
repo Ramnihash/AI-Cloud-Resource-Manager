@@ -40,7 +40,11 @@ class TestRiskMapping(unittest.TestCase):
         self.assertAlmostEqual(anomaly_service.risk_from_score(2.0, 2.0), anomaly_service.BACKUP_THRESHOLD)
 
     def test_is_capped_and_monotonic(self) -> None:
-        self.assertEqual(anomaly_service.risk_from_score(100.0, 1.0), 1.0)
+        self.assertEqual(anomaly_service.risk_from_score(1000.0, 1.0), 1.0)
+        self.assertEqual(anomaly_service.risk_from_score(1e9, 1.0), 1.0)
+        mid = anomaly_service.risk_from_score(10.0, 1.0)
+        self.assertTrue(anomaly_service.BACKUP_THRESHOLD < mid < 1.0)
+        self.assertLess(anomaly_service.risk_from_score(10.0, 1.0), anomaly_service.risk_from_score(100.0, 1.0))
         self.assertLess(anomaly_service.risk_from_score(0.1, 1.0), anomaly_service.risk_from_score(0.5, 1.0))
         self.assertEqual(anomaly_service.risk_from_score(0.0, 1.0), 0.0)
 

@@ -1,0 +1,267 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/cpu/action",
+    "body": {
+      "processes": [
+        {
+          "pid": 0,
+          "arrival_time": 0.0,
+          "burst_time": 3.0,
+          "priority": 1,
+          "metadata": {
+            "cpu_intensity": 0.7,
+            "io_wait_ratio": 0.2,
+            "instruction_count": 30000,
+            "process_complexity": 2.0
+          }
+        },
+        {
+          "pid": 1,
+          "arrival_time": 1.0,
+          "burst_time": 5.0,
+          "priority": 2,
+          "metadata": {
+            "cpu_intensity": 0.7,
+            "io_wait_ratio": 0.2,
+            "instruction_count": 30000,
+            "process_complexity": 2.0
+          }
+        },
+        {
+          "pid": 2,
+          "arrival_time": 2.0,
+          "burst_time": 7.0,
+          "priority": 3,
+          "metadata": {
+            "cpu_intensity": 0.7,
+            "io_wait_ratio": 0.2,
+            "instruction_count": 30000,
+            "process_complexity": 2.0
+          }
+        },
+        {
+          "pid": 3,
+          "arrival_time": 3.0,
+          "burst_time": 9.0,
+          "priority": 1,
+          "metadata": {
+            "cpu_intensity": 0.7,
+            "io_wait_ratio": 0.2,
+            "instruction_count": 30000,
+            "process_complexity": 2.0
+          }
+        },
+        {
+          "pid": 4,
+          "arrival_time": 4.0,
+          "burst_time": 11.0,
+          "priority": 2,
+          "metadata": {
+            "cpu_intensity": 0.7,
+            "io_wait_ratio": 0.2,
+            "instruction_count": 30000,
+            "process_complexity": 2.0
+          }
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "action_delta": null,
+      "baseline_result": null,
+      "confidence": 0.52,
+      "fallback_reason": null,
+      "is_fallback": false,
+      "meta_result": {
+        "classification_result": {
+          "class_probabilities": {
+            "BALANCED": 0.52,
+            "CPU_BOUND": 0.35,
+            "IO_BOUND": 0.03,
+            "PRIORITY_CRITICAL": 0.1
+          },
+          "confidence": 0.52,
+          "effective_class": "BALANCED",
+          "features_used": {
+            "mean_cpu_intensity": 0.7,
+            "mean_io_wait_ratio": 0.2,
+            "mean_predicted_burst_time": 12.7,
+            "priority_variance": 0.56,
+            "std_predicted_burst_time": 0.0
+          },
+          "is_fallback": false,
+          "predicted_class": "BALANCED"
+        },
+        "confidence": 0.52,
+        "fallback_reason": null,
+        "is_fallback": false,
+        "predicted_class": "BALANCED",
+        "schedule_result": {
+          "algorithm_name": "FCFS",
+          "gantt_chart": [
+            {
+              "duration": 3.0,
+              "end_time": 3.0,
+              "is_idle": false,
+              "pid": 0,
+              "start_time": 0.0
+            },
+            {
+              "duration": 5.0,
+              "end_time": 8.0,
+              "is_idle": false,
+              "pid": 1,
+              "start_time": 3.0
+            },
+            {
+              "duration": 7.0,
+              "end_time": 15.0,
+              "is_idle": false,
+              "pid": 2,
+              "start_time": 8.0
+            },
+            {
+              "duration": 9.0,
+              "end_time": 24.0,
+              "is_idle": false,
+              "pid": 3,
+              "start_time": 15.0
+            },
+            {
+              "duration": 11.0,
+              "end_time": 35.0,
+              "is_idle": false,
+              "pid": 4,
+              "start_time": 24.0
+            }
+          ],
+          "metrics": {
+            "avg_response_time": 8.0,
+            "avg_turnaround_time": 15.0,
+            "avg_waiting_time": 8.0,
+            "completed_process_count": 5,
+            "cpu_utilization": 100.0,
+            "scheduling_overhead_ms": 0.029199989512562752,
+            "total_busy_time": 35.0,
+            "total_idle_time": 0.0,
+            "total_time": 35.0
+          },
+          "processes": [
+            {
+              "arrival_time": 0.0,
+              "burst_time": 3.0,
+              "completion_time": 3.0,
+              "metadata": {
+                "cpu_intensity": 0.7,
+                "instruction_count": 30000,
+                "io_wait_ratio": 0.2,
+                "process_complexity": 2.0
+              },
+              "pid": 0,
+              "predicted_burst_time": 12.7,
+              "priority": 1,
+              "remaining_time": 0.0,
+              "response_time": 0.0,
+              "start_time": 0.0,
+              "turnaround_time": 3.0,
+              "waiting_time": 0.0,
+              "workload_type": null
+            },
+            {
+              "arrival_time": 1.0,
+              "burst_time": 5.0,
+              "completion_time": 8.0,
+              "metadata": {
+                "cpu_intensity": 0.7,
+                "instruction_count": 30000,
+                "io_wait_ratio": 0.2,
+                "process_complexity": 2.0
+              },
+              "pid": 1,
+              "predicted_burst_time": 12.7,
+              "priority": 2,
+              "remaining_time": 0.0,
+              "response_time": 2.0,
+              "start_time": 3.0,
+              "turnaround_time": 7.0,
+              "waiting_time": 2.0,
+              "workload_type": null
+            },
+            {
+              "arrival_time": 2.0,
+              "burst_time": 7.0,
+              "completion_time": 15.0,
+              "metadata": {
+                "cpu_intensity": 0.7,
+                "instruction_count": 30000,
+                "io_wait_ratio": 0.2,
+                "process_complexity": 2.0
+              },
+              "pid": 2,
+              "predicted_burst_time": 12.7,
+              "priority": 3,
+              "remaining_time": 0.0,
+              "response_time": 6.0,
+              "start_time": 8.0,
+              "turnaround_time": 13.0,
+              "waiting_time": 6.0,
+              "workload_type": null
+            },
+            {
+              "arrival_time": 3.0,
+              "burst_time": 9.0,
+              "completion_time": 24.0,
+              "metadata": {
+                "cpu_intensity": 0.7,
+                "instruction_count": 30000,
+                "io_wait_ratio": 0.2,
+                "process_complexity": 2.0
+              },
+              "pid": 3,
+              "predicted_burst_time": 12.7,
+              "priority": 1,
+              "remaining_time": 0.0,
+              "response_time": 12.0,
+              "start_time": 15.0,
+              "turnaround_time": 21.0,
+              "waiting_time": 12.0,
+              "workload_type": null
+            },
+            {
+              "arrival_time": 4.0,
+              "burst_time": 11.0,
+              "completion_time": 35.0,
+              "metadata": {
+                "cpu_intensity": 0.7,
+                "instruction_count": 30000,
+                "io_wait_ratio": 0.2,
+                "process_complexity": 2.0
+              },
+              "pid": 4,
+              "predicted_burst_time": 12.7,
+              "priority": 2,
+              "remaining_time": 0.0,
+              "response_time": 20.0,
+              "start_time": 24.0,
+              "turnaround_time": 31.0,
+              "waiting_time": 20.0,
+              "workload_type": null
+            }
+          ]
+        },
+        "scheduler_kwargs_used": {},
+        "selected_scheduler": "FCFS",
+        "workload_class": "BALANCED"
+      },
+      "predicted_class": "BALANCED",
+      "process_count": 5,
+      "selected_scheduler": "FCFS",
+      "step_index": 0,
+      "timestamp": 1792505635.141063,
+      "workload_class": "BALANCED"
+    }
+  }
+}

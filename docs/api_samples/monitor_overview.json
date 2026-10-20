@@ -1,0 +1,148 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/v1/monitor/overview",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "cpu": {
+        "fallback_count": 0,
+        "fallback_rate": 0.0,
+        "mean_action_delta": null,
+        "mean_metrics": {
+          "avg_response_time": 6.963,
+          "avg_turnaround_time": 12.916,
+          "avg_waiting_time": 6.963,
+          "cpu_utilization": 99.88
+        },
+        "scheduler_distribution": {
+          "FCFS": 2
+        },
+        "scheduler_percentages": {
+          "FCFS": 100.0
+        },
+        "total_processes": 10,
+        "total_steps": 2
+      },
+      "devices": {
+        "device_count": 4,
+        "devices": [
+          {
+            "device_id": "disk_0",
+            "device_type": "disk",
+            "error_rate": 0.0,
+            "queue_length": 0,
+            "response_latency": 0.0,
+            "status": "failed",
+            "telemetry": {
+              "device_id": "disk_0",
+              "error_rate": 0.00105,
+              "io_activity": 33.98,
+              "queue_length": 2,
+              "response_latency": 6.16,
+              "temperature": 35.22,
+              "timestamp": 1792505641.513056
+            },
+            "temperature": 35.0
+          },
+          {
+            "device_id": "printer_0",
+            "device_type": "printer",
+            "error_rate": 0.0,
+            "queue_length": 0,
+            "response_latency": 0.0,
+            "status": "ok",
+            "telemetry": {
+              "device_id": "printer_0",
+              "error_rate": 0.00105,
+              "io_activity": 8.98,
+              "queue_length": 2,
+              "response_latency": 15.16,
+              "temperature": 35.22,
+              "timestamp": 1792505641.513056
+            },
+            "temperature": 35.0
+          },
+          {
+            "device_id": "NIC_0",
+            "device_type": "NIC",
+            "error_rate": 0.0,
+            "queue_length": 0,
+            "response_latency": 0.0,
+            "status": "ok",
+            "telemetry": {
+              "device_id": "NIC_0",
+              "error_rate": 0.00105,
+              "io_activity": 48.98,
+              "queue_length": 3,
+              "response_latency": 2.16,
+              "temperature": 35.22,
+              "timestamp": 1792505641.513056
+            },
+            "temperature": 35.0
+          },
+          {
+            "device_id": "sensor_0",
+            "device_type": "sensor",
+            "error_rate": 0.0,
+            "queue_length": 0,
+            "response_latency": 0.0,
+            "status": "ok",
+            "telemetry": {
+              "device_id": "sensor_0",
+              "error_rate": 0.00105,
+              "io_activity": 5.98,
+              "queue_length": 1,
+              "response_latency": 0.66,
+              "temperature": 35.22,
+              "timestamp": 1792505641.513056
+            },
+            "temperature": 35.0
+          }
+        ],
+        "recent_actions": [
+          {
+            "backup_result": {
+              "backup_location": "cloud://backup/disk_0",
+              "device_id": "disk_0",
+              "message": "Backup completed successfully.",
+              "success": true,
+              "triggered": true
+            },
+            "device_id": "disk_0",
+            "failure_probability": 0.92,
+            "recorded_at": "2026-10-20T14:14:01.496074+00:00",
+            "recovery_result": {
+              "backup_device_id": "disk_1",
+              "device_id": "disk_0",
+              "io_blocked": true,
+              "message": "I/O blocked for device disk_0 and rerouted to backup device disk_1.",
+              "recovered": true,
+              "rerouted": true
+            }
+          }
+        ]
+      },
+      "memory": {
+        "proc_memory_percent": null,
+        "proc_pid": null,
+        "proc_rss_bytes": null,
+        "proc_vms_bytes": null,
+        "ram_available_bytes": 1811816448,
+        "ram_free_bytes": 1811816448,
+        "ram_percent": 89.1,
+        "ram_total_bytes": 16639741952,
+        "ram_used_bytes": 14827925504,
+        "swap_free_bytes": 17680162816,
+        "swap_percent": 17.7,
+        "swap_total_bytes": 21474836480,
+        "swap_used_bytes": 3794673664,
+        "timestamp": "2026-10-20T14:14:01.513446"
+      },
+      "status": "degraded",
+      "timestamp": "2026-10-20T14:14:01.513049+00:00"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/memory/monitor",
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "proc_memory_percent": null,
+      "proc_pid": null,
+      "proc_rss_bytes": null,
+      "proc_vms_bytes": null,
+      "ram_available_bytes": 2003451904,
+      "ram_free_bytes": 2003451904,
+      "ram_percent": 88.0,
+      "ram_total_bytes": 16639741952,
+      "ram_used_bytes": 14636290048,
+      "swap_free_bytes": 17678217216,
+      "swap_percent": 17.7,
+      "swap_total_bytes": 21474836480,
+      "swap_used_bytes": 3796619264,
+      "timestamp": "2026-10-20T14:13:55.402885"
+    }
+  }
+}

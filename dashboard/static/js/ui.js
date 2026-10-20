@@ -158,7 +158,70 @@
         });
     }
 
+    // Tracks whether the backend is reachable. Every page fetches its own data,
+    // so wrapping fetch once here lets all pages show the same banner when the
+    // server goes away and hide it again when a request succeeds.
+    function initConnectionBanner() {
+        if (typeof window.fetch !== "function") {
+            return;
+        }
+        var originalFetch = window.fetch.bind(window);
+        var lastOk = null;
+        var banner = null;
+
+        function formatTime(date) {
+            return date.toLocaleTimeString();
+        }
+
+        function ensureBanner() {
+            if (banner) {
+                return banner;
+            }
+            banner = document.createElement("div");
+            banner.className = "connection-banner";
+            banner.setAttribute("role", "alert");
+            banner.hidden = true;
+            document.body.insertBefore(banner, document.body.firstChild);
+            return banner;
+        }
+
+        function showDown() {
+            var el = ensureBanner();
+            el.textContent = lastOk
+                ? "Backend unreachable. Showing data from " + formatTime(lastOk) + ", which may be out of date."
+                : "Backend unreachable. No data has loaded yet.";
+            el.hidden = false;
+        }
+
+        function showUp() {
+            lastOk = new Date();
+            if (banner) {
+                banner.hidden = true;
+            }
+        }
+
+        window.fetch = function (input) {
+            var url = typeof input === "string" ? input : (input && input.url) || "";
+            var isApi = url.indexOf("/api/") !== -1;
+            var promise = originalFetch.apply(null, arguments);
+            if (isApi) {
+                promise.then(
+                    function (response) {
+                        if (response.status >= 500 && response.status !== 503) {
+                            showDown();
+                        } else {
+                            showUp();
+                        }
+                    },
+                    showDown
+                );
+            }
+            return promise;
+        };
+    }
+
     function init() {
+        initConnectionBanner();
         initStepSystem();
         initResetSystem();
         initNavKeyboardAccessibility();

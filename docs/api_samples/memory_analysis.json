@@ -1,0 +1,137 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/memory/analysis",
+    "body": {
+      "reference_string": [
+        1,
+        2,
+        3,
+        1,
+        2,
+        3,
+        1,
+        2,
+        3,
+        4,
+        1,
+        2
+      ],
+      "num_frames": 3,
+      "samples": 8,
+      "interval_s": 0.0
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "current_page": 2,
+      "frames_policy": "LRU",
+      "health_action": {
+        "action": "RESTART_PROCESS",
+        "pid": 8512,
+        "predicted_ram_percent": 89.10000000000001,
+        "reason": "Memory leak detected for PID 8512",
+        "source": "MemoryLeakDetector, MemoryPressureForecaster",
+        "threshold": 90.0
+      },
+      "leak_detection": {
+        "growth_rate_bytes_per_step": 1462.8571428571436,
+        "is_leak_detected": true,
+        "proc_pid": 8512,
+        "trend_r2_score": 0.8928571428564499,
+        "window_size": 8
+      },
+      "memory_state": [
+        4,
+        1,
+        2
+      ],
+      "num_frames": 3,
+      "page_prediction": [
+        {
+          "action": {
+            "action": "PREFETCH",
+            "memory_state": [
+              4,
+              1,
+              2
+            ],
+            "predicted_page": 3,
+            "predictor": "Markov",
+            "probability": 1.0,
+            "reason": "Predicted page 3 is not in memory."
+          },
+          "available": true,
+          "candidates": [
+            {
+              "page": 3,
+              "probability": 1.0
+            }
+          ],
+          "predictor": "Markov"
+        },
+        {
+          "action": {
+            "action": "PREFETCH",
+            "memory_state": [
+              4,
+              1,
+              2
+            ],
+            "predicted_page": 3,
+            "predictor": "Transformer",
+            "probability": 0.4110466241836548,
+            "reason": "Predicted page 3 is not in memory."
+          },
+          "available": true,
+          "candidates": [
+            {
+              "page": 3,
+              "probability": 0.4110466241836548
+            },
+            {
+              "page": 2,
+              "probability": 0.2575931251049042
+            },
+            {
+              "page": 1,
+              "probability": 0.16768452525138855
+            }
+          ],
+          "predictor": "Transformer"
+        }
+      ],
+      "pressure_forecast": {
+        "predicted_ram_percent": 89.10000000000001,
+        "window_size": 5
+      },
+      "reference_length": 12,
+      "samples": {
+        "count": 8,
+        "interval_s": 0.0,
+        "pid": 8512,
+        "ram_percent": [
+          89.1,
+          89.1,
+          89.1,
+          89.1,
+          89.1,
+          89.1,
+          89.1,
+          89.1
+        ],
+        "rss_bytes": [
+          436346880,
+          436346880,
+          436346880,
+          436350976,
+          436350976,
+          436355072,
+          436355072,
+          436355072
+        ]
+      }
+    }
+  }
+}

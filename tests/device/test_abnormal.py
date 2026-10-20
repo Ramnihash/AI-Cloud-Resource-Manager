@@ -194,3 +194,21 @@ class TestAbnormalTelemetry(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_severity_scales_the_fault_and_default_is_unchanged():
+    import pytest
+
+    from modules.device.abnormal import generate_abnormal_telemetry
+    from modules.device.fleet import create_default_fleet
+    from modules.device.telemetry import generate_normal_telemetry
+
+    device = create_default_fleet()[0]
+    normal = generate_normal_telemetry(device, 5.0, 5)
+    full = generate_abnormal_telemetry(device, 5.0, "high_temperature", 5)
+    assert full == generate_abnormal_telemetry(device, 5.0, "high_temperature", 5, severity=1.0)
+    mild = generate_abnormal_telemetry(device, 5.0, "high_temperature", 5, severity=0.25)
+    assert 0 < mild.temperature - normal.temperature < full.temperature - normal.temperature
+    for bad in (0, -0.1, 1.5):
+        with pytest.raises(ValueError):
+            generate_abnormal_telemetry(device, 5.0, "high_temperature", 5, severity=bad)

@@ -11,6 +11,7 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import json
 import logging
 import math
 import os
@@ -43,6 +44,7 @@ logger = logging.getLogger(__name__)
 MAX_PROCESSES = 1000
 MAX_TIME_VALUE = 10_000.0
 MAX_TOTAL_BURST = 50_000.0
+MAX_CONTEXT_BYTES = 4096
 
 
 def _check_workload_limits(processes: list[Process]) -> str | None:
@@ -455,6 +457,17 @@ def device_predictive_action():
         if not (0.0 <= float(threshold) <= 1.0):
             return jsonify({"error": "Field 'threshold' must be between 0.0 and 1.0 inclusive"}), 400
 
+    context = data.get("context")
+    if context is not None:
+        if not isinstance(context, dict):
+            return jsonify({"error": "Field 'context' must be an object or null"}), 400
+        try:
+            context_size = len(json.dumps(context))
+        except (TypeError, ValueError):
+            return jsonify({"error": "Field 'context' must be JSON serializable"}), 400
+        if context_size > MAX_CONTEXT_BYTES:
+            return jsonify({"error": f"Field 'context' must be at most {MAX_CONTEXT_BYTES} bytes"}), 400
+
     kwargs: dict[str, Any] = {
         "device_id": device_id.strip(),
         "failure_probability": float(prob),
@@ -463,6 +476,8 @@ def device_predictive_action():
     }
     if threshold is not None:
         kwargs["threshold"] = float(threshold)
+    if context:
+        kwargs["context"] = context
 
     try:
         result = handle_predictive_action(**kwargs)
@@ -498,6 +513,11 @@ def device_anomaly_score():
         allowed = ", ".join(anomaly_service.FAULT_PATTERNS)
         return jsonify({"error": f"Invalid pattern. Allowed: normal, {allowed}"}), 400
 
+    severity = data.get("severity", 1.0)
+    if isinstance(severity, bool) or not isinstance(severity, (int, float)) or not 0.0 < float(severity) <= 1.0:
+        return jsonify({"error": "Field 'severity' must be a number greater than 0 and at most 1"}), 400
+    severity = float(severity)
+
     from modules.device.fleet import create_default_fleet
 
     device = next((d for d in create_default_fleet() if d.device_id == device_id.strip()), None)
@@ -514,7 +534,7 @@ def device_anomaly_score():
 
     try:
         window, samples = anomaly_service.build_window(
-            device, pattern, bundle["window_size"], start_index=random.randint(0, 1000)
+            device, pattern, bundle["window_size"], start_index=random.randint(0, 1000), severity=severity
         )
         score = anomaly_service.score_window(bundle, window)
     except (ValueError, TypeError) as e:
@@ -526,6 +546,7 @@ def device_anomaly_score():
     return jsonify({
         "device_id": device.device_id,
         "pattern": pattern or "normal",
+        "severity": severity,
         "window_size": bundle["window_size"],
         "anomaly_score": score,
         "threshold": threshold,

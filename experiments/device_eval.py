@@ -14,6 +14,7 @@ Writes to ``results/``:
   device_anomaly_metrics.csv   precision, recall, F1, FPR, ROC-AUC per condition/pattern
   device_detection_delay.csv   samples from fault onset to first flagged window, plus false alarms before onset
   device_actions.csv           backup success/latency and reroute success per condition
+  device_severity.csv          recall and risk when the faults are scaled down (severity 1.0 to 0.05)
   device_*.png                 ROC curves, score distribution, recall per pattern
 """
 
@@ -49,6 +50,7 @@ NOISE_LEVELS = {"clean": 0.0, "noisy": 0.05}
 STREAM_LENGTH = 60
 ONSET = 30
 DELAY_STARTS = 10
+SEVERITIES = [1.0, 0.5, 0.25, 0.1, 0.05]
 
 
 def _noisy(window: np.ndarray, std: np.ndarray, level: float, rng: np.random.Generator) -> np.ndarray:
@@ -95,6 +97,49 @@ def evaluate_windows(bundle, scorer: Callable, fleet) -> pd.DataFrame:
                         "flagged": bool(score > threshold),
                     })
     return pd.DataFrame(rows)
+
+
+def evaluate_severity(bundle, scorer: Callable, fleet) -> pd.DataFrame:
+    """Clean telemetry with faults scaled down: how mild a fault is still detected?"""
+    threshold = bundle["threshold"]
+    rows = []
+    for device in fleet:
+        for k in range(N_STARTS):
+            start = EVAL_START + k * START_STEP
+            for severity in SEVERITIES:
+                for pattern in FAULT_PATTERNS:
+                    window, _ = build_window(device, pattern, WINDOW_SIZE, start, severity=severity)
+                    score = scorer(bundle, window)
+                    rows.append({
+                        "severity": severity,
+                        "pattern": pattern,
+                        "score": score,
+                        "score_over_threshold": score / threshold,
+                        "risk": risk_from_score(score, threshold),
+                        "flagged": bool(score > threshold),
+                    })
+    return pd.DataFrame(rows)
+
+
+def summarise_severity(severity: pd.DataFrame) -> pd.DataFrame:
+    """Recall, median risk and share of windows with risk capped at 1.0, per severity and pattern."""
+    grouped = severity.groupby(["severity", "pattern"])
+    out = grouped.agg(
+        windows=("flagged", "size"),
+        recall=("flagged", "mean"),
+        median_score_over_threshold=("score_over_threshold", "median"),
+        median_risk=("risk", "median"),
+        risk_capped_share=("risk", lambda r: float((r >= 1.0).mean())),
+    ).reset_index()
+    overall = severity.groupby("severity").agg(
+        windows=("flagged", "size"),
+        recall=("flagged", "mean"),
+        median_score_over_threshold=("score_over_threshold", "median"),
+        median_risk=("risk", "median"),
+        risk_capped_share=("risk", lambda r: float((r >= 1.0).mean())),
+    ).reset_index()
+    overall["pattern"] = "all"
+    return pd.concat([out, overall], ignore_index=True)
 
 
 def evaluate_delay(bundle, scorer: Callable, fleet) -> pd.DataFrame:
@@ -244,13 +289,15 @@ def run(bundle=None, scorer: Callable | None = None, out: str = RESULTS_DIR) -> 
     metrics = summarise(scores)
     delay = evaluate_delay(bundle, scorer, fleet)
     actions = evaluate_actions(scores, bundle["threshold"])
+    severity = summarise_severity(evaluate_severity(bundle, scorer, fleet))
 
     scores.to_csv(os.path.join(out, "device_anomaly_scores.csv"), index=False)
     metrics.to_csv(os.path.join(out, "device_anomaly_metrics.csv"), index=False)
     delay.to_csv(os.path.join(out, "device_detection_delay.csv"), index=False)
     actions.to_csv(os.path.join(out, "device_actions.csv"), index=False)
+    severity.to_csv(os.path.join(out, "device_severity.csv"), index=False)
     make_plots(scores, metrics, bundle["threshold"], out)
-    return {"scores": scores, "metrics": metrics, "delay": delay, "actions": actions}
+    return {"scores": scores, "metrics": metrics, "delay": delay, "actions": actions, "severity": severity}
 
 
 def main() -> None:
@@ -277,6 +324,10 @@ def main() -> None:
     )
     print("\nActions on flagged windows (simulated cloud backup):")
     print(results["actions"].round(4).to_string(index=False))
+    print("\nMilder faults (clean telemetry; severity 1.0 is the full fault used elsewhere):")
+    print(results["severity"].query("pattern == 'all'").drop(columns="pattern").round(3).to_string(index=False))
+    print("\nBy pattern (recall):")
+    print(results["severity"].query("pattern != 'all'").pivot(index="pattern", columns="severity", values="recall").round(3).to_string())
     print(f"\nCSVs and plots written to {RESULTS_DIR}/")
 
 

@@ -11,6 +11,7 @@ PyTorch is imported lazily so the rest of the backend works without it.
 from __future__ import annotations
 
 import logging
+import math
 import os
 from typing import Any
 
@@ -26,10 +27,8 @@ logger = logging.getLogger(__name__)
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "anomaly_detector.pt")
 WINDOW_SIZE = 10
 BACKUP_THRESHOLD = 0.7
+RISK_SATURATION_DECADES = 3.0  # risk reaches 1.0 when the score is 1000x the threshold
 FAULT_PATTERNS = [p.value for p in AbnormalPattern]
-
-
-_cache: dict[str, tuple[float, dict[str, Any]]] = {}
 
 
 _cache: dict[str, tuple[float, dict[str, Any]]] = {}
@@ -44,18 +43,20 @@ def build_window(
     pattern: str | None = None,
     window_size: int = WINDOW_SIZE,
     start_index: int = 0,
+    severity: float = 1.0,
 ) -> tuple[np.ndarray, list[dict[str, Any]]]:
     """Return a ``(window_size, 5)`` telemetry window and its raw samples.
 
     With ``pattern`` set, the second half of the window shows that fault
     (an onset in the middle of the window); otherwise all samples are normal.
+    ``severity`` (0 to 1) scales the size of the fault.
     """
     onset = window_size // 2
     samples = []
     for i in range(window_size):
         index = start_index + i
         if pattern and i >= onset:
-            sample = generate_abnormal_telemetry(device, float(index), pattern, sample_index=index)
+            sample = generate_abnormal_telemetry(device, float(index), pattern, sample_index=index, severity=severity)
         else:
             sample = generate_normal_telemetry(device, float(index), sample_index=index)
         samples.append(sample.to_dict())
@@ -117,9 +118,15 @@ def risk_from_score(score: float, threshold: float) -> float:
     """Map an anomaly score to a 0..1 failure-risk value.
 
     A score exactly at the detector threshold maps to the backup threshold
-    (0.7), so every window flagged anomalous triggers the backup action.
-    The mapping is linear below that and capped at 1.0.
+    (0.7), so every window flagged anomalous triggers the backup action. Below
+    the threshold the mapping is linear. Above it the risk rises on a log scale
+    (reconstruction error spans many orders of magnitude) from 0.7 to 1.0, which
+    it reaches at ``RISK_SATURATION_DECADES`` decades (1000x) above the
+    threshold. This is a monotonic rescaling, not a calibrated probability.
     """
     if threshold <= 0:
         return 1.0
-    return float(min(1.0, BACKUP_THRESHOLD * score / threshold))
+    if score <= threshold:
+        return float(max(0.0, BACKUP_THRESHOLD * score / threshold))
+    decades = math.log10(score / threshold)
+    return float(BACKUP_THRESHOLD + (1.0 - BACKUP_THRESHOLD) * min(1.0, decades / RISK_SATURATION_DECADES))

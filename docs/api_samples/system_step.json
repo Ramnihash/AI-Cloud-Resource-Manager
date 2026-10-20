@@ -1,0 +1,378 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/system/step",
+    "body": {
+      "workload_profile": "balanced",
+      "num_processes": 5
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "cpu": {
+        "action_delta": null,
+        "baseline_result": null,
+        "confidence": 0.51,
+        "fallback_reason": null,
+        "is_fallback": false,
+        "meta_result": {
+          "classification_result": {
+            "class_probabilities": {
+              "BALANCED": 0.51,
+              "CPU_BOUND": 0.0,
+              "IO_BOUND": 0.35,
+              "PRIORITY_CRITICAL": 0.14
+            },
+            "confidence": 0.51,
+            "effective_class": "BALANCED",
+            "features_used": {
+              "mean_cpu_intensity": 0.367,
+              "mean_io_wait_ratio": 0.3404,
+              "mean_predicted_burst_time": 6.402,
+              "priority_variance": 0.8,
+              "std_predicted_burst_time": 2.2278
+            },
+            "is_fallback": false,
+            "predicted_class": "BALANCED"
+          },
+          "confidence": 0.51,
+          "fallback_reason": null,
+          "is_fallback": false,
+          "predicted_class": "BALANCED",
+          "schedule_result": {
+            "algorithm_name": "FCFS",
+            "gantt_chart": [
+              {
+                "duration": 0.06,
+                "end_time": 0.06,
+                "is_idle": true,
+                "pid": null,
+                "start_time": 0.0
+              },
+              {
+                "duration": 8.44,
+                "end_time": 8.5,
+                "is_idle": false,
+                "pid": "P4",
+                "start_time": 0.06
+              },
+              {
+                "duration": 5.460000000000001,
+                "end_time": 13.96,
+                "is_idle": false,
+                "pid": "P5",
+                "start_time": 8.5
+              },
+              {
+                "duration": 1.5999999999999996,
+                "end_time": 15.56,
+                "is_idle": false,
+                "pid": "P2",
+                "start_time": 13.96
+              },
+              {
+                "duration": 3.950000000000001,
+                "end_time": 19.51,
+                "is_idle": false,
+                "pid": "P1",
+                "start_time": 15.56
+              },
+              {
+                "duration": 5.080000000000002,
+                "end_time": 24.590000000000003,
+                "is_idle": false,
+                "pid": "P3",
+                "start_time": 19.51
+              }
+            ],
+            "metrics": {
+              "avg_response_time": 5.926,
+              "avg_turnaround_time": 10.832,
+              "avg_waiting_time": 5.926000000000001,
+              "completed_process_count": 5,
+              "cpu_utilization": 99.7559983733225,
+              "scheduling_overhead_ms": 0.03950006794184446,
+              "total_busy_time": 24.530000000000005,
+              "total_idle_time": 0.06,
+              "total_time": 24.590000000000003
+            },
+            "processes": [
+              {
+                "arrival_time": 0.06,
+                "burst_time": 8.44,
+                "completion_time": 8.5,
+                "metadata": {
+                  "cpu_intensity": 0.45,
+                  "instruction_count": 32346.5,
+                  "io_wait_ratio": 0.369,
+                  "process_complexity": 2.05
+                },
+                "pid": "P4",
+                "predicted_burst_time": 10.63,
+                "priority": 4,
+                "remaining_time": 0.0,
+                "response_time": 0.0,
+                "start_time": 0.06,
+                "turnaround_time": 8.44,
+                "waiting_time": 0.0,
+                "workload_type": "balanced"
+              },
+              {
+                "arrival_time": 3.44,
+                "burst_time": 5.46,
+                "completion_time": 13.96,
+                "metadata": {
+                  "cpu_intensity": 0.407,
+                  "instruction_count": 21690.8,
+                  "io_wait_ratio": 0.337,
+                  "process_complexity": 2.05
+                },
+                "pid": "P5",
+                "predicted_burst_time": 5.84,
+                "priority": 4,
+                "remaining_time": 0.0,
+                "response_time": 5.0600000000000005,
+                "start_time": 8.5,
+                "turnaround_time": 10.520000000000001,
+                "waiting_time": 5.060000000000001,
+                "workload_type": "balanced"
+              },
+              {
+                "arrival_time": 6.61,
+                "burst_time": 1.6,
+                "completion_time": 15.56,
+                "metadata": {
+                  "cpu_intensity": 0.326,
+                  "instruction_count": 8677.3,
+                  "io_wait_ratio": 0.462,
+                  "process_complexity": 1.78
+                },
+                "pid": "P2",
+                "predicted_burst_time": 4.07,
+                "priority": 2,
+                "remaining_time": 0.0,
+                "response_time": 7.3500000000000005,
+                "start_time": 13.96,
+                "turnaround_time": 8.95,
+                "waiting_time": 7.35,
+                "workload_type": "balanced"
+              },
+              {
+                "arrival_time": 8.23,
+                "burst_time": 3.95,
+                "completion_time": 19.51,
+                "metadata": {
+                  "cpu_intensity": 0.349,
+                  "instruction_count": 12926.0,
+                  "io_wait_ratio": 0.208,
+                  "process_complexity": 2.64
+                },
+                "pid": "P1",
+                "predicted_burst_time": 5.35,
+                "priority": 2,
+                "remaining_time": 0.0,
+                "response_time": 7.33,
+                "start_time": 15.56,
+                "turnaround_time": 11.280000000000001,
+                "waiting_time": 7.330000000000001,
+                "workload_type": "balanced"
+              },
+              {
+                "arrival_time": 9.62,
+                "burst_time": 5.08,
+                "completion_time": 24.590000000000003,
+                "metadata": {
+                  "cpu_intensity": 0.303,
+                  "instruction_count": 27791.6,
+                  "io_wait_ratio": 0.326,
+                  "process_complexity": 2.01
+                },
+                "pid": "P3",
+                "predicted_burst_time": 6.12,
+                "priority": 3,
+                "remaining_time": 0.0,
+                "response_time": 9.890000000000002,
+                "start_time": 19.51,
+                "turnaround_time": 14.970000000000004,
+                "waiting_time": 9.890000000000004,
+                "workload_type": "balanced"
+              }
+            ]
+          },
+          "scheduler_kwargs_used": {},
+          "selected_scheduler": "FCFS",
+          "workload_class": "BALANCED"
+        },
+        "predicted_class": "BALANCED",
+        "process_count": 5,
+        "selected_scheduler": "FCFS",
+        "step_index": 1,
+        "timestamp": 1792505641.508904,
+        "workload_class": "BALANCED"
+      },
+      "devices": [],
+      "generated_workload": {
+        "num_processes": 5,
+        "profile": "balanced",
+        "rule_label": "BALANCED"
+      },
+      "memory": {
+        "proc_memory_percent": null,
+        "proc_pid": null,
+        "proc_rss_bytes": null,
+        "proc_vms_bytes": null,
+        "ram_available_bytes": 1811738624,
+        "ram_free_bytes": 1811738624,
+        "ram_percent": 89.1,
+        "ram_total_bytes": 16639741952,
+        "ram_used_bytes": 14828003328,
+        "swap_free_bytes": 17680199680,
+        "swap_percent": 17.7,
+        "swap_total_bytes": 21474836480,
+        "swap_used_bytes": 3794636800,
+        "timestamp": "2026-10-20T14:14:01.509612"
+      },
+      "step_index": 0,
+      "system_snapshot": {
+        "cpu": {
+          "fallback_count": 0,
+          "fallback_rate": 0.0,
+          "mean_action_delta": null,
+          "mean_metrics": {
+            "avg_response_time": 6.963,
+            "avg_turnaround_time": 12.916,
+            "avg_waiting_time": 6.963,
+            "cpu_utilization": 99.88
+          },
+          "scheduler_distribution": {
+            "FCFS": 2
+          },
+          "scheduler_percentages": {
+            "FCFS": 100.0
+          },
+          "total_processes": 10,
+          "total_steps": 2
+        },
+        "devices": {
+          "device_count": 4,
+          "devices": [
+            {
+              "device_id": "disk_0",
+              "device_type": "disk",
+              "error_rate": 0.0,
+              "queue_length": 0,
+              "response_latency": 0.0,
+              "status": "failed",
+              "telemetry": {
+                "device_id": "disk_0",
+                "error_rate": 0.001,
+                "io_activity": 34.0,
+                "queue_length": 2,
+                "response_latency": 6.0,
+                "temperature": 35.0,
+                "timestamp": 1792505641.5096343
+              },
+              "temperature": 35.0
+            },
+            {
+              "device_id": "printer_0",
+              "device_type": "printer",
+              "error_rate": 0.0,
+              "queue_length": 0,
+              "response_latency": 0.0,
+              "status": "ok",
+              "telemetry": {
+                "device_id": "printer_0",
+                "error_rate": 0.001,
+                "io_activity": 9.0,
+                "queue_length": 2,
+                "response_latency": 15.0,
+                "temperature": 35.0,
+                "timestamp": 1792505641.5096343
+              },
+              "temperature": 35.0
+            },
+            {
+              "device_id": "NIC_0",
+              "device_type": "NIC",
+              "error_rate": 0.0,
+              "queue_length": 0,
+              "response_latency": 0.0,
+              "status": "ok",
+              "telemetry": {
+                "device_id": "NIC_0",
+                "error_rate": 0.001,
+                "io_activity": 49.0,
+                "queue_length": 3,
+                "response_latency": 2.0,
+                "temperature": 35.0,
+                "timestamp": 1792505641.5096343
+              },
+              "temperature": 35.0
+            },
+            {
+              "device_id": "sensor_0",
+              "device_type": "sensor",
+              "error_rate": 0.0,
+              "queue_length": 0,
+              "response_latency": 0.0,
+              "status": "ok",
+              "telemetry": {
+                "device_id": "sensor_0",
+                "error_rate": 0.001,
+                "io_activity": 6.0,
+                "queue_length": 1,
+                "response_latency": 0.5,
+                "temperature": 35.0,
+                "timestamp": 1792505641.5096343
+              },
+              "temperature": 35.0
+            }
+          ],
+          "recent_actions": [
+            {
+              "backup_result": {
+                "backup_location": "cloud://backup/disk_0",
+                "device_id": "disk_0",
+                "message": "Backup completed successfully.",
+                "success": true,
+                "triggered": true
+              },
+              "device_id": "disk_0",
+              "failure_probability": 0.92,
+              "recorded_at": "2026-10-20T14:14:01.496074+00:00",
+              "recovery_result": {
+                "backup_device_id": "disk_1",
+                "device_id": "disk_0",
+                "io_blocked": true,
+                "message": "I/O blocked for device disk_0 and rerouted to backup device disk_1.",
+                "recovered": true,
+                "rerouted": true
+              }
+            }
+          ]
+        },
+        "memory": {
+          "proc_memory_percent": null,
+          "proc_pid": null,
+          "proc_rss_bytes": null,
+          "proc_vms_bytes": null,
+          "ram_available_bytes": 1811730432,
+          "ram_free_bytes": 1811730432,
+          "ram_percent": 89.1,
+          "ram_total_bytes": 16639741952,
+          "ram_used_bytes": 14828011520,
+          "swap_free_bytes": 17680162816,
+          "swap_percent": 17.7,
+          "swap_total_bytes": 21474836480,
+          "swap_used_bytes": 3794673664,
+          "timestamp": "2026-10-20T14:14:01.510076"
+        },
+        "status": "degraded",
+        "timestamp": "2026-10-20T14:14:01.509628+00:00"
+      },
+      "timestamp": "2026-10-20T14:14:01.502573+00:00"
+    }
+  }
+}

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Optional
 
 from modules.device import cloud_backup
 
@@ -34,6 +34,9 @@ class BackupResult:
         ``None``.
     message: str
         Human‑readable description of the outcome.
+    sha256, size_bytes: Optional
+        Digest and size of the object uploaded to S3 (``None`` for simulated
+        backups and failures).
     """
 
     device_id: str
@@ -41,6 +44,8 @@ class BackupResult:
     success: bool
     backup_location: Optional[str]
     message: str
+    sha256: Optional[str] = None
+    size_bytes: Optional[int] = None
 
 
 def _validate_probability(value: float, name: str) -> None:
@@ -89,6 +94,7 @@ def create_backup(
     device_id: str,
     failure_probability: float,
     threshold: float = 0.7,
+    context: Optional[dict[str, Any]] = None,
 ) -> BackupResult:
     """Create a deterministic simulated backup result.
 
@@ -123,7 +129,7 @@ def create_backup(
 
     if cloud_backup.configured_bucket() is not None:
         try:
-            s3_location = cloud_backup.upload_backup(device_id, failure_probability, threshold)
+            receipt = cloud_backup.upload_backup_receipt(device_id, failure_probability, threshold, context)
         except cloud_backup.CloudBackupError as exc:
             logger.warning("Cloud backup failed for %s: %s", device_id, exc)
             return BackupResult(
@@ -137,8 +143,10 @@ def create_backup(
             device_id=device_id,
             triggered=True,
             success=True,
-            backup_location=s3_location,
+            backup_location=receipt.location,
             message="Backup uploaded to cloud storage.",
+            sha256=receipt.sha256,
+            size_bytes=receipt.size_bytes,
         )
 
     location = f"cloud://backup/{device_id}"

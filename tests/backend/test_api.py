@@ -340,6 +340,23 @@ class TestBackendAPI(unittest.TestCase):
         self.assertTrue(data["recovery_result"]["rerouted"])
         self.assertEqual(data["recovery_result"]["backup_device_id"], "disk_backup_01")
 
+    def test_device_predictive_action_context_is_validated(self) -> None:
+        base = {"device_id": "disk_0", "failure_probability": 0.9, "device_status": "degrading"}
+        ok = self.client.post("/api/v1/device/predictive-action", json={**base, "context": {"anomaly_score": 0.3}})
+        self.assertEqual(ok.status_code, 200)
+        for bad in ("text", [1, 2], {"blob": "x" * 5000}):
+            response = self.client.post("/api/v1/device/predictive-action", json={**base, "context": bad})
+            self.assertEqual(response.status_code, 400, bad if not isinstance(bad, dict) else "big")
+            self.assertIn("error", response.get_json())
+
+    def test_device_anomaly_score_rejects_bad_severity(self) -> None:
+        for bad in (0, -1, 1.5, "high", True):
+            response = self.client.post(
+                "/api/v1/device/anomaly-score", json={"device_id": "disk_0", "pattern": "high_latency", "severity": bad}
+            )
+            self.assertEqual(response.status_code, 400, bad)
+            self.assertIn("severity", response.get_json()["error"])
+
     def test_device_predictive_action_invalid(self) -> None:
         """POST /api/v1/device/predictive-action rejects invalid device requests."""
 
@@ -862,7 +879,8 @@ class TestBackendAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
         self.assertTrue(data["is_anomalous"])
-        self.assertEqual(data["failure_risk"], 1.0)
+        self.assertAlmostEqual(data["failure_risk"], 0.7301, places=3)
+        self.assertGreaterEqual(data["failure_risk"], 0.7)
         self.assertEqual(data["pattern"], "high_temperature")
         self.assertGreater(data["latest_telemetry"]["temperature"], 70)
 

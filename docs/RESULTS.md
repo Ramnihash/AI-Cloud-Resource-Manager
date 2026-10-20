@@ -98,6 +98,34 @@ detection, backup and reroute chain works end to end, not how it would perform o
 hardware or on subtle degradation. Only one noise level was tested, so the noise
 robustness is not characterised beyond that point.
 
+**Milder faults.** The faults above are large, so a second sweep scales every fault down
+(severity 1.0 is the full fault; 30 starts x 4 devices x 5 patterns = 600 windows per severity,
+clean telemetry, same threshold). Output: `results/device_severity.csv`.
+
+| Severity | Recall | Median score / threshold | Median risk | Windows with risk capped at 1.0 |
+|----------|--------|--------------------------|-------------|---------------------------------|
+| 1.0 | 1.000 | 47,320 | 1.000 | 100% |
+| 0.5 | 1.000 | 9,467 | 1.000 | 87% |
+| 0.25 | 1.000 | 1,462 | 1.000 | 59% |
+| 0.1 | 0.978 | 83 | 0.892 | 20% |
+| 0.05 | 0.822 | 6.9 | 0.784 | 20% |
+
+By pattern at severity 0.05 the recall is 1.0 for abnormal I/O, error rate and latency,
+0.80 for temperature and 0.31 for queue length; at 0.1 queue length is 0.89 and every other
+pattern is 1.0. Queue length is an integer, so at severity 0.05 the fault is about one extra
+queue entry, which is within normal variation.
+
+Two findings. First, the detector is very sensitive: its threshold comes from noise-free
+simulated data, so it is tiny, and even a fault at 5% of full size scores about 7 times the
+threshold. That is also why 5% measurement noise produces false alarms (1.7%). Second, the
+original risk mapping (linear, capped at 1.0 at 1.4x the threshold) gave 1.00 for almost every
+flagged window, which made the Device page's risk always read 1.00. The mapping now rises on a
+log scale from 0.7 at the threshold to 1.0 at 1000x the threshold, so mild faults give
+graded values (about 0.78 at 7x and 0.89 at 83x) while severe ones still saturate. This is a
+rescaling for display and for the backup trigger, not a calibrated probability.
+The table is measured under the new mapping. With the old mapping 80% to 100% of flagged
+windows were capped at 1.0 at every severity, including 80% at the mildest. Recall does not depend on the mapping.
+
 **Not done: SMART classifier.** No Backblaze dataset or trained SMART model exists in this
 project, so the plan's SMART row (precision/recall/ROC-AUC on a held-out split) was not run.
 

@@ -1,0 +1,34 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/device/predictive-action",
+    "body": {
+      "device_id": "disk_0",
+      "failure_probability": 0.92,
+      "device_status": "unhealthy",
+      "backup_device_id": "disk_1"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "backup_result": {
+        "backup_location": "cloud://backup/disk_0",
+        "device_id": "disk_0",
+        "message": "Backup completed successfully.",
+        "success": true,
+        "triggered": true
+      },
+      "device_id": "disk_0",
+      "failure_probability": 0.92,
+      "recovery_result": {
+        "backup_device_id": "disk_1",
+        "device_id": "disk_0",
+        "io_blocked": true,
+        "message": "I/O blocked for device disk_0 and rerouted to backup device disk_1.",
+        "recovered": true,
+        "rerouted": true
+      }
+    }
+  }
+}
