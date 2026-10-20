@@ -100,3 +100,71 @@ robustness is not characterised beyond that point.
 
 **Not done: SMART classifier.** No Backblaze dataset or trained SMART model exists in this
 project, so the plan's SMART row (precision/recall/ROC-AUC on a held-out split) was not run.
+
+## 7.4 Robustness: AI components forced to fail, and AI on vs off
+
+Script: `experiments/robustness_eval.py`. Output: `results/robustness_forced_failures.csv`.
+Each scenario breaks one component inside a test copy of the Flask app and sends the normal request.
+"Graceful" means the HTTP status is the intended one (never an unhandled 500), the response says what
+happened, and a warning is logged.
+
+| Failure injected | Endpoint | HTTP | Response signal | Warning logged |
+|------------------|----------|------|-----------------|----------------|
+| CPU workload classifier raises | `/api/v1/cpu/action` | 200 | `is_fallback=True`, FCFS used, reason RuntimeError | yes |
+| CPU burst predictor raises | `/api/v1/cpu/action` | 200 | `is_fallback=True`, FCFS used, reason RuntimeError | yes |
+| Markov page predictor raises | `/api/v1/memory/analysis` | 200 | prediction block `available: False`, reason "Predictor failed: RuntimeError" | yes |
+| Anomaly model file removed | `/api/v1/device/anomaly-score` | 503 | "not trained yet", with the retrain command | yes |
+| Anomaly model file corrupt | `/api/v1/device/anomaly-score` | 503 | "could not be loaded", with the retrain command | yes |
+| Anomaly model removed, predictive action still used | `/api/v1/device/predictive-action` | 200 | backup still ran, no reroute (none requested) | n/a |
+| S3 unreachable | `/api/v1/device/predictive-action` | 200 | `success=False`, "S3 upload failed: ConnectionError" | yes |
+
+All 7 scenarios were handled gracefully. Before this fix a raising model produced an HTTP 500 on the CPU
+and memory endpoints; that was found by probing and fixed in this round, so these rows describe the fixed
+code. Latency is a few milliseconds except the Markov row (8,987 ms). That was the first call in a fresh
+app and probably includes building the predictor; it was not separated out, so treat it as cold-start
+cost rather than a measured failure cost.
+
+**AI on vs off.** The "off" state is the fallback the system already uses, or the baseline from each study.
+
+| Component | AI on | AI off | Source |
+|-----------|-------|--------|--------|
+| CPU scheduler | average waiting 11.5% lower than FCFS over 120 workloads (p < 0.001); 6.4% higher than SJF | FCFS fallback, which is what runs when the model fails | 7.1 |
+| Page replacement | predictive-protect cuts demand faults 5.6% (4 frames) and 12.9% (8 frames) on locality strings; no gain on random access | baseline replacement policy | 7.2 |
+| Device anomaly detection | recall 1.000, false-positive rate 0.000 clean and 0.017 noisy | no anomaly score, so the system raises no flag of its own. This follows from the call chain; it was not measured | 7.3 |
+
+**Interpretation.** Losing any single AI component degrades the response instead of breaking it: CPU
+scheduling falls back to FCFS, memory analysis reports the predictor as unavailable, and the device
+endpoints return a clear 503 with the fix. The cost of "AI off" is the difference in the table, which
+is real for the CPU scheduler and for locality-based page prediction, and modest elsewhere.
+
+## 7.5 Robustness: malformed requests and stress
+
+Outputs: `results/stress_malformed.csv`, `results/stress_latency.csv`.
+
+**Malformed requests.** 145 bad requests (empty or wrong-typed bodies, nulls, nested garbage, a very long
+string, unicode, NaN and infinity, huge numbers, too many processes) were sent across all endpoints.
+Result: 0 returned a 5xx, and every error response had a JSON error body. Statuses were 123 x 400,
+13 x 200, 7 x 405 and 2 x 404. The 13 requests accepted with 200 are intended: `/api/v1/memory/monitor`
+has no required fields (an empty or garbled body just returns a snapshot, 12 cases), and
+`/api/v1/device/predictive-action` accepts any non-empty device id, including one that does not exist
+(1 case).
+
+**Stress.** One worker, in-process timing, so network time is excluded.
+
+| Scenario | Requests | Non-200 | p50 (ms) | p95 (ms) | p99 (ms) | Max (ms) | Memory growth (MB) |
+|----------|----------|---------|----------|----------|----------|----------|--------------------|
+| CPU action, 20 processes | 20 | 0 | 9.7 | 10.9 | 13.2 | 13.8 | 0.04 |
+| CPU action, 200 processes | 20 | 0 | 21.2 | 25.9 | 29.9 | 30.9 | 2.96 |
+| CPU action, 1000 processes | 20 | 0 | 72.6 | 266.7 | 309.2 | 319.8 | 18.09 |
+| CPU action, 2000 repeated steps | 2000 | 0 | 10.1 | 12.9 | 14.9 | 214.7 | 0.54 (0.01 in second half) |
+| System step, 2000 repeated steps | 2000 | 0 | 12.3 | 15.9 | 19.0 | 34.6 | 10.78 (-0.03 in second half) |
+
+No request failed and none returned a 5xx. Latency grows with workload size (about 10 ms at 20 processes,
+73 ms at 1000). Over 2000 repeated steps, latency in the last 10% of requests matched the first 10%
+and memory growth in the second half was about zero, so no leak was visible. History stays at 1000
+entries because of the cap. The limit of 1000 processes per request is deliberate: without it a single
+huge request hung the one worker.
+
+**Limits of this test.** It is sequential, from one client, on the development machine. It says nothing
+about concurrent users, and the live instance (about 1 GB RAM, one gunicorn worker) was not stress
+tested. Requests there queue behind each other.

@@ -824,3 +824,14 @@
 .pipeline-node.is-complete .pipeline-node-state {
     color: var(--text-mid);
 }
+
+.btn-reset {
+    background: transparent;
+    border: 1px solid var(--border, #3a3a40);
+    color: var(--text-muted, #9a9aa5);
+    font-size: var(--fs-xs);
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.btn-reset:hover { color: var(--text, #fff); }

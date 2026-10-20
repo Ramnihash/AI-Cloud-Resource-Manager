@@ -59,6 +59,7 @@ class IntegratedExecutionManager:
         memory_monitor: Optional[MemoryMonitor] = None,
         shared_monitor: Optional[SharedMonitor] = None,
         fleet: Optional[list[Device]] = None,
+        max_history: int = 1000,
     ) -> None:
         """Initialize IntegratedExecutionManager ensuring shared instance consistency.
 
@@ -96,6 +97,7 @@ class IntegratedExecutionManager:
                 fleet=fleet,
             )
 
+        self.max_history: int = max(1, max_history)
         self._history: list[IntegratedExecutionStep] = []
         self._step_counter: int = 0
 
@@ -240,6 +242,8 @@ class IntegratedExecutionManager:
         )
 
         self._history.append(step_record)
+        if len(self._history) > self.max_history:
+            del self._history[: -self.max_history]
         self._step_counter += 1
 
         return step_record

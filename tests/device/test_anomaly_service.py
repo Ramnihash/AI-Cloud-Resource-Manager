@@ -51,6 +51,14 @@ class TestLoadBundle(unittest.TestCase):
         with self.assertRaises(anomaly_service.ModelUnavailableError):
             anomaly_service.load_bundle(missing)
 
+    def test_corrupt_model_file(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            corrupt = os.path.join(folder, "corrupt.pt")
+            with open(corrupt, "wb") as handle:
+                handle.write(b"this is not a saved model")
+            with self.assertRaises(anomaly_service.ModelUnavailableError):
+                anomaly_service.load_bundle(corrupt)
+
 
 if __name__ == "__main__":
     unittest.main()

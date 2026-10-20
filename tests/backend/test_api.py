@@ -787,6 +787,61 @@ class TestBackendAPI(unittest.TestCase):
             self.assertEqual(response.status_code, 400, body)
 
 
+    def test_memory_analysis_survives_predictor_failure(self) -> None:
+        """A failing page predictor is reported as unavailable instead of failing the request."""
+        with patch("backend.routes.MarkovPagePredictor.train", side_effect=RuntimeError("boom")):
+            with self.assertLogs("backend.routes", level="WARNING") as logs:
+                response = self.client.post("/api/v1/memory/analysis", json={
+                    "reference_string": [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5],
+                    "num_frames": 3, "samples": 8, "interval_s": 0,
+                })
+        self.assertEqual(response.status_code, 200)
+        markov = response.get_json()["page_prediction"][0]
+        self.assertFalse(markov["available"])
+        self.assertIn("RuntimeError", markov["reason"])
+        self.assertIn("Markov page predictor failed", logs.output[0])
+
+    def test_cpu_action_falls_back_when_classifier_fails(self) -> None:
+        """A failing workload classifier makes the CPU endpoint fall back to FCFS and say why."""
+        payload = {"processes": [
+            {"pid": i, "arrival_time": float(i), "burst_time": 3.0 + i, "priority": 1 + i % 3}
+            for i in range(6)
+        ]}
+        classifier = self.cpu_action_loop.meta_scheduler.classifier
+        with patch.object(classifier, "predict_workload", side_effect=RuntimeError("boom")):
+            with self.assertLogs("modules.cpu.meta_scheduler", level="WARNING") as logs:
+                response = self.client.post("/api/v1/cpu/action", json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertTrue(data["is_fallback"])
+        self.assertEqual(data["selected_scheduler"], "FCFS")
+        self.assertIn("RuntimeError: boom", data["fallback_reason"])
+        self.assertIn("falling back to FCFS", logs.output[0])
+
+    def test_workload_limits_are_enforced(self) -> None:
+        """Oversized or non-finite workloads are rejected with 400 before any scheduling."""
+        def proc(**overrides):
+            base = {"pid": 1, "arrival_time": 0, "burst_time": 5, "priority": 1}
+            base.update(overrides)
+            return base
+
+        too_many = [proc(pid=i) for i in range(1001)]
+        bodies = {
+            "huge burst": {"processes": [proc(burst_time=1e7)]},
+            "huge arrival": {"processes": [proc(arrival_time=1e9)]},
+            "huge total burst": {"processes": [proc(pid=i, burst_time=9000) for i in range(6)]},
+            "too many processes": {"processes": too_many},
+        }
+        for path in ("/api/v1/cpu/action", "/api/v1/system/step"):
+            for label, body in bodies.items():
+                response = self.client.post(path, json=body)
+                self.assertEqual(response.status_code, 400, f"{path} {label}")
+                self.assertIn("error", response.get_json())
+            for token in ("NaN", "Infinity"):
+                raw = '{"processes": [{"pid": 1, "arrival_time": 0, "burst_time": %s}]}' % token
+                response = self.client.post(path, data=raw, content_type="application/json")
+                self.assertEqual(response.status_code, 400, f"{path} {token}")
+
     def test_anomaly_score_model_not_trained(self) -> None:
         """POST /api/v1/device/anomaly-score returns 503 when the model is unavailable."""
         error = anomaly_service.ModelUnavailableError("Anomaly detector is not trained yet.")

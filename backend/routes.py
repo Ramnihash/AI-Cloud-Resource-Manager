@@ -11,6 +11,8 @@ Exposes REST endpoints for:
 from __future__ import annotations
 
 import dataclasses
+import logging
+import math
 import os
 import random
 from typing import Any, Optional
@@ -35,6 +37,36 @@ from modules.memory.page_replacement import (
 )
 
 api_bp = Blueprint("api", __name__)
+logger = logging.getLogger(__name__)
+
+
+MAX_PROCESSES = 1000
+MAX_TIME_VALUE = 10_000.0
+MAX_TOTAL_BURST = 50_000.0
+
+
+def _check_workload_limits(processes: list[Process]) -> str | None:
+    """Reject non-finite or oversized workloads that would tie up the single worker.
+
+    Round Robin emits one Gantt slice per quantum, so one huge burst_time can mean
+    millions of slices, gigabytes of response and a stuck worker.
+    """
+    if len(processes) > MAX_PROCESSES:
+        return f"Workload must contain at most {MAX_PROCESSES} processes"
+    total = 0.0
+    for i, p in enumerate(processes):
+        values = [("arrival_time", p.arrival_time), ("burst_time", p.burst_time)]
+        if p.predicted_burst_time is not None:
+            values.append(("predicted_burst_time", p.predicted_burst_time))
+        for name, value in values:
+            if not math.isfinite(value):
+                return f"Process at index {i} has non-finite {name}"
+            if value > MAX_TIME_VALUE:
+                return f"Process at index {i} has {name} above the limit of {MAX_TIME_VALUE:g}"
+        total += p.burst_time
+    if total > MAX_TOTAL_BURST:
+        return f"Total burst_time must not exceed {MAX_TOTAL_BURST:g}"
+    return None
 
 
 def _extract_json_payload(allow_empty: bool = False) -> tuple[dict[str, Any] | None, str | None]:
@@ -154,6 +186,10 @@ def cpu_action():
             process_objects.append(p)
         except (ValueError, TypeError) as e:
             return jsonify({"error": f"Invalid process at index {i}: {e}"}), 400
+
+    limit_error = _check_workload_limits(process_objects)
+    if limit_error:
+        return jsonify({"error": limit_error}), 400
 
     try:
         loop = _get_cpu_action_loop()
@@ -304,15 +340,20 @@ def memory_analysis():
         prediction_layer = PagePredictionActionLayer()
         pages = []
 
-        markov = MarkovPagePredictor()
-        markov.train(ref)
-        candidates = markov.predict(current_page, top_k=3)
-        pages.append({
-            "predictor": "Markov",
-            "available": True,
-            "candidates": candidates,
-            "action": prediction_layer.evaluate_and_act(candidates, memory_state, "Markov"),
-        })
+        try:
+            markov = MarkovPagePredictor()
+            markov.train(ref)
+            candidates = markov.predict(current_page, top_k=3)
+            pages.append({
+                "predictor": "Markov",
+                "available": True,
+                "candidates": candidates,
+                "action": prediction_layer.evaluate_and_act(candidates, memory_state, "Markov"),
+            })
+        except Exception as exc:
+            logger.warning("Markov page predictor failed: %s: %s", type(exc).__name__, exc)
+            pages.append({"predictor": "Markov", "available": False,
+                          "reason": f"Predictor failed: {type(exc).__name__}"})
 
         try:
             from ml.memory.transformer_predictor import TransformerPagePredictor
@@ -325,16 +366,21 @@ def memory_analysis():
                 pages.append({"predictor": "Transformer", "available": False,
                               "reason": "Reference string is too short for the context window"})
             else:
-                transformer = TransformerPagePredictor(
-                    num_pages=max(ref) + 1, context_len=context_len, d_model=16, nhead=2)
-                transformer.train(ref, epochs=20)
-                t_cands = transformer.predict(ref[-context_len:], top_k=3)
-                pages.append({
-                    "predictor": "Transformer",
-                    "available": True,
-                    "candidates": t_cands,
-                    "action": prediction_layer.evaluate_and_act(t_cands, memory_state, "Transformer"),
-                })
+                try:
+                    transformer = TransformerPagePredictor(
+                        num_pages=max(ref) + 1, context_len=context_len, d_model=16, nhead=2)
+                    transformer.train(ref, epochs=20)
+                    t_cands = transformer.predict(ref[-context_len:], top_k=3)
+                    pages.append({
+                        "predictor": "Transformer",
+                        "available": True,
+                        "candidates": t_cands,
+                        "action": prediction_layer.evaluate_and_act(t_cands, memory_state, "Transformer"),
+                    })
+                except Exception as exc:
+                    logger.warning("Transformer page predictor failed: %s: %s", type(exc).__name__, exc)
+                    pages.append({"predictor": "Transformer", "available": False,
+                                  "reason": f"Predictor failed: {type(exc).__name__}"})
 
         pid = os.getpid()
         snaps = MemoryMonitor().collect(n=samples, interval_s=float(interval_s), pid=pid)["snapshots"]
@@ -461,6 +507,7 @@ def device_anomaly_score():
     try:
         bundle = anomaly_service.load_bundle()
     except anomaly_service.ModelUnavailableError as e:
+        logger.warning("Anomaly detector unavailable: %s", e)
         return jsonify({"error": str(e)}), 503
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
@@ -675,6 +722,10 @@ def system_step():
             return jsonify({"error": f"Invalid process at index {i}: {e}"}), 400
 
 
+    limit_error = _check_workload_limits(process_objects)
+    if limit_error:
+        return jsonify({"error": limit_error}), 400
+
     compare_with_baseline = data.get("compare_with_baseline", False)
     if not isinstance(compare_with_baseline, bool):
         return jsonify({"error": "Field 'compare_with_baseline' must be a boolean"}), 400
@@ -730,6 +781,16 @@ def system_step():
     if generated_workload is not None:
         response["generated_workload"] = generated_workload
     return jsonify(response), 200
+
+
+@api_bp.route("/api/v1/system/reset", methods=["POST"])
+def system_reset():
+    """Clear integrated execution history and counters so the next step is step 1."""
+    try:
+        _get_integrated_execution_manager().reset()
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+    return jsonify({"status": "reset"}), 200
 
 
 @api_bp.route("/api/v1/system/history", methods=["GET"])
