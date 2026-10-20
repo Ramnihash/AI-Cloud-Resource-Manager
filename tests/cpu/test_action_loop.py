@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-import copy
 import unittest
 from dataclasses import FrozenInstanceError
 
-from data.cpu.generator import CPUWorkloadGenerator, WorkloadConfig
 from ml.cpu.burst_predictor import CPUBurstPredictor
 from ml.cpu.workload_classifier import CPUWorkloadClassifier
 from modules.cpu.action_loop import ActionLoopStep, CPUActionLoop
-from modules.cpu.base_scheduler import BaseScheduler, ScheduleResult
+from modules.cpu.base_scheduler import ScheduleResult
 from modules.cpu.fcfs import FCFSScheduler
 from modules.cpu.meta_scheduler import CPUMetaScheduler, MetaScheduleResult
 from modules.cpu.process import Process

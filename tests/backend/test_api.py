@@ -725,7 +725,9 @@ class TestBackendAPI(unittest.TestCase):
         first = self.client.post("/api/v1/system/step", json=payload).get_json()
         second = self.client.post("/api/v1/system/step", json=payload).get_json()
         self.assertEqual(first["generated_workload"]["profile"], second["generated_workload"]["profile"])
-        procs = lambda d: [(p["pid"], p["burst_time"]) for p in d["cpu"]["meta_result"]["schedule_result"]["processes"]]
+        def procs(d):
+            return [(p["pid"], p["burst_time"]) for p in d["cpu"]["meta_result"]["schedule_result"]["processes"]]
+
         self.assertEqual(sorted(procs(first)), sorted(procs(second)))
 
     def test_system_step_generated_profile_validation(self) -> None:

@@ -27,7 +27,6 @@ from ml.memory.page_reference_generator import (
     PageReferenceGenerator,
     VALID_PATTERNS,
     _HOT_FRACTION,
-    _HOT_PROBABILITY,
 )
 
 

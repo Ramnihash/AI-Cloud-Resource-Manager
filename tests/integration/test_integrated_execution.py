@@ -13,7 +13,6 @@ from ml.cpu.workload_classifier import CPUWorkloadClassifier
 from modules.cpu.action_loop import CPUActionLoop
 from modules.cpu.meta_scheduler import CPUMetaScheduler
 from modules.cpu.process import Process
-from modules.device.device import Device, DeviceType
 from modules.integration.integrated_execution import (
     IntegratedExecutionManager,
     IntegratedExecutionStep,
