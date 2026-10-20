@@ -144,6 +144,16 @@ Then, in the AWS Console, EC2, your instance, **Security**, the security group, 
 
 Plain HTTP still sends the password unencrypted, so use a password you use nowhere else, and only for demos.
 
+## Part J. Extra protection when the site is open to everyone
+
+```
+cd ~/AI-Cloud-Resource-Manager
+git pull
+bash deployment/aws/harden.sh
+```
+
+This limits how fast one visitor can hit the site, hides the nginx version, adds basic security headers, and installs fail2ban, which bans an IP for an hour after 5 wrong passwords (website login or ssh). Run it after Basic Auth is on.
+
 ## Not covered yet
 
 - HTTPS (needs a domain name). Keep the firewall restricted when no password is set.
