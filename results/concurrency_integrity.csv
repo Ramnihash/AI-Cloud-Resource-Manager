@@ -1,0 +1,4 @@
+label,scenario,steps_sent,concurrency,steps_ok,non_200,statuses,distinct_step_indices,duplicate_step_indices,history_growth,history_missing,history_distinct_indices,passed
+local-threaded,"cold start, 8 parallel first steps",8,8,8,0,200,8,0,8,0,8,True
+local-threaded,"100 parallel steps, concurrency 32",100,32,100,0,200,100,0,100,0,100,True
+local-threaded,"100 parallel steps, concurrency 16",100,16,100,0,200,100,0,100,0,100,True

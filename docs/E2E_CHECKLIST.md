@@ -52,6 +52,8 @@ On the server (ssh window):
 
 ## Known gaps
 
-- The header status chip ("Operational" or "Degraded") updates only on the Overview page.
-- Failed requests (4xx/5xx) are not recorded on the Activity page.
-- Not tested: concurrent users, and browsers other than Chromium.
+- Not tested: browsers other than Chromium. Concurrent users are tested by script (RESULTS 7.5 C),
+  not in the browser.
+- Added after the checklist run: the header status chip now updates on every page, and the
+  Activity page lists failed requests (Errors filter, Failed requests card). Recheck both on the
+  live site after deploying.

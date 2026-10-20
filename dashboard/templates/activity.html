@@ -7,7 +7,7 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Activity</h1>
-        <p class="page-subtitle">Reverse-chronological log of scheduling, memory and device actions</p>
+        <p class="page-subtitle">Reverse-chronological log of scheduling, memory and device actions, and failed requests</p>
     </div>
     <span class="page-meta" id="act-meta">Loading…</span>
 </div>
@@ -15,11 +15,6 @@
 <div class="state-banner" id="act-error" role="alert" hidden></div>
 
 <section class="page-grid" aria-label="Activity summary">
-    <div class="panel kpi grid-col-3">
-        <span class="metric-label">Events logged</span>
-        <span class="kpi-value" id="kpi-ev-total">&mdash;</span>
-        <span class="kpi-sub" id="kpi-ev-sub">&nbsp;</span>
-    </div>
     <div class="panel kpi grid-col-3">
         <span class="metric-label">Steps run</span>
         <span class="kpi-value" id="kpi-ev-steps">&mdash;</span>
@@ -34,6 +29,11 @@
         <span class="metric-label">Device actions</span>
         <span class="kpi-value" id="kpi-ev-device">&mdash;</span>
         <span class="kpi-sub" id="kpi-ev-device-sub">&nbsp;</span>
+    </div>
+    <div class="panel kpi grid-col-3">
+        <span class="metric-label">Failed requests</span>
+        <span class="kpi-value" id="kpi-ev-errors">&mdash;</span>
+        <span class="kpi-sub" id="kpi-ev-errors-sub">&nbsp;</span>
     </div>
 </section>
 
@@ -61,7 +61,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="chart-note">Built from the backend's own records: the last 50 system steps (CPU scheduling and a memory snapshot per step) and recorded device actions. The log lives in backend memory and clears when the server restarts.</p>
+            <p class="chart-note">Built from the backend's own records: the last 50 system steps (CPU scheduling and a memory snapshot per step), recorded device actions and the last 50 API requests that returned an error (status 400 or higher). The log lives in backend memory and clears when the server restarts.</p>
         </div>
     </div>
 </section>

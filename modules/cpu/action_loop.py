@@ -17,6 +17,7 @@ algorithms.
 
 from __future__ import annotations
 
+import threading
 import time
 from collections import Counter
 from dataclasses import dataclass
@@ -143,6 +144,8 @@ class CPUActionLoop:
         self.meta_scheduler = meta_scheduler
         self.max_history: int = max(1, max_history)
         self._history: list[ActionLoopStep] = []
+        # Requests run on several threads; the counter and history must change together.
+        self._record_lock = threading.Lock()
         self._step_counter: int = 0
 
     @property
@@ -209,19 +212,20 @@ class CPUActionLoop:
                 "response_time_delta": round(meta_m.avg_response_time - base_m.avg_response_time, 4),
             }
 
-        step_record = ActionLoopStep(
-            step_index=self._step_counter,
-            timestamp=time.time(),
-            process_count=len(processes),
-            meta_result=meta_result,
-            baseline_result=baseline_result,
-            action_delta=action_delta,
-        )
+        with self._record_lock:
+            step_record = ActionLoopStep(
+                step_index=self._step_counter,
+                timestamp=time.time(),
+                process_count=len(processes),
+                meta_result=meta_result,
+                baseline_result=baseline_result,
+                action_delta=action_delta,
+            )
 
-        self._history.append(step_record)
-        if len(self._history) > self.max_history:
-            del self._history[: -self.max_history]
-        self._step_counter += 1
+            self._history.append(step_record)
+            if len(self._history) > self.max_history:
+                del self._history[: -self.max_history]
+            self._step_counter += 1
 
         return step_record
 
@@ -263,12 +267,14 @@ class CPUActionLoop:
 
         Returns a new list to prevent external mutation of the internal history.
         """
-        return list(self._history)
+        with self._record_lock:
+            return list(self._history)
 
     def reset(self) -> None:
         """Clear the in-memory history and reset the step counter to 0."""
-        self._history.clear()
-        self._step_counter = 0
+        with self._record_lock:
+            self._history.clear()
+            self._step_counter = 0
 
     def get_summary(self) -> dict[str, Any]:
         """Aggregate summary metrics for the current in-memory simulation session.

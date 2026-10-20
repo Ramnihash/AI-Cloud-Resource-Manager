@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, Optional
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 
+from backend.request_log import init_request_log
 from backend.routes import api_bp
 from dashboard.routes import dashboard_bp
 from modules.cpu.action_loop import CPUActionLoop
@@ -54,6 +55,9 @@ def create_app(
 
     # Register dashboard blueprint
     app.register_blueprint(dashboard_bp)
+
+    # Record failed /api/ requests for the Activity page
+    init_request_log(app)
 
     # Register global JSON error handlers (no Python tracebacks exposed)
     @app.errorhandler(400)
