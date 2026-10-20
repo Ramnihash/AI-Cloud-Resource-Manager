@@ -1,0 +1,4 @@
+scenario,series,alerted_any_pct,alerted_before_crossing_pct,mean_lead_steps,std_lead_steps,false_alert_pct,forecast_mae
+ramp to threshold (positive),40,100.0,0.0,-0.325,0.6155047959570695,,0.7070513377348306
+stable (negative),40,,,,,0.0,1.0613528985040277
+high_stable (negative),40,,,,,0.0,0.6937181703971488

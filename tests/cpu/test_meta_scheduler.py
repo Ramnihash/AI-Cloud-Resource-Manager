@@ -498,3 +498,48 @@ class TestCPUMetaSchedulerIntegration(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestModelFailureFallback(unittest.TestCase):
+    """A failing prediction or classification model must not stop scheduling."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        from ml.cpu.burst_predictor import CPUBurstPredictor
+        from ml.cpu.workload_classifier import CPUWorkloadClassifier
+
+        cls.predictor = CPUBurstPredictor(random_state=42)
+        cls.predictor.train_on_synthetic_workload(num_processes=50, seed=42)
+        cls.classifier = CPUWorkloadClassifier(random_state=42)
+        cls.classifier.train_on_synthetic_dataset(seed=42, target_per_class=10)
+
+    def _workload(self):
+        return [Process(pid=i, arrival_time=float(i), burst_time=4.0 + i, priority=1 + i % 3) for i in range(5)]
+
+    def test_classifier_failure_falls_back_to_fcfs(self) -> None:
+        from unittest.mock import patch
+
+        meta = CPUMetaScheduler(classifier=self.classifier, burst_predictor=self.predictor)
+        with patch.object(self.classifier, "predict_workload", side_effect=RuntimeError("boom")):
+            with self.assertLogs("modules.cpu.meta_scheduler", level="WARNING"):
+                result = meta.schedule(self._workload())
+        self.assertTrue(result.is_fallback)
+        self.assertEqual(result.selected_scheduler, "FCFS")
+        self.assertEqual(result.predicted_class, "MODEL_ERROR")
+        self.assertEqual(result.fallback_reason, "RuntimeError: boom")
+        self.assertEqual(result.to_dict()["fallback_reason"], "RuntimeError: boom")
+        self.assertEqual(len(result.processes), 5)
+
+    def test_predictor_failure_falls_back_to_fcfs(self) -> None:
+        from unittest.mock import patch
+
+        meta = CPUMetaScheduler(classifier=self.classifier, burst_predictor=self.predictor)
+        with patch.object(self.predictor, "predict_workload", side_effect=ValueError("bad model")):
+            with self.assertLogs("modules.cpu.meta_scheduler", level="WARNING"):
+                result = meta.schedule(self._workload())
+        self.assertTrue(result.is_fallback)
+        self.assertIn("ValueError", result.fallback_reason)
+
+    def test_healthy_run_has_no_fallback_reason(self) -> None:
+        meta = CPUMetaScheduler(classifier=self.classifier, burst_predictor=self.predictor)
+        self.assertIsNone(meta.schedule(self._workload()).fallback_reason)

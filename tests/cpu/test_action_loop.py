@@ -352,3 +352,22 @@ class TestCPUActionLoop(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestHistoryCap(unittest.TestCase):
+    def test_history_keeps_only_the_most_recent_steps(self) -> None:
+        from ml.cpu.burst_predictor import CPUBurstPredictor
+        from ml.cpu.workload_classifier import CPUWorkloadClassifier
+        from modules.cpu.meta_scheduler import CPUMetaScheduler
+        from modules.cpu.process import Process
+
+        predictor = CPUBurstPredictor(random_state=42)
+        predictor.train_on_synthetic_workload(num_processes=50, seed=42)
+        classifier = CPUWorkloadClassifier(random_state=42)
+        classifier.train_on_synthetic_dataset(seed=42, target_per_class=10)
+        loop = CPUActionLoop(CPUMetaScheduler(classifier=classifier, burst_predictor=predictor), max_history=3)
+        for _ in range(5):
+            loop.step([Process(pid=1, arrival_time=0.0, burst_time=2.0)])
+        history = loop.get_history()
+        self.assertEqual(len(history), 3)
+        self.assertEqual([s.step_index for s in history], [2, 3, 4])

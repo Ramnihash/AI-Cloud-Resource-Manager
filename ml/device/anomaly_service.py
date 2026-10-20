@@ -10,6 +10,7 @@ PyTorch is imported lazily so the rest of the backend works without it.
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any
 
@@ -19,6 +20,8 @@ from ml.device.sequence import TELEMETRY_FEATURES
 from modules.device.abnormal import AbnormalPattern, generate_abnormal_telemetry
 from modules.device.device import Device
 from modules.device.telemetry import generate_normal_telemetry
+
+logger = logging.getLogger(__name__)
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "anomaly_detector.pt")
 WINDOW_SIZE = 10
@@ -80,18 +83,24 @@ def load_bundle(path: str = MODEL_PATH) -> dict[str, Any]:
     except ImportError as exc:
         raise ModelUnavailableError("PyTorch is not installed on the backend") from exc
 
-    saved = torch.load(path, map_location="cpu", weights_only=False)
-    model = TelemetryTransformerReconstructor(**saved["model_config"])
-    model.load_state_dict(saved["state_dict"])
-    model.eval()
-    bundle = {
-        "model": model,
-        "mean": np.array(saved["mean"], dtype=np.float64),
-        "std": np.array(saved["std"], dtype=np.float64),
-        "threshold": float(saved["threshold"]),
-        "window_size": int(saved["window_size"]),
-        "trained_at": saved.get("trained_at"),
-    }
+    try:
+        saved = torch.load(path, map_location="cpu", weights_only=False)
+        model = TelemetryTransformerReconstructor(**saved["model_config"])
+        model.load_state_dict(saved["state_dict"])
+        model.eval()
+        bundle = {
+            "model": model,
+            "mean": np.array(saved["mean"], dtype=np.float64),
+            "std": np.array(saved["std"], dtype=np.float64),
+            "threshold": float(saved["threshold"]),
+            "window_size": int(saved["window_size"]),
+            "trained_at": saved.get("trained_at"),
+        }
+    except Exception as exc:
+        logger.warning("Could not load anomaly detector %s: %s: %s", path, type(exc).__name__, exc)
+        raise ModelUnavailableError(
+            "Anomaly detector model file could not be loaded. Retrain it: python -m scripts.train_device_anomaly_detector"
+        ) from exc
     _cache[path] = (mtime, bundle)
     return bundle
 

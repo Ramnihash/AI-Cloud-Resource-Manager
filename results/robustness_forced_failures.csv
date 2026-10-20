@@ -1,0 +1,8 @@
+scenario,endpoint,http_status,expected_status,graceful,signal_in_response,warning_logged,latency_ms
+CPU workload classifier raises,/api/v1/cpu/action,200,200,True,"is_fallback=True, scheduler=FCFS, reason=RuntimeError: forced",True,18.37
+CPU burst predictor raises,/api/v1/cpu/action,200,200,True,"is_fallback=True, scheduler=FCFS, reason=RuntimeError: forced",True,2.19
+Markov page predictor raises,/api/v1/memory/analysis,200,200,True,"page_prediction[0]={'available': False, 'predictor': 'Markov', 'reason': 'Predictor failed: RuntimeError'}",True,8986.59
+Anomaly model file removed,/api/v1/device/anomaly-score,503,503,True,Anomaly detector is not trained yet. Run: python -m scripts.train_device_anomaly_detector,True,4.57
+Anomaly model file corrupt,/api/v1/device/anomaly-score,503,503,True,Anomaly detector model file could not be loaded. Retrain it: python -m scripts.train_device_anomaly_detector,True,24.48
+"Anomaly model removed, predictive action still used",/api/v1/device/predictive-action,200,200,True,"backup=True, rerouted=False",False,13.33
+Cloud storage unreachable (S3 backup),/api/v1/device/predictive-action,200,200,True,"backup success=False, message=Backup failed: S3 upload failed: ConnectionError",True,1.1

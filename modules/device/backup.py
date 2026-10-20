@@ -6,10 +6,13 @@ that can be used by the Device Management action layer (CP4.5).
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from typing import Optional
 
 from modules.device import cloud_backup
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -122,6 +125,7 @@ def create_backup(
         try:
             s3_location = cloud_backup.upload_backup(device_id, failure_probability, threshold)
         except cloud_backup.CloudBackupError as exc:
+            logger.warning("Cloud backup failed for %s: %s", device_id, exc)
             return BackupResult(
                 device_id=device_id,
                 triggered=True,

@@ -16,6 +16,7 @@ classical schedulers in modules/cpu/.
 from __future__ import annotations
 
 import copy
+import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Optional
 
@@ -31,6 +32,8 @@ if TYPE_CHECKING:
     from ml.cpu.burst_predictor import CPUBurstPredictor
     from ml.cpu.workload_classifier import ClassificationResult, CPUWorkloadClassifier
 
+
+logger = logging.getLogger(__name__)
 
 CLASS_CPU_BOUND = "CPU_BOUND"
 CLASS_IO_BOUND = "IO_BOUND"
@@ -61,6 +64,7 @@ class MetaScheduleResult:
     classification_result: Any
     schedule_result: ScheduleResult
     scheduler_kwargs_used: dict[str, Any]
+    fallback_reason: Optional[str] = None
 
     @property
     def algorithm_name(self) -> str:
@@ -97,6 +101,7 @@ class MetaScheduleResult:
             ),
             "schedule_result": self.schedule_result.to_dict(),
             "scheduler_kwargs_used": dict(self.scheduler_kwargs_used),
+            "fallback_reason": self.fallback_reason,
         }
 
 
@@ -245,19 +250,22 @@ class CPUMetaScheduler:
         cloned_processes = [p.copy() for p in processes]
 
 
-        if any(p.predicted_burst_time is None for p in cloned_processes):
-            if self.burst_predictor is None:
-                raise ValueError(
-                    "Workload contains processes with missing predicted_burst_time, "
-                    "but no burst_predictor was provided to CPUMetaScheduler."
-                )
-            self.burst_predictor.predict_workload(cloned_processes, inplace=True)
+        needs_prediction = any(p.predicted_burst_time is None for p in cloned_processes)
+        if needs_prediction and self.burst_predictor is None:
+            raise ValueError(
+                "Workload contains processes with missing predicted_burst_time, "
+                "but no burst_predictor was provided to CPUMetaScheduler."
+            )
 
-
-        classification = self.classifier.predict_workload(
-            cloned_processes,
-            burst_predictor=self.burst_predictor,
-        )
+        try:
+            if needs_prediction:
+                self.burst_predictor.predict_workload(cloned_processes, inplace=True)
+            classification = self.classifier.predict_workload(
+                cloned_processes,
+                burst_predictor=self.burst_predictor,
+            )
+        except Exception as exc:
+            return self._fallback_schedule(cloned_processes, exc)
 
 
         scheduler = self.select_scheduler(classification)
@@ -278,4 +286,25 @@ class CPUMetaScheduler:
             classification_result=classification,
             schedule_result=schedule_result,
             scheduler_kwargs_used=scheduler_kwargs,
+        )
+
+    def _fallback_schedule(self, processes: list[Process], exc: Exception) -> MetaScheduleResult:
+        """Run the default scheduler when the prediction or classification model fails."""
+        reason = f"{type(exc).__name__}: {exc}"
+        logger.warning(
+            "Model failure during meta-scheduling (%s); falling back to %s",
+            reason,
+            DEFAULT_FALLBACK_SCHEDULER_NAME,
+        )
+        scheduler = self._schedulers[DEFAULT_FALLBACK_SCHEDULER_NAME]
+        return MetaScheduleResult(
+            selected_scheduler=scheduler.name,
+            workload_class=CLASS_BALANCED,
+            predicted_class="MODEL_ERROR",
+            confidence=0.0,
+            is_fallback=True,
+            classification_result=None,
+            schedule_result=scheduler.schedule(processes),
+            scheduler_kwargs_used={},
+            fallback_reason=reason,
         )

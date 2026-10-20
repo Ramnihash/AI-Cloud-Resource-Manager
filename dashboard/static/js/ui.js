@@ -97,6 +97,37 @@
         });
     }
 
+    function initResetSystem() {
+        var resetBtn = document.getElementById("reset-system-btn");
+        if (!resetBtn) {
+            return;
+        }
+        resetBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (resetBtn.disabled) {
+                return;
+            }
+            if (!window.confirm("Reset the system? This clears the step history and starts again from step 1.")) {
+                return;
+            }
+            resetBtn.disabled = true;
+            fetch("/api/v1/system/reset", { method: "POST", headers: { Accept: "application/json" } })
+                .then(function (response) {
+                    if (!response.ok) {
+                        return readError(response).then(function (message) {
+                            throw new Error(message);
+                        });
+                    }
+                    window.location.reload();
+                })
+                .catch(function (error) {
+                    var message = error instanceof TypeError ? "Backend unreachable. Is the server running?" : error.message;
+                    setStepFeedback("Reset failed: " + message, "error");
+                    resetBtn.disabled = false;
+                });
+        });
+    }
+
     function initNavKeyboardAccessibility() {
         var navLinks = document.querySelectorAll(".nav-link");
         if (!navLinks.length) {
@@ -129,6 +160,7 @@
 
     function init() {
         initStepSystem();
+        initResetSystem();
         initNavKeyboardAccessibility();
         initSafeFormDefaults();
     }

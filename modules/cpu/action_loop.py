@@ -91,6 +91,7 @@ class ActionLoopStep:
             "predicted_class": self.predicted_class,
             "confidence": self.confidence,
             "is_fallback": self.is_fallback,
+            "fallback_reason": self.meta_result.fallback_reason,
             "meta_result": self.meta_result.to_dict(),
             "baseline_result": self.baseline_result.to_dict() if self.baseline_result else None,
             "action_delta": dict(self.action_delta) if self.action_delta else None,
@@ -109,6 +110,7 @@ class CPUActionLoop:
         self,
         meta_scheduler: CPUMetaScheduler,
         baseline_scheduler: Optional[BaseScheduler] = None,
+        max_history: int = 1000,
     ) -> None:
         """Initialize CPUActionLoop simulation controller.
 
@@ -116,6 +118,7 @@ class CPUActionLoop:
             meta_scheduler: Configured CPUMetaScheduler instance.
             baseline_scheduler: Optional scheduler for baseline comparison.
                 If None, internally defaults to FCFSScheduler().
+            max_history: Number of most recent steps kept in memory.
 
         Raises:
             ValueError: If meta_scheduler is None.
@@ -138,6 +141,7 @@ class CPUActionLoop:
             self._baseline_scheduler = FCFSScheduler()
 
         self.meta_scheduler = meta_scheduler
+        self.max_history: int = max(1, max_history)
         self._history: list[ActionLoopStep] = []
         self._step_counter: int = 0
 
@@ -215,6 +219,8 @@ class CPUActionLoop:
         )
 
         self._history.append(step_record)
+        if len(self._history) > self.max_history:
+            del self._history[: -self.max_history]
         self._step_counter += 1
 
         return step_record
