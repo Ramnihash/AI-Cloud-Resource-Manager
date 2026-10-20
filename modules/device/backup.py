@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
+from modules.device import cloud_backup
+
 
 @dataclass(frozen=True)
 class BackupResult:
@@ -22,7 +24,8 @@ class BackupResult:
         ``True`` if the backup logic decided to attempt a backup.
     success: bool
         ``True`` only when a backup was triggered and the simulated operation
-        succeeded. The simulation always succeeds when triggered.
+        succeeded. The simulation always succeeds when triggered; with
+        ``BACKUP_S3_BUCKET`` set, a real S3 upload is attempted and may fail.
     backup_location: Optional[str]
         Deterministic location string when the backup is successful, otherwise
         ``None``.
@@ -114,6 +117,25 @@ def create_backup(
             message="Backup not triggered: failure probability below threshold.",
         )
 
+
+    if cloud_backup.configured_bucket() is not None:
+        try:
+            s3_location = cloud_backup.upload_backup(device_id, failure_probability, threshold)
+        except cloud_backup.CloudBackupError as exc:
+            return BackupResult(
+                device_id=device_id,
+                triggered=True,
+                success=False,
+                backup_location=None,
+                message=f"Backup failed: {exc}",
+            )
+        return BackupResult(
+            device_id=device_id,
+            triggered=True,
+            success=True,
+            backup_location=s3_location,
+            message="Backup uploaded to cloud storage.",
+        )
 
     location = f"cloud://backup/{device_id}"
     return BackupResult(

@@ -183,6 +183,8 @@
         }
         var ok = triggered.filter(function (a) { return a.backup_result.success; });
         var last = triggered[triggered.length - 1].backup_result;
+        var real = String(last.backup_location || "").indexOf("s3://") === 0;
+        setText("dev-backup-status", !last.success ? "Last backup failed" : (real ? "S3" : "Simulated"));
         [
             ["Backups triggered", String(triggered.length)],
             ["Succeeded", ok.length + " of " + triggered.length],
