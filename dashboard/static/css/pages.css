@@ -1084,8 +1084,10 @@
     border-bottom: 1px solid var(--border-soft);
     font-size: 14px;
 }
-.kv-label { color: var(--text-mid); }
-.kv-value { color: var(--text-high, #fff); font-weight: 600; text-align: right; }
+.kv-label { color: var(--text-mid); flex-shrink: 0; white-space: nowrap; }
+.kv-value { color: var(--text-high, #fff); font-weight: 600; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.kv-row--stack { flex-direction: column; gap: 4px; }
+.kv-row--stack .kv-value { text-align: left; font-family: var(--font-mono); font-size: 13px; }
 
 .mod-tag {
     display: inline-flex;

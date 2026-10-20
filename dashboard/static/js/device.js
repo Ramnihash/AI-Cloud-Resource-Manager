@@ -190,7 +190,7 @@
             ["Succeeded", ok.length + " of " + triggered.length],
             ["Last location", last.backup_location || "—"]
         ].forEach(function (pair) {
-            var r = el("div", "kv-row");
+            var r = el("div", "kv-row" + (pair[1].length > 24 ? " kv-row--stack" : ""));
             r.appendChild(el("span", "kv-label", pair[0]));
             r.appendChild(el("span", "kv-value", pair[1]));
             body.appendChild(r);
