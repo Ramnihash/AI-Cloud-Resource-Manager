@@ -129,6 +129,21 @@ By default a "backup" is simulated. To store real backup records in S3:
 
 If the card says "Last backup failed", the message in the Recent actions table says why (usually the role is not attached or the bucket name is wrong). S3 storage for these tiny files is free within the free tier.
 
+## Part I. Password for demos (Basic Auth)
+
+The dashboard has no login. For a demo with teammates, put one shared password in front of it:
+
+```
+cd ~/AI-Cloud-Resource-Manager
+bash deployment/aws/basic-auth.sh on
+```
+
+Type a username and a password (nothing shows while you type the password). The browser then asks for them before showing any page. The password is stored only on the server, hashed. Turn it off with `bash deployment/aws/basic-auth.sh off`.
+
+Then, in the AWS Console, EC2, your instance, **Security**, the security group, **Edit inbound rules**: change the HTTP (port 80) source to your teammates' IPs, or to **Anywhere-IPv4** for a short demo. Set it back to **My IP** afterwards. Keep SSH (port 22) on **My IP** always.
+
+Plain HTTP still sends the password unencrypted, so use a password you use nowhere else, and only for demos.
+
 ## Not covered yet
 
-- HTTPS and a login. Keep the firewall restricted until then.
+- HTTPS (needs a domain name). Keep the firewall restricted when no password is set.
