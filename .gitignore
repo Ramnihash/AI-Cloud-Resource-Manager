@@ -37,3 +37,5 @@ data/generated/
 
 # Temporary files
 *.tmp
+
+data/memory/live_logs/
