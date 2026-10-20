@@ -44,10 +44,12 @@ Open http://127.0.0.1:5000/dashboard/. Pages: Overview, CPU, Memory, Device, Act
 "Step System" runs one coordinated CPU + memory + device step; "Reset" (with a confirmation)
 clears the history so the next step is step 1.
 
-## Test
+## Test and lint
 
 ```
-python -m pytest -q
+pip install -r requirements-dev.txt     # pytest, ruff, playwright
+python -m pytest -q                     # or: make test
+ruff check .                            # or: make lint
 ```
 
 Browser check (needs `pip install playwright` and `playwright install chromium`):
@@ -68,6 +70,16 @@ python -m experiments.cpu_eval         # or one study at a time
 Studies: 7.1 CPU, 7.2 memory, 7.3 device, 7.4 and 7.5 robustness and stress. Results and
 interpretation: [docs/RESULTS.md](docs/RESULTS.md).
 
+## Demo script
+
+1. Open the Overview and click **Step System** a few times: watch the pipeline strip and the rings update.
+2. CPU page: see which scheduler the AI chose for the workload and why.
+3. Memory page: run page replacement and the leak and pressure analysis.
+4. Device page: pick `disk_0`, a fault and a severity, click **Scan with detector**, then **Run action**.
+   A backup record appears in the S3 bucket when `BACKUP_S3_BUCKET` is set.
+5. Activity page: all of the above as one event log.
+6. Stop the backend: the pages show an "unreachable" banner. Start it again and they recover. **Reset** returns to step 1.
+
 ## API
 
 REST endpoints under `/api/v1/`, described with real request and response samples in
@@ -77,6 +89,10 @@ REST endpoints under `/api/v1/`, described with real request and response sample
 ## Deploy
 
 AWS EC2 with gunicorn, nginx, HTTPS and Basic Auth: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## What is real and what is simulated
+
+See [docs/CAPABILITIES.md](docs/CAPABILITIES.md) for a table of every capability and its status.
 
 ## Known limits
 
