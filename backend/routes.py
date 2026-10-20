@@ -513,6 +513,11 @@ def device_anomaly_score():
         allowed = ", ".join(anomaly_service.FAULT_PATTERNS)
         return jsonify({"error": f"Invalid pattern. Allowed: normal, {allowed}"}), 400
 
+    severity = data.get("severity", 1.0)
+    if isinstance(severity, bool) or not isinstance(severity, (int, float)) or not 0.0 < float(severity) <= 1.0:
+        return jsonify({"error": "Field 'severity' must be a number greater than 0 and at most 1"}), 400
+    severity = float(severity)
+
     from modules.device.fleet import create_default_fleet
 
     device = next((d for d in create_default_fleet() if d.device_id == device_id.strip()), None)
@@ -529,7 +534,7 @@ def device_anomaly_score():
 
     try:
         window, samples = anomaly_service.build_window(
-            device, pattern, bundle["window_size"], start_index=random.randint(0, 1000)
+            device, pattern, bundle["window_size"], start_index=random.randint(0, 1000), severity=severity
         )
         score = anomaly_service.score_window(bundle, window)
     except (ValueError, TypeError) as e:
@@ -541,6 +546,7 @@ def device_anomaly_score():
     return jsonify({
         "device_id": device.device_id,
         "pattern": pattern or "normal",
+        "severity": severity,
         "window_size": bundle["window_size"],
         "anomaly_score": score,
         "threshold": threshold,

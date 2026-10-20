@@ -26,7 +26,11 @@ def test_device_eval_writes_outputs(tmp_path):
         "device_detection_delay.csv",
         "device_actions.csv",
         "device_roc.png",
+        "device_severity.csv",
     } <= names
+    severity = results["severity"].query("pattern == 'all'").set_index("severity")
+    assert severity.loc[1.0, "recall"] >= severity.loc[0.05, "recall"]
+    assert 0.0 <= severity.loc[0.05, "recall"] <= 1.0
     overall = results["metrics"].query("condition == 'clean' and pattern == 'all'").iloc[0]
     assert overall["recall"] > 0.9
     assert overall["false_positive_rate"] < 0.1

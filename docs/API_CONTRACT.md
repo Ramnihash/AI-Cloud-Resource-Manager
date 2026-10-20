@@ -45,7 +45,8 @@ and `interval_s` (number, 0 or more) it returns a series instead of one snapshot
 
 **`/api/v1/device/anomaly-score`**: `device_id` (one of the fleet, for example `disk_0`),
 `pattern` (optional: `normal`, `high_temperature`, `high_error_rate`, `high_latency`,
-`high_queue`, `abnormal_io`).
+`high_queue`, `abnormal_io`), `severity` (optional, greater than 0 and at most 1, default 1; scales the
+size of the simulated fault).
 
 **`/api/v1/device/predictive-action`**: `device_id`, `failure_probability` (0 to 1) and
 `device_status` required; `backup_device_id`, `threshold` (0 to 1) and `context` (object, at most
@@ -72,8 +73,8 @@ Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealt
 - **memory/analysis**: `page_prediction` (list of predictors with `available`, `predictor`,
   `candidates`, `action`), `leak_detection`, `pressure_forecast`, `health_action`, `samples`,
   `memory_state`, `current_page`, `frames_policy`, `reference_length`.
-- **device/anomaly-score**: `device_id`, `pattern`, `window_size`, `anomaly_score`, `threshold`,
-  `is_anomalous`, `failure_risk`, `latest_telemetry`, `model_trained_at`.
+- **device/anomaly-score**: `device_id`, `pattern`, `severity`, `window_size`, `anomaly_score`, `threshold`,
+  `is_anomalous`, `failure_risk` (0.7 x score / threshold up to the threshold, then rising on a log scale to 1.0 at 1000x the threshold; a rescaling, not a calibrated probability), `latest_telemetry`, `model_trained_at`.
 - **device/predictive-action**: `device_id`, `failure_probability`, `backup_result`
   (`triggered`, `success`, `backup_location`, `message`, and for S3 uploads `sha256` and `size_bytes`), `recovery_result` (`recovered`,
   `io_blocked`, `rerouted`, `backup_device_id`, `message`).

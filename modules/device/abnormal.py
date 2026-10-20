@@ -28,6 +28,7 @@ def generate_abnormal_telemetry(
     timestamp: float,
     pattern: Union[AbnormalPattern, str],
     sample_index: int = 0,
+    severity: float = 1.0,
 ) -> DeviceTelemetry:
     """Generate deterministic abnormal telemetry by modifying a specific baseline metric.
 
@@ -40,6 +41,8 @@ def generate_abnormal_telemetry(
         timestamp: Time of the telemetry measurement.
         pattern: The abnormal pattern to simulate.
         sample_index: Sequence or tick index for smooth variation.
+        severity: Scales the size of the fault. 1.0 is the full fault used for
+            training and the main evaluation; smaller values give milder faults.
 
     Returns:
         DeviceTelemetry: Telemetry with the targeted field elevated/altered.
@@ -47,6 +50,9 @@ def generate_abnormal_telemetry(
     Raises:
         ValueError: If an unsupported abnormal pattern is supplied.
     """
+    if not 0.0 < severity <= 1.0:
+        raise ValueError(f"severity must be in (0, 1], got {severity!r}")
+
     normal = generate_normal_telemetry(device, timestamp, sample_index)
 
     if isinstance(pattern, str):
@@ -56,23 +62,23 @@ def generate_abnormal_telemetry(
             raise ValueError(f"Unsupported abnormal pattern: {pattern}")
 
     if pattern == AbnormalPattern.HIGH_TEMPERATURE:
-        elevated_temp = round(normal.temperature + 45.0 + 2.0 * math.sin(sample_index * 0.1), 2)
+        elevated_temp = round(normal.temperature + 45.0 * severity + 2.0 * severity * math.sin(sample_index * 0.1), 2)
         return replace(normal, temperature=max(0.0, elevated_temp))
 
     elif pattern == AbnormalPattern.HIGH_ERROR_RATE:
-        elevated_err = round(normal.error_rate + 0.25 + 0.05 * math.sin(sample_index * 0.1), 5)
+        elevated_err = round(normal.error_rate + 0.25 * severity + 0.05 * severity * math.sin(sample_index * 0.1), 5)
         return replace(normal, error_rate=max(0.0, elevated_err))
 
     elif pattern == AbnormalPattern.HIGH_LATENCY:
-        elevated_latency = round(normal.response_latency + 150.0 + 10.0 * math.sin(sample_index * 0.1), 2)
+        elevated_latency = round(normal.response_latency + 150.0 * severity + 10.0 * severity * math.sin(sample_index * 0.1), 2)
         return replace(normal, response_latency=max(0.0, elevated_latency))
 
     elif pattern == AbnormalPattern.HIGH_QUEUE:
-        elevated_queue = normal.queue_length + 20 + int(abs(3 * math.sin(sample_index * 0.2)))
+        elevated_queue = normal.queue_length + int(round(20 * severity)) + int(abs(3 * severity * math.sin(sample_index * 0.2)))
         return replace(normal, queue_length=max(0, elevated_queue))
 
     elif pattern == AbnormalPattern.ABNORMAL_IO:
-        elevated_io = round(normal.io_activity + 200.0 + 15.0 * math.sin(sample_index * 0.1), 2)
+        elevated_io = round(normal.io_activity + 200.0 * severity + 15.0 * severity * math.sin(sample_index * 0.1), 2)
         return replace(normal, io_activity=max(0.0, elevated_io))
 
     else:

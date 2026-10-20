@@ -250,6 +250,7 @@
             context.threshold = lastScan.threshold;
             context.is_anomalous = lastScan.is_anomalous;
             context.pattern = lastScan.pattern;
+            context.severity = lastScan.severity;
             context.latest_telemetry = lastScan.latest_telemetry;
             context.model_trained_at = lastScan.model_trained_at;
         }
@@ -310,12 +311,12 @@
         var label = btn.querySelector(".btn-label");
         btn.disabled = true;
         label.textContent = "Scanning…";
-        postJson(SCAN_ENDPOINT, { device_id: device, pattern: byId("act-fault").value || "normal" })
+        postJson(SCAN_ENDPOINT, { device_id: device, pattern: byId("act-fault").value || "normal", severity: parseFloat(byId("act-severity").value) || 1 })
             .then(function (r) {
                 lastScan = r;
                 byId("act-prob").value = r.failure_risk.toFixed(2);
                 byId("act-status").value = r.is_anomalous ? "degrading" : "healthy";
-                setText("scan-result", device + " (" + r.pattern.replace(/_/g, " ") + "): anomaly score " +
+                setText("scan-result", device + " (" + r.pattern.replace(/_/g, " ") + (r.pattern === "normal" ? "" : ", severity " + r.severity) + "): anomaly score " +
                     r.anomaly_score.toFixed(3) + " vs threshold " + r.threshold.toFixed(3) + " → " +
                     (r.is_anomalous ? "anomalous" : "normal") + ", risk " + r.failure_risk.toFixed(2) +
                     ". Probability and status filled in below.");
