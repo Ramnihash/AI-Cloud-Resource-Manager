@@ -47,8 +47,6 @@ class TestMemoryPressureForecaster(unittest.TestCase):
 
 
         desc_forecaster = MemoryPressureForecaster(window_size=3)
-        desc_seq = [{"ram_percent": 10.0 - i * 5} for i in range(10)]
-        clamped_desc = [{"ram_percent": max(0.0, 10.0 - i * 5)} for i in range(10)]
 
 
         steep_drop = [{"ram_percent": 90.0}, {"ram_percent": 70.0}, {"ram_percent": 50.0}, {"ram_percent": 30.0}, {"ram_percent": 10.0}]

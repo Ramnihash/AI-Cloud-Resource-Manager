@@ -24,7 +24,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from data.cpu.workload_classifier_data import WORKLOAD_CLASSES, generate_class_workload, label_batch
+from data.cpu.workload_classifier_data import WORKLOAD_CLASSES, generate_class_workload
 from modules.cpu.evaluation import evaluate_burst_predictor, evaluate_workload_classifier
 from modules.cpu.fcfs import FCFSScheduler
 from modules.cpu.meta_scheduler import CPUMetaScheduler

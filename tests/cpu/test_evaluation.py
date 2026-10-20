@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -15,7 +14,6 @@ from modules.cpu.evaluation import (
     generate_evaluation_plots,
     generate_evaluation_scenarios,
     generate_markdown_report,
-    run_full_evaluation,
     run_scheduler_benchmark,
 )
 from modules.cpu.meta_scheduler import CPUMetaScheduler

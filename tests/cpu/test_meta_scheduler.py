@@ -14,10 +14,9 @@ from ml.cpu.workload_classifier import (
     ClassificationResult,
     CPUWorkloadClassifier,
 )
-from modules.cpu.base_scheduler import BaseScheduler, ScheduleResult
+from modules.cpu.base_scheduler import BaseScheduler
 from modules.cpu.fcfs import FCFSScheduler
 from modules.cpu.meta_scheduler import (
-    CLASS_TO_SCHEDULER_NAME,
     CPUMetaScheduler,
     MetaScheduleResult,
 )
@@ -25,7 +24,6 @@ from modules.cpu.metrics import GanttSlice
 from modules.cpu.priority import PriorityScheduler
 from modules.cpu.process import Process
 from modules.cpu.round_robin import RoundRobinScheduler
-from modules.cpu.sjf import SJFScheduler
 
 
 class StubWorkloadClassifier(CPUWorkloadClassifier):

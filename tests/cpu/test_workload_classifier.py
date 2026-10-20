@@ -13,9 +13,6 @@ import numpy as np
 from data.cpu.generator import CPUWorkloadGenerator, WorkloadConfig
 from data.cpu.workload_classifier_data import (
     CLASS_BALANCED,
-    CLASS_CPU_BOUND,
-    CLASS_IO_BOUND,
-    CLASS_PRIORITY_CRITICAL,
     WORKLOAD_CLASSES,
 )
 from ml.cpu.burst_predictor import CPUBurstPredictor

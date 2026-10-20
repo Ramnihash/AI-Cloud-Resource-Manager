@@ -12,28 +12,15 @@ Executes comprehensive evaluation of the complete CPU scheduling subsystem:
 from __future__ import annotations
 
 import json
-import math
-import os
 import random
 import time
-from dataclasses import asdict
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    confusion_matrix,
-    f1_score,
-    mean_absolute_error,
-    mean_squared_error,
-    r2_score,
-)
 from sklearn.model_selection import train_test_split
 
 from data.cpu.generator import CPUWorkloadGenerator, WorkloadConfig
@@ -159,7 +146,7 @@ def evaluate_workload_classifier(
 
 
     t0 = time.perf_counter()
-    y_pred = classifier.predict(X_test)
+    classifier.predict(X_test)  # timed with predict_proba below
     probas = classifier.predict_proba(X_test)
     inference_time_ms = (time.perf_counter() - t0) * 1000.0
 

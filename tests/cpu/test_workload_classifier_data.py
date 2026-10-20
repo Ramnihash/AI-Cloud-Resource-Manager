@@ -6,7 +6,6 @@ import unittest
 from collections import Counter
 
 import numpy as np
-import pandas as pd
 
 from data.cpu.workload_classifier_data import (
     generate_class_workload,
@@ -16,8 +15,6 @@ from data.cpu.workload_classifier_data import (
     CLASS_IO_BOUND,
     CLASS_PRIORITY_CRITICAL,
     CLASSIFIER_FEATURE_NAMES,
-    METADATA_COLUMNS,
-    TARGET_COLUMN,
     WORKLOAD_CLASSES,
     WorkloadClassificationDatasetGenerator,
     WorkloadClassificationSample,

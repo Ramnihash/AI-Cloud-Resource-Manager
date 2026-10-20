@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import time
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from typing import Any, Optional
 
 from modules.cpu.base_scheduler import BaseScheduler, ScheduleResult
