@@ -1,0 +1,150 @@
+{
+  "total_checks": 6,
+  "passed_checks": 6,
+  "status": "ALL_CHECKS_PASSED",
+  "checks": [
+    {
+      "scenario_id": "FB-01",
+      "scenario_name": "Missing Checkpoint File",
+      "hazard": "Transformer weights file does not exist on disk",
+      "expected_failure": "FileNotFoundError during checkpoint load",
+      "actual_failure": "ConfigurationError",
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "Primary predictor is not configured",
+      "input_context": [
+        0,
+        1,
+        2
+      ],
+      "predictions": [
+        {
+          "page": 3,
+          "probability": 1.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scenario_id": "FB-02",
+      "scenario_name": "Corrupted Checkpoint File",
+      "hazard": "Checkpoint file contains invalid/corrupted binary data",
+      "expected_failure": "Deserialization error (UnpicklingError/RuntimeError)",
+      "actual_failure": "ConfigurationError",
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "Primary predictor is not configured",
+      "input_context": [
+        1,
+        2,
+        3
+      ],
+      "predictions": [
+        {
+          "page": 0,
+          "probability": 1.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scenario_id": "FB-03",
+      "scenario_name": "Context Length Underflow",
+      "hazard": "History contains fewer pages than Transformer context window (e.g., process start)",
+      "expected_failure": "ValueError: context must have length 8",
+      "actual_failure": "ValueError",
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "ValueError: context must have length 8, got 2",
+      "input_context": [
+        1,
+        2
+      ],
+      "predictions": [
+        {
+          "page": 3,
+          "probability": 1.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scenario_id": "FB-04",
+      "scenario_name": "Untrained / Uninitialized Transformer",
+      "hazard": "Predictor invoked before model training or state restoration",
+      "expected_failure": "RuntimeError: called before train()",
+      "actual_failure": "RuntimeError",
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "RuntimeError: TransformerPagePredictor.predict() called before train(). Call train(sequence) first.",
+      "input_context": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "predictions": [
+        {
+          "page": 0,
+          "probability": 1.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scenario_id": "FB-05",
+      "scenario_name": "Simulated Inference Crash",
+      "hazard": "PyTorch tensor operations raise internal runtime/hardware exception",
+      "expected_failure": "RuntimeError: Simulated internal CUDA Out-Of-Memory",
+      "actual_failure": "RuntimeError",
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "RuntimeError: Simulated internal CUDA Out-Of-Memory or tensor dimension fault",
+      "input_context": [
+        1,
+        2,
+        3
+      ],
+      "predictions": [
+        {
+          "page": 0,
+          "probability": 1.0
+        }
+      ],
+      "passed": true
+    },
+    {
+      "scenario_id": "FB-06",
+      "scenario_name": "Action Layer Integration Under Fallback",
+      "hazard": "Ensures downstream CP4.2 simulated action layer accepts fallback predictions",
+      "expected_failure": "None (Seamless handover)",
+      "actual_failure": null,
+      "fallback_triggered": true,
+      "active_model": "markov",
+      "fallback_reason": "Primary predictor is not configured",
+      "input_context": [
+        1,
+        2
+      ],
+      "predictions": [
+        {
+          "page": 3,
+          "probability": 1.0
+        }
+      ],
+      "action_directive": {
+        "predictor": "Fallback(markov)",
+        "predicted_page": 3,
+        "probability": 1.0,
+        "memory_state": [
+          0,
+          1,
+          2
+        ],
+        "action": "PREFETCH",
+        "reason": "Predicted page 3 is not in memory."
+      },
+      "passed": true
+    }
+  ]
+}

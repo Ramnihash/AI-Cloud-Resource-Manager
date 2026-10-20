@@ -1,0 +1,6 @@
+timestamp,component,test_id,input_type,error_type,error_message,handled_gracefully,fallback_or_recovery_action
+2026-10-20T14:23:52.026546,MemoryPressureForecaster,NEG-01,short_training_window,ValueError,"Need at least window_size + 1 (6) snapshots for training, got 2",True,Reject training; retain prior model state
+2026-10-20T14:23:52.026546,MemoryLeakDetector,NEG-02,short_detection_window,ValueError,"Insufficient snapshots for detection. Expected at least 10, got 3",True,Reject detection; wait for window buffer to fill
+2026-10-20T14:23:52.026546,MemoryLeakDetector,NEG-03,missing_rss_key,ValueError,Snapshot at index 5 is missing 'proc_rss_bytes'.,True,Raise descriptive ValueError; discard corrupt sample
+2026-10-20T14:23:52.026546,MemoryLeakDetector,NEG-04,mixed_pids_in_window,ValueError,Mixed PIDs detected in the snapshot window.,True,Reject mixed stream; require PID-specific telemetry stream
+2026-10-20T14:23:52.026546,FallbackPagePredictor,NEG-05,context_window_underflow,Configuration/ContextUnderflow,Primary predictor is not configured,True,Engage Markov fallback seamlessly using context[-1]

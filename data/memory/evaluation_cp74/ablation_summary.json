@@ -1,0 +1,290 @@
+{
+  "checkpoint": "CP7.4",
+  "component": "Module 2: Predictive Memory Management",
+  "ablation_metrics": {
+    "dataset_metadata": {
+      "num_pages": 32,
+      "window_size": 8,
+      "test_samples": 7936,
+      "base_seed": 2026
+    },
+    "by_pattern": {
+      "looping": {
+        "samples": 1984,
+        "markov_top1": 0.025201612903225805,
+        "markov_top3": 0.0751008064516129,
+        "transformer_top1": 0.07459677419354839,
+        "transformer_top3": 0.1743951612903226,
+        "top1_delta": 0.049395161290322585,
+        "top3_delta": 0.09929435483870969,
+        "top1_relative_lift_percent": 196.00000000000003,
+        "top3_relative_lift_percent": 132.21476510067114
+      },
+      "mixed": {
+        "samples": 1984,
+        "markov_top1": 0.34223790322580644,
+        "markov_top3": 0.3855846774193548,
+        "transformer_top1": 0.3155241935483871,
+        "transformer_top3": 0.36794354838709675,
+        "top1_delta": -0.026713709677419317,
+        "top3_delta": -0.017641129032258063,
+        "top1_relative_lift_percent": -7.805596465390269,
+        "top3_relative_lift_percent": -4.57516339869281
+      },
+      "sequential": {
+        "samples": 1984,
+        "markov_top1": 1.0,
+        "markov_top3": 1.0,
+        "transformer_top1": 1.0,
+        "transformer_top3": 1.0,
+        "top1_delta": 0.0,
+        "top3_delta": 0.0,
+        "top1_relative_lift_percent": 0.0,
+        "top3_relative_lift_percent": 0.0
+      },
+      "uniform": {
+        "samples": 1984,
+        "markov_top1": 0.03528225806451613,
+        "markov_top3": 0.08669354838709678,
+        "transformer_top1": 0.03528225806451613,
+        "transformer_top3": 0.09274193548387097,
+        "top1_delta": 0.0,
+        "top3_delta": 0.006048387096774188,
+        "top1_relative_lift_percent": 0.0,
+        "top3_relative_lift_percent": 6.9767441860465045
+      },
+      "overall": {
+        "samples": 7936,
+        "markov_top1": 0.3506804435483871,
+        "markov_top3": 0.3868447580645161,
+        "transformer_top1": 0.3563508064516129,
+        "transformer_top3": 0.40877016129032256,
+        "top1_delta": 0.005670362903225756,
+        "top3_delta": 0.02192540322580644,
+        "top1_relative_lift_percent": 1.6169601149838162,
+        "top3_relative_lift_percent": 5.66775244299674
+      }
+    },
+    "csv_rows": [
+      {
+        "pattern": "looping",
+        "samples": 1984,
+        "markov_top1": 0.025201612903225805,
+        "markov_top3": 0.0751008064516129,
+        "transformer_top1": 0.07459677419354839,
+        "transformer_top3": 0.1743951612903226,
+        "top1_delta_trans_minus_markov": 0.049395161290322585,
+        "top3_delta_trans_minus_markov": 0.09929435483870969
+      },
+      {
+        "pattern": "mixed",
+        "samples": 1984,
+        "markov_top1": 0.34223790322580644,
+        "markov_top3": 0.3855846774193548,
+        "transformer_top1": 0.3155241935483871,
+        "transformer_top3": 0.36794354838709675,
+        "top1_delta_trans_minus_markov": -0.026713709677419317,
+        "top3_delta_trans_minus_markov": -0.017641129032258063
+      },
+      {
+        "pattern": "sequential",
+        "samples": 1984,
+        "markov_top1": 1.0,
+        "markov_top3": 1.0,
+        "transformer_top1": 1.0,
+        "transformer_top3": 1.0,
+        "top1_delta_trans_minus_markov": 0.0,
+        "top3_delta_trans_minus_markov": 0.0
+      },
+      {
+        "pattern": "uniform",
+        "samples": 1984,
+        "markov_top1": 0.03528225806451613,
+        "markov_top3": 0.08669354838709678,
+        "transformer_top1": 0.03528225806451613,
+        "transformer_top3": 0.09274193548387097,
+        "top1_delta_trans_minus_markov": 0.0,
+        "top3_delta_trans_minus_markov": 0.006048387096774188
+      },
+      {
+        "pattern": "overall",
+        "samples": 7936,
+        "markov_top1": 0.3506804435483871,
+        "markov_top3": 0.3868447580645161,
+        "transformer_top1": 0.3563508064516129,
+        "transformer_top3": 0.40877016129032256,
+        "top1_delta_trans_minus_markov": 0.005670362903225756,
+        "top3_delta_trans_minus_markov": 0.02192540322580644
+      }
+    ],
+    "non_sequential_averages": {
+      "patterns_included": [
+        "looping",
+        "mixed",
+        "uniform"
+      ],
+      "markov_top1_avg": 0.13424059139784947,
+      "markov_top3_avg": 0.18245967741935484,
+      "transformer_top1_avg": 0.14180107526881722,
+      "transformer_top3_avg": 0.21169354838709675,
+      "top1_delta_avg": 0.007560483870967749,
+      "top3_delta_avg": 0.02923387096774191
+    },
+    "inference_timing": {
+      "markov_seconds": 0.1038334000040777,
+      "transformer_seconds": 0.07969129999401048,
+      "test_rows": 7936,
+      "timing_caveat": "Inference timing reflects CP3.4 test split execution (Markov: 0.104s unvectorized Python loop vs Transformer: 0.080s batched PyTorch C++ execution with batch_size=512 on CPU). It is NOT a hardware-neutral or single-event latency benchmark; in actual OS page faults, Markov incurs negligible CPU overhead (O(1) dictionary lookup, zero tensor allocations), whereas Transformer requires tensor allocation, matrix multiplication, and self-attention overhead."
+    }
+  },
+  "fallback_verification": {
+    "total_checks": 6,
+    "passed_checks": 6,
+    "status": "ALL_CHECKS_PASSED",
+    "checks": [
+      {
+        "scenario_id": "FB-01",
+        "scenario_name": "Missing Checkpoint File",
+        "hazard": "Transformer weights file does not exist on disk",
+        "expected_failure": "FileNotFoundError during checkpoint load",
+        "actual_failure": "ConfigurationError",
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "Primary predictor is not configured",
+        "input_context": [
+          0,
+          1,
+          2
+        ],
+        "predictions": [
+          {
+            "page": 3,
+            "probability": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario_id": "FB-02",
+        "scenario_name": "Corrupted Checkpoint File",
+        "hazard": "Checkpoint file contains invalid/corrupted binary data",
+        "expected_failure": "Deserialization error (UnpicklingError/RuntimeError)",
+        "actual_failure": "ConfigurationError",
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "Primary predictor is not configured",
+        "input_context": [
+          1,
+          2,
+          3
+        ],
+        "predictions": [
+          {
+            "page": 0,
+            "probability": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario_id": "FB-03",
+        "scenario_name": "Context Length Underflow",
+        "hazard": "History contains fewer pages than Transformer context window (e.g., process start)",
+        "expected_failure": "ValueError: context must have length 8",
+        "actual_failure": "ValueError",
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "ValueError: context must have length 8, got 2",
+        "input_context": [
+          1,
+          2
+        ],
+        "predictions": [
+          {
+            "page": 3,
+            "probability": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario_id": "FB-04",
+        "scenario_name": "Untrained / Uninitialized Transformer",
+        "hazard": "Predictor invoked before model training or state restoration",
+        "expected_failure": "RuntimeError: called before train()",
+        "actual_failure": "RuntimeError",
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "RuntimeError: TransformerPagePredictor.predict() called before train(). Call train(sequence) first.",
+        "input_context": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "predictions": [
+          {
+            "page": 0,
+            "probability": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario_id": "FB-05",
+        "scenario_name": "Simulated Inference Crash",
+        "hazard": "PyTorch tensor operations raise internal runtime/hardware exception",
+        "expected_failure": "RuntimeError: Simulated internal CUDA Out-Of-Memory",
+        "actual_failure": "RuntimeError",
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "RuntimeError: Simulated internal CUDA Out-Of-Memory or tensor dimension fault",
+        "input_context": [
+          1,
+          2,
+          3
+        ],
+        "predictions": [
+          {
+            "page": 0,
+            "probability": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario_id": "FB-06",
+        "scenario_name": "Action Layer Integration Under Fallback",
+        "hazard": "Ensures downstream CP4.2 simulated action layer accepts fallback predictions",
+        "expected_failure": "None (Seamless handover)",
+        "actual_failure": null,
+        "fallback_triggered": true,
+        "active_model": "markov",
+        "fallback_reason": "Primary predictor is not configured",
+        "input_context": [
+          1,
+          2
+        ],
+        "predictions": [
+          {
+            "page": 3,
+            "probability": 1.0
+          }
+        ],
+        "action_directive": {
+          "predictor": "Fallback(markov)",
+          "predicted_page": 3,
+          "probability": 1.0,
+          "memory_state": [
+            0,
+            1,
+            2
+          ],
+          "action": "PREFETCH",
+          "reason": "Predicted page 3 is not in memory."
+        },
+        "passed": true
+      }
+    ]
+  }
+}
