@@ -1,0 +1,15 @@
+[Unit]
+Description=AI Cloud Resource Manager (gunicorn)
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/ai-cloud-resource-manager
+EnvironmentFile=-/etc/ai-resource-manager.env
+ExecStart=/opt/ai-cloud-resource-manager/.venv/bin/gunicorn -c deployment/aws/gunicorn.conf.py backend.wsgi:app
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
