@@ -107,7 +107,7 @@
             if (resetBtn.disabled) {
                 return;
             }
-            if (!window.confirm("Reset the system? This clears the step history and starts again from step 1.")) {
+            if (!window.confirm("Reset the system? This clears the step history and the failed-request log, and starts again from step 1.")) {
                 return;
             }
             resetBtn.disabled = true;
@@ -220,8 +220,114 @@
         };
     }
 
+    // Header status chip ("Operational" / "Degraded" / "Critical" and "Last updated").
+    // It lives in base.html, so it is driven from here on every page: fetched on
+    // load, after each step and every 30 seconds while the tab is visible. The
+    // Overview page already fetches the same data, so it claims the chip and
+    // feeds it through window.ResourceHeader.apply() instead of a second request.
+    var STATUS_ENDPOINT = "/api/v1/monitor/overview";
+    var STATUS_POLL_MS = 30000;
+
+    function initHeaderStatus() {
+        var claimed = false;
+        var inFlight = false;
+
+        function setState(label, state) {
+            var header = document.getElementById("hero-status");
+            var el = document.getElementById("system-health-value");
+            if (el) {
+                el.textContent = label;
+            }
+            if (header && state) {
+                header.classList.remove("hero-status--ok", "hero-status--warn", "hero-status--critical");
+                header.classList.add("hero-status--" + state);
+            }
+        }
+
+        function apply(data) {
+            if (!data) {
+                return;
+            }
+            var status = data.status;
+            if (status === "ok") {
+                setState("Operational", "ok");
+            } else if (status === "warn" || status === "warning" || status === "degraded") {
+                setState("Degraded", "warn");
+            } else if (status === "critical" || status === "error" || status === "down") {
+                setState("Critical", "critical");
+            } else {
+                setState(status ? String(status) : "Unknown", "ok");
+            }
+            var updated = document.getElementById("last-updated-value");
+            if (updated) {
+                var date = data.timestamp ? new Date(data.timestamp) : null;
+                updated.textContent = !date ? "—" : (isNaN(date.getTime()) ? String(data.timestamp) : date.toLocaleString());
+            }
+        }
+
+        function error() {
+            setState("Unreachable", "critical");
+        }
+
+        function loading() {
+            setState("Loading…", null);
+        }
+
+        function refresh() {
+            if (inFlight) {
+                return;
+            }
+            inFlight = true;
+            fetch(STATUS_ENDPOINT, { headers: { Accept: "application/json" } })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("Status request failed (" + response.status + ")");
+                    }
+                    return response.json();
+                })
+                .then(apply, error)
+                .then(function () {
+                    inFlight = false;
+                });
+        }
+
+        window.ResourceHeader = {
+            apply: apply,
+            error: error,
+            loading: loading,
+            refresh: refresh,
+            claim: function () {
+                claimed = true;
+            }
+        };
+
+        // Deferred so a page script initialised in the same tick can claim the chip first.
+        setTimeout(function () {
+            if (!claimed) {
+                loading();
+                refresh();
+            }
+        }, 0);
+        document.addEventListener("system:stepped", function () {
+            if (!claimed) {
+                refresh();
+            }
+        });
+        setInterval(function () {
+            if (!document.hidden) {
+                refresh();
+            }
+        }, STATUS_POLL_MS);
+        document.addEventListener("visibilitychange", function () {
+            if (!document.hidden) {
+                refresh();
+            }
+        });
+    }
+
     function init() {
         initConnectionBanner();
+        initHeaderStatus();
         initStepSystem();
         initResetSystem();
         initNavKeyboardAccessibility();

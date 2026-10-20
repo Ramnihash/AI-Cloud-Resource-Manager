@@ -104,78 +104,11 @@
         return formatted + " " + units[exponent];
     }
 
-    function formatTimestamp(timestamp) {
-        if (!timestamp) {
-            return null;
+    // The header chip is shared by every page and owned by ui.js (window.ResourceHeader).
+    function header(method, arg) {
+        if (window.ResourceHeader && typeof window.ResourceHeader[method] === "function") {
+            window.ResourceHeader[method](arg);
         }
-        var date = new Date(timestamp);
-        if (isNaN(date.getTime())) {
-            return timestamp;
-        }
-        return date.toLocaleString();
-    }
-
-    function setHeroStatus(status) {
-        var header = document.getElementById("hero-status");
-        var el = document.getElementById("system-health-value");
-        if (!el) {
-            return;
-        }
-
-        var label = "Unknown";
-        var state = "ok";
-
-        if (status === "ok") {
-            label = "Operational";
-            state = "ok";
-        } else if (status === "warn" || status === "warning" || status === "degraded") {
-            label = "Degraded";
-            state = "warn";
-        } else if (status === "critical" || status === "error" || status === "down") {
-            label = "Critical";
-            state = "critical";
-        } else if (status) {
-            label = String(status);
-            state = "ok";
-        }
-
-        el.textContent = label;
-
-        if (header) {
-            header.classList.remove("hero-status--ok", "hero-status--warn", "hero-status--critical");
-            header.classList.add("hero-status--" + state);
-        }
-    }
-
-    function setHeroStatusLoading() {
-        var el = document.getElementById("system-health-value");
-        if (!el) {
-            return;
-        }
-        el.textContent = "Loading…";
-    }
-
-    function setHeroStatusError() {
-        var header = document.getElementById("hero-status");
-        var el = document.getElementById("system-health-value");
-        if (!el) {
-            return;
-        }
-        el.textContent = "Unreachable";
-
-        if (header) {
-            header.classList.remove("hero-status--ok", "hero-status--warn");
-            header.classList.add("hero-status--critical");
-        }
-    }
-
-    function setLastUpdated(timestamp) {
-        var el = document.getElementById("last-updated-value");
-        if (!el) {
-            return;
-        }
-        var formatted = formatTimestamp(timestamp);
-        el.textContent = formatted || "—";
     }
 
     function applyCpuData(cpu) {
@@ -309,8 +242,7 @@
             return;
         }
 
-        setHeroStatus(data.status);
-        setLastUpdated(data.timestamp);
+        header("apply", data);
 
         applyCpuData(data.cpu);
         applyMemoryData(data.memory);
@@ -318,7 +250,7 @@
     }
 
     function loadOverview() {
-        setHeroStatusLoading();
+        header("loading");
 
         fetch(OVERVIEW_ENDPOINT, {
             method: "GET",
@@ -338,7 +270,7 @@
                 applyOverviewData(data);
             })
             .catch(function (error) {
-                setHeroStatusError();
+                header("error");
                 if (window.console && console.error) {
                     console.error("Failed to load system overview:", error);
                 }
@@ -503,6 +435,7 @@
     }
 
     function init() {
+        header("claim");
         loadOverview();
 
         document.addEventListener("system:stepped", function (event) {

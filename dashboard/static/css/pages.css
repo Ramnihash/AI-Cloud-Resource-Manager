@@ -1098,6 +1098,8 @@
 .mod-tag.module-cpu { --module-color: var(--gauge-cpu); }
 .mod-tag.module-memory { --module-color: var(--gauge-ram); }
 .mod-tag.module-device { --module-color: var(--gauge-fleet); }
+.mod-tag.module-request { --module-color: var(--status-crit); }
+.data-table .cell-error { color: var(--status-crit); }
 
 select.field-input {
     color-scheme: dark;

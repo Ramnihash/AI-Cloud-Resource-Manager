@@ -18,10 +18,12 @@ at most 10,000, and total burst time at most 50,000.
 | POST | `/api/v1/memory/monitor` | RAM snapshot, or a series when `count` and `interval_s` are given | [memory_monitor](api_samples/memory_monitor.json) |
 | POST | `/api/v1/memory/analysis` | Page prediction, leak detection and pressure forecast | [memory_analysis](api_samples/memory_analysis.json) |
 | POST | `/api/v1/device/anomaly-score` | Score a simulated telemetry window with the Transformer | [device_anomaly_score](api_samples/device_anomaly_score.json) |
-| POST | `/api/v1/device/predictive-action` | Back up and reroute a device from a failure probability | [device_predictive_action](api_samples/device_predictive_action.json) |
+| POST | `/api/v1/device/predictive-action` | Back up and reroute a device from a failure probability (or from SMART values) | [device_predictive_action](api_samples/device_predictive_action.json) |
+| POST | `/api/v1/device/smart-risk` | Failure probability of one drive from its SMART raw values | none yet |
 | POST | `/api/v1/system/step` | One coordinated CPU + memory + device step | [system_step](api_samples/system_step.json) |
 | GET | `/api/v1/system/history?limit=N` | Recorded steps, newest first (N 1 to 200, default 20) | [system_history](api_samples/system_history.json) |
-| POST | `/api/v1/system/reset` | Clear history so the next step is step 1 | [system_reset](api_samples/system_reset.json) |
+| GET | `/api/v1/system/errors?limit=N` | Failed API requests (status 400 or higher), newest first (N 1 to 200, default 50) | none yet |
+| POST | `/api/v1/system/reset` | Clear history and the failed-request log so the next step is step 1 | [system_reset](api_samples/system_reset.json) |
 | GET | `/api/v1/monitor/overview` | Snapshot used by the Overview page | [monitor_overview](api_samples/monitor_overview.json) |
 
 Dashboard pages (HTML): `/dashboard/`, `/dashboard/cpu`, `/dashboard/memory`, `/dashboard/device`, `/dashboard/activity`.
@@ -52,7 +54,15 @@ size of the simulated fault).
 `device_status` required; `backup_device_id`, `threshold` (0 to 1) and `context` (object, at most
 4096 bytes when serialized) optional. `context` is stored inside the cloud backup record.
 Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealthy`,
-`degrading`, `failed`. Any other value returns 400.
+`degrading`, `failed`. Any other value returns 400. Instead of `failure_probability` a client may send
+`smart_attributes` (as for `smart-risk`); the SMART classifier then supplies the probability and the
+response adds `smart_prediction`.
+
+**`/api/v1/device/smart-risk`**: `smart_attributes` (object, required), for example
+`{"smart_5_raw": 8, "smart_187_raw": 2, "smart_9_raw": 21000}`. Allowed keys are the raw values of SMART
+1, 3, 4, 5, 7, 9, 10, 12, 187, 188, 192, 193, 194, 197, 198, 199, 240, 241 and 242
+(`smart_<id>_raw`); each a non-negative number or null. Missing attributes are filled with the
+training median. Unknown keys return 400.
 
 **`/api/v1/system/step`**: either `processes` (as above) or `workload_profile`
 (`cpu_bound`, `io_bound`, `priority_critical` or `balanced`) with `num_processes`; optional
@@ -77,7 +87,12 @@ Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealt
   `is_anomalous`, `failure_risk` (0.7 x score / threshold up to the threshold, then rising on a log scale to 1.0 at 1000x the threshold; a rescaling, not a calibrated probability), `latest_telemetry`, `model_trained_at`.
 - **device/predictive-action**: `device_id`, `failure_probability`, `backup_result`
   (`triggered`, `success`, `backup_location`, `message`, and for S3 uploads `sha256` and `size_bytes`), `recovery_result` (`recovered`,
-  `io_blocked`, `rerouted`, `backup_device_id`, `message`).
+  `io_blocked`, `rerouted`, `backup_device_id`, `message`), and `smart_prediction` when `smart_attributes` was sent.
+- **device/smart-risk**: `failure_probability` (fails within `horizon_days`, 30), `at_risk` (probability at least
+  `threshold`, 0.5), `model`, `attributes_used`, `attributes_imputed`, `trained_at`, `training_rows`, `data_period`.
+- **system/errors**: `total_errors` (since the last restart or reset) and `errors`, each with `recorded_at`,
+  `method`, `path`, `status`, `error` (the JSON error message, at most 200 characters) and `duration_ms`.
+  Request bodies and client addresses are not stored.
 - **system/step**: `step_index`, `timestamp`, `cpu`, `memory`, `devices`, `system_snapshot`,
   `generated_workload` (only when `workload_profile` was used).
 - **monitor/overview**: `status` (`ok`, `degraded` ...), `timestamp`, `cpu` (step totals,
@@ -91,14 +106,16 @@ Accepted statuses (case-insensitive): `healthy`, `available`, `normal`, `unhealt
 | `cpu/action`, `system/step` | CPU workload classifier and burst predictor run on every request. A failure falls back to FCFS. |
 | `memory/analysis` | Markov predictor is trained on the supplied reference string per request. The Transformer page predictor runs only if PyTorch is installed. The leak detector and pressure forecaster run on live RAM samples. A predictor failure returns `available: false` for that predictor. |
 | `device/anomaly-score` | The trained Transformer. Missing or corrupt model file gives 503 with the retrain command. |
-| `device/predictive-action` | No model. The failure probability comes from the caller (the Device page gets it from `anomaly-score`). |
-| none | The SMART classifier is not used: the project has no SMART dataset. |
+| `device/predictive-action` | No model when `failure_probability` is sent (the Device page gets it from `anomaly-score`). With `smart_attributes` the SMART classifier supplies it. |
+| `device/smart-risk` | SMART Random Forest, trained in memory on first use from the committed Backblaze sample (`data/device/smart/backblaze_failure_windows.csv.gz`). Without that file the call returns 503 with the build command. |
 
 ## Notes for clients
 
 - Telemetry comes from a simulator, so `latest_telemetry` and device status are simulated.
 - The device list and statuses in `monitor/overview` reflect actions taken since the last restart or reset.
-- In-memory state (step history, device actions) is lost when the service restarts.
+- In-memory state (step history, device actions, failed-request log) is lost when the service restarts.
+- The backend runs as one process with several threads. Shared state is created once under a lock
+  and step records are numbered under a lock, so parallel requests cannot lose steps (RESULTS 7.5).
 - The sample for `anomaly-score` in `api_samples/` shows 503 unless it was captured on a machine
   with PyTorch and the trained model.
 

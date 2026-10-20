@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import datetime
+import threading
 from typing import Any, Optional
 
 from modules.cpu.action_loop import CPUActionLoop
@@ -99,6 +100,8 @@ class IntegratedExecutionManager:
 
         self.max_history: int = max(1, max_history)
         self._history: list[IntegratedExecutionStep] = []
+        # gunicorn serves requests on several threads; the counter and history must change together.
+        self._record_lock = threading.Lock()
         self._step_counter: int = 0
 
     def _ensure_cpu_action_loop(self) -> CPUActionLoop:
@@ -232,30 +235,33 @@ class IntegratedExecutionManager:
         )
 
 
-        step_record = IntegratedExecutionStep(
-            step_index=self._step_counter,
-            timestamp=now_timestamp,
-            cpu_result=cpu_result,
-            memory_result=memory_result,
-            device_results=executed_device_results,
-            system_snapshot=system_snapshot,
-        )
+        with self._record_lock:
+            step_record = IntegratedExecutionStep(
+                step_index=self._step_counter,
+                timestamp=now_timestamp,
+                cpu_result=cpu_result,
+                memory_result=memory_result,
+                device_results=executed_device_results,
+                system_snapshot=system_snapshot,
+            )
 
-        self._history.append(step_record)
-        if len(self._history) > self.max_history:
-            del self._history[: -self.max_history]
-        self._step_counter += 1
+            self._history.append(step_record)
+            if len(self._history) > self.max_history:
+                del self._history[: -self.max_history]
+            self._step_counter += 1
 
         return step_record
 
     def get_history(self) -> list[IntegratedExecutionStep]:
         """Return a copy of the in-memory integrated execution step history."""
-        return list(self._history)
+        with self._record_lock:
+            return list(self._history)
 
     def reset(self) -> None:
         """Reset execution history and cascade reset to SharedMonitor and CPUActionLoop exactly once."""
-        self._history.clear()
-        self._step_counter = 0
+        with self._record_lock:
+            self._history.clear()
+            self._step_counter = 0
         if self.shared_monitor is not None:
 
             self.shared_monitor.reset()

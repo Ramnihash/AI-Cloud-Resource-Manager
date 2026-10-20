@@ -3,13 +3,15 @@
 
     var HISTORY_ENDPOINT = "/api/v1/system/history?limit=50";
     var OVERVIEW_ENDPOINT = "/api/v1/monitor/overview";
+    var ERRORS_ENDPOINT = "/api/v1/system/errors?limit=50";
     var FILTERS = [
         { key: "all", label: "All" },
         { key: "cpu", label: "CPU" },
         { key: "memory", label: "Memory" },
-        { key: "device", label: "Device" }
+        { key: "device", label: "Device" },
+        { key: "request", label: "Errors" }
     ];
-    var MODULE_LABELS = { cpu: "CPU", memory: "Memory", device: "Device" };
+    var MODULE_LABELS = { cpu: "CPU", memory: "Memory", device: "Device", request: "Request" };
 
     var events = [];
     var activeFilter = "all";
@@ -119,7 +121,21 @@
         };
     }
 
-    function buildEvents(history, overview) {
+    function errorEvent(entry) {
+        var status = entry.status;
+        return {
+            module: "request",
+            time: entry.recorded_at ? new Date(entry.recorded_at).getTime() : NaN,
+            action: "Request failed",
+            resource: entry.method + " " + entry.path,
+            result: "HTTP " + status + (status >= 500 ? " (server error)" : ""),
+            details: (entry.error || "No error message") +
+                (typeof entry.duration_ms === "number" ? " · " + entry.duration_ms.toFixed(1) + " ms" : ""),
+            serverError: status >= 500
+        };
+    }
+
+    function buildEvents(history, overview, errors) {
         var out = [];
         ((history && history.steps) || []).forEach(function (step) {
             out = out.concat(stepEvents(step));
@@ -127,6 +143,9 @@
         var actions = (((overview || {}).devices || {}).recent_actions) || [];
         actions.forEach(function (a) {
             out.push(deviceEvent(a));
+        });
+        ((errors && errors.errors) || []).forEach(function (entry) {
+            out.push(errorEvent(entry));
         });
         out.sort(function (a, b) {
             var ta = isNaN(a.time) ? -Infinity : a.time;
@@ -138,19 +157,21 @@
 
     /* ---------- render ---------- */
 
-    function renderKpis(history, overview) {
-        var total = events.length;
+    function renderKpis(history, overview, errors) {
         var cpu = events.filter(function (e) { return e.module === "cpu"; });
         var fallbacks = cpu.filter(function (e) { return e.fallback; }).length;
         var device = events.filter(function (e) { return e.module === "device"; });
         var rerouted = device.filter(function (e) { return e.result === "Rerouted"; }).length;
-        setText("kpi-ev-total", String(total));
-        setText("kpi-ev-sub", cpu.length + " CPU · " + (total - cpu.length - device.length) + " memory · " + device.length + " device");
+        var failed = events.filter(function (e) { return e.module === "request"; });
+        var serverErrors = failed.filter(function (e) { return e.serverError; }).length;
+        var totalErrors = (errors && typeof errors.total_errors === "number") ? errors.total_errors : failed.length;
         setText("kpi-ev-steps", String((history && history.total_steps) || 0));
         setText("kpi-ev-fallbacks", String(fallbacks));
         setText("kpi-ev-fallbacks-sub", cpu.length ? "of " + cpu.length + " scheduling decisions" : "No decisions yet");
         setText("kpi-ev-device", String(device.length));
         setText("kpi-ev-device-sub", rerouted + " rerouted");
+        setText("kpi-ev-errors", String(totalErrors));
+        setText("kpi-ev-errors-sub", totalErrors ? serverErrors + " server errors (5xx) in the last " + failed.length : "No failed requests");
     }
 
     function renderFilter() {
@@ -206,18 +227,18 @@
             tr.appendChild(cell(tag));
             tr.appendChild(cell(e.action));
             tr.appendChild(cell(e.resource, "cell-mono"));
-            tr.appendChild(cell(e.result, "cell-strong"));
+            tr.appendChild(cell(e.result, "cell-strong" + (e.module === "request" ? " cell-error" : "")));
             tr.appendChild(cell(e.details));
             body.appendChild(tr);
         });
     }
 
     function load() {
-        return Promise.all([getJson(HISTORY_ENDPOINT), getJson(OVERVIEW_ENDPOINT)])
+        return Promise.all([getJson(HISTORY_ENDPOINT), getJson(OVERVIEW_ENDPOINT), getJson(ERRORS_ENDPOINT)])
             .then(function (all) {
                 showError("");
-                events = buildEvents(all[0], all[1]);
-                renderKpis(all[0], all[1]);
+                events = buildEvents(all[0], all[1], all[2]);
+                renderKpis(all[0], all[1], all[2]);
                 renderLog();
             })
             .catch(function (error) {
@@ -230,6 +251,7 @@
         renderFilter();
         load();
         document.addEventListener("system:stepped", load);
+        document.addEventListener("system:step-failed", load);
     }
 
     if (document.readyState === "loading") {
