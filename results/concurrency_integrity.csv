@@ -2,3 +2,5 @@ label,scenario,steps_sent,concurrency,steps_ok,non_200,statuses,distinct_step_in
 local-threaded,"cold start, 8 parallel first steps",8,8,8,0,200,8,0,8,0,8,True
 local-threaded,"100 parallel steps, concurrency 32",100,32,100,0,200,100,0,100,0,100,True
 local-threaded,"100 parallel steps, concurrency 16",100,16,100,0,200,100,0,100,0,100,True
+ec2-gunicorn,"100 parallel steps, concurrency 8",100,8,100,0,200,100,0,100,0,100,True
+ec2-gunicorn,"100 parallel steps, concurrency 4",100,4,100,0,200,100,0,100,0,100,True
