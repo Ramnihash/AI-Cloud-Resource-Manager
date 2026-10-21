@@ -1,0 +1,2701 @@
+pattern,seed,predictor,top1,top3,train_ms
+uniform,5000,Markov,False,False,
+uniform,5000,Transformer (API config),False,False,39.94170005898923
+uniform,5000,Transformer (trained),False,False,603.5496999975294
+uniform,5001,Markov,False,False,
+uniform,5001,Transformer (API config),False,False,40.46990000642836
+uniform,5001,Transformer (trained),False,False,612.8914000000805
+uniform,5002,Markov,False,False,
+uniform,5002,Transformer (API config),False,True,41.266600019298494
+uniform,5002,Transformer (trained),False,False,622.35979991965
+uniform,5003,Markov,False,False,
+uniform,5003,Transformer (API config),False,False,44.57999998703599
+uniform,5003,Transformer (trained),False,False,634.2127000680193
+uniform,5004,Markov,False,False,
+uniform,5004,Transformer (API config),False,False,41.68969998136163
+uniform,5004,Transformer (trained),False,False,663.1068999413401
+uniform,5005,Markov,False,False,
+uniform,5005,Transformer (API config),False,False,47.45569999795407
+uniform,5005,Transformer (trained),False,False,659.3345999717712
+uniform,5006,Markov,False,False,
+uniform,5006,Transformer (API config),False,False,51.307099987752736
+uniform,5006,Transformer (trained),False,False,623.5550000565127
+uniform,5007,Markov,False,False,
+uniform,5007,Transformer (API config),False,False,37.88580000400543
+uniform,5007,Transformer (trained),False,False,611.7851999588311
+uniform,5008,Markov,False,False,
+uniform,5008,Transformer (API config),False,False,42.83900000154972
+uniform,5008,Transformer (trained),False,False,617.5151000497863
+uniform,5009,Markov,False,False,
+uniform,5009,Transformer (API config),False,False,43.3605998987332
+uniform,5009,Transformer (trained),False,False,611.695000086911
+uniform,5010,Markov,False,False,
+uniform,5010,Transformer (API config),True,True,38.81599998567253
+uniform,5010,Transformer (trained),True,True,697.7724999887869
+uniform,5011,Markov,False,False,
+uniform,5011,Transformer (API config),False,False,39.61820004042238
+uniform,5011,Transformer (trained),False,False,594.7692999616265
+uniform,5012,Markov,False,False,
+uniform,5012,Transformer (API config),False,False,38.37309998925775
+uniform,5012,Transformer (trained),False,False,596.956399967894
+uniform,5013,Markov,False,False,
+uniform,5013,Transformer (API config),False,False,39.836700074374676
+uniform,5013,Transformer (trained),False,True,617.9138999432325
+uniform,5014,Markov,False,False,
+uniform,5014,Transformer (API config),False,False,49.97890000231564
+uniform,5014,Transformer (trained),False,True,608.428500010632
+uniform,5015,Markov,False,True,
+uniform,5015,Transformer (API config),False,False,40.029500029049814
+uniform,5015,Transformer (trained),True,True,613.4038999443874
+uniform,5016,Markov,False,False,
+uniform,5016,Transformer (API config),False,False,40.54700001142919
+uniform,5016,Transformer (trained),False,False,623.1378000229597
+uniform,5017,Markov,False,False,
+uniform,5017,Transformer (API config),False,False,50.049400073476136
+uniform,5017,Transformer (trained),False,False,642.6363000646234
+uniform,5018,Markov,False,False,
+uniform,5018,Transformer (API config),False,False,47.047499916516244
+uniform,5018,Transformer (trained),False,False,586.0966999316588
+uniform,5019,Markov,False,False,
+uniform,5019,Transformer (API config),False,False,44.92550005670637
+uniform,5019,Transformer (trained),False,False,592.913500033319
+uniform,5020,Markov,False,False,
+uniform,5020,Transformer (API config),False,False,42.42019995581359
+uniform,5020,Transformer (trained),False,True,577.3139999946579
+uniform,5021,Markov,False,False,
+uniform,5021,Transformer (API config),False,False,37.799600046128035
+uniform,5021,Transformer (trained),False,False,582.0623999461532
+uniform,5022,Markov,False,False,
+uniform,5022,Transformer (API config),False,False,42.63080004602671
+uniform,5022,Transformer (trained),False,False,580.1433000015095
+uniform,5023,Markov,False,False,
+uniform,5023,Transformer (API config),False,False,41.160899912938476
+uniform,5023,Transformer (trained),False,False,594.9265999952331
+uniform,5024,Markov,False,False,
+uniform,5024,Transformer (API config),False,False,37.372700055129826
+uniform,5024,Transformer (trained),False,False,580.8140999870375
+uniform,5025,Markov,False,False,
+uniform,5025,Transformer (API config),False,True,37.19730000011623
+uniform,5025,Transformer (trained),False,False,593.5310999630019
+uniform,5026,Markov,False,False,
+uniform,5026,Transformer (API config),False,False,38.956600008532405
+uniform,5026,Transformer (trained),False,False,608.4906000178307
+uniform,5027,Markov,False,False,
+uniform,5027,Transformer (API config),False,True,41.64770001079887
+uniform,5027,Transformer (trained),False,False,604.0952000766993
+uniform,5028,Markov,False,False,
+uniform,5028,Transformer (API config),False,False,39.65309995692223
+uniform,5028,Transformer (trained),False,True,590.5465999385342
+uniform,5029,Markov,False,False,
+uniform,5029,Transformer (API config),False,False,38.045399938710034
+uniform,5029,Transformer (trained),False,False,579.2458000360057
+uniform,5030,Markov,False,False,
+uniform,5030,Transformer (API config),False,False,38.73649996239692
+uniform,5030,Transformer (trained),False,False,578.8971000583842
+uniform,5031,Markov,False,False,
+uniform,5031,Transformer (API config),False,False,38.482300005853176
+uniform,5031,Transformer (trained),False,False,609.5874999882653
+uniform,5032,Markov,False,False,
+uniform,5032,Transformer (API config),False,False,45.77279998920858
+uniform,5032,Transformer (trained),False,False,588.8939999276772
+uniform,5033,Markov,False,False,
+uniform,5033,Transformer (API config),False,False,39.00170000270009
+uniform,5033,Transformer (trained),False,False,593.0386999389157
+uniform,5034,Markov,False,False,
+uniform,5034,Transformer (API config),False,False,38.63730002194643
+uniform,5034,Transformer (trained),False,False,594.8273999383673
+uniform,5035,Markov,False,False,
+uniform,5035,Transformer (API config),False,False,41.1796000553295
+uniform,5035,Transformer (trained),False,False,593.8067000824958
+uniform,5036,Markov,False,False,
+uniform,5036,Transformer (API config),False,False,37.743300083093345
+uniform,5036,Transformer (trained),False,False,580.1829000702128
+uniform,5037,Markov,False,False,
+uniform,5037,Transformer (API config),False,False,41.74930008593947
+uniform,5037,Transformer (trained),False,False,597.1722999820486
+uniform,5038,Markov,False,False,
+uniform,5038,Transformer (API config),False,True,39.38440000638366
+uniform,5038,Transformer (trained),False,True,598.8494000630453
+uniform,5039,Markov,False,False,
+uniform,5039,Transformer (API config),False,False,42.49699995853007
+uniform,5039,Transformer (trained),False,False,604.6497001079842
+uniform,5040,Markov,False,False,
+uniform,5040,Transformer (API config),False,False,42.34079993329942
+uniform,5040,Transformer (trained),False,False,603.2720999792218
+uniform,5041,Markov,False,False,
+uniform,5041,Transformer (API config),False,False,36.98969993274659
+uniform,5041,Transformer (trained),False,True,596.4666999643669
+uniform,5042,Markov,False,False,
+uniform,5042,Transformer (API config),False,False,39.0315999975428
+uniform,5042,Transformer (trained),False,False,591.5635999990627
+uniform,5043,Markov,False,False,
+uniform,5043,Transformer (API config),False,False,37.823199992999434
+uniform,5043,Transformer (trained),False,False,593.3678000001237
+uniform,5044,Markov,False,False,
+uniform,5044,Transformer (API config),False,False,37.043599993921816
+uniform,5044,Transformer (trained),False,False,614.320500055328
+uniform,5045,Markov,False,False,
+uniform,5045,Transformer (API config),False,False,55.12599996291101
+uniform,5045,Transformer (trained),False,False,586.2693000817671
+uniform,5046,Markov,False,False,
+uniform,5046,Transformer (API config),False,False,37.05800010357052
+uniform,5046,Transformer (trained),False,False,575.4374000243843
+uniform,5047,Markov,False,False,
+uniform,5047,Transformer (API config),False,False,43.407200020737946
+uniform,5047,Transformer (trained),False,False,643.2946000713855
+uniform,5048,Markov,False,False,
+uniform,5048,Transformer (API config),False,False,45.136400032788515
+uniform,5048,Transformer (trained),False,False,616.7865000898018
+uniform,5049,Markov,False,False,
+uniform,5049,Transformer (API config),False,False,42.76650003157556
+uniform,5049,Transformer (trained),False,False,615.8188000554219
+uniform,5050,Markov,False,False,
+uniform,5050,Transformer (API config),False,False,42.82540001440793
+uniform,5050,Transformer (trained),False,False,629.3636000482365
+uniform,5051,Markov,False,False,
+uniform,5051,Transformer (API config),False,False,41.33219993673265
+uniform,5051,Transformer (trained),False,False,642.1344999689609
+uniform,5052,Markov,False,False,
+uniform,5052,Transformer (API config),False,True,40.23939999751747
+uniform,5052,Transformer (trained),False,False,663.8381000375375
+uniform,5053,Markov,False,False,
+uniform,5053,Transformer (API config),False,False,41.274100076407194
+uniform,5053,Transformer (trained),False,False,604.8333999933675
+uniform,5054,Markov,False,False,
+uniform,5054,Transformer (API config),False,False,41.95340001024306
+uniform,5054,Transformer (trained),False,False,569.4240999873728
+uniform,5055,Markov,False,False,
+uniform,5055,Transformer (API config),False,False,36.8396999547258
+uniform,5055,Transformer (trained),False,False,567.7006000187248
+uniform,5056,Markov,False,False,
+uniform,5056,Transformer (API config),False,False,36.93760000169277
+uniform,5056,Transformer (trained),False,False,599.3988000554964
+uniform,5057,Markov,False,False,
+uniform,5057,Transformer (API config),False,False,37.56299999076873
+uniform,5057,Transformer (trained),False,False,596.393599989824
+uniform,5058,Markov,False,False,
+uniform,5058,Transformer (API config),False,False,42.45039995294064
+uniform,5058,Transformer (trained),False,False,667.8796999622136
+uniform,5059,Markov,False,False,
+uniform,5059,Transformer (API config),False,False,39.28949998226017
+uniform,5059,Transformer (trained),False,False,584.0303000295535
+uniform,5060,Markov,False,False,
+uniform,5060,Transformer (API config),True,True,40.36890005227178
+uniform,5060,Transformer (trained),False,True,586.9683999335393
+uniform,5061,Markov,False,False,
+uniform,5061,Transformer (API config),False,False,35.60019994620234
+uniform,5061,Transformer (trained),False,False,611.9515999453142
+uniform,5062,Markov,False,False,
+uniform,5062,Transformer (API config),False,False,47.21989994868636
+uniform,5062,Transformer (trained),False,False,608.6419000057504
+uniform,5063,Markov,False,False,
+uniform,5063,Transformer (API config),False,False,36.522299982607365
+uniform,5063,Transformer (trained),False,False,568.2811998995021
+uniform,5064,Markov,False,False,
+uniform,5064,Transformer (API config),False,False,42.49209992121905
+uniform,5064,Transformer (trained),False,False,617.3487000633031
+uniform,5065,Markov,False,False,
+uniform,5065,Transformer (API config),False,False,37.69090003333986
+uniform,5065,Transformer (trained),False,True,592.7586000179872
+uniform,5066,Markov,False,False,
+uniform,5066,Transformer (API config),False,False,43.989500030875206
+uniform,5066,Transformer (trained),False,False,596.238199970685
+uniform,5067,Markov,False,False,
+uniform,5067,Transformer (API config),False,False,46.94749996997416
+uniform,5067,Transformer (trained),False,False,614.4566000439227
+uniform,5068,Markov,False,False,
+uniform,5068,Transformer (API config),False,True,50.40229996666312
+uniform,5068,Transformer (trained),False,False,622.3701999988407
+uniform,5069,Markov,False,False,
+uniform,5069,Transformer (API config),False,False,39.368400000967085
+uniform,5069,Transformer (trained),False,False,639.2717000562698
+uniform,5070,Markov,False,False,
+uniform,5070,Transformer (API config),False,False,40.691599948331714
+uniform,5070,Transformer (trained),False,False,621.812800061889
+uniform,5071,Markov,False,False,
+uniform,5071,Transformer (API config),False,True,48.52289997506887
+uniform,5071,Transformer (trained),False,False,622.5439999252558
+uniform,5072,Markov,False,False,
+uniform,5072,Transformer (API config),False,False,39.358000038191676
+uniform,5072,Transformer (trained),False,False,622.8081000735983
+uniform,5073,Markov,True,True,
+uniform,5073,Transformer (API config),False,False,38.317599915899336
+uniform,5073,Transformer (trained),False,False,628.5202999133617
+uniform,5074,Markov,False,False,
+uniform,5074,Transformer (API config),False,True,50.406599999405444
+uniform,5074,Transformer (trained),False,False,622.8791000321507
+uniform,5075,Markov,False,False,
+uniform,5075,Transformer (API config),False,False,39.51870009768754
+uniform,5075,Transformer (trained),False,False,618.7799000181258
+uniform,5076,Markov,False,False,
+uniform,5076,Transformer (API config),False,False,37.38580003846437
+uniform,5076,Transformer (trained),False,False,628.8307999493554
+uniform,5077,Markov,False,False,
+uniform,5077,Transformer (API config),False,False,39.2535999417305
+uniform,5077,Transformer (trained),False,False,639.6568999625742
+uniform,5078,Markov,False,False,
+uniform,5078,Transformer (API config),False,False,47.70599992480129
+uniform,5078,Transformer (trained),False,False,611.1650000093505
+uniform,5079,Markov,False,False,
+uniform,5079,Transformer (API config),False,False,39.16659997776151
+uniform,5079,Transformer (trained),False,False,623.7501000287011
+uniform,5080,Markov,False,False,
+uniform,5080,Transformer (API config),False,True,42.29060001671314
+uniform,5080,Transformer (trained),False,False,628.0213999561965
+uniform,5081,Markov,False,False,
+uniform,5081,Transformer (API config),False,False,40.322900051251054
+uniform,5081,Transformer (trained),False,False,632.7869999222457
+uniform,5082,Markov,False,False,
+uniform,5082,Transformer (API config),False,False,40.76810006517917
+uniform,5082,Transformer (trained),False,False,606.5128999762237
+uniform,5083,Markov,False,False,
+uniform,5083,Transformer (API config),False,False,47.0231999643147
+uniform,5083,Transformer (trained),True,True,617.7778999553993
+uniform,5084,Markov,False,False,
+uniform,5084,Transformer (API config),False,False,40.33820005133748
+uniform,5084,Transformer (trained),False,True,699.0856999764219
+uniform,5085,Markov,False,False,
+uniform,5085,Transformer (API config),False,True,44.862400041893125
+uniform,5085,Transformer (trained),False,False,608.2827999489382
+uniform,5086,Markov,True,True,
+uniform,5086,Transformer (API config),False,False,42.87929995916784
+uniform,5086,Transformer (trained),False,True,613.8444999232888
+uniform,5087,Markov,False,False,
+uniform,5087,Transformer (API config),False,False,42.28359996341169
+uniform,5087,Transformer (trained),False,False,598.9467999897897
+uniform,5088,Markov,False,False,
+uniform,5088,Transformer (API config),False,False,43.43610000796616
+uniform,5088,Transformer (trained),False,False,595.6401000730693
+uniform,5089,Markov,False,False,
+uniform,5089,Transformer (API config),False,False,42.55609994288534
+uniform,5089,Transformer (trained),False,False,601.2925999239087
+uniform,5090,Markov,False,False,
+uniform,5090,Transformer (API config),False,True,42.13259997777641
+uniform,5090,Transformer (trained),False,False,577.964499942027
+uniform,5091,Markov,False,False,
+uniform,5091,Transformer (API config),False,False,41.842899983748794
+uniform,5091,Transformer (trained),False,False,594.7648000437766
+uniform,5092,Markov,False,False,
+uniform,5092,Transformer (API config),False,False,41.67920001782477
+uniform,5092,Transformer (trained),False,False,600.4024000139907
+uniform,5093,Markov,False,True,
+uniform,5093,Transformer (API config),False,True,39.09850004129112
+uniform,5093,Transformer (trained),False,True,593.4577999869362
+uniform,5094,Markov,False,False,
+uniform,5094,Transformer (API config),False,False,36.5790999494493
+uniform,5094,Transformer (trained),False,False,621.272400021553
+uniform,5095,Markov,False,False,
+uniform,5095,Transformer (API config),False,False,46.265300014056265
+uniform,5095,Transformer (trained),False,True,683.4403000539169
+uniform,5096,Markov,False,False,
+uniform,5096,Transformer (API config),False,False,41.02380003314465
+uniform,5096,Transformer (trained),False,True,614.6821998991072
+uniform,5097,Markov,False,False,
+uniform,5097,Transformer (API config),False,False,40.399700053967535
+uniform,5097,Transformer (trained),False,False,580.9122000355273
+uniform,5098,Markov,False,False,
+uniform,5098,Transformer (API config),True,True,37.82099997624755
+uniform,5098,Transformer (trained),False,True,591.7036000173539
+uniform,5099,Markov,False,False,
+uniform,5099,Transformer (API config),False,False,40.018799947574735
+uniform,5099,Transformer (trained),False,False,580.508099985309
+uniform,5100,Markov,False,False,
+uniform,5100,Transformer (API config),False,False,38.26679999474436
+uniform,5100,Transformer (trained),False,False,577.8374000219628
+uniform,5101,Markov,False,False,
+uniform,5101,Transformer (API config),False,False,40.02980003133416
+uniform,5101,Transformer (trained),False,False,586.1793999793008
+uniform,5102,Markov,False,False,
+uniform,5102,Transformer (API config),False,False,41.32610000669956
+uniform,5102,Transformer (trained),False,False,577.5544999632984
+uniform,5103,Markov,False,False,
+uniform,5103,Transformer (API config),False,False,38.25039998628199
+uniform,5103,Transformer (trained),False,False,580.0545000238344
+uniform,5104,Markov,False,False,
+uniform,5104,Transformer (API config),False,False,41.980699985288084
+uniform,5104,Transformer (trained),False,False,579.2950999457389
+uniform,5105,Markov,False,False,
+uniform,5105,Transformer (API config),False,False,40.35000002477318
+uniform,5105,Transformer (trained),False,False,572.3534000571817
+uniform,5106,Markov,False,False,
+uniform,5106,Transformer (API config),True,True,37.147299968637526
+uniform,5106,Transformer (trained),False,False,576.3383000157773
+uniform,5107,Markov,False,False,
+uniform,5107,Transformer (API config),False,False,40.5571999726817
+uniform,5107,Transformer (trained),False,False,573.0076000327244
+uniform,5108,Markov,False,False,
+uniform,5108,Transformer (API config),False,False,37.070299964398146
+uniform,5108,Transformer (trained),False,False,574.6344000799581
+uniform,5109,Markov,False,False,
+uniform,5109,Transformer (API config),False,False,40.52340006455779
+uniform,5109,Transformer (trained),False,False,577.7320000343025
+uniform,5110,Markov,False,False,
+uniform,5110,Transformer (API config),False,False,42.40459995344281
+uniform,5110,Transformer (trained),False,False,597.8519999189302
+uniform,5111,Markov,False,False,
+uniform,5111,Transformer (API config),False,True,40.92749999836087
+uniform,5111,Transformer (trained),False,False,594.688400044106
+uniform,5112,Markov,False,False,
+uniform,5112,Transformer (API config),False,False,40.97339999862015
+uniform,5112,Transformer (trained),False,True,621.580799925141
+uniform,5113,Markov,False,False,
+uniform,5113,Transformer (API config),False,False,45.49709998536855
+uniform,5113,Transformer (trained),False,False,626.6859999159351
+uniform,5114,Markov,False,False,
+uniform,5114,Transformer (API config),False,False,38.41749997809529
+uniform,5114,Transformer (trained),False,False,602.4932999862358
+uniform,5115,Markov,False,False,
+uniform,5115,Transformer (API config),False,False,39.96900003403425
+uniform,5115,Transformer (trained),False,False,604.9099999945611
+uniform,5116,Markov,False,False,
+uniform,5116,Transformer (API config),False,False,38.64329995121807
+uniform,5116,Transformer (trained),False,False,570.7178000593558
+uniform,5117,Markov,False,False,
+uniform,5117,Transformer (API config),False,False,36.98039997834712
+uniform,5117,Transformer (trained),False,False,596.5294999768957
+uniform,5118,Markov,False,False,
+uniform,5118,Transformer (API config),False,False,38.109200075268745
+uniform,5118,Transformer (trained),False,False,581.3975998898968
+uniform,5119,Markov,False,False,
+uniform,5119,Transformer (API config),False,False,37.785999942570925
+uniform,5119,Transformer (trained),False,False,595.545299933292
+uniform,5120,Markov,False,False,
+uniform,5120,Transformer (API config),False,False,37.74109994992614
+uniform,5120,Transformer (trained),False,False,599.290500045754
+uniform,5121,Markov,False,False,
+uniform,5121,Transformer (API config),False,False,36.980199976824224
+uniform,5121,Transformer (trained),True,True,580.2520000142977
+uniform,5122,Markov,True,True,
+uniform,5122,Transformer (API config),True,True,34.9679000210017
+uniform,5122,Transformer (trained),False,False,645.2228999696672
+uniform,5123,Markov,False,False,
+uniform,5123,Transformer (API config),False,False,38.30699995160103
+uniform,5123,Transformer (trained),False,False,583.350200089626
+uniform,5124,Markov,False,False,
+uniform,5124,Transformer (API config),False,False,44.05569995287806
+uniform,5124,Transformer (trained),False,False,584.0625000419095
+uniform,5125,Markov,True,True,
+uniform,5125,Transformer (API config),False,False,39.35999993700534
+uniform,5125,Transformer (trained),True,True,597.0900000538677
+uniform,5126,Markov,False,False,
+uniform,5126,Transformer (API config),False,False,41.25469992868602
+uniform,5126,Transformer (trained),False,False,570.6736999563873
+uniform,5127,Markov,False,False,
+uniform,5127,Transformer (API config),False,False,40.488600032404065
+uniform,5127,Transformer (trained),False,False,581.8951999535784
+uniform,5128,Markov,False,False,
+uniform,5128,Transformer (API config),False,False,45.87899998296052
+uniform,5128,Transformer (trained),False,False,593.1501999730244
+uniform,5129,Markov,False,False,
+uniform,5129,Transformer (API config),False,False,40.713599999435246
+uniform,5129,Transformer (trained),False,False,572.9629999259487
+uniform,5130,Markov,False,False,
+uniform,5130,Transformer (API config),False,False,37.24119998514652
+uniform,5130,Transformer (trained),False,False,594.836000003852
+uniform,5131,Markov,False,False,
+uniform,5131,Transformer (API config),False,False,36.3497999496758
+uniform,5131,Transformer (trained),False,False,575.9564000181854
+uniform,5132,Markov,False,False,
+uniform,5132,Transformer (API config),False,False,39.31899997405708
+uniform,5132,Transformer (trained),False,True,597.298700013198
+uniform,5133,Markov,True,True,
+uniform,5133,Transformer (API config),False,True,39.16030004620552
+uniform,5133,Transformer (trained),False,False,574.1007999749854
+uniform,5134,Markov,False,False,
+uniform,5134,Transformer (API config),False,False,38.51310000754893
+uniform,5134,Transformer (trained),False,False,593.0954000214115
+uniform,5135,Markov,False,True,
+uniform,5135,Transformer (API config),False,False,41.790900053456426
+uniform,5135,Transformer (trained),True,True,580.7067999849096
+uniform,5136,Markov,False,False,
+uniform,5136,Transformer (API config),False,False,37.97089995350689
+uniform,5136,Transformer (trained),False,False,585.0723999319598
+uniform,5137,Markov,False,False,
+uniform,5137,Transformer (API config),False,False,43.80800004582852
+uniform,5137,Transformer (trained),False,False,588.0224999273196
+uniform,5138,Markov,False,False,
+uniform,5138,Transformer (API config),False,False,36.98539990000427
+uniform,5138,Transformer (trained),False,False,571.0901999846101
+uniform,5139,Markov,False,False,
+uniform,5139,Transformer (API config),False,False,35.68920004181564
+uniform,5139,Transformer (trained),False,False,595.1097999932244
+uniform,5140,Markov,False,False,
+uniform,5140,Transformer (API config),False,False,41.76080005709082
+uniform,5140,Transformer (trained),False,True,575.5423000082374
+uniform,5141,Markov,False,False,
+uniform,5141,Transformer (API config),False,False,41.047199978493154
+uniform,5141,Transformer (trained),False,False,579.5411000726745
+uniform,5142,Markov,False,False,
+uniform,5142,Transformer (API config),False,False,39.27150007802993
+uniform,5142,Transformer (trained),False,False,589.592200005427
+uniform,5143,Markov,False,False,
+uniform,5143,Transformer (API config),False,False,42.82410000450909
+uniform,5143,Transformer (trained),False,False,639.639199944213
+uniform,5144,Markov,False,False,
+uniform,5144,Transformer (API config),False,False,48.97760006133467
+uniform,5144,Transformer (trained),False,False,660.3334000101313
+uniform,5145,Markov,False,False,
+uniform,5145,Transformer (API config),False,False,41.58419999293983
+uniform,5145,Transformer (trained),False,False,685.2854999015108
+uniform,5146,Markov,False,False,
+uniform,5146,Transformer (API config),False,False,45.93559994827956
+uniform,5146,Transformer (trained),False,True,663.392600021325
+uniform,5147,Markov,False,False,
+uniform,5147,Transformer (API config),True,True,46.5009999461472
+uniform,5147,Transformer (trained),False,False,632.0054000243545
+uniform,5148,Markov,False,False,
+uniform,5148,Transformer (API config),False,False,39.236500044353306
+uniform,5148,Transformer (trained),False,True,615.0710999500006
+uniform,5149,Markov,False,False,
+uniform,5149,Transformer (API config),False,False,42.45960002299398
+uniform,5149,Transformer (trained),False,False,606.8081998964772
+uniform,5150,Markov,False,False,
+uniform,5150,Transformer (API config),False,False,40.756599977612495
+uniform,5150,Transformer (trained),False,False,605.8522999519482
+uniform,5151,Markov,False,True,
+uniform,5151,Transformer (API config),True,True,42.7722999593243
+uniform,5151,Transformer (trained),False,False,619.004699983634
+uniform,5152,Markov,False,False,
+uniform,5152,Transformer (API config),False,False,39.10979989450425
+uniform,5152,Transformer (trained),False,False,613.8588000321761
+uniform,5153,Markov,False,False,
+uniform,5153,Transformer (API config),False,False,39.00340001564473
+uniform,5153,Transformer (trained),False,False,613.5623999871314
+uniform,5154,Markov,False,False,
+uniform,5154,Transformer (API config),False,False,40.32929998356849
+uniform,5154,Transformer (trained),False,False,612.2077000327408
+uniform,5155,Markov,False,False,
+uniform,5155,Transformer (API config),False,False,38.097299984656274
+uniform,5155,Transformer (trained),False,False,589.5161000080407
+uniform,5156,Markov,False,False,
+uniform,5156,Transformer (API config),False,False,38.97990006953478
+uniform,5156,Transformer (trained),False,False,596.2273000041023
+uniform,5157,Markov,False,False,
+uniform,5157,Transformer (API config),False,False,44.595700106583536
+uniform,5157,Transformer (trained),False,False,623.512199963443
+uniform,5158,Markov,False,False,
+uniform,5158,Transformer (API config),False,False,39.866199949756265
+uniform,5158,Transformer (trained),False,False,669.2427999805659
+uniform,5159,Markov,False,False,
+uniform,5159,Transformer (API config),False,False,37.85369999241084
+uniform,5159,Transformer (trained),False,False,614.3557999748737
+uniform,5160,Markov,False,False,
+uniform,5160,Transformer (API config),False,False,41.90309997648001
+uniform,5160,Transformer (trained),False,False,678.4117999486625
+uniform,5161,Markov,False,False,
+uniform,5161,Transformer (API config),False,False,57.11829999927431
+uniform,5161,Transformer (trained),False,False,616.3150999927893
+uniform,5162,Markov,False,False,
+uniform,5162,Transformer (API config),False,False,39.9422999471426
+uniform,5162,Transformer (trained),False,False,613.6370999738574
+uniform,5163,Markov,False,False,
+uniform,5163,Transformer (API config),False,False,38.700199918821454
+uniform,5163,Transformer (trained),False,False,597.1342999255285
+uniform,5164,Markov,False,False,
+uniform,5164,Transformer (API config),False,False,39.215900003910065
+uniform,5164,Transformer (trained),False,True,626.5595000004396
+uniform,5165,Markov,False,False,
+uniform,5165,Transformer (API config),False,False,37.89889998733997
+uniform,5165,Transformer (trained),False,False,620.6598000135273
+uniform,5166,Markov,False,False,
+uniform,5166,Transformer (API config),False,False,42.1846000244841
+uniform,5166,Transformer (trained),False,False,594.6669999975711
+uniform,5167,Markov,False,False,
+uniform,5167,Transformer (API config),False,False,47.50520002562553
+uniform,5167,Transformer (trained),False,False,616.7933999095112
+uniform,5168,Markov,False,False,
+uniform,5168,Transformer (API config),False,False,41.17360000964254
+uniform,5168,Transformer (trained),False,False,626.0505000827834
+uniform,5169,Markov,False,False,
+uniform,5169,Transformer (API config),False,False,40.33649992197752
+uniform,5169,Transformer (trained),False,False,605.3025000728667
+uniform,5170,Markov,True,True,
+uniform,5170,Transformer (API config),False,False,48.368999967351556
+uniform,5170,Transformer (trained),False,False,593.5722000431269
+uniform,5171,Markov,False,False,
+uniform,5171,Transformer (API config),False,False,42.267699958756566
+uniform,5171,Transformer (trained),False,False,581.2234000768512
+uniform,5172,Markov,False,False,
+uniform,5172,Transformer (API config),False,False,38.35549997165799
+uniform,5172,Transformer (trained),False,False,585.231399978511
+uniform,5173,Markov,False,False,
+uniform,5173,Transformer (API config),False,False,40.49080004915595
+uniform,5173,Transformer (trained),False,False,669.9771001003683
+uniform,5174,Markov,False,False,
+uniform,5174,Transformer (API config),False,False,43.438400025479496
+uniform,5174,Transformer (trained),False,False,630.9238999383524
+uniform,5175,Markov,False,False,
+uniform,5175,Transformer (API config),False,False,35.53440002724528
+uniform,5175,Transformer (trained),False,False,611.452899989672
+uniform,5176,Markov,False,False,
+uniform,5176,Transformer (API config),False,False,37.70640003494918
+uniform,5176,Transformer (trained),False,False,621.2410000152886
+uniform,5177,Markov,False,False,
+uniform,5177,Transformer (API config),False,False,43.8073999248445
+uniform,5177,Transformer (trained),False,False,614.4585999427363
+uniform,5178,Markov,False,False,
+uniform,5178,Transformer (API config),False,False,43.40379999484867
+uniform,5178,Transformer (trained),False,False,619.2690000170842
+uniform,5179,Markov,False,False,
+uniform,5179,Transformer (API config),False,False,42.51509997993708
+uniform,5179,Transformer (trained),False,False,606.3338000094518
+uniform,5180,Markov,False,False,
+uniform,5180,Transformer (API config),False,False,39.143400033935905
+uniform,5180,Transformer (trained),False,False,597.1561999758705
+uniform,5181,Markov,False,False,
+uniform,5181,Transformer (API config),False,False,39.48600008152425
+uniform,5181,Transformer (trained),False,False,603.5969000076875
+uniform,5182,Markov,False,False,
+uniform,5182,Transformer (API config),False,False,41.220700019039214
+uniform,5182,Transformer (trained),False,True,603.1759000616148
+uniform,5183,Markov,False,False,
+uniform,5183,Transformer (API config),False,False,42.01800003647804
+uniform,5183,Transformer (trained),False,False,609.5123999984935
+uniform,5184,Markov,False,False,
+uniform,5184,Transformer (API config),False,False,40.678099961951375
+uniform,5184,Transformer (trained),False,False,586.5702000446618
+uniform,5185,Markov,False,False,
+uniform,5185,Transformer (API config),False,False,42.776099988259375
+uniform,5185,Transformer (trained),True,True,602.3864999879152
+uniform,5186,Markov,False,False,
+uniform,5186,Transformer (API config),False,False,39.461900014430285
+uniform,5186,Transformer (trained),False,False,592.8006999893114
+uniform,5187,Markov,False,False,
+uniform,5187,Transformer (API config),False,False,41.089799953624606
+uniform,5187,Transformer (trained),False,False,604.2021999601275
+uniform,5188,Markov,False,False,
+uniform,5188,Transformer (API config),False,False,43.99520007427782
+uniform,5188,Transformer (trained),False,False,614.5044999429956
+uniform,5189,Markov,False,False,
+uniform,5189,Transformer (API config),False,False,38.84719999041408
+uniform,5189,Transformer (trained),False,False,615.145800053142
+uniform,5190,Markov,False,False,
+uniform,5190,Transformer (API config),False,False,43.9907000400126
+uniform,5190,Transformer (trained),False,False,656.0921999625862
+uniform,5191,Markov,False,False,
+uniform,5191,Transformer (API config),False,False,58.26540000271052
+uniform,5191,Transformer (trained),False,False,723.1951999710873
+uniform,5192,Markov,False,False,
+uniform,5192,Transformer (API config),False,False,45.86950002703816
+uniform,5192,Transformer (trained),False,False,642.3020999645814
+uniform,5193,Markov,False,False,
+uniform,5193,Transformer (API config),False,False,44.5783999748528
+uniform,5193,Transformer (trained),False,False,635.7622999930754
+uniform,5194,Markov,False,False,
+uniform,5194,Transformer (API config),False,False,43.401499977335334
+uniform,5194,Transformer (trained),False,False,662.8529999870807
+uniform,5195,Markov,False,False,
+uniform,5195,Transformer (API config),False,False,47.25110006984323
+uniform,5195,Transformer (trained),False,False,608.4007000317797
+uniform,5196,Markov,False,False,
+uniform,5196,Transformer (API config),False,False,35.63569998368621
+uniform,5196,Transformer (trained),False,False,602.1035999292508
+uniform,5197,Markov,False,False,
+uniform,5197,Transformer (API config),False,False,40.1951998937875
+uniform,5197,Transformer (trained),False,False,588.5217000031844
+uniform,5198,Markov,False,False,
+uniform,5198,Transformer (API config),False,False,41.305200080387294
+uniform,5198,Transformer (trained),False,False,652.1796999732032
+uniform,5199,Markov,False,False,
+uniform,5199,Transformer (API config),False,False,43.65120001602918
+uniform,5199,Transformer (trained),False,False,621.3361999252811
+uniform,5200,Markov,False,False,
+uniform,5200,Transformer (API config),False,False,41.87950002960861
+uniform,5200,Transformer (trained),False,False,611.5762999979779
+uniform,5201,Markov,False,False,
+uniform,5201,Transformer (API config),False,False,38.3965999353677
+uniform,5201,Transformer (trained),False,False,593.6953999334946
+uniform,5202,Markov,False,True,
+uniform,5202,Transformer (API config),False,False,40.37639999296516
+uniform,5202,Transformer (trained),False,False,627.6771000120789
+uniform,5203,Markov,False,False,
+uniform,5203,Transformer (API config),False,False,43.598499963991344
+uniform,5203,Transformer (trained),False,False,620.5409000394866
+uniform,5204,Markov,False,True,
+uniform,5204,Transformer (API config),False,False,38.593800039961934
+uniform,5204,Transformer (trained),False,True,618.8286000397056
+uniform,5205,Markov,False,False,
+uniform,5205,Transformer (API config),False,False,39.998000022023916
+uniform,5205,Transformer (trained),False,True,605.7374000083655
+uniform,5206,Markov,False,False,
+uniform,5206,Transformer (API config),False,False,38.02279999945313
+uniform,5206,Transformer (trained),False,False,602.934299968183
+uniform,5207,Markov,False,False,
+uniform,5207,Transformer (API config),False,False,44.444400002248585
+uniform,5207,Transformer (trained),False,False,616.1913999821991
+uniform,5208,Markov,False,False,
+uniform,5208,Transformer (API config),True,True,37.09970007184893
+uniform,5208,Transformer (trained),False,False,595.4063000390306
+uniform,5209,Markov,False,False,
+uniform,5209,Transformer (API config),False,False,43.40219998266548
+uniform,5209,Transformer (trained),False,False,603.2709999708459
+uniform,5210,Markov,False,False,
+uniform,5210,Transformer (API config),False,False,41.68040002696216
+uniform,5210,Transformer (trained),False,False,609.5552999759093
+uniform,5211,Markov,False,False,
+uniform,5211,Transformer (API config),False,False,37.703200010582805
+uniform,5211,Transformer (trained),False,False,609.4362000003457
+uniform,5212,Markov,False,False,
+uniform,5212,Transformer (API config),False,False,38.336999947205186
+uniform,5212,Transformer (trained),False,False,607.2788999881595
+uniform,5213,Markov,False,False,
+uniform,5213,Transformer (API config),False,False,40.97239999100566
+uniform,5213,Transformer (trained),False,False,606.280800071545
+uniform,5214,Markov,False,False,
+uniform,5214,Transformer (API config),False,False,38.94970007240772
+uniform,5214,Transformer (trained),False,False,594.7324000298977
+uniform,5215,Markov,False,False,
+uniform,5215,Transformer (API config),False,True,42.88009996525943
+uniform,5215,Transformer (trained),False,False,609.9667999660596
+uniform,5216,Markov,False,False,
+uniform,5216,Transformer (API config),False,False,40.101899998262525
+uniform,5216,Transformer (trained),False,False,583.0064999172464
+uniform,5217,Markov,False,False,
+uniform,5217,Transformer (API config),False,False,42.57950000464916
+uniform,5217,Transformer (trained),False,False,598.8216999685392
+uniform,5218,Markov,False,False,
+uniform,5218,Transformer (API config),False,True,42.208700091578066
+uniform,5218,Transformer (trained),False,False,599.2573000257835
+uniform,5219,Markov,False,False,
+uniform,5219,Transformer (API config),False,False,41.89969995059073
+uniform,5219,Transformer (trained),False,False,592.3229999607429
+uniform,5220,Markov,False,False,
+uniform,5220,Transformer (API config),False,False,40.25419999379665
+uniform,5220,Transformer (trained),False,False,598.4530999558046
+uniform,5221,Markov,False,False,
+uniform,5221,Transformer (API config),False,False,40.84329993929714
+uniform,5221,Transformer (trained),False,False,583.7115000467747
+uniform,5222,Markov,False,False,
+uniform,5222,Transformer (API config),False,False,40.61060003004968
+uniform,5222,Transformer (trained),False,False,575.9374999906868
+uniform,5223,Markov,False,False,
+uniform,5223,Transformer (API config),False,False,38.91280002426356
+uniform,5223,Transformer (trained),False,False,588.5843000141904
+uniform,5224,Markov,False,False,
+uniform,5224,Transformer (API config),False,False,40.17110005952418
+uniform,5224,Transformer (trained),False,False,610.2540999418125
+uniform,5225,Markov,False,False,
+uniform,5225,Transformer (API config),False,False,38.15769997891039
+uniform,5225,Transformer (trained),False,False,592.8584999637678
+uniform,5226,Markov,False,False,
+uniform,5226,Transformer (API config),False,False,42.11769998073578
+uniform,5226,Transformer (trained),False,False,600.1426000148058
+uniform,5227,Markov,True,True,
+uniform,5227,Transformer (API config),False,True,37.79450000729412
+uniform,5227,Transformer (trained),True,True,608.7843000423163
+uniform,5228,Markov,False,False,
+uniform,5228,Transformer (API config),False,False,44.6137998951599
+uniform,5228,Transformer (trained),False,False,637.802500044927
+uniform,5229,Markov,False,True,
+uniform,5229,Transformer (API config),False,True,44.539200025610626
+uniform,5229,Transformer (trained),True,True,637.4509000452235
+uniform,5230,Markov,False,False,
+uniform,5230,Transformer (API config),False,True,38.06379996240139
+uniform,5230,Transformer (trained),False,False,623.6189000774175
+uniform,5231,Markov,False,False,
+uniform,5231,Transformer (API config),False,True,40.67170002963394
+uniform,5231,Transformer (trained),True,True,657.4013000354171
+uniform,5232,Markov,False,False,
+uniform,5232,Transformer (API config),False,False,43.387000099755824
+uniform,5232,Transformer (trained),False,False,780.9766000136733
+uniform,5233,Markov,False,False,
+uniform,5233,Transformer (API config),False,False,42.97269997186959
+uniform,5233,Transformer (trained),False,False,655.9675999451429
+uniform,5234,Markov,False,False,
+uniform,5234,Transformer (API config),False,False,42.81690006610006
+uniform,5234,Transformer (trained),False,True,727.0208999980241
+uniform,5235,Markov,False,False,
+uniform,5235,Transformer (API config),False,False,44.89170003216714
+uniform,5235,Transformer (trained),False,False,611.5373999346048
+uniform,5236,Markov,False,False,
+uniform,5236,Transformer (API config),False,False,38.07920007966459
+uniform,5236,Transformer (trained),False,False,614.7741000168025
+uniform,5237,Markov,False,False,
+uniform,5237,Transformer (API config),False,False,38.73919998295605
+uniform,5237,Transformer (trained),False,False,587.8684999188408
+uniform,5238,Markov,False,False,
+uniform,5238,Transformer (API config),False,False,35.98509996663779
+uniform,5238,Transformer (trained),False,False,588.3917999453843
+uniform,5239,Markov,False,False,
+uniform,5239,Transformer (API config),False,False,40.11309996712953
+uniform,5239,Transformer (trained),False,False,601.9111999776214
+uniform,5240,Markov,False,False,
+uniform,5240,Transformer (API config),False,True,40.77840002719313
+uniform,5240,Transformer (trained),False,True,594.8072999017313
+uniform,5241,Markov,False,False,
+uniform,5241,Transformer (API config),False,False,42.43589995894581
+uniform,5241,Transformer (trained),False,False,596.3236000388861
+uniform,5242,Markov,False,False,
+uniform,5242,Transformer (API config),False,False,39.64830003678799
+uniform,5242,Transformer (trained),False,False,584.6433999249712
+uniform,5243,Markov,False,False,
+uniform,5243,Transformer (API config),False,False,40.509300073608756
+uniform,5243,Transformer (trained),False,False,586.6203000769019
+uniform,5244,Markov,False,False,
+uniform,5244,Transformer (API config),False,False,38.195100030861795
+uniform,5244,Transformer (trained),False,False,589.3129999749362
+uniform,5245,Markov,False,True,
+uniform,5245,Transformer (API config),False,False,41.297199903056026
+uniform,5245,Transformer (trained),True,True,606.6938999574631
+uniform,5246,Markov,False,False,
+uniform,5246,Transformer (API config),False,False,39.56289996858686
+uniform,5246,Transformer (trained),False,False,584.1836000327021
+uniform,5247,Markov,False,False,
+uniform,5247,Transformer (API config),False,False,38.75690000131726
+uniform,5247,Transformer (trained),False,False,586.8825000943616
+uniform,5248,Markov,False,False,
+uniform,5248,Transformer (API config),False,False,38.20709988940507
+uniform,5248,Transformer (trained),False,False,643.7615000177175
+uniform,5249,Markov,False,False,
+uniform,5249,Transformer (API config),False,True,51.31769995205104
+uniform,5249,Transformer (trained),False,False,598.5478000948206
+uniform,5250,Markov,False,False,
+uniform,5250,Transformer (API config),False,False,36.25790006481111
+uniform,5250,Transformer (trained),False,False,595.0337999965996
+uniform,5251,Markov,False,False,
+uniform,5251,Transformer (API config),False,False,36.239600041881204
+uniform,5251,Transformer (trained),False,False,570.7704999949783
+uniform,5252,Markov,False,False,
+uniform,5252,Transformer (API config),False,False,38.23399997781962
+uniform,5252,Transformer (trained),False,False,602.8378999326378
+uniform,5253,Markov,False,False,
+uniform,5253,Transformer (API config),False,False,42.13710001204163
+uniform,5253,Transformer (trained),False,False,567.8650999907404
+uniform,5254,Markov,False,False,
+uniform,5254,Transformer (API config),False,False,40.57990002911538
+uniform,5254,Transformer (trained),False,False,562.6535000046715
+uniform,5255,Markov,False,False,
+uniform,5255,Transformer (API config),False,False,45.14760000165552
+uniform,5255,Transformer (trained),False,True,581.1901000561193
+uniform,5256,Markov,False,False,
+uniform,5256,Transformer (API config),False,False,38.2949000922963
+uniform,5256,Transformer (trained),False,False,617.4093999434263
+uniform,5257,Markov,False,False,
+uniform,5257,Transformer (API config),False,False,43.467900017276406
+uniform,5257,Transformer (trained),False,False,586.9829000439495
+uniform,5258,Markov,False,False,
+uniform,5258,Transformer (API config),False,False,40.18559993710369
+uniform,5258,Transformer (trained),False,False,599.4291000533849
+uniform,5259,Markov,False,False,
+uniform,5259,Transformer (API config),False,False,38.59589993953705
+uniform,5259,Transformer (trained),False,False,583.1184999551624
+uniform,5260,Markov,False,False,
+uniform,5260,Transformer (API config),False,False,38.40610000770539
+uniform,5260,Transformer (trained),False,False,601.7226000549272
+uniform,5261,Markov,False,False,
+uniform,5261,Transformer (API config),False,False,39.3661999842152
+uniform,5261,Transformer (trained),False,False,631.6240000305697
+uniform,5262,Markov,False,False,
+uniform,5262,Transformer (API config),False,True,37.556399940513074
+uniform,5262,Transformer (trained),False,False,579.6568000223488
+uniform,5263,Markov,False,False,
+uniform,5263,Transformer (API config),False,False,40.40320008061826
+uniform,5263,Transformer (trained),False,False,566.6482000378892
+uniform,5264,Markov,False,False,
+uniform,5264,Transformer (API config),False,False,39.20959995593876
+uniform,5264,Transformer (trained),False,False,567.1894999686629
+uniform,5265,Markov,False,False,
+uniform,5265,Transformer (API config),False,False,41.64069995749742
+uniform,5265,Transformer (trained),False,False,583.9936999836937
+uniform,5266,Markov,False,False,
+uniform,5266,Transformer (API config),False,False,47.09839995484799
+uniform,5266,Transformer (trained),False,False,602.9058999847621
+uniform,5267,Markov,False,False,
+uniform,5267,Transformer (API config),False,False,37.879499956034124
+uniform,5267,Transformer (trained),False,False,618.479200056754
+uniform,5268,Markov,True,True,
+uniform,5268,Transformer (API config),False,True,40.85510002914816
+uniform,5268,Transformer (trained),True,True,582.6583999441937
+uniform,5269,Markov,False,False,
+uniform,5269,Transformer (API config),False,False,41.73830000218004
+uniform,5269,Transformer (trained),False,False,598.14010001719
+uniform,5270,Markov,False,False,
+uniform,5270,Transformer (API config),False,False,39.660300011746585
+uniform,5270,Transformer (trained),False,False,584.2237999895588
+uniform,5271,Markov,False,True,
+uniform,5271,Transformer (API config),False,False,38.95409998949617
+uniform,5271,Transformer (trained),False,True,610.0957000162452
+uniform,5272,Markov,False,False,
+uniform,5272,Transformer (API config),False,False,43.86239999439567
+uniform,5272,Transformer (trained),False,False,589.5645000273362
+uniform,5273,Markov,False,False,
+uniform,5273,Transformer (API config),False,False,37.66489995177835
+uniform,5273,Transformer (trained),False,False,680.8198998915032
+uniform,5274,Markov,False,False,
+uniform,5274,Transformer (API config),False,False,40.98699998576194
+uniform,5274,Transformer (trained),False,False,605.3772999439389
+uniform,5275,Markov,False,False,
+uniform,5275,Transformer (API config),False,False,42.50630002934486
+uniform,5275,Transformer (trained),False,False,569.1911999601871
+uniform,5276,Markov,False,False,
+uniform,5276,Transformer (API config),False,False,40.062000043690205
+uniform,5276,Transformer (trained),False,True,558.5277000209317
+uniform,5277,Markov,False,False,
+uniform,5277,Transformer (API config),False,False,38.277999963611364
+uniform,5277,Transformer (trained),False,False,567.1425999607891
+uniform,5278,Markov,False,False,
+uniform,5278,Transformer (API config),False,False,36.77100001368672
+uniform,5278,Transformer (trained),False,False,565.4816000023857
+uniform,5279,Markov,False,False,
+uniform,5279,Transformer (API config),False,False,37.59409999474883
+uniform,5279,Transformer (trained),False,False,587.4441000632942
+uniform,5280,Markov,False,False,
+uniform,5280,Transformer (API config),False,True,49.17340003885329
+uniform,5280,Transformer (trained),False,False,659.3186999671161
+uniform,5281,Markov,False,False,
+uniform,5281,Transformer (API config),False,False,46.42999998759478
+uniform,5281,Transformer (trained),False,False,624.9812000896782
+uniform,5282,Markov,False,False,
+uniform,5282,Transformer (API config),False,False,36.219900008291006
+uniform,5282,Transformer (trained),False,False,600.0194998923689
+uniform,5283,Markov,False,False,
+uniform,5283,Transformer (API config),False,False,35.658199922181666
+uniform,5283,Transformer (trained),False,False,579.8467999557033
+uniform,5284,Markov,False,False,
+uniform,5284,Transformer (API config),False,True,39.568500011228025
+uniform,5284,Transformer (trained),False,False,580.9792000800371
+uniform,5285,Markov,False,False,
+uniform,5285,Transformer (API config),False,False,38.766799960285425
+uniform,5285,Transformer (trained),False,False,579.2264000046998
+uniform,5286,Markov,False,False,
+uniform,5286,Transformer (API config),False,False,37.20570006407797
+uniform,5286,Transformer (trained),False,False,586.2777999136597
+uniform,5287,Markov,False,False,
+uniform,5287,Transformer (API config),False,False,35.636199987493455
+uniform,5287,Transformer (trained),False,False,580.9856000123546
+uniform,5288,Markov,False,False,
+uniform,5288,Transformer (API config),False,False,40.10680003557354
+uniform,5288,Transformer (trained),False,True,602.8643000172451
+uniform,5289,Markov,False,False,
+uniform,5289,Transformer (API config),False,False,38.16039999946952
+uniform,5289,Transformer (trained),False,False,594.029999920167
+uniform,5290,Markov,False,False,
+uniform,5290,Transformer (API config),False,False,40.28199997264892
+uniform,5290,Transformer (trained),False,False,579.8206999897957
+uniform,5291,Markov,False,False,
+uniform,5291,Transformer (API config),False,False,44.96329999528825
+uniform,5291,Transformer (trained),False,False,593.898699968122
+uniform,5292,Markov,False,True,
+uniform,5292,Transformer (API config),False,True,35.23859998676926
+uniform,5292,Transformer (trained),False,True,585.8911999966949
+uniform,5293,Markov,False,False,
+uniform,5293,Transformer (API config),False,False,37.57929999846965
+uniform,5293,Transformer (trained),True,True,571.2908999994397
+uniform,5294,Markov,False,False,
+uniform,5294,Transformer (API config),False,False,39.07569998409599
+uniform,5294,Transformer (trained),False,False,583.1521000945941
+uniform,5295,Markov,False,False,
+uniform,5295,Transformer (API config),False,False,39.806899963878095
+uniform,5295,Transformer (trained),False,True,575.7302000420168
+uniform,5296,Markov,False,False,
+uniform,5296,Transformer (API config),False,False,37.710900069214404
+uniform,5296,Transformer (trained),False,False,601.2498000636697
+uniform,5297,Markov,False,False,
+uniform,5297,Transformer (API config),False,False,38.64359995350242
+uniform,5297,Transformer (trained),False,False,594.2014999454841
+uniform,5298,Markov,False,False,
+uniform,5298,Transformer (API config),False,False,42.4689999781549
+uniform,5298,Transformer (trained),False,False,607.0300999563187
+uniform,5299,Markov,False,False,
+uniform,5299,Transformer (API config),False,False,38.10390003491193
+uniform,5299,Transformer (trained),False,False,576.399700017646
+locality,5000,Markov,False,False,
+locality,5000,Transformer (API config),False,False,37.933100014925
+locality,5000,Transformer (trained),False,False,579.2608000338078
+locality,5001,Markov,True,True,
+locality,5001,Transformer (API config),False,False,36.45250003319234
+locality,5001,Transformer (trained),False,True,595.9037999855354
+locality,5002,Markov,False,False,
+locality,5002,Transformer (API config),False,False,39.51270005200058
+locality,5002,Transformer (trained),False,True,579.2681999737397
+locality,5003,Markov,False,False,
+locality,5003,Transformer (API config),False,False,39.4046000437811
+locality,5003,Transformer (trained),False,False,577.0791999530047
+locality,5004,Markov,False,False,
+locality,5004,Transformer (API config),True,True,38.599399966187775
+locality,5004,Transformer (trained),False,True,590.7631000736728
+locality,5005,Markov,False,False,
+locality,5005,Transformer (API config),False,False,38.703300058841705
+locality,5005,Transformer (trained),False,False,579.2683999752626
+locality,5006,Markov,False,False,
+locality,5006,Transformer (API config),False,False,45.38500006310642
+locality,5006,Transformer (trained),False,False,586.1710000317544
+locality,5007,Markov,False,False,
+locality,5007,Transformer (API config),False,False,39.6652000490576
+locality,5007,Transformer (trained),False,False,563.912299927324
+locality,5008,Markov,False,False,
+locality,5008,Transformer (API config),False,False,40.41520005557686
+locality,5008,Transformer (trained),False,True,567.1177000040188
+locality,5009,Markov,False,False,
+locality,5009,Transformer (API config),False,True,42.83009993378073
+locality,5009,Transformer (trained),False,False,620.4605000093579
+locality,5010,Markov,True,True,
+locality,5010,Transformer (API config),False,True,38.549400051124394
+locality,5010,Transformer (trained),False,True,665.4132000403479
+locality,5011,Markov,False,False,
+locality,5011,Transformer (API config),False,True,39.28189992439002
+locality,5011,Transformer (trained),False,False,578.6567000905052
+locality,5012,Markov,False,False,
+locality,5012,Transformer (API config),False,False,95.97949997987598
+locality,5012,Transformer (trained),False,False,656.4534000353888
+locality,5013,Markov,False,False,
+locality,5013,Transformer (API config),True,True,38.83179998956621
+locality,5013,Transformer (trained),False,False,626.8388000316918
+locality,5014,Markov,False,False,
+locality,5014,Transformer (API config),False,False,41.328800027258694
+locality,5014,Transformer (trained),False,False,625.6109999958426
+locality,5015,Markov,False,True,
+locality,5015,Transformer (API config),True,True,41.18729999754578
+locality,5015,Transformer (trained),True,True,624.4592999573797
+locality,5016,Markov,False,False,
+locality,5016,Transformer (API config),False,False,38.89670001808554
+locality,5016,Transformer (trained),False,False,581.8710000021383
+locality,5017,Markov,False,False,
+locality,5017,Transformer (API config),False,False,35.560499993152916
+locality,5017,Transformer (trained),False,True,569.6755000390112
+locality,5018,Markov,False,False,
+locality,5018,Transformer (API config),False,False,37.613899912685156
+locality,5018,Transformer (trained),False,False,567.0263000065461
+locality,5019,Markov,False,True,
+locality,5019,Transformer (API config),True,True,38.67409995291382
+locality,5019,Transformer (trained),True,True,567.7199999336153
+locality,5020,Markov,False,False,
+locality,5020,Transformer (API config),False,True,40.66699999384582
+locality,5020,Transformer (trained),False,False,585.0044999970123
+locality,5021,Markov,False,True,
+locality,5021,Transformer (API config),False,False,46.7820999911055
+locality,5021,Transformer (trained),False,False,581.3287000637501
+locality,5022,Markov,False,False,
+locality,5022,Transformer (API config),False,False,40.05349997896701
+locality,5022,Transformer (trained),False,True,561.7098000366241
+locality,5023,Markov,False,False,
+locality,5023,Transformer (API config),False,False,43.12950000166893
+locality,5023,Transformer (trained),False,True,569.5382999256253
+locality,5024,Markov,False,False,
+locality,5024,Transformer (API config),False,True,38.8952000066638
+locality,5024,Transformer (trained),False,False,585.0493999896571
+locality,5025,Markov,False,False,
+locality,5025,Transformer (API config),False,False,43.20389998611063
+locality,5025,Transformer (trained),False,True,579.4181999517605
+locality,5026,Markov,False,False,
+locality,5026,Transformer (API config),False,False,37.99890005029738
+locality,5026,Transformer (trained),False,False,619.3592000054196
+locality,5027,Markov,False,False,
+locality,5027,Transformer (API config),False,False,41.51689994614571
+locality,5027,Transformer (trained),False,False,625.901999999769
+locality,5028,Markov,False,False,
+locality,5028,Transformer (API config),False,False,38.58119994401932
+locality,5028,Transformer (trained),False,False,676.7434000503272
+locality,5029,Markov,False,False,
+locality,5029,Transformer (API config),False,False,38.1747999927029
+locality,5029,Transformer (trained),False,False,635.7395000522956
+locality,5030,Markov,False,False,
+locality,5030,Transformer (API config),False,False,47.72870009765029
+locality,5030,Transformer (trained),False,False,631.5332000376657
+locality,5031,Markov,False,False,
+locality,5031,Transformer (API config),False,False,41.563899954780936
+locality,5031,Transformer (trained),False,False,609.5771000254899
+locality,5032,Markov,False,False,
+locality,5032,Transformer (API config),False,False,39.01910001877695
+locality,5032,Transformer (trained),False,True,578.734099981375
+locality,5033,Markov,False,False,
+locality,5033,Transformer (API config),False,False,37.104399991221726
+locality,5033,Transformer (trained),False,False,590.043899952434
+locality,5034,Markov,False,False,
+locality,5034,Transformer (API config),False,False,38.81990001536906
+locality,5034,Transformer (trained),False,False,560.8950000023469
+locality,5035,Markov,False,False,
+locality,5035,Transformer (API config),False,False,38.90539996791631
+locality,5035,Transformer (trained),False,False,595.6834000535309
+locality,5036,Markov,False,False,
+locality,5036,Transformer (API config),False,False,38.72349997982383
+locality,5036,Transformer (trained),False,False,626.8702999223024
+locality,5037,Markov,False,False,
+locality,5037,Transformer (API config),False,False,36.94100002758205
+locality,5037,Transformer (trained),False,True,589.9252999806777
+locality,5038,Markov,False,False,
+locality,5038,Transformer (API config),False,False,36.98690002784133
+locality,5038,Transformer (trained),False,False,596.9624000135809
+locality,5039,Markov,False,True,
+locality,5039,Transformer (API config),False,True,40.62290000729263
+locality,5039,Transformer (trained),False,False,604.4078000122681
+locality,5040,Markov,False,False,
+locality,5040,Transformer (API config),False,False,35.528299980796874
+locality,5040,Transformer (trained),False,False,568.9789999742061
+locality,5041,Markov,True,True,
+locality,5041,Transformer (API config),True,True,36.67669999413192
+locality,5041,Transformer (trained),True,True,556.4319000113755
+locality,5042,Markov,False,True,
+locality,5042,Transformer (API config),False,True,37.28130005765706
+locality,5042,Transformer (trained),False,False,583.9428999461234
+locality,5043,Markov,False,False,
+locality,5043,Transformer (API config),False,True,43.92769990954548
+locality,5043,Transformer (trained),False,False,595.3314999351278
+locality,5044,Markov,False,True,
+locality,5044,Transformer (API config),False,False,42.30770003050566
+locality,5044,Transformer (trained),False,True,635.6619000434875
+locality,5045,Markov,False,False,
+locality,5045,Transformer (API config),False,False,35.419899970293045
+locality,5045,Transformer (trained),False,True,594.4759999401867
+locality,5046,Markov,False,False,
+locality,5046,Transformer (API config),False,False,45.53100001066923
+locality,5046,Transformer (trained),False,False,578.4816000377759
+locality,5047,Markov,False,False,
+locality,5047,Transformer (API config),False,False,37.05509996507317
+locality,5047,Transformer (trained),False,False,576.4666999457404
+locality,5048,Markov,True,True,
+locality,5048,Transformer (API config),False,False,39.80599995702505
+locality,5048,Transformer (trained),False,True,565.1563000865281
+locality,5049,Markov,False,True,
+locality,5049,Transformer (API config),False,True,41.607100050896406
+locality,5049,Transformer (trained),False,False,659.3750000465661
+locality,5050,Markov,False,False,
+locality,5050,Transformer (API config),False,True,37.06220001913607
+locality,5050,Transformer (trained),False,False,559.2879999894649
+locality,5051,Markov,False,False,
+locality,5051,Transformer (API config),False,False,38.86600001715124
+locality,5051,Transformer (trained),False,False,563.6180000146851
+locality,5052,Markov,False,False,
+locality,5052,Transformer (API config),False,False,35.932499915361404
+locality,5052,Transformer (trained),False,True,560.2046999847516
+locality,5053,Markov,False,False,
+locality,5053,Transformer (API config),False,False,37.90100000333041
+locality,5053,Transformer (trained),False,False,579.4120000209659
+locality,5054,Markov,False,False,
+locality,5054,Transformer (API config),False,False,39.4326999085024
+locality,5054,Transformer (trained),False,False,557.4722999008372
+locality,5055,Markov,False,False,
+locality,5055,Transformer (API config),False,False,38.53459993842989
+locality,5055,Transformer (trained),False,False,582.2925999527797
+locality,5056,Markov,False,False,
+locality,5056,Transformer (API config),False,False,37.2293998952955
+locality,5056,Transformer (trained),False,False,564.8205999750644
+locality,5057,Markov,False,True,
+locality,5057,Transformer (API config),False,False,39.97519996482879
+locality,5057,Transformer (trained),True,True,562.255600001663
+locality,5058,Markov,False,False,
+locality,5058,Transformer (API config),False,False,36.39900009147823
+locality,5058,Transformer (trained),False,True,564.1966999974102
+locality,5059,Markov,False,False,
+locality,5059,Transformer (API config),False,False,37.31559996958822
+locality,5059,Transformer (trained),False,False,567.014699918218
+locality,5060,Markov,False,True,
+locality,5060,Transformer (API config),False,False,37.41810005158186
+locality,5060,Transformer (trained),False,False,555.731900036335
+locality,5061,Markov,False,False,
+locality,5061,Transformer (API config),False,False,35.42800003197044
+locality,5061,Transformer (trained),False,False,566.8582000071183
+locality,5062,Markov,False,False,
+locality,5062,Transformer (API config),False,False,38.211099919863045
+locality,5062,Transformer (trained),False,True,568.4846999356523
+locality,5063,Markov,False,False,
+locality,5063,Transformer (API config),True,True,38.8206000206992
+locality,5063,Transformer (trained),False,False,564.7918999893591
+locality,5064,Markov,True,True,
+locality,5064,Transformer (API config),False,True,41.87900002580136
+locality,5064,Transformer (trained),False,False,558.2812000066042
+locality,5065,Markov,False,False,
+locality,5065,Transformer (API config),False,False,37.308699917048216
+locality,5065,Transformer (trained),False,False,561.6611000150442
+locality,5066,Markov,False,False,
+locality,5066,Transformer (API config),False,False,37.99029998481274
+locality,5066,Transformer (trained),False,False,548.0362999951467
+locality,5067,Markov,False,True,
+locality,5067,Transformer (API config),False,True,38.695700000971556
+locality,5067,Transformer (trained),False,True,572.3088999511674
+locality,5068,Markov,False,False,
+locality,5068,Transformer (API config),False,True,37.70560002885759
+locality,5068,Transformer (trained),False,False,555.4647000972182
+locality,5069,Markov,False,False,
+locality,5069,Transformer (API config),False,True,40.217400062829256
+locality,5069,Transformer (trained),False,True,563.4346000151709
+locality,5070,Markov,False,False,
+locality,5070,Transformer (API config),False,False,38.50869997404516
+locality,5070,Transformer (trained),False,False,594.2404000088573
+locality,5071,Markov,False,False,
+locality,5071,Transformer (API config),False,False,34.86080002039671
+locality,5071,Transformer (trained),False,False,567.8682000143453
+locality,5072,Markov,False,False,
+locality,5072,Transformer (API config),False,True,36.57019999809563
+locality,5072,Transformer (trained),False,False,558.838399942033
+locality,5073,Markov,False,False,
+locality,5073,Transformer (API config),False,False,36.38649999629706
+locality,5073,Transformer (trained),False,False,564.9056000402197
+locality,5074,Markov,False,False,
+locality,5074,Transformer (API config),False,False,37.3765000840649
+locality,5074,Transformer (trained),False,False,567.9805999388918
+locality,5075,Markov,True,True,
+locality,5075,Transformer (API config),False,False,40.740199969150126
+locality,5075,Transformer (trained),False,False,639.0585000626743
+locality,5076,Markov,True,True,
+locality,5076,Transformer (API config),False,True,46.084800036624074
+locality,5076,Transformer (trained),False,True,647.916299989447
+locality,5077,Markov,False,False,
+locality,5077,Transformer (API config),False,False,42.11310006212443
+locality,5077,Transformer (trained),False,False,590.066000004299
+locality,5078,Markov,True,True,
+locality,5078,Transformer (API config),False,False,39.8062999593094
+locality,5078,Transformer (trained),False,False,569.8786000721157
+locality,5079,Markov,False,False,
+locality,5079,Transformer (API config),False,False,39.7125999443233
+locality,5079,Transformer (trained),False,False,563.0872000474483
+locality,5080,Markov,False,False,
+locality,5080,Transformer (API config),False,True,35.60429997742176
+locality,5080,Transformer (trained),False,False,578.3428000286222
+locality,5081,Markov,False,False,
+locality,5081,Transformer (API config),False,False,38.48139999900013
+locality,5081,Transformer (trained),False,False,580.2093999227509
+locality,5082,Markov,False,True,
+locality,5082,Transformer (API config),False,False,41.423399932682514
+locality,5082,Transformer (trained),True,True,568.7105999095365
+locality,5083,Markov,False,True,
+locality,5083,Transformer (API config),True,True,35.10079998522997
+locality,5083,Transformer (trained),False,False,581.8862000014633
+locality,5084,Markov,False,False,
+locality,5084,Transformer (API config),True,True,37.16489998623729
+locality,5084,Transformer (trained),False,True,563.2542000385001
+locality,5085,Markov,False,False,
+locality,5085,Transformer (API config),False,False,38.62989996559918
+locality,5085,Transformer (trained),False,False,564.6259000059217
+locality,5086,Markov,False,False,
+locality,5086,Transformer (API config),False,True,39.03709992300719
+locality,5086,Transformer (trained),False,True,559.066699934192
+locality,5087,Markov,False,False,
+locality,5087,Transformer (API config),False,False,39.23130000475794
+locality,5087,Transformer (trained),False,False,585.5173000600189
+locality,5088,Markov,False,True,
+locality,5088,Transformer (API config),False,True,36.96920000948012
+locality,5088,Transformer (trained),False,True,575.9090000065044
+locality,5089,Markov,False,False,
+locality,5089,Transformer (API config),False,False,38.65929995663464
+locality,5089,Transformer (trained),False,False,646.1246000835672
+locality,5090,Markov,False,False,
+locality,5090,Transformer (API config),False,False,38.85689994785935
+locality,5090,Transformer (trained),False,False,627.9227999038994
+locality,5091,Markov,False,False,
+locality,5091,Transformer (API config),False,False,36.94799996446818
+locality,5091,Transformer (trained),False,False,606.0680999653414
+locality,5092,Markov,False,False,
+locality,5092,Transformer (API config),False,False,37.695899954997
+locality,5092,Transformer (trained),False,False,613.7973999138921
+locality,5093,Markov,True,True,
+locality,5093,Transformer (API config),True,True,45.68199999630451
+locality,5093,Transformer (trained),False,True,619.1774000180885
+locality,5094,Markov,False,False,
+locality,5094,Transformer (API config),False,True,41.97699995711446
+locality,5094,Transformer (trained),False,False,623.9011000143364
+locality,5095,Markov,False,False,
+locality,5095,Transformer (API config),False,False,44.654699973762035
+locality,5095,Transformer (trained),False,False,611.681199981831
+locality,5096,Markov,False,True,
+locality,5096,Transformer (API config),False,False,39.98530004173517
+locality,5096,Transformer (trained),True,True,607.6245000585914
+locality,5097,Markov,False,False,
+locality,5097,Transformer (API config),False,False,38.160900003276765
+locality,5097,Transformer (trained),False,False,590.3340000659227
+locality,5098,Markov,False,True,
+locality,5098,Transformer (API config),False,False,45.22730002645403
+locality,5098,Transformer (trained),False,False,621.7294000089169
+locality,5099,Markov,False,False,
+locality,5099,Transformer (API config),False,False,39.11470004823059
+locality,5099,Transformer (trained),False,False,615.3028999688104
+locality,5100,Markov,False,True,
+locality,5100,Transformer (API config),False,False,41.82229994330555
+locality,5100,Transformer (trained),False,True,608.0106999725103
+locality,5101,Markov,False,False,
+locality,5101,Transformer (API config),False,True,43.266399996355176
+locality,5101,Transformer (trained),False,False,616.5605999995023
+locality,5102,Markov,False,True,
+locality,5102,Transformer (API config),True,True,36.99960000813007
+locality,5102,Transformer (trained),False,True,611.1605999758467
+locality,5103,Markov,False,False,
+locality,5103,Transformer (API config),False,True,42.564100003801286
+locality,5103,Transformer (trained),False,False,601.8409000243992
+locality,5104,Markov,False,False,
+locality,5104,Transformer (API config),False,False,40.72340007405728
+locality,5104,Transformer (trained),False,False,601.8781000748277
+locality,5105,Markov,False,True,
+locality,5105,Transformer (API config),True,True,36.712000030092895
+locality,5105,Transformer (trained),True,True,613.3332001045346
+locality,5106,Markov,True,True,
+locality,5106,Transformer (API config),True,True,36.71989997383207
+locality,5106,Transformer (trained),False,True,592.5686999689788
+locality,5107,Markov,False,False,
+locality,5107,Transformer (API config),False,False,38.88040001038462
+locality,5107,Transformer (trained),False,False,605.6664000498131
+locality,5108,Markov,False,False,
+locality,5108,Transformer (API config),False,False,48.397600068710744
+locality,5108,Transformer (trained),False,False,622.745200060308
+locality,5109,Markov,False,False,
+locality,5109,Transformer (API config),False,False,44.17600005399436
+locality,5109,Transformer (trained),False,False,627.5429000379518
+locality,5110,Markov,False,False,
+locality,5110,Transformer (API config),False,False,43.22710004635155
+locality,5110,Transformer (trained),False,False,615.38820003625
+locality,5111,Markov,False,False,
+locality,5111,Transformer (API config),True,True,41.44659999292344
+locality,5111,Transformer (trained),True,True,613.4663999546319
+locality,5112,Markov,False,False,
+locality,5112,Transformer (API config),False,False,41.957100038416684
+locality,5112,Transformer (trained),False,False,610.4251999640837
+locality,5113,Markov,False,False,
+locality,5113,Transformer (API config),False,False,39.2924000043422
+locality,5113,Transformer (trained),False,False,624.9708000104874
+locality,5114,Markov,False,True,
+locality,5114,Transformer (API config),False,True,42.16530011035502
+locality,5114,Transformer (trained),False,False,603.9847999345511
+locality,5115,Markov,False,False,
+locality,5115,Transformer (API config),False,False,37.67749993130565
+locality,5115,Transformer (trained),False,False,606.537799932994
+locality,5116,Markov,False,False,
+locality,5116,Transformer (API config),True,True,41.555200004950166
+locality,5116,Transformer (trained),False,True,595.2525999164209
+locality,5117,Markov,False,False,
+locality,5117,Transformer (API config),False,True,42.54419996868819
+locality,5117,Transformer (trained),True,True,613.3292000740767
+locality,5118,Markov,True,True,
+locality,5118,Transformer (API config),False,False,41.20199999306351
+locality,5118,Transformer (trained),False,True,624.5410999981686
+locality,5119,Markov,True,True,
+locality,5119,Transformer (API config),False,True,42.30680002365261
+locality,5119,Transformer (trained),True,True,606.8650000961497
+locality,5120,Markov,False,True,
+locality,5120,Transformer (API config),False,True,40.36490002181381
+locality,5120,Transformer (trained),False,True,606.9450000068173
+locality,5121,Markov,False,False,
+locality,5121,Transformer (API config),False,False,44.61429989896715
+locality,5121,Transformer (trained),False,False,617.6438999827951
+locality,5122,Markov,False,True,
+locality,5122,Transformer (API config),False,False,45.7655000500381
+locality,5122,Transformer (trained),False,False,623.7587999785319
+locality,5123,Markov,False,False,
+locality,5123,Transformer (API config),False,False,43.91739994753152
+locality,5123,Transformer (trained),False,False,612.3833999736235
+locality,5124,Markov,False,False,
+locality,5124,Transformer (API config),False,False,42.084299959242344
+locality,5124,Transformer (trained),False,False,677.774399984628
+locality,5125,Markov,False,False,
+locality,5125,Transformer (API config),False,False,45.9836000809446
+locality,5125,Transformer (trained),False,True,641.9527999823913
+locality,5126,Markov,False,False,
+locality,5126,Transformer (API config),False,True,42.620499967597425
+locality,5126,Transformer (trained),False,True,720.270499936305
+locality,5127,Markov,False,False,
+locality,5127,Transformer (API config),False,False,40.59320001397282
+locality,5127,Transformer (trained),False,False,659.7502999939024
+locality,5128,Markov,False,False,
+locality,5128,Transformer (API config),False,False,46.95909994188696
+locality,5128,Transformer (trained),False,False,636.1026000231504
+locality,5129,Markov,False,False,
+locality,5129,Transformer (API config),False,False,43.86130010243505
+locality,5129,Transformer (trained),False,False,602.356499992311
+locality,5130,Markov,False,False,
+locality,5130,Transformer (API config),False,False,41.60520003642887
+locality,5130,Transformer (trained),False,False,620.5967999994755
+locality,5131,Markov,False,True,
+locality,5131,Transformer (API config),False,False,37.935700034722686
+locality,5131,Transformer (trained),False,False,611.5816000383347
+locality,5132,Markov,False,False,
+locality,5132,Transformer (API config),False,False,39.648600039072335
+locality,5132,Transformer (trained),False,False,609.4150999560952
+locality,5133,Markov,False,False,
+locality,5133,Transformer (API config),False,True,39.21519999857992
+locality,5133,Transformer (trained),True,True,586.2266999902204
+locality,5134,Markov,False,False,
+locality,5134,Transformer (API config),False,True,38.37460000067949
+locality,5134,Transformer (trained),False,False,622.2779999952763
+locality,5135,Markov,True,True,
+locality,5135,Transformer (API config),False,False,40.537500055506825
+locality,5135,Transformer (trained),True,True,630.3361000027508
+locality,5136,Markov,False,True,
+locality,5136,Transformer (API config),False,False,44.2246999591589
+locality,5136,Transformer (trained),True,True,623.3432000735775
+locality,5137,Markov,False,True,
+locality,5137,Transformer (API config),True,True,38.875300087966025
+locality,5137,Transformer (trained),False,False,629.5842999825254
+locality,5138,Markov,False,False,
+locality,5138,Transformer (API config),False,False,43.913999921642244
+locality,5138,Transformer (trained),False,False,620.6105999881402
+locality,5139,Markov,False,False,
+locality,5139,Transformer (API config),False,True,41.424900060519576
+locality,5139,Transformer (trained),False,False,647.8582000127062
+locality,5140,Markov,False,False,
+locality,5140,Transformer (API config),False,True,39.090200094506145
+locality,5140,Transformer (trained),False,False,633.6970999836922
+locality,5141,Markov,True,True,
+locality,5141,Transformer (API config),False,True,39.86120002809912
+locality,5141,Transformer (trained),False,False,618.6684999847785
+locality,5142,Markov,True,True,
+locality,5142,Transformer (API config),False,False,39.25969998817891
+locality,5142,Transformer (trained),False,True,595.3896000282839
+locality,5143,Markov,False,False,
+locality,5143,Transformer (API config),False,False,39.5450999494642
+locality,5143,Transformer (trained),False,False,591.4738000137731
+locality,5144,Markov,False,False,
+locality,5144,Transformer (API config),False,False,38.47239993046969
+locality,5144,Transformer (trained),False,False,586.7834999226034
+locality,5145,Markov,False,False,
+locality,5145,Transformer (API config),False,False,39.40300003159791
+locality,5145,Transformer (trained),False,False,601.8815999850631
+locality,5146,Markov,False,False,
+locality,5146,Transformer (API config),False,True,36.4426999585703
+locality,5146,Transformer (trained),False,False,600.7557999109849
+locality,5147,Markov,False,False,
+locality,5147,Transformer (API config),False,False,36.602300009690225
+locality,5147,Transformer (trained),False,False,601.2010999256745
+locality,5148,Markov,False,False,
+locality,5148,Transformer (API config),False,False,41.167400078848004
+locality,5148,Transformer (trained),False,False,600.8729999884963
+locality,5149,Markov,False,False,
+locality,5149,Transformer (API config),False,True,38.993600057438016
+locality,5149,Transformer (trained),False,False,567.7383999573067
+locality,5150,Markov,False,False,
+locality,5150,Transformer (API config),False,False,35.78829998150468
+locality,5150,Transformer (trained),True,True,590.6438000965863
+locality,5151,Markov,False,False,
+locality,5151,Transformer (API config),False,False,38.178800023160875
+locality,5151,Transformer (trained),False,False,584.4288000371307
+locality,5152,Markov,False,True,
+locality,5152,Transformer (API config),False,True,42.35409991815686
+locality,5152,Transformer (trained),True,True,584.8915999522433
+locality,5153,Markov,False,True,
+locality,5153,Transformer (API config),False,False,40.41390004567802
+locality,5153,Transformer (trained),False,True,587.3910000082105
+locality,5154,Markov,False,False,
+locality,5154,Transformer (API config),False,False,36.723900004290044
+locality,5154,Transformer (trained),False,False,576.5100000426173
+locality,5155,Markov,True,True,
+locality,5155,Transformer (API config),True,True,40.04019999410957
+locality,5155,Transformer (trained),True,True,579.214800032787
+locality,5156,Markov,True,True,
+locality,5156,Transformer (API config),False,True,38.615899975411594
+locality,5156,Transformer (trained),False,False,578.3285999204963
+locality,5157,Markov,False,True,
+locality,5157,Transformer (API config),False,True,38.82689995225519
+locality,5157,Transformer (trained),True,True,570.6888999557123
+locality,5158,Markov,False,False,
+locality,5158,Transformer (API config),False,False,36.54849994927645
+locality,5158,Transformer (trained),False,False,580.6496000150219
+locality,5159,Markov,False,False,
+locality,5159,Transformer (API config),False,False,35.531300003640354
+locality,5159,Transformer (trained),False,False,587.8593999659643
+locality,5160,Markov,False,False,
+locality,5160,Transformer (API config),False,False,40.626400033943355
+locality,5160,Transformer (trained),True,True,573.6249999608845
+locality,5161,Markov,False,False,
+locality,5161,Transformer (API config),False,True,37.78280003461987
+locality,5161,Transformer (trained),False,False,584.0719999978319
+locality,5162,Markov,False,True,
+locality,5162,Transformer (API config),False,False,40.73840007185936
+locality,5162,Transformer (trained),False,False,580.7714000111446
+locality,5163,Markov,True,True,
+locality,5163,Transformer (API config),False,True,37.52709995023906
+locality,5163,Transformer (trained),False,False,585.2147000841796
+locality,5164,Markov,False,False,
+locality,5164,Transformer (API config),False,False,36.00490000098944
+locality,5164,Transformer (trained),False,False,567.0994999818504
+locality,5165,Markov,False,False,
+locality,5165,Transformer (API config),True,True,38.78349997103214
+locality,5165,Transformer (trained),False,True,647.344799945131
+locality,5166,Markov,False,False,
+locality,5166,Transformer (API config),False,False,52.601899951696396
+locality,5166,Transformer (trained),False,False,595.6860999576747
+locality,5167,Markov,False,True,
+locality,5167,Transformer (API config),False,False,41.416199994273484
+locality,5167,Transformer (trained),False,True,594.8952999897301
+locality,5168,Markov,False,False,
+locality,5168,Transformer (API config),False,False,43.73410006519407
+locality,5168,Transformer (trained),False,False,706.223800079897
+locality,5169,Markov,False,True,
+locality,5169,Transformer (API config),True,True,46.48039990570396
+locality,5169,Transformer (trained),True,True,699.3480999954045
+locality,5170,Markov,False,False,
+locality,5170,Transformer (API config),False,True,52.532500005327165
+locality,5170,Transformer (trained),False,True,643.6517999973148
+locality,5171,Markov,False,False,
+locality,5171,Transformer (API config),False,False,39.23420002683997
+locality,5171,Transformer (trained),False,True,609.635500004515
+locality,5172,Markov,False,True,
+locality,5172,Transformer (API config),True,True,43.88349992223084
+locality,5172,Transformer (trained),True,True,595.5649999668822
+locality,5173,Markov,False,False,
+locality,5173,Transformer (API config),False,False,38.28719991724938
+locality,5173,Transformer (trained),False,False,602.1305000176653
+locality,5174,Markov,False,False,
+locality,5174,Transformer (API config),False,False,40.48490000423044
+locality,5174,Transformer (trained),False,False,616.3032000185922
+locality,5175,Markov,False,False,
+locality,5175,Transformer (API config),False,False,50.63980002887547
+locality,5175,Transformer (trained),False,False,595.5799999646842
+locality,5176,Markov,False,False,
+locality,5176,Transformer (API config),False,False,40.05940002389252
+locality,5176,Transformer (trained),False,False,610.2549999486655
+locality,5177,Markov,False,False,
+locality,5177,Transformer (API config),False,False,40.894599980674684
+locality,5177,Transformer (trained),False,False,609.5729999942705
+locality,5178,Markov,False,True,
+locality,5178,Transformer (API config),False,False,43.395700049586594
+locality,5178,Transformer (trained),False,False,609.2442999361083
+locality,5179,Markov,False,False,
+locality,5179,Transformer (API config),False,False,41.52039997279644
+locality,5179,Transformer (trained),False,False,641.6238000383601
+locality,5180,Markov,False,False,
+locality,5180,Transformer (API config),False,True,41.842799982987344
+locality,5180,Transformer (trained),False,True,604.7169000376016
+locality,5181,Markov,False,False,
+locality,5181,Transformer (API config),False,False,41.22100002132356
+locality,5181,Transformer (trained),False,False,601.2493000598624
+locality,5182,Markov,False,False,
+locality,5182,Transformer (API config),False,False,40.642600040882826
+locality,5182,Transformer (trained),False,False,602.750499965623
+locality,5183,Markov,True,True,
+locality,5183,Transformer (API config),True,True,37.50430000945926
+locality,5183,Transformer (trained),True,True,648.7422999925911
+locality,5184,Markov,False,True,
+locality,5184,Transformer (API config),False,True,39.46610004641116
+locality,5184,Transformer (trained),False,False,599.1506000282243
+locality,5185,Markov,False,True,
+locality,5185,Transformer (API config),False,False,45.07150000426918
+locality,5185,Transformer (trained),True,True,616.2306000478566
+locality,5186,Markov,False,False,
+locality,5186,Transformer (API config),False,False,43.844099971465766
+locality,5186,Transformer (trained),False,False,616.2082999944687
+locality,5187,Markov,False,False,
+locality,5187,Transformer (API config),False,False,41.19500005617738
+locality,5187,Transformer (trained),False,True,601.1329999892041
+locality,5188,Markov,False,False,
+locality,5188,Transformer (API config),False,False,40.73679994326085
+locality,5188,Transformer (trained),False,False,614.0157000627369
+locality,5189,Markov,True,True,
+locality,5189,Transformer (API config),False,True,40.62149999663234
+locality,5189,Transformer (trained),True,True,585.563600063324
+locality,5190,Markov,False,True,
+locality,5190,Transformer (API config),False,False,39.876499911770225
+locality,5190,Transformer (trained),False,False,603.6525999661535
+locality,5191,Markov,True,True,
+locality,5191,Transformer (API config),True,True,37.96119999606162
+locality,5191,Transformer (trained),False,True,591.9848999474198
+locality,5192,Markov,False,False,
+locality,5192,Transformer (API config),False,False,49.39489997923374
+locality,5192,Transformer (trained),False,False,660.3409999515861
+locality,5193,Markov,False,False,
+locality,5193,Transformer (API config),False,False,40.032200049608946
+locality,5193,Transformer (trained),False,False,650.6465000566095
+locality,5194,Markov,False,True,
+locality,5194,Transformer (API config),True,True,45.55749997962266
+locality,5194,Transformer (trained),True,True,646.8126000836492
+locality,5195,Markov,False,False,
+locality,5195,Transformer (API config),False,False,39.531199960038066
+locality,5195,Transformer (trained),False,False,648.4332999680191
+locality,5196,Markov,False,False,
+locality,5196,Transformer (API config),False,False,40.48440000042319
+locality,5196,Transformer (trained),False,True,622.4664999172091
+locality,5197,Markov,False,False,
+locality,5197,Transformer (API config),False,False,45.42189999483526
+locality,5197,Transformer (trained),False,False,657.1121000451967
+locality,5198,Markov,False,True,
+locality,5198,Transformer (API config),False,True,41.04200005531311
+locality,5198,Transformer (trained),False,False,649.8525000642985
+locality,5199,Markov,False,False,
+locality,5199,Transformer (API config),False,False,47.21250000875443
+locality,5199,Transformer (trained),False,False,640.9130999818444
+locality,5200,Markov,False,False,
+locality,5200,Transformer (API config),True,True,42.34549996908754
+locality,5200,Transformer (trained),False,False,633.6658999789506
+locality,5201,Markov,False,False,
+locality,5201,Transformer (API config),False,False,43.39150001760572
+locality,5201,Transformer (trained),False,False,614.4026999827474
+locality,5202,Markov,False,False,
+locality,5202,Transformer (API config),False,False,41.971499915234745
+locality,5202,Transformer (trained),False,False,631.0056999791414
+locality,5203,Markov,False,False,
+locality,5203,Transformer (API config),False,False,109.26059994380921
+locality,5203,Transformer (trained),False,False,634.2422999441624
+locality,5204,Markov,False,False,
+locality,5204,Transformer (API config),False,False,40.05039995536208
+locality,5204,Transformer (trained),False,False,630.447700037621
+locality,5205,Markov,False,True,
+locality,5205,Transformer (API config),False,True,45.05509999580681
+locality,5205,Transformer (trained),False,False,649.0029999986291
+locality,5206,Markov,False,False,
+locality,5206,Transformer (API config),False,False,44.616300030611455
+locality,5206,Transformer (trained),False,False,644.3636000622064
+locality,5207,Markov,False,False,
+locality,5207,Transformer (API config),False,False,43.60309999901801
+locality,5207,Transformer (trained),False,False,638.587599969469
+locality,5208,Markov,False,True,
+locality,5208,Transformer (API config),False,False,46.72059998847544
+locality,5208,Transformer (trained),True,True,624.9934000661597
+locality,5209,Markov,False,False,
+locality,5209,Transformer (API config),False,False,40.83780001383275
+locality,5209,Transformer (trained),False,False,636.0448999330401
+locality,5210,Markov,False,False,
+locality,5210,Transformer (API config),False,False,38.116600015200675
+locality,5210,Transformer (trained),False,True,624.1002000169829
+locality,5211,Markov,False,True,
+locality,5211,Transformer (API config),True,True,39.58969993982464
+locality,5211,Transformer (trained),True,True,624.8572000768036
+locality,5212,Markov,False,False,
+locality,5212,Transformer (API config),False,False,43.450299999676645
+locality,5212,Transformer (trained),False,False,644.2304999800399
+locality,5213,Markov,False,False,
+locality,5213,Transformer (API config),False,False,43.329999898560345
+locality,5213,Transformer (trained),False,False,725.7660999894142
+locality,5214,Markov,False,False,
+locality,5214,Transformer (API config),False,False,47.85029997583479
+locality,5214,Transformer (trained),False,False,694.8487999616191
+locality,5215,Markov,False,False,
+locality,5215,Transformer (API config),False,False,44.06770004425198
+locality,5215,Transformer (trained),False,False,710.3549999883398
+locality,5216,Markov,False,False,
+locality,5216,Transformer (API config),False,False,47.69350006245077
+locality,5216,Transformer (trained),False,False,615.1530001079664
+locality,5217,Markov,False,False,
+locality,5217,Transformer (API config),False,True,43.010500026866794
+locality,5217,Transformer (trained),False,False,610.2284999797121
+locality,5218,Markov,False,True,
+locality,5218,Transformer (API config),False,False,42.745099985040724
+locality,5218,Transformer (trained),False,True,637.5100000295788
+locality,5219,Markov,False,False,
+locality,5219,Transformer (API config),False,False,43.65539993159473
+locality,5219,Transformer (trained),False,False,630.7383000385016
+locality,5220,Markov,False,True,
+locality,5220,Transformer (API config),False,False,50.36999995354563
+locality,5220,Transformer (trained),True,True,642.6076999632642
+locality,5221,Markov,True,True,
+locality,5221,Transformer (API config),False,True,49.564899993129075
+locality,5221,Transformer (trained),False,True,658.3524999441579
+locality,5222,Markov,False,False,
+locality,5222,Transformer (API config),False,True,44.28699996788055
+locality,5222,Transformer (trained),True,True,649.150799959898
+locality,5223,Markov,False,False,
+locality,5223,Transformer (API config),False,True,41.086700046435
+locality,5223,Transformer (trained),False,False,612.7539000008255
+locality,5224,Markov,False,False,
+locality,5224,Transformer (API config),False,True,37.76790003757924
+locality,5224,Transformer (trained),False,True,605.5390000110492
+locality,5225,Markov,False,False,
+locality,5225,Transformer (API config),False,False,37.85099997185171
+locality,5225,Transformer (trained),False,False,587.752899969928
+locality,5226,Markov,False,False,
+locality,5226,Transformer (API config),False,False,37.19740000087768
+locality,5226,Transformer (trained),False,True,593.645800021477
+locality,5227,Markov,False,False,
+locality,5227,Transformer (API config),False,True,38.62789995037019
+locality,5227,Transformer (trained),False,False,644.1924999235198
+locality,5228,Markov,False,False,
+locality,5228,Transformer (API config),False,False,37.76300000026822
+locality,5228,Transformer (trained),False,False,635.5333999963477
+locality,5229,Markov,False,False,
+locality,5229,Transformer (API config),False,False,40.30809993855655
+locality,5229,Transformer (trained),False,True,619.4019999820739
+locality,5230,Markov,True,True,
+locality,5230,Transformer (API config),True,True,43.92780002672225
+locality,5230,Transformer (trained),True,True,607.5423000147566
+locality,5231,Markov,False,False,
+locality,5231,Transformer (API config),False,False,41.67130007408559
+locality,5231,Transformer (trained),False,False,599.024900002405
+locality,5232,Markov,False,False,
+locality,5232,Transformer (API config),False,False,42.7676000399515
+locality,5232,Transformer (trained),False,False,614.6649000002071
+locality,5233,Markov,False,False,
+locality,5233,Transformer (API config),False,False,38.894500001333654
+locality,5233,Transformer (trained),False,False,595.9903000621125
+locality,5234,Markov,False,False,
+locality,5234,Transformer (API config),False,True,43.373399996198714
+locality,5234,Transformer (trained),False,False,591.827500029467
+locality,5235,Markov,True,True,
+locality,5235,Transformer (API config),False,True,40.122600039467216
+locality,5235,Transformer (trained),False,True,596.0091999731958
+locality,5236,Markov,False,False,
+locality,5236,Transformer (API config),False,False,46.863899915479124
+locality,5236,Transformer (trained),True,True,624.857599963434
+locality,5237,Markov,False,False,
+locality,5237,Transformer (API config),True,True,39.644100004807115
+locality,5237,Transformer (trained),False,False,641.6317999828607
+locality,5238,Markov,False,False,
+locality,5238,Transformer (API config),True,True,44.37380004674196
+locality,5238,Transformer (trained),False,True,594.0130000235513
+locality,5239,Markov,False,False,
+locality,5239,Transformer (API config),False,False,39.52590003609657
+locality,5239,Transformer (trained),False,False,633.9066000655293
+locality,5240,Markov,False,False,
+locality,5240,Transformer (API config),False,False,45.284699997864664
+locality,5240,Transformer (trained),False,False,670.6153999548405
+locality,5241,Markov,False,False,
+locality,5241,Transformer (API config),False,True,40.37069994956255
+locality,5241,Transformer (trained),False,False,598.0518999276683
+locality,5242,Markov,False,False,
+locality,5242,Transformer (API config),False,False,38.99979998823255
+locality,5242,Transformer (trained),False,False,606.8905999418348
+locality,5243,Markov,False,False,
+locality,5243,Transformer (API config),False,False,40.235200081951916
+locality,5243,Transformer (trained),True,True,608.7617999874055
+locality,5244,Markov,False,False,
+locality,5244,Transformer (API config),False,True,42.52110002562404
+locality,5244,Transformer (trained),False,False,602.9219999909401
+locality,5245,Markov,False,True,
+locality,5245,Transformer (API config),False,False,43.199799954891205
+locality,5245,Transformer (trained),False,False,608.2299000117928
+locality,5246,Markov,False,False,
+locality,5246,Transformer (API config),False,False,42.603100067935884
+locality,5246,Transformer (trained),False,False,605.593099957332
+locality,5247,Markov,True,True,
+locality,5247,Transformer (API config),False,True,44.82399998232722
+locality,5247,Transformer (trained),True,True,621.3515000417829
+locality,5248,Markov,False,False,
+locality,5248,Transformer (API config),False,False,42.35309991054237
+locality,5248,Transformer (trained),False,False,604.9467000411823
+locality,5249,Markov,False,False,
+locality,5249,Transformer (API config),False,False,38.89940003864467
+locality,5249,Transformer (trained),True,True,603.5914999665692
+locality,5250,Markov,False,False,
+locality,5250,Transformer (API config),False,False,44.75329990964383
+locality,5250,Transformer (trained),False,True,590.9093000227585
+locality,5251,Markov,False,False,
+locality,5251,Transformer (API config),False,False,39.15870003402233
+locality,5251,Transformer (trained),False,False,587.3665000544861
+locality,5252,Markov,False,False,
+locality,5252,Transformer (API config),False,False,42.20219992566854
+locality,5252,Transformer (trained),False,False,628.2630000496283
+locality,5253,Markov,False,False,
+locality,5253,Transformer (API config),False,False,50.58320006355643
+locality,5253,Transformer (trained),False,True,632.0707999402657
+locality,5254,Markov,False,False,
+locality,5254,Transformer (API config),False,False,41.52909992262721
+locality,5254,Transformer (trained),False,False,608.92240004614
+locality,5255,Markov,False,False,
+locality,5255,Transformer (API config),False,False,40.75709998141974
+locality,5255,Transformer (trained),False,False,620.2385999495164
+locality,5256,Markov,False,True,
+locality,5256,Transformer (API config),True,True,42.17369994148612
+locality,5256,Transformer (trained),False,False,612.5552000012249
+locality,5257,Markov,False,True,
+locality,5257,Transformer (API config),False,True,44.675400014966726
+locality,5257,Transformer (trained),False,False,624.7920000459999
+locality,5258,Markov,False,True,
+locality,5258,Transformer (API config),False,True,42.238299967721105
+locality,5258,Transformer (trained),False,True,635.019600042142
+locality,5259,Markov,False,False,
+locality,5259,Transformer (API config),False,False,41.38730000704527
+locality,5259,Transformer (trained),False,False,622.395999962464
+locality,5260,Markov,False,False,
+locality,5260,Transformer (API config),False,False,37.312100059352815
+locality,5260,Transformer (trained),False,True,605.9260999318212
+locality,5261,Markov,False,False,
+locality,5261,Transformer (API config),False,True,40.21670005749911
+locality,5261,Transformer (trained),False,False,596.0608000168577
+locality,5262,Markov,True,True,
+locality,5262,Transformer (API config),True,True,42.18290001153946
+locality,5262,Transformer (trained),False,False,609.5496999332681
+locality,5263,Markov,False,False,
+locality,5263,Transformer (API config),False,False,39.00749993044883
+locality,5263,Transformer (trained),False,False,581.5654998878017
+locality,5264,Markov,False,False,
+locality,5264,Transformer (API config),False,False,39.6700999699533
+locality,5264,Transformer (trained),False,True,602.836599922739
+locality,5265,Markov,False,False,
+locality,5265,Transformer (API config),False,False,38.5602000169456
+locality,5265,Transformer (trained),False,False,589.2302999272943
+locality,5266,Markov,False,False,
+locality,5266,Transformer (API config),True,True,40.17490008845925
+locality,5266,Transformer (trained),False,False,612.1799000538886
+locality,5267,Markov,False,False,
+locality,5267,Transformer (API config),False,False,43.44820010010153
+locality,5267,Transformer (trained),False,False,607.5550999958068
+locality,5268,Markov,False,True,
+locality,5268,Transformer (API config),False,False,36.828099982813
+locality,5268,Transformer (trained),False,False,604.8508000094444
+locality,5269,Markov,False,False,
+locality,5269,Transformer (API config),False,False,43.988000019453466
+locality,5269,Transformer (trained),False,False,620.5113999312744
+locality,5270,Markov,False,False,
+locality,5270,Transformer (API config),False,False,43.148100026883185
+locality,5270,Transformer (trained),False,True,600.1224999781698
+locality,5271,Markov,False,False,
+locality,5271,Transformer (API config),True,True,38.63880003336817
+locality,5271,Transformer (trained),False,False,602.8245999477804
+locality,5272,Markov,False,False,
+locality,5272,Transformer (API config),False,True,38.73609995935112
+locality,5272,Transformer (trained),False,False,617.3661999637261
+locality,5273,Markov,False,False,
+locality,5273,Transformer (API config),False,False,50.982699962332845
+locality,5273,Transformer (trained),False,False,592.003499972634
+locality,5274,Markov,False,True,
+locality,5274,Transformer (API config),True,True,35.88310000486672
+locality,5274,Transformer (trained),True,True,594.6241000201553
+locality,5275,Markov,False,False,
+locality,5275,Transformer (API config),False,False,41.24509997200221
+locality,5275,Transformer (trained),False,False,613.5649000061676
+locality,5276,Markov,False,True,
+locality,5276,Transformer (API config),False,False,38.27420005109161
+locality,5276,Transformer (trained),False,True,618.7793000135571
+locality,5277,Markov,True,True,
+locality,5277,Transformer (API config),False,False,36.05190000962466
+locality,5277,Transformer (trained),False,True,598.750300006941
+locality,5278,Markov,False,False,
+locality,5278,Transformer (API config),False,True,39.380399975925684
+locality,5278,Transformer (trained),False,False,667.133399983868
+locality,5279,Markov,False,False,
+locality,5279,Transformer (API config),False,False,37.48719999566674
+locality,5279,Transformer (trained),False,False,584.1540999244899
+locality,5280,Markov,False,False,
+locality,5280,Transformer (API config),False,False,36.79809998720884
+locality,5280,Transformer (trained),False,False,590.5434000305831
+locality,5281,Markov,False,True,
+locality,5281,Transformer (API config),False,True,38.3538999594748
+locality,5281,Transformer (trained),False,False,601.3203000184149
+locality,5282,Markov,False,False,
+locality,5282,Transformer (API config),False,False,41.00019996985793
+locality,5282,Transformer (trained),False,False,589.1699000494555
+locality,5283,Markov,False,False,
+locality,5283,Transformer (API config),False,False,37.19939989969134
+locality,5283,Transformer (trained),False,False,584.0245001018047
+locality,5284,Markov,False,False,
+locality,5284,Transformer (API config),False,False,39.42869999445975
+locality,5284,Transformer (trained),False,True,588.8304999098182
+locality,5285,Markov,False,False,
+locality,5285,Transformer (API config),False,False,37.98540006391704
+locality,5285,Transformer (trained),False,False,608.7917999830097
+locality,5286,Markov,False,False,
+locality,5286,Transformer (API config),False,False,39.86509994138032
+locality,5286,Transformer (trained),True,True,587.0663999812678
+locality,5287,Markov,True,True,
+locality,5287,Transformer (API config),False,False,43.171499972231686
+locality,5287,Transformer (trained),False,True,586.3359000068158
+locality,5288,Markov,False,False,
+locality,5288,Transformer (API config),False,True,36.37200000230223
+locality,5288,Transformer (trained),False,False,570.7706999965012
+locality,5289,Markov,False,False,
+locality,5289,Transformer (API config),False,False,35.48749990295619
+locality,5289,Transformer (trained),False,False,588.6892999988049
+locality,5290,Markov,False,False,
+locality,5290,Transformer (API config),False,False,40.659200050868094
+locality,5290,Transformer (trained),False,False,576.2840000679716
+locality,5291,Markov,False,False,
+locality,5291,Transformer (API config),True,True,39.014199981465936
+locality,5291,Transformer (trained),False,False,591.7938000056893
+locality,5292,Markov,True,True,
+locality,5292,Transformer (API config),False,False,39.6467000246048
+locality,5292,Transformer (trained),True,True,608.459199895151
+locality,5293,Markov,False,False,
+locality,5293,Transformer (API config),True,True,36.479500005953014
+locality,5293,Transformer (trained),False,False,602.0097000291571
+locality,5294,Markov,False,False,
+locality,5294,Transformer (API config),False,False,35.57210008148104
+locality,5294,Transformer (trained),True,True,574.260100023821
+locality,5295,Markov,False,False,
+locality,5295,Transformer (API config),False,False,38.34530001040548
+locality,5295,Transformer (trained),False,False,597.2132999449968
+locality,5296,Markov,False,False,
+locality,5296,Transformer (API config),False,True,39.0315999975428
+locality,5296,Transformer (trained),False,True,574.3556999368593
+locality,5297,Markov,False,False,
+locality,5297,Transformer (API config),False,False,40.48219998367131
+locality,5297,Transformer (trained),False,False,609.3703000806272
+locality,5298,Markov,False,True,
+locality,5298,Transformer (API config),False,True,38.123799953609705
+locality,5298,Transformer (trained),False,True,615.4710999689996
+locality,5299,Markov,False,False,
+locality,5299,Transformer (API config),False,False,42.72680007852614
+locality,5299,Transformer (trained),False,False,598.0942000169307
+sequential,5000,Markov,True,True,
+sequential,5000,Transformer (API config),False,True,44.04940002132207
+sequential,5000,Transformer (trained),True,True,584.7842999501154
+sequential,5001,Markov,True,True,
+sequential,5001,Transformer (API config),False,False,37.87550004199147
+sequential,5001,Transformer (trained),True,True,573.2694000471383
+sequential,5002,Markov,True,True,
+sequential,5002,Transformer (API config),False,True,37.83519996795803
+sequential,5002,Transformer (trained),True,True,591.2068999605253
+sequential,5003,Markov,True,True,
+sequential,5003,Transformer (API config),False,False,41.76180006470531
+sequential,5003,Transformer (trained),True,True,564.5807000109926
+sequential,5004,Markov,True,True,
+sequential,5004,Transformer (API config),False,False,37.72949997801334
+sequential,5004,Transformer (trained),True,True,583.3573000272736
+sequential,5005,Markov,True,True,
+sequential,5005,Transformer (API config),False,False,42.15670004487038
+sequential,5005,Transformer (trained),True,True,595.3527999809012
+sequential,5006,Markov,True,True,
+sequential,5006,Transformer (API config),False,False,43.06850000284612
+sequential,5006,Transformer (trained),True,True,637.6797000411898
+sequential,5007,Markov,True,True,
+sequential,5007,Transformer (API config),False,False,42.30770003050566
+sequential,5007,Transformer (trained),True,True,637.6170000294223
+sequential,5008,Markov,True,True,
+sequential,5008,Transformer (API config),False,False,43.835199903696775
+sequential,5008,Transformer (trained),True,True,600.8002000162378
+sequential,5009,Markov,True,True,
+sequential,5009,Transformer (API config),False,False,43.20399998687208
+sequential,5009,Transformer (trained),True,True,619.3423999939114
+sequential,5010,Markov,True,True,
+sequential,5010,Transformer (API config),False,False,38.255699910223484
+sequential,5010,Transformer (trained),True,True,602.8237000573426
+sequential,5011,Markov,True,True,
+sequential,5011,Transformer (API config),False,True,41.7949000839144
+sequential,5011,Transformer (trained),True,True,613.1575000472367
+sequential,5012,Markov,True,True,
+sequential,5012,Transformer (API config),True,True,35.746000008657575
+sequential,5012,Transformer (trained),True,True,626.9396999850869
+sequential,5013,Markov,True,True,
+sequential,5013,Transformer (API config),False,False,35.93040001578629
+sequential,5013,Transformer (trained),True,True,613.5574999498203
+sequential,5014,Markov,True,True,
+sequential,5014,Transformer (API config),False,False,40.74860003311187
+sequential,5014,Transformer (trained),True,True,602.1698999684304
+sequential,5015,Markov,True,True,
+sequential,5015,Transformer (API config),False,True,38.48420002032071
+sequential,5015,Transformer (trained),True,True,600.6890999851748
+sequential,5016,Markov,True,True,
+sequential,5016,Transformer (API config),False,True,44.838800095021725
+sequential,5016,Transformer (trained),True,True,608.7098000571132
+sequential,5017,Markov,True,True,
+sequential,5017,Transformer (API config),False,False,45.23749998770654
+sequential,5017,Transformer (trained),True,True,612.9404000239447
+sequential,5018,Markov,True,True,
+sequential,5018,Transformer (API config),False,False,38.56929996982217
+sequential,5018,Transformer (trained),True,True,660.2894000243396
+sequential,5019,Markov,True,True,
+sequential,5019,Transformer (API config),False,False,40.30999995302409
+sequential,5019,Transformer (trained),True,True,602.1357000572607
+sequential,5020,Markov,True,True,
+sequential,5020,Transformer (API config),True,True,40.24160001426935
+sequential,5020,Transformer (trained),True,True,636.2315999576822
+sequential,5021,Markov,True,True,
+sequential,5021,Transformer (API config),False,True,39.35390000697225
+sequential,5021,Transformer (trained),True,True,600.0568000599742
+sequential,5022,Markov,True,True,
+sequential,5022,Transformer (API config),False,False,39.37639994546771
+sequential,5022,Transformer (trained),True,True,593.1376999942586
+sequential,5023,Markov,True,True,
+sequential,5023,Transformer (API config),False,False,43.56370004825294
+sequential,5023,Transformer (trained),True,True,604.6311999671161
+sequential,5024,Markov,True,True,
+sequential,5024,Transformer (API config),False,False,37.79700002633035
+sequential,5024,Transformer (trained),True,True,586.5646000020206
+sequential,5025,Markov,True,True,
+sequential,5025,Transformer (API config),False,False,39.91559997666627
+sequential,5025,Transformer (trained),True,True,597.177799907513
+sequential,5026,Markov,True,True,
+sequential,5026,Transformer (API config),False,False,37.515200092457235
+sequential,5026,Transformer (trained),True,True,590.091000078246
+sequential,5027,Markov,True,True,
+sequential,5027,Transformer (API config),True,True,38.01289992406964
+sequential,5027,Transformer (trained),True,True,599.3887000950053
+sequential,5028,Markov,True,True,
+sequential,5028,Transformer (API config),False,False,42.373099946416914
+sequential,5028,Transformer (trained),True,True,618.6466999351978
+sequential,5029,Markov,True,True,
+sequential,5029,Transformer (API config),False,False,39.88619998563081
+sequential,5029,Transformer (trained),True,True,631.5225000726059
+sequential,5030,Markov,True,True,
+sequential,5030,Transformer (API config),False,False,45.06780009251088
+sequential,5030,Transformer (trained),True,True,621.0988000966609
+sequential,5031,Markov,True,True,
+sequential,5031,Transformer (API config),True,True,42.41919994819909
+sequential,5031,Transformer (trained),True,True,618.4840999776497
+sequential,5032,Markov,True,True,
+sequential,5032,Transformer (API config),False,True,50.394600024446845
+sequential,5032,Transformer (trained),True,True,598.3014999656007
+sequential,5033,Markov,True,True,
+sequential,5033,Transformer (API config),False,False,40.91470001731068
+sequential,5033,Transformer (trained),True,True,588.080000015907
+sequential,5034,Markov,True,True,
+sequential,5034,Transformer (API config),False,False,42.39920002873987
+sequential,5034,Transformer (trained),True,True,591.3339999970049
+sequential,5035,Markov,True,True,
+sequential,5035,Transformer (API config),False,False,36.61619999911636
+sequential,5035,Transformer (trained),True,True,595.2367999125272
+sequential,5036,Markov,True,True,
+sequential,5036,Transformer (API config),False,False,39.19379995204508
+sequential,5036,Transformer (trained),True,True,593.4012000216171
+sequential,5037,Markov,True,True,
+sequential,5037,Transformer (API config),False,False,37.95600007288158
+sequential,5037,Transformer (trained),True,True,572.641700040549
+sequential,5038,Markov,True,True,
+sequential,5038,Transformer (API config),False,False,36.333799944259226
+sequential,5038,Transformer (trained),True,True,610.0895999697968
+sequential,5039,Markov,True,True,
+sequential,5039,Transformer (API config),False,False,38.969899993389845
+sequential,5039,Transformer (trained),True,True,628.6077999975532
+sequential,5040,Markov,True,True,
+sequential,5040,Transformer (API config),False,False,40.16670002602041
+sequential,5040,Transformer (trained),True,True,585.5413000099361
+sequential,5041,Markov,True,True,
+sequential,5041,Transformer (API config),False,False,36.735399975441396
+sequential,5041,Transformer (trained),True,True,575.2245000330731
+sequential,5042,Markov,True,True,
+sequential,5042,Transformer (API config),False,True,38.416999974288046
+sequential,5042,Transformer (trained),True,True,578.7858000257984
+sequential,5043,Markov,True,True,
+sequential,5043,Transformer (API config),False,False,38.295899983495474
+sequential,5043,Transformer (trained),True,True,588.8636000454426
+sequential,5044,Markov,True,True,
+sequential,5044,Transformer (API config),False,False,43.22120000142604
+sequential,5044,Transformer (trained),True,True,606.9322999101132
+sequential,5045,Markov,True,True,
+sequential,5045,Transformer (API config),False,False,37.87180001381785
+sequential,5045,Transformer (trained),True,True,602.3976999567822
+sequential,5046,Markov,True,True,
+sequential,5046,Transformer (API config),False,False,41.81500000413507
+sequential,5046,Transformer (trained),True,True,589.1733999596909
+sequential,5047,Markov,True,True,
+sequential,5047,Transformer (API config),False,False,38.79279992543161
+sequential,5047,Transformer (trained),True,True,591.7880999622867
+sequential,5048,Markov,True,True,
+sequential,5048,Transformer (API config),False,False,38.30820007715374
+sequential,5048,Transformer (trained),True,True,593.2270999765024
+sequential,5049,Markov,True,True,
+sequential,5049,Transformer (API config),False,False,39.54300004988909
+sequential,5049,Transformer (trained),True,True,593.9876999473199
+sequential,5050,Markov,True,True,
+sequential,5050,Transformer (API config),False,False,38.28490001615137
+sequential,5050,Transformer (trained),True,True,587.2657001018524
+sequential,5051,Markov,True,True,
+sequential,5051,Transformer (API config),False,False,42.35089989379048
+sequential,5051,Transformer (trained),True,True,618.0827000644058
+sequential,5052,Markov,True,True,
+sequential,5052,Transformer (API config),False,True,42.22880001179874
+sequential,5052,Transformer (trained),True,True,602.0617999602109
+sequential,5053,Markov,True,True,
+sequential,5053,Transformer (API config),False,False,40.21849995478988
+sequential,5053,Transformer (trained),True,True,628.7208000430837
+sequential,5054,Markov,True,True,
+sequential,5054,Transformer (API config),False,False,43.0645999731496
+sequential,5054,Transformer (trained),True,True,643.1046000216156
+sequential,5055,Markov,True,True,
+sequential,5055,Transformer (API config),True,True,39.18409999459982
+sequential,5055,Transformer (trained),True,True,602.9713000170887
+sequential,5056,Markov,True,True,
+sequential,5056,Transformer (API config),False,True,41.60330002196133
+sequential,5056,Transformer (trained),True,True,658.627999946475
+sequential,5057,Markov,True,True,
+sequential,5057,Transformer (API config),False,True,55.44579995330423
+sequential,5057,Transformer (trained),True,True,611.140500055626
+sequential,5058,Markov,True,True,
+sequential,5058,Transformer (API config),False,False,36.88549995422363
+sequential,5058,Transformer (trained),True,True,607.6189000159502
+sequential,5059,Markov,True,True,
+sequential,5059,Transformer (API config),False,False,38.83600002154708
+sequential,5059,Transformer (trained),True,True,604.7800000524148
+sequential,5060,Markov,True,True,
+sequential,5060,Transformer (API config),False,False,36.700200056657195
+sequential,5060,Transformer (trained),True,True,596.2807000614703
+sequential,5061,Markov,True,True,
+sequential,5061,Transformer (API config),False,True,39.215900003910065
+sequential,5061,Transformer (trained),True,True,586.6607000352815
+sequential,5062,Markov,True,True,
+sequential,5062,Transformer (API config),False,False,40.076800039969385
+sequential,5062,Transformer (trained),True,True,582.791900029406
+sequential,5063,Markov,True,True,
+sequential,5063,Transformer (API config),False,False,39.83299992978573
+sequential,5063,Transformer (trained),True,True,587.6287999562919
+sequential,5064,Markov,True,True,
+sequential,5064,Transformer (API config),False,False,38.72970002703369
+sequential,5064,Transformer (trained),True,True,604.7266999958083
+sequential,5065,Markov,True,True,
+sequential,5065,Transformer (API config),False,False,40.63740000128746
+sequential,5065,Transformer (trained),True,True,593.2932998985052
+sequential,5066,Markov,True,True,
+sequential,5066,Transformer (API config),False,False,38.744600024074316
+sequential,5066,Transformer (trained),True,True,599.2152999388054
+sequential,5067,Markov,True,True,
+sequential,5067,Transformer (API config),False,True,42.18750004656613
+sequential,5067,Transformer (trained),True,True,624.6992000378668
+sequential,5068,Markov,True,True,
+sequential,5068,Transformer (API config),False,False,45.59540003538132
+sequential,5068,Transformer (trained),True,True,620.0797000201419
+sequential,5069,Markov,True,True,
+sequential,5069,Transformer (API config),True,True,41.8654999230057
+sequential,5069,Transformer (trained),True,True,620.4293000046164
+sequential,5070,Markov,True,True,
+sequential,5070,Transformer (API config),False,False,41.5227001067251
+sequential,5070,Transformer (trained),True,True,609.3696000752971
+sequential,5071,Markov,True,True,
+sequential,5071,Transformer (API config),False,False,41.881500044837594
+sequential,5071,Transformer (trained),True,True,608.2483000354841
+sequential,5072,Markov,True,True,
+sequential,5072,Transformer (API config),False,False,37.82960004173219
+sequential,5072,Transformer (trained),True,True,616.6712999111041
+sequential,5073,Markov,True,True,
+sequential,5073,Transformer (API config),True,True,42.936200043186545
+sequential,5073,Transformer (trained),True,True,600.4670999245718
+sequential,5074,Markov,True,True,
+sequential,5074,Transformer (API config),False,False,41.22529993765056
+sequential,5074,Transformer (trained),True,True,595.7898000488058
+sequential,5075,Markov,True,True,
+sequential,5075,Transformer (API config),False,False,41.69800004456192
+sequential,5075,Transformer (trained),True,True,603.3001999603584
+sequential,5076,Markov,True,True,
+sequential,5076,Transformer (API config),False,False,40.15260003507137
+sequential,5076,Transformer (trained),True,True,595.7113000331447
+sequential,5077,Markov,True,True,
+sequential,5077,Transformer (API config),False,False,37.25589998066425
+sequential,5077,Transformer (trained),True,True,599.2696000030264
+sequential,5078,Markov,True,True,
+sequential,5078,Transformer (API config),False,False,41.552199982106686
+sequential,5078,Transformer (trained),True,True,609.0584000339732
+sequential,5079,Markov,True,True,
+sequential,5079,Transformer (API config),False,True,34.77649996057153
+sequential,5079,Transformer (trained),True,True,601.5748999780044
+sequential,5080,Markov,True,True,
+sequential,5080,Transformer (API config),False,False,38.19580003619194
+sequential,5080,Transformer (trained),True,True,601.5095999464393
+sequential,5081,Markov,True,True,
+sequential,5081,Transformer (API config),False,False,37.29020000901073
+sequential,5081,Transformer (trained),True,True,618.4887000126764
+sequential,5082,Markov,True,True,
+sequential,5082,Transformer (API config),False,False,42.242600000463426
+sequential,5082,Transformer (trained),True,True,592.2192999860272
+sequential,5083,Markov,True,True,
+sequential,5083,Transformer (API config),False,False,38.52429997641593
+sequential,5083,Transformer (trained),True,True,612.2659000102431
+sequential,5084,Markov,True,True,
+sequential,5084,Transformer (API config),False,False,41.84540000278503
+sequential,5084,Transformer (trained),True,True,588.0609999876469
+sequential,5085,Markov,True,True,
+sequential,5085,Transformer (API config),False,False,38.90280006453395
+sequential,5085,Transformer (trained),True,True,621.4938999619335
+sequential,5086,Markov,True,True,
+sequential,5086,Transformer (API config),True,True,46.61259998101741
+sequential,5086,Transformer (trained),True,True,595.979200094007
+sequential,5087,Markov,True,True,
+sequential,5087,Transformer (API config),False,False,39.344800054095685
+sequential,5087,Transformer (trained),True,True,600.6065000547096
+sequential,5088,Markov,True,True,
+sequential,5088,Transformer (API config),True,True,39.19620008673519
+sequential,5088,Transformer (trained),True,True,600.4774000030011
+sequential,5089,Markov,True,True,
+sequential,5089,Transformer (API config),False,True,42.75099991355091
+sequential,5089,Transformer (trained),True,True,588.6968000559136
+sequential,5090,Markov,True,True,
+sequential,5090,Transformer (API config),True,True,39.433600031770766
+sequential,5090,Transformer (trained),True,True,601.3451999751851
+sequential,5091,Markov,True,True,
+sequential,5091,Transformer (API config),False,False,41.41049995087087
+sequential,5091,Transformer (trained),True,True,608.9759999886155
+sequential,5092,Markov,True,True,
+sequential,5092,Transformer (API config),False,False,43.70589996688068
+sequential,5092,Transformer (trained),True,True,600.0061000231653
+sequential,5093,Markov,True,True,
+sequential,5093,Transformer (API config),True,True,40.2227999875322
+sequential,5093,Transformer (trained),True,True,591.3572999415919
+sequential,5094,Markov,True,True,
+sequential,5094,Transformer (API config),False,True,37.5480999937281
+sequential,5094,Transformer (trained),True,True,687.8223000094295
+sequential,5095,Markov,True,True,
+sequential,5095,Transformer (API config),False,False,40.171600063331425
+sequential,5095,Transformer (trained),True,True,628.5023000091314
+sequential,5096,Markov,True,True,
+sequential,5096,Transformer (API config),False,False,44.07150007318705
+sequential,5096,Transformer (trained),True,True,614.9552001152188
+sequential,5097,Markov,True,True,
+sequential,5097,Transformer (API config),True,True,42.044300003908575
+sequential,5097,Transformer (trained),True,True,626.890999963507
+sequential,5098,Markov,True,True,
+sequential,5098,Transformer (API config),False,True,42.96059999614954
+sequential,5098,Transformer (trained),True,True,648.8056000089273
+sequential,5099,Markov,True,True,
+sequential,5099,Transformer (API config),False,True,36.42830008175224
+sequential,5099,Transformer (trained),True,True,690.8189000096172
+sequential,5100,Markov,True,True,
+sequential,5100,Transformer (API config),False,False,49.09620003309101
+sequential,5100,Transformer (trained),True,True,668.9504999667406
+sequential,5101,Markov,True,True,
+sequential,5101,Transformer (API config),False,False,41.15119995549321
+sequential,5101,Transformer (trained),True,True,614.3525999505073
+sequential,5102,Markov,True,True,
+sequential,5102,Transformer (API config),False,True,43.37420000229031
+sequential,5102,Transformer (trained),True,True,626.2222999939695
+sequential,5103,Markov,True,True,
+sequential,5103,Transformer (API config),False,False,44.886000105179846
+sequential,5103,Transformer (trained),True,True,614.7908000275493
+sequential,5104,Markov,True,True,
+sequential,5104,Transformer (API config),False,False,36.979999975301325
+sequential,5104,Transformer (trained),True,True,588.6294000083581
+sequential,5105,Markov,True,True,
+sequential,5105,Transformer (API config),False,False,44.92939996998757
+sequential,5105,Transformer (trained),True,True,624.3058000691235
+sequential,5106,Markov,True,True,
+sequential,5106,Transformer (API config),False,True,37.38560003694147
+sequential,5106,Transformer (trained),True,True,583.8439000071958
+sequential,5107,Markov,True,True,
+sequential,5107,Transformer (API config),False,False,45.838500023819506
+sequential,5107,Transformer (trained),True,True,598.166499985382
+sequential,5108,Markov,True,True,
+sequential,5108,Transformer (API config),False,False,39.7902000695467
+sequential,5108,Transformer (trained),True,True,594.5415999740362
+sequential,5109,Markov,True,True,
+sequential,5109,Transformer (API config),False,False,43.96250005811453
+sequential,5109,Transformer (trained),True,True,614.4190999912098
+sequential,5110,Markov,True,True,
+sequential,5110,Transformer (API config),False,False,39.91740010678768
+sequential,5110,Transformer (trained),True,True,612.4118999578059
+sequential,5111,Markov,True,True,
+sequential,5111,Transformer (API config),True,True,41.21280007530004
+sequential,5111,Transformer (trained),True,True,592.5346000585705
+sequential,5112,Markov,True,True,
+sequential,5112,Transformer (API config),False,True,43.07609994430095
+sequential,5112,Transformer (trained),True,True,614.1520000528544
+sequential,5113,Markov,True,True,
+sequential,5113,Transformer (API config),True,True,41.139400098472834
+sequential,5113,Transformer (trained),True,True,620.3655001008883
+sequential,5114,Markov,True,True,
+sequential,5114,Transformer (API config),False,False,45.64680007752031
+sequential,5114,Transformer (trained),True,True,593.4608000097796
+sequential,5115,Markov,True,True,
+sequential,5115,Transformer (API config),False,False,38.06270007044077
+sequential,5115,Transformer (trained),True,True,603.9090999402106
+sequential,5116,Markov,True,True,
+sequential,5116,Transformer (API config),False,False,47.29550005868077
+sequential,5116,Transformer (trained),True,True,600.36849998869
+sequential,5117,Markov,True,True,
+sequential,5117,Transformer (API config),False,False,38.50549994967878
+sequential,5117,Transformer (trained),True,True,601.9015000201762
+sequential,5118,Markov,True,True,
+sequential,5118,Transformer (API config),True,True,42.515299981459975
+sequential,5118,Transformer (trained),True,True,620.6124000018463
+sequential,5119,Markov,True,True,
+sequential,5119,Transformer (API config),False,False,39.401200017891824
+sequential,5119,Transformer (trained),True,True,601.8388000084087
+sequential,5120,Markov,True,True,
+sequential,5120,Transformer (API config),False,False,38.98690000642091
+sequential,5120,Transformer (trained),True,True,615.9995999187231
+sequential,5121,Markov,True,True,
+sequential,5121,Transformer (API config),True,True,42.86309995222837
+sequential,5121,Transformer (trained),True,True,677.3890999611467
+sequential,5122,Markov,True,True,
+sequential,5122,Transformer (API config),False,False,60.64989999867976
+sequential,5122,Transformer (trained),True,True,638.8878000434488
+sequential,5123,Markov,True,True,
+sequential,5123,Transformer (API config),False,False,44.79380010161549
+sequential,5123,Transformer (trained),True,True,600.7898000534624
+sequential,5124,Markov,True,True,
+sequential,5124,Transformer (API config),False,True,40.73979996610433
+sequential,5124,Transformer (trained),True,True,631.2633999623358
+sequential,5125,Markov,True,True,
+sequential,5125,Transformer (API config),True,True,46.77730007097125
+sequential,5125,Transformer (trained),True,True,646.7671999707818
+sequential,5126,Markov,True,True,
+sequential,5126,Transformer (API config),False,True,38.73769997153431
+sequential,5126,Transformer (trained),True,True,618.7988000456244
+sequential,5127,Markov,True,True,
+sequential,5127,Transformer (API config),False,False,41.490400093607605
+sequential,5127,Transformer (trained),True,True,622.2914999816567
+sequential,5128,Markov,True,True,
+sequential,5128,Transformer (API config),False,False,39.99089996796101
+sequential,5128,Transformer (trained),True,True,645.6240999978036
+sequential,5129,Markov,True,True,
+sequential,5129,Transformer (API config),False,True,44.156900024972856
+sequential,5129,Transformer (trained),True,True,649.9041001079604
+sequential,5130,Markov,True,True,
+sequential,5130,Transformer (API config),True,True,39.08339992631227
+sequential,5130,Transformer (trained),True,True,658.8070000289008
+sequential,5131,Markov,True,True,
+sequential,5131,Transformer (API config),False,False,93.5821000020951
+sequential,5131,Transformer (trained),True,True,701.39169995673
+sequential,5132,Markov,True,True,
+sequential,5132,Transformer (API config),False,False,51.5460999449715
+sequential,5132,Transformer (trained),True,True,675.4192999796942
+sequential,5133,Markov,True,True,
+sequential,5133,Transformer (API config),False,False,41.0787999862805
+sequential,5133,Transformer (trained),True,True,659.2914999928325
+sequential,5134,Markov,True,True,
+sequential,5134,Transformer (API config),True,True,41.52339999563992
+sequential,5134,Transformer (trained),True,True,619.0217999974266
+sequential,5135,Markov,True,True,
+sequential,5135,Transformer (API config),False,True,40.476399939507246
+sequential,5135,Transformer (trained),True,True,602.8308999957517
+sequential,5136,Markov,True,True,
+sequential,5136,Transformer (API config),False,False,39.320899988524616
+sequential,5136,Transformer (trained),True,True,612.6507000299171
+sequential,5137,Markov,True,True,
+sequential,5137,Transformer (API config),False,True,39.52429990749806
+sequential,5137,Transformer (trained),True,True,669.886999996379
+sequential,5138,Markov,True,True,
+sequential,5138,Transformer (API config),False,False,50.36570003721863
+sequential,5138,Transformer (trained),True,True,649.9735999386758
+sequential,5139,Markov,True,True,
+sequential,5139,Transformer (API config),False,False,44.32630003429949
+sequential,5139,Transformer (trained),True,True,614.3613000167534
+sequential,5140,Markov,True,True,
+sequential,5140,Transformer (API config),True,True,40.35330004990101
+sequential,5140,Transformer (trained),True,True,604.9999999813735
+sequential,5141,Markov,True,True,
+sequential,5141,Transformer (API config),False,False,43.00049995072186
+sequential,5141,Transformer (trained),True,True,587.4316999688745
+sequential,5142,Markov,True,True,
+sequential,5142,Transformer (API config),False,False,45.20339996088296
+sequential,5142,Transformer (trained),True,True,671.7157000675797
+sequential,5143,Markov,True,True,
+sequential,5143,Transformer (API config),False,False,41.83140001259744
+sequential,5143,Transformer (trained),True,True,678.0221000080928
+sequential,5144,Markov,True,True,
+sequential,5144,Transformer (API config),False,False,45.30620004516095
+sequential,5144,Transformer (trained),True,True,716.5467999875546
+sequential,5145,Markov,True,True,
+sequential,5145,Transformer (API config),True,True,52.54049994982779
+sequential,5145,Transformer (trained),True,True,663.5130000067875
+sequential,5146,Markov,True,True,
+sequential,5146,Transformer (API config),False,False,40.53459991700947
+sequential,5146,Transformer (trained),True,True,642.2631000168622
+sequential,5147,Markov,True,True,
+sequential,5147,Transformer (API config),False,False,48.49150008521974
+sequential,5147,Transformer (trained),True,True,606.7676999373361
+sequential,5148,Markov,True,True,
+sequential,5148,Transformer (API config),False,False,40.1559000601992
+sequential,5148,Transformer (trained),True,True,610.743600060232
+sequential,5149,Markov,True,True,
+sequential,5149,Transformer (API config),False,False,41.72350000590086
+sequential,5149,Transformer (trained),True,True,625.7145999697968
+sequential,5150,Markov,True,True,
+sequential,5150,Transformer (API config),False,False,40.69829999934882
+sequential,5150,Transformer (trained),True,True,643.6204999918118
+sequential,5151,Markov,True,True,
+sequential,5151,Transformer (API config),True,True,38.77040010411292
+sequential,5151,Transformer (trained),True,True,653.3505999250337
+sequential,5152,Markov,True,True,
+sequential,5152,Transformer (API config),False,False,43.875399976968765
+sequential,5152,Transformer (trained),True,True,608.9842999354005
+sequential,5153,Markov,True,True,
+sequential,5153,Transformer (API config),False,False,43.27929997816682
+sequential,5153,Transformer (trained),True,True,627.4295999901369
+sequential,5154,Markov,True,True,
+sequential,5154,Transformer (API config),False,True,45.41299992706627
+sequential,5154,Transformer (trained),True,True,627.065800013952
+sequential,5155,Markov,True,True,
+sequential,5155,Transformer (API config),False,False,41.89500003121793
+sequential,5155,Transformer (trained),True,True,631.2275000382215
+sequential,5156,Markov,True,True,
+sequential,5156,Transformer (API config),False,True,42.63469995930791
+sequential,5156,Transformer (trained),True,True,617.2459999797866
+sequential,5157,Markov,True,True,
+sequential,5157,Transformer (API config),False,False,38.98690000642091
+sequential,5157,Transformer (trained),True,True,602.474500075914
+sequential,5158,Markov,True,True,
+sequential,5158,Transformer (API config),False,False,41.82609997224063
+sequential,5158,Transformer (trained),True,True,624.499800032936
+sequential,5159,Markov,True,True,
+sequential,5159,Transformer (API config),False,True,38.09779998846352
+sequential,5159,Transformer (trained),True,True,626.4200999867171
+sequential,5160,Markov,True,True,
+sequential,5160,Transformer (API config),False,False,38.47859997767955
+sequential,5160,Transformer (trained),True,True,604.9166999291629
+sequential,5161,Markov,True,True,
+sequential,5161,Transformer (API config),True,True,37.52820007503033
+sequential,5161,Transformer (trained),True,True,615.7205000054091
+sequential,5162,Markov,True,True,
+sequential,5162,Transformer (API config),False,False,43.7451999168843
+sequential,5162,Transformer (trained),True,True,602.7245000004768
+sequential,5163,Markov,True,True,
+sequential,5163,Transformer (API config),False,False,40.500400005839765
+sequential,5163,Transformer (trained),True,True,633.2309000426903
+sequential,5164,Markov,True,True,
+sequential,5164,Transformer (API config),False,False,42.79020009562373
+sequential,5164,Transformer (trained),True,True,619.2268999293447
+sequential,5165,Markov,True,True,
+sequential,5165,Transformer (API config),False,False,41.00650001782924
+sequential,5165,Transformer (trained),True,True,631.5634000347927
+sequential,5166,Markov,True,True,
+sequential,5166,Transformer (API config),False,False,42.3204000107944
+sequential,5166,Transformer (trained),True,True,612.2229000320658
+sequential,5167,Markov,True,True,
+sequential,5167,Transformer (API config),False,True,42.95029991772026
+sequential,5167,Transformer (trained),True,True,716.0049999365583
+sequential,5168,Markov,True,True,
+sequential,5168,Transformer (API config),False,False,38.29799999948591
+sequential,5168,Transformer (trained),True,True,598.1184000847861
+sequential,5169,Markov,True,True,
+sequential,5169,Transformer (API config),True,True,43.80470002070069
+sequential,5169,Transformer (trained),True,True,674.0838999394327
+sequential,5170,Markov,True,True,
+sequential,5170,Transformer (API config),False,False,42.8810000885278
+sequential,5170,Transformer (trained),True,True,618.4392999857664
+sequential,5171,Markov,True,True,
+sequential,5171,Transformer (API config),False,False,43.189499992877245
+sequential,5171,Transformer (trained),True,True,596.675300039351
+sequential,5172,Markov,True,True,
+sequential,5172,Transformer (API config),True,True,44.5712999207899
+sequential,5172,Transformer (trained),True,True,663.6171999853104
+sequential,5173,Markov,True,True,
+sequential,5173,Transformer (API config),False,False,45.69389997050166
+sequential,5173,Transformer (trained),True,True,630.3239000262693
+sequential,5174,Markov,True,True,
+sequential,5174,Transformer (API config),False,False,46.87770002055913
+sequential,5174,Transformer (trained),True,True,685.7350000645965
+sequential,5175,Markov,True,True,
+sequential,5175,Transformer (API config),False,False,54.31139993015677
+sequential,5175,Transformer (trained),True,True,663.7956999475136
+sequential,5176,Markov,True,True,
+sequential,5176,Transformer (API config),False,False,37.069599959068
+sequential,5176,Transformer (trained),True,True,628.9155000122264
+sequential,5177,Markov,True,True,
+sequential,5177,Transformer (API config),False,False,48.35050005931407
+sequential,5177,Transformer (trained),True,True,628.4197999630123
+sequential,5178,Markov,True,True,
+sequential,5178,Transformer (API config),False,False,39.98639993369579
+sequential,5178,Transformer (trained),True,True,613.9820000389591
+sequential,5179,Markov,True,True,
+sequential,5179,Transformer (API config),False,True,42.4641000572592
+sequential,5179,Transformer (trained),True,True,617.5978999817744
+sequential,5180,Markov,True,True,
+sequential,5180,Transformer (API config),True,True,40.21390003617853
+sequential,5180,Transformer (trained),True,True,618.4688999783248
+sequential,5181,Markov,True,True,
+sequential,5181,Transformer (API config),False,True,37.59990003891289
+sequential,5181,Transformer (trained),True,True,626.3842000626028
+sequential,5182,Markov,True,True,
+sequential,5182,Transformer (API config),True,True,41.85259994119406
+sequential,5182,Transformer (trained),True,True,613.8798999600112
+sequential,5183,Markov,True,True,
+sequential,5183,Transformer (API config),False,False,39.70659989863634
+sequential,5183,Transformer (trained),True,True,597.7275000186637
+sequential,5184,Markov,True,True,
+sequential,5184,Transformer (API config),True,True,40.72640009690076
+sequential,5184,Transformer (trained),True,True,607.8222999349236
+sequential,5185,Markov,True,True,
+sequential,5185,Transformer (API config),True,True,39.291499997489154
+sequential,5185,Transformer (trained),True,True,615.6129000009969
+sequential,5186,Markov,True,True,
+sequential,5186,Transformer (API config),False,True,41.75429989118129
+sequential,5186,Transformer (trained),True,True,625.9969999082386
+sequential,5187,Markov,True,True,
+sequential,5187,Transformer (API config),False,False,43.562800041399896
+sequential,5187,Transformer (trained),True,True,708.6347999284044
+sequential,5188,Markov,True,True,
+sequential,5188,Transformer (API config),False,True,41.16150003392249
+sequential,5188,Transformer (trained),True,True,725.0076000345871
+sequential,5189,Markov,True,True,
+sequential,5189,Transformer (API config),False,True,40.31839990057051
+sequential,5189,Transformer (trained),True,True,645.8351999754086
+sequential,5190,Markov,True,True,
+sequential,5190,Transformer (API config),False,True,46.745700063183904
+sequential,5190,Transformer (trained),True,True,660.3677000384778
+sequential,5191,Markov,True,True,
+sequential,5191,Transformer (API config),False,False,46.68649996165186
+sequential,5191,Transformer (trained),True,True,699.5649000164121
+sequential,5192,Markov,True,True,
+sequential,5192,Transformer (API config),False,False,42.21690003760159
+sequential,5192,Transformer (trained),True,True,640.4609000310302
+sequential,5193,Markov,True,True,
+sequential,5193,Transformer (API config),False,False,39.8873999947682
+sequential,5193,Transformer (trained),True,True,667.132499977015
+sequential,5194,Markov,True,True,
+sequential,5194,Transformer (API config),False,False,45.417799963615835
+sequential,5194,Transformer (trained),True,True,654.9028999870643
+sequential,5195,Markov,True,True,
+sequential,5195,Transformer (API config),True,True,43.06320007890463
+sequential,5195,Transformer (trained),True,True,623.8775999518111
+sequential,5196,Markov,True,True,
+sequential,5196,Transformer (API config),True,True,41.3509999634698
+sequential,5196,Transformer (trained),True,True,656.8190000252798
+sequential,5197,Markov,True,True,
+sequential,5197,Transformer (API config),False,False,45.49020004924387
+sequential,5197,Transformer (trained),True,True,667.4439000198618
+sequential,5198,Markov,True,True,
+sequential,5198,Transformer (API config),False,False,44.78050000034273
+sequential,5198,Transformer (trained),True,True,679.5150999678299
+sequential,5199,Markov,True,True,
+sequential,5199,Transformer (API config),False,True,40.49140005372465
+sequential,5199,Transformer (trained),True,True,630.3619999671355
+sequential,5200,Markov,True,True,
+sequential,5200,Transformer (API config),False,False,46.078599989414215
+sequential,5200,Transformer (trained),True,True,694.0284000011161
+sequential,5201,Markov,True,True,
+sequential,5201,Transformer (API config),False,False,48.70519996620715
+sequential,5201,Transformer (trained),True,True,657.5291999615729
+sequential,5202,Markov,True,True,
+sequential,5202,Transformer (API config),False,False,41.61489999387413
+sequential,5202,Transformer (trained),True,True,683.9648999739438
+sequential,5203,Markov,True,True,
+sequential,5203,Transformer (API config),False,False,41.44260007888079
+sequential,5203,Transformer (trained),True,True,687.2271000174806
+sequential,5204,Markov,True,True,
+sequential,5204,Transformer (API config),False,False,39.07190007157624
+sequential,5204,Transformer (trained),True,True,612.658099969849
+sequential,5205,Markov,True,True,
+sequential,5205,Transformer (API config),False,False,40.303600020706654
+sequential,5205,Transformer (trained),True,True,657.3732999386266
+sequential,5206,Markov,True,True,
+sequential,5206,Transformer (API config),False,False,45.56030000094324
+sequential,5206,Transformer (trained),True,True,600.5921999458224
+sequential,5207,Markov,True,True,
+sequential,5207,Transformer (API config),False,False,39.478600025177
+sequential,5207,Transformer (trained),True,True,616.4553000126034
+sequential,5208,Markov,True,True,
+sequential,5208,Transformer (API config),True,True,45.84669996984303
+sequential,5208,Transformer (trained),True,True,600.0624999869615
+sequential,5209,Markov,True,True,
+sequential,5209,Transformer (API config),False,False,39.88949989434332
+sequential,5209,Transformer (trained),True,True,663.5208999505267
+sequential,5210,Markov,True,True,
+sequential,5210,Transformer (API config),False,False,45.7890999969095
+sequential,5210,Transformer (trained),True,True,619.6140999672934
+sequential,5211,Markov,True,True,
+sequential,5211,Transformer (API config),True,True,43.35890000220388
+sequential,5211,Transformer (trained),True,True,602.6590999681503
+sequential,5212,Markov,True,True,
+sequential,5212,Transformer (API config),True,True,42.41550003644079
+sequential,5212,Transformer (trained),True,True,605.3338000783697
+sequential,5213,Markov,True,True,
+sequential,5213,Transformer (API config),False,True,39.27920002024621
+sequential,5213,Transformer (trained),True,True,596.8672999879345
+sequential,5214,Markov,True,True,
+sequential,5214,Transformer (API config),False,False,37.28859999682754
+sequential,5214,Transformer (trained),True,True,594.0468000480905
+sequential,5215,Markov,True,True,
+sequential,5215,Transformer (API config),False,False,38.61619997769594
+sequential,5215,Transformer (trained),True,True,579.6004000585526
+sequential,5216,Markov,True,True,
+sequential,5216,Transformer (API config),False,True,49.405999947339296
+sequential,5216,Transformer (trained),True,True,593.1054999819025
+sequential,5217,Markov,True,True,
+sequential,5217,Transformer (API config),False,True,39.60140002891421
+sequential,5217,Transformer (trained),True,True,587.9971000831574
+sequential,5218,Markov,True,True,
+sequential,5218,Transformer (API config),False,False,43.330199900083244
+sequential,5218,Transformer (trained),True,True,586.7806000169367
+sequential,5219,Markov,True,True,
+sequential,5219,Transformer (API config),False,False,39.427599986083806
+sequential,5219,Transformer (trained),True,True,609.8570000613108
+sequential,5220,Markov,True,True,
+sequential,5220,Transformer (API config),False,False,39.04209996107966
+sequential,5220,Transformer (trained),True,True,599.6679000090808
+sequential,5221,Markov,True,True,
+sequential,5221,Transformer (API config),False,True,38.51959994062781
+sequential,5221,Transformer (trained),True,True,588.5210999986157
+sequential,5222,Markov,True,True,
+sequential,5222,Transformer (API config),True,True,38.746100035496056
+sequential,5222,Transformer (trained),True,True,574.8074000002816
+sequential,5223,Markov,True,True,
+sequential,5223,Transformer (API config),False,False,39.51979998964816
+sequential,5223,Transformer (trained),True,True,581.2384999589995
+sequential,5224,Markov,True,True,
+sequential,5224,Transformer (API config),False,False,46.65909998584539
+sequential,5224,Transformer (trained),True,True,577.3816000437364
+sequential,5225,Markov,True,True,
+sequential,5225,Transformer (API config),False,False,40.94920004718006
+sequential,5225,Transformer (trained),True,True,578.4053000388667
+sequential,5226,Markov,True,True,
+sequential,5226,Transformer (API config),False,False,41.81720002088696
+sequential,5226,Transformer (trained),True,True,608.6949000600725
+sequential,5227,Markov,True,True,
+sequential,5227,Transformer (API config),False,False,42.11909999139607
+sequential,5227,Transformer (trained),True,True,600.6809000391513
+sequential,5228,Markov,True,True,
+sequential,5228,Transformer (API config),False,False,37.135499995201826
+sequential,5228,Transformer (trained),True,True,570.436800015159
+sequential,5229,Markov,True,True,
+sequential,5229,Transformer (API config),False,False,36.14749992266297
+sequential,5229,Transformer (trained),True,True,600.787500035949
+sequential,5230,Markov,True,True,
+sequential,5230,Transformer (API config),False,False,43.869199929758906
+sequential,5230,Transformer (trained),True,True,606.8511999910697
+sequential,5231,Markov,True,True,
+sequential,5231,Transformer (API config),False,False,35.79410002566874
+sequential,5231,Transformer (trained),True,True,669.7402000427246
+sequential,5232,Markov,True,True,
+sequential,5232,Transformer (API config),False,False,44.10129995085299
+sequential,5232,Transformer (trained),True,True,666.9905000599101
+sequential,5233,Markov,True,True,
+sequential,5233,Transformer (API config),False,False,42.41989995352924
+sequential,5233,Transformer (trained),True,True,615.5706000281498
+sequential,5234,Markov,True,True,
+sequential,5234,Transformer (API config),False,False,41.67890001554042
+sequential,5234,Transformer (trained),True,True,576.7556000500917
+sequential,5235,Markov,True,True,
+sequential,5235,Transformer (API config),False,False,38.43000007327646
+sequential,5235,Transformer (trained),True,True,598.9117999561131
+sequential,5236,Markov,True,True,
+sequential,5236,Transformer (API config),False,False,37.39149996545166
+sequential,5236,Transformer (trained),True,True,602.2545000305399
+sequential,5237,Markov,True,True,
+sequential,5237,Transformer (API config),False,False,37.16419998090714
+sequential,5237,Transformer (trained),True,True,571.28539995756
+sequential,5238,Markov,True,True,
+sequential,5238,Transformer (API config),False,False,37.46410005260259
+sequential,5238,Transformer (trained),True,True,589.1656999010593
+sequential,5239,Markov,True,True,
+sequential,5239,Transformer (API config),False,True,36.51369991712272
+sequential,5239,Transformer (trained),True,True,574.2767000338063
+sequential,5240,Markov,True,True,
+sequential,5240,Transformer (API config),False,False,39.09490001387894
+sequential,5240,Transformer (trained),True,True,590.5759000452235
+sequential,5241,Markov,True,True,
+sequential,5241,Transformer (API config),False,True,49.78010000195354
+sequential,5241,Transformer (trained),True,True,659.4827000517398
+sequential,5242,Markov,True,True,
+sequential,5242,Transformer (API config),False,True,37.00190002564341
+sequential,5242,Transformer (trained),True,True,598.1305000605062
+sequential,5243,Markov,True,True,
+sequential,5243,Transformer (API config),False,True,42.252899962477386
+sequential,5243,Transformer (trained),True,True,577.8087000362575
+sequential,5244,Markov,True,True,
+sequential,5244,Transformer (API config),True,True,40.42530001606792
+sequential,5244,Transformer (trained),True,True,579.7393000684679
+sequential,5245,Markov,True,True,
+sequential,5245,Transformer (API config),False,False,38.85530005209148
+sequential,5245,Transformer (trained),True,True,580.12019994203
+sequential,5246,Markov,True,True,
+sequential,5246,Transformer (API config),False,False,38.3857999695465
+sequential,5246,Transformer (trained),True,True,601.4439000282437
+sequential,5247,Markov,True,True,
+sequential,5247,Transformer (API config),False,False,48.54640003759414
+sequential,5247,Transformer (trained),True,True,570.8193000173196
+sequential,5248,Markov,True,True,
+sequential,5248,Transformer (API config),False,False,41.92909994162619
+sequential,5248,Transformer (trained),True,True,576.331999967806
+sequential,5249,Markov,True,True,
+sequential,5249,Transformer (API config),False,False,38.400799967348576
+sequential,5249,Transformer (trained),True,True,594.7270999895409
+sequential,5250,Markov,True,True,
+sequential,5250,Transformer (API config),True,True,36.79969999939203
+sequential,5250,Transformer (trained),True,True,609.6574000548571
+sequential,5251,Markov,True,True,
+sequential,5251,Transformer (API config),False,True,35.867400001734495
+sequential,5251,Transformer (trained),True,True,579.1653000051156
+sequential,5252,Markov,True,True,
+sequential,5252,Transformer (API config),False,False,37.482199957594275
+sequential,5252,Transformer (trained),True,True,588.9813000103459
+sequential,5253,Markov,True,True,
+sequential,5253,Transformer (API config),False,False,39.500300073996186
+sequential,5253,Transformer (trained),True,True,583.4431000985205
+sequential,5254,Markov,True,True,
+sequential,5254,Transformer (API config),False,True,41.921399999409914
+sequential,5254,Transformer (trained),True,True,574.7504000319168
+sequential,5255,Markov,True,True,
+sequential,5255,Transformer (API config),False,False,39.54259993042797
+sequential,5255,Transformer (trained),True,True,559.9034000188112
+sequential,5256,Markov,True,True,
+sequential,5256,Transformer (API config),False,False,36.669100052677095
+sequential,5256,Transformer (trained),True,True,570.594200049527
+sequential,5257,Markov,True,True,
+sequential,5257,Transformer (API config),True,True,36.8236000649631
+sequential,5257,Transformer (trained),True,True,562.4589999206364
+sequential,5258,Markov,True,True,
+sequential,5258,Transformer (API config),False,False,37.33479999937117
+sequential,5258,Transformer (trained),True,True,572.2114999080077
+sequential,5259,Markov,True,True,
+sequential,5259,Transformer (API config),False,False,37.3803999973461
+sequential,5259,Transformer (trained),True,True,590.5011999420822
+sequential,5260,Markov,True,True,
+sequential,5260,Transformer (API config),False,True,37.52350003924221
+sequential,5260,Transformer (trained),True,True,579.1778999846429
+sequential,5261,Markov,True,True,
+sequential,5261,Transformer (API config),True,True,40.519599919207394
+sequential,5261,Transformer (trained),True,True,568.6885999748483
+sequential,5262,Markov,True,True,
+sequential,5262,Transformer (API config),False,False,39.41629990004003
+sequential,5262,Transformer (trained),True,True,571.5198999969289
+sequential,5263,Markov,True,True,
+sequential,5263,Transformer (API config),False,True,42.807099991478026
+sequential,5263,Transformer (trained),True,True,590.9178000874817
+sequential,5264,Markov,True,True,
+sequential,5264,Transformer (API config),False,False,42.80459997244179
+sequential,5264,Transformer (trained),True,True,584.7309000091627
+sequential,5265,Markov,True,True,
+sequential,5265,Transformer (API config),False,True,36.50940000079572
+sequential,5265,Transformer (trained),True,True,574.1772999754176
+sequential,5266,Markov,True,True,
+sequential,5266,Transformer (API config),False,False,36.695900023914874
+sequential,5266,Transformer (trained),True,True,576.8059999682009
+sequential,5267,Markov,True,True,
+sequential,5267,Transformer (API config),False,False,38.409900036640465
+sequential,5267,Transformer (trained),True,True,578.8631000323221
+sequential,5268,Markov,True,True,
+sequential,5268,Transformer (API config),False,False,39.87889993004501
+sequential,5268,Transformer (trained),True,True,568.9356999937445
+sequential,5269,Markov,True,True,
+sequential,5269,Transformer (API config),False,True,39.83859997242689
+sequential,5269,Transformer (trained),True,True,581.7730999551713
+sequential,5270,Markov,True,True,
+sequential,5270,Transformer (API config),False,False,37.73029998410493
+sequential,5270,Transformer (trained),True,True,573.5259000211954
+sequential,5271,Markov,True,True,
+sequential,5271,Transformer (API config),False,False,38.28340000472963
+sequential,5271,Transformer (trained),True,True,586.1342999851331
+sequential,5272,Markov,True,True,
+sequential,5272,Transformer (API config),False,False,39.3157999496907
+sequential,5272,Transformer (trained),True,True,571.8122000107542
+sequential,5273,Markov,True,True,
+sequential,5273,Transformer (API config),False,False,43.06470009032637
+sequential,5273,Transformer (trained),True,True,578.7378000095487
+sequential,5274,Markov,True,True,
+sequential,5274,Transformer (API config),True,True,37.919099908322096
+sequential,5274,Transformer (trained),True,True,578.0974000226706
+sequential,5275,Markov,True,True,
+sequential,5275,Transformer (API config),True,True,38.635100005194545
+sequential,5275,Transformer (trained),True,True,583.8289998937398
+sequential,5276,Markov,True,True,
+sequential,5276,Transformer (API config),False,True,36.37590003199875
+sequential,5276,Transformer (trained),True,True,590.6468000030145
+sequential,5277,Markov,True,True,
+sequential,5277,Transformer (API config),False,False,39.099000045098364
+sequential,5277,Transformer (trained),True,True,577.9272000072524
+sequential,5278,Markov,True,True,
+sequential,5278,Transformer (API config),False,False,37.88360010366887
+sequential,5278,Transformer (trained),True,True,572.2063999855891
+sequential,5279,Markov,True,True,
+sequential,5279,Transformer (API config),False,True,39.17639993596822
+sequential,5279,Transformer (trained),True,True,691.8384999735281
+sequential,5280,Markov,True,True,
+sequential,5280,Transformer (API config),False,False,49.012299976311624
+sequential,5280,Transformer (trained),True,True,640.1799999875948
+sequential,5281,Markov,True,True,
+sequential,5281,Transformer (API config),False,False,37.313499953597784
+sequential,5281,Transformer (trained),True,True,602.8857999481261
+sequential,5282,Markov,True,True,
+sequential,5282,Transformer (API config),False,True,38.695600000210106
+sequential,5282,Transformer (trained),True,True,596.9456000020728
+sequential,5283,Markov,True,True,
+sequential,5283,Transformer (API config),False,False,40.43270007241517
+sequential,5283,Transformer (trained),True,True,594.7287000017241
+sequential,5284,Markov,True,True,
+sequential,5284,Transformer (API config),False,False,39.2303999979049
+sequential,5284,Transformer (trained),True,True,583.7456000735983
+sequential,5285,Markov,True,True,
+sequential,5285,Transformer (API config),False,True,42.29380004107952
+sequential,5285,Transformer (trained),True,True,579.9967999337241
+sequential,5286,Markov,True,True,
+sequential,5286,Transformer (API config),False,True,36.719099967740476
+sequential,5286,Transformer (trained),True,True,573.0396000435576
+sequential,5287,Markov,True,True,
+sequential,5287,Transformer (API config),False,False,38.93490007612854
+sequential,5287,Transformer (trained),True,True,579.9974999390543
+sequential,5288,Markov,True,True,
+sequential,5288,Transformer (API config),False,False,36.33160004392266
+sequential,5288,Transformer (trained),True,True,584.2494999524206
+sequential,5289,Markov,True,True,
+sequential,5289,Transformer (API config),False,False,38.98779989685863
+sequential,5289,Transformer (trained),True,True,575.224099913612
+sequential,5290,Markov,True,True,
+sequential,5290,Transformer (API config),False,False,37.812900030985475
+sequential,5290,Transformer (trained),True,True,582.5384999625385
+sequential,5291,Markov,True,True,
+sequential,5291,Transformer (API config),False,False,37.153500015847385
+sequential,5291,Transformer (trained),True,True,584.9427999928594
+sequential,5292,Markov,True,True,
+sequential,5292,Transformer (API config),True,True,38.27290004119277
+sequential,5292,Transformer (trained),True,True,570.6272000679746
+sequential,5293,Markov,True,True,
+sequential,5293,Transformer (API config),False,True,46.27649998292327
+sequential,5293,Transformer (trained),True,True,567.8848000243306
+sequential,5294,Markov,True,True,
+sequential,5294,Transformer (API config),False,True,43.92240010201931
+sequential,5294,Transformer (trained),True,True,580.5660000769421
+sequential,5295,Markov,True,True,
+sequential,5295,Transformer (API config),False,False,39.984900038689375
+sequential,5295,Transformer (trained),True,True,603.9750999771059
+sequential,5296,Markov,True,True,
+sequential,5296,Transformer (API config),False,False,45.435900101438165
+sequential,5296,Transformer (trained),True,True,617.4670999171212
+sequential,5297,Markov,True,True,
+sequential,5297,Transformer (API config),True,True,38.94660004880279
+sequential,5297,Transformer (trained),True,True,615.848800051026
+sequential,5298,Markov,True,True,
+sequential,5298,Transformer (API config),False,False,39.37240003142506
+sequential,5298,Transformer (trained),True,True,575.4457999719307
+sequential,5299,Markov,True,True,
+sequential,5299,Transformer (API config),False,False,39.81779993046075
+sequential,5299,Transformer (trained),True,True,586.7128999670967
