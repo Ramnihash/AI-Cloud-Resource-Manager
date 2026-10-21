@@ -169,8 +169,56 @@ training time and prediction latency. D2 drives the part A replacement harness (
 and plus PREFETCH) with each predictor. D3 copies what the Memory page does: train on a short
 request-sized string (29 references) and predict the 30th, 300 strings per pattern.
 
-**Results.** Pending: this study needs PyTorch, so it runs on the development PC
-(`python -m experiments.transformer_page_eval`) and the numbers are added here from its CSVs.
+**D1. Next-page accuracy** (mean over 30 strings, top-1 / top-3; run on the development PC):
+
+| Pattern | Markov | Transformer (API config) | Transformer (trained) |
+|---------|--------|--------------------------|-----------------------|
+| Uniform | 4.9% / 15.1% | 4.8% / 15.0% | 5.1% / 14.8% |
+| Locality | 16.1% / 47.6% | 14.6% / 39.4% | 13.3% / 36.8% |
+| Sequential | 100% / 100% | 25.1% / 49.9% | 100% / 100% |
+
+Training takes a median of 0.15 ms for Markov, 150 ms for the API configuration and 4 s for the trained
+one, per 1000-reference string (a few training runs took far longer, probably because the PC was busy,
+so means are not reported). Scoring is about 0.005 ms per prediction when batched.
+
+**D2. Page replacement**, demand faults (total loads for prefetch) out of 500, paired with Markov on the
+same strings:
+
+| Pattern | Frames | Protect: Markov / API / trained | Prefetch: Markov / API / trained |
+|---------|--------|----------------------------------|----------------------------------|
+| Uniform | 4 | 399.7 / 400.7 / 401.0 | 401.2 (767) / 402.1 (757) / 400.4 (793) |
+| Uniform | 8 | 304.6 / 303.5 / 304.3 | 300.6 (545) / 302.1 (529) / 302.9 (597) |
+| Locality | 4 | 240.2 / 241.6 / 245.0 | 221.2 (341) / 240.6 (356) / 245.0 (474) |
+| Locality | 8 | 92.3 / 98.5 / 94.8 | 87.7 (94) / 101.1 (123) / 100.8 (186) |
+| Sequential | 4 | 500 / 500 / 500 | 1 (501) / 375 (776) / 1 (501) |
+| Sequential | 8 | 500 / 476 / 500 | 1 (501) / 351 (578) / 1 (501) |
+
+On locality strings the Transformer is worse than Markov in every case (protect +0.6% to +6.7%, prefetch
++8.8% to +15.3% demand faults; p < 0.001 except the API configuration with protect at 4 frames, p = 0.30). On
+uniform strings there is no difference in demand faults (p >= 0.17). On sequential strings the trained
+Transformer matches Markov exactly, and the API configuration, which predicts the next page only 25% of
+the time, hides 25% to 30% of stalls instead of nearly all of them.
+
+**D3. Request-sized strings** (300 per pattern, top-1 / top-3 on the 30th reference):
+
+| Pattern | Markov | Transformer (API config) | Transformer (trained) |
+|---------|--------|--------------------------|-----------------------|
+| Uniform | 2.7% / 6.0% | 2.7% / 11.7% | 4.3% / 14.7% |
+| Locality | 9.7% / 26.7% | 11.3% / 33.0% | 12.3% / 33.0% |
+| Sequential | 100% / 100% | 14.3% / 33.7% | 100% / 100% |
+
+Training on a 29-reference string takes a median of 40 ms (API configuration) and 600 ms (trained).
+
+**Interpretation.** On these synthetic patterns the Transformer adds nothing over a first-order Markov
+table once there is enough history: the patterns are first-order by construction, so Markov is already the
+right model, and the Transformer is at best equal (sequential, trained) and otherwise slightly worse, at
+1,000 to 25,000 times the training cost. Its only edge is on very short strings, where its top-3
+guesses are better than Markov's (for example 33% vs 27% on locality), because Markov has seen too few
+transitions to rank three candidates; top-1 is about the same there. The configuration the API runs is
+undertrained: it fails to learn even the cyclic pattern (25% on 1000 references, 14% on 29), so the
+Transformer suggestion on the Memory page should be read as a demonstration, not as a better predictor.
+More epochs fix the cyclic case but cost about 0.6 s per request on the PC, and the live instance has
+no PyTorch, so the Transformer is not available there at all.
 
  on labelled simulated telemetry
 
@@ -268,8 +316,36 @@ as healthy days while the real fleet has about 1 failing day in 1000, so precisi
 optimistic; `precision_at_prevalence` converts recall and false-positive rate to the precision
 expected at the quarter's real share of failing drive-days.
 
-**Results.** Pending: Backblaze downloads are blocked from the build environment, so the dataset is
-built and the study run on the development PC; the numbers are added here from its CSVs.
+**Data used.** Backblaze Q1 2025 (2025-01-01 to 2025-03-31): 27.8 million drive-days, 1,067 failed
+drives. The labelled sample has 61,833 rows from 35,045 drives: 25,833 failing days (all 1,067 failed
+drives) and 36,000 healthy days. Only 0.093% of real drive-days are within 30 days of a failure.
+The study ran on the development PC.
+
+| Model | ROC-AUC | PR-AUC | Precision | Recall | FPR | Recall at 1% FPR | Precision at real prevalence (0.5 / 1% FPR) | Failed drives flagged |
+|-------|---------|--------|-----------|--------|-----|------------------|---------------------------------------------|-----------------------|
+| Random Forest | 0.902 ± 0.009 | 0.908 | 0.937 | 0.752 | 3.6% | 0.573 ± 0.019 | 1.9% / 5.1% | 85.6% |
+| Logistic Regression | 0.894 ± 0.015 | 0.900 | 0.921 | 0.746 | 4.6% | 0.507 ± 0.028 | 1.5% / 4.5% | 85.6% |
+| Rule (any of 5, 187, 188, 197, 198 > 0) | 0.869 ± 0.018 | 0.833 | 0.889 | 0.779 | 7.0% | 0.346 ± 0.026 | 1.0% / 5.1% | 87.2% |
+
+Mean over 5 drive-grouped folds (± standard deviation over folds); precision, recall and FPR are at the
+0.5 threshold for the models and "any attribute above 0" for the rule. Recall by days left (Random
+Forest): 0.81 in the last week, 0.75 at 7-13 days and 0.72 at 14-29 days; the other two follow the same
+pattern. The first flag on a caught drive comes a median of 29 days before failure, the start of the
+window. The most important features are SMART 197 (pending sectors, 0.25), 5 (reallocated sectors,
+0.25), 198 (0.13) and 187 (0.10); together the four warning attributes carry 72% of the importance.
+
+**Interpretation.** On real drives the classifier ranks failing drives well above healthy ones (ROC-AUC
+0.90), and most failing drives (86%) show it at some point in their last month, usually from the
+start. Two caveats decide how useful that is. First, the simple rule is already strong: it catches
+slightly more drives (87%) and its AUC is only 0.03 lower. The model's real gain is at strict
+thresholds, where at a 1% false-positive rate it catches 57% of failing days against 35% for the rule.
+Second, failures are rare. At the real rate of about 1 failing day in 1,000, even 1% false positives
+means most alerts are false: about 1 in 20 flagged days (5%) belongs to a drive that fails within 30
+days, and about 1 in 50 at the default 0.5 threshold. That is fine for triggering a cheap action like
+a backup and not enough for replacing drives. About 14% of failed drives give no SMART warning at all,
+which matches what Backblaze reports. Limits: one quarter only, so there is no test on a later period;
+drive models are mixed, so the SMART 5/187/197 meanings differ slightly between vendors; and the
+returned probability comes from a balanced sample, so it overstates real risk.
 
 ## 7.4 Robustness: AI components forced to fail, and AI on vs off
 
@@ -380,6 +456,26 @@ about 169 to about 70 to 80 requests per second and latency grew roughly in prop
 of clients. A system step went from a median of 12 ms alone to 121 ms with 4 clients and 683 ms with 32.
 The drop between 1 and 4 clients is larger than queueing alone explains and is probably thread
 contention inside the one process; it was not investigated further. More workers would add
-throughput but would split the in-memory state, which is why the deployment keeps one. The live
-instance has fewer and slower cores, so its absolute numbers will be lower. Pending: the run on the
-EC2 instance against gunicorn (`--url http://127.0.0.1:8000 --label ec2-gunicorn`).
+throughput but would split the in-memory state, which is why the deployment keeps one.
+
+**Results (live EC2 instance, gunicorn with 1 worker and 4 threads, run on the instance against
+127.0.0.1:8000 so nginx and the network are excluded).**
+
+| Concurrent clients | Requests | Throughput (req/s) | Non-2xx | p50 (ms) | p95 (ms) | p99 (ms) | Max (ms) |
+|--------------------|----------|--------------------|---------|----------|----------|----------|----------|
+| 1 | 200 | 184.6 | 0 | 1.7 | 11.9 | 12.7 | 15.4 |
+| 2 | 200 | 147.2 | 0 | 13.7 | 32.4 | 34.5 | 36.5 |
+| 4 | 200 | 147.7 | 0 | 16.0 | 72.7 | 82.2 | 82.7 |
+| 8 | 200 | 123.7 | 0 | 55.8 | 127.6 | 138.9 | 162.9 |
+
+Integrity on the instance: 100 parallel steps at concurrency 4 and at 8 all returned 200 with 100
+distinct step indices and 100 new history entries. The live run did not repeat the cold-start case,
+because the service had already handled requests after the deploy; that case is covered by the local
+run and the regression test.
+
+The instance behaves like the local run, with slightly better numbers: no failures, and throughput
+falls from about 185 to 125 requests per second as clients go from 1 to 8 instead of rising. With 8
+clients a request waits a median of 56 ms (p99 139 ms), because gunicorn has only 4 threads and the
+work inside the one process is serialised. For a demo with a handful of users that is fine. Many
+simultaneous users would queue, and the next step would be more worker processes with the state
+moved out of process memory (for example Redis or a small database).
