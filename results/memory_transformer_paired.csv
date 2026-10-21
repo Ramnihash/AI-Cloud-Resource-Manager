@@ -1,0 +1,121 @@
+pattern,frames,policy,predictor,baseline,metric,mean,mean_baseline,pct_change,p_value_paired_t
+uniform,4,Predictive-protect,Markov,LRU,page_faults,399.7,400.5,-0.19975031210986266,0.24229331822901023
+uniform,4,Predictive-protect,Markov,LRU,total_loads,399.7,400.5,-0.19975031210986266,0.24229331822901023
+uniform,4,Predictive-protect,Transformer (API config),LRU,page_faults,400.6666666666667,400.5,0.04161464835622138,0.8292284529959116
+uniform,4,Predictive-protect,Transformer (API config),LRU,total_loads,400.6666666666667,400.5,0.04161464835622138,0.8292284529959116
+uniform,4,Predictive-protect,Transformer (API config),Markov,page_faults,400.6666666666667,399.7,0.24184805270619633,0.3647851741600548
+uniform,4,Predictive-protect,Transformer (API config),Markov,total_loads,400.6666666666667,399.7,0.24184805270619633,0.3647851741600548
+uniform,4,Predictive-protect,Transformer (trained),LRU,page_faults,401.0,400.5,0.12484394506866417,0.3995383884399756
+uniform,4,Predictive-protect,Transformer (trained),LRU,total_loads,401.0,400.5,0.12484394506866417,0.3995383884399756
+uniform,4,Predictive-protect,Transformer (trained),Markov,page_faults,401.0,399.7,0.32524393294971227,0.16994151438264168
+uniform,4,Predictive-protect,Transformer (trained),Markov,total_loads,401.0,399.7,0.32524393294971227,0.16994151438264168
+uniform,4,Predictive-prefetch,Markov,LRU,page_faults,401.1666666666667,400.5,0.16645859342488553,0.7700327401674829
+uniform,4,Predictive-prefetch,Markov,LRU,total_loads,767.3333333333334,400.5,91.59384103204327,4.2281855041244084e-33
+uniform,4,Predictive-prefetch,Transformer (API config),LRU,page_faults,402.06666666666666,400.5,0.39117769454848106,0.47538167078081295
+uniform,4,Predictive-prefetch,Transformer (API config),LRU,total_loads,756.6333333333333,400.5,88.92218060757388,1.0234930217986031e-37
+uniform,4,Predictive-prefetch,Transformer (API config),Markov,page_faults,402.06666666666666,401.1666666666667,0.22434565849605317,0.6319336036749575
+uniform,4,Predictive-prefetch,Transformer (API config),Markov,total_loads,756.6333333333333,767.3333333333334,-1.3944396177237184,0.04657442557778456
+uniform,4,Predictive-prefetch,Transformer (trained),LRU,page_faults,400.3666666666667,400.5,-0.033291718684977115,0.9433414037678873
+uniform,4,Predictive-prefetch,Transformer (trained),LRU,total_loads,792.5,400.5,97.8776529338327,8.609794159822888e-47
+uniform,4,Predictive-prefetch,Transformer (trained),Markov,page_faults,400.3666666666667,401.1666666666667,-0.1994183631076028,0.6696242051648483
+uniform,4,Predictive-prefetch,Transformer (trained),Markov,total_loads,792.5,767.3333333333334,3.2797567332754127,0.00022462842151437022
+uniform,8,Predictive-protect,Markov,LRU,page_faults,304.6333333333333,304.6333333333333,0.0,1.0
+uniform,8,Predictive-protect,Markov,LRU,total_loads,304.6333333333333,304.6333333333333,0.0,1.0
+uniform,8,Predictive-protect,Transformer (API config),LRU,page_faults,303.53333333333336,304.6333333333333,-0.3610898347740454,0.31963380987940637
+uniform,8,Predictive-protect,Transformer (API config),LRU,total_loads,303.53333333333336,304.6333333333333,-0.3610898347740454,0.31963380987940637
+uniform,8,Predictive-protect,Transformer (API config),Markov,page_faults,303.53333333333336,304.6333333333333,-0.3610898347740454,0.4362027141860933
+uniform,8,Predictive-protect,Transformer (API config),Markov,total_loads,303.53333333333336,304.6333333333333,-0.3610898347740454,0.4362027141860933
+uniform,8,Predictive-protect,Transformer (trained),LRU,page_faults,304.26666666666665,304.6333333333333,-0.1203632782580151,0.7722968067015803
+uniform,8,Predictive-protect,Transformer (trained),LRU,total_loads,304.26666666666665,304.6333333333333,-0.1203632782580151,0.7722968067015803
+uniform,8,Predictive-protect,Transformer (trained),Markov,page_faults,304.26666666666665,304.6333333333333,-0.1203632782580151,0.7965106780039414
+uniform,8,Predictive-protect,Transformer (trained),Markov,total_loads,304.26666666666665,304.6333333333333,-0.1203632782580151,0.7965106780039414
+uniform,8,Predictive-prefetch,Markov,LRU,page_faults,300.56666666666666,304.6333333333333,-1.33493817704344,0.0561773165024152
+uniform,8,Predictive-prefetch,Markov,LRU,total_loads,545.1333333333333,304.6333333333333,78.94736842105263,6.106340548129017e-28
+uniform,8,Predictive-prefetch,Transformer (API config),LRU,page_faults,302.1333333333333,304.6333333333333,-0.8206587153955576,0.24115199417819863
+uniform,8,Predictive-prefetch,Transformer (API config),LRU,total_loads,528.5333333333333,304.6333333333333,73.49819455082613,8.123341015264642e-31
+uniform,8,Predictive-prefetch,Transformer (API config),Markov,page_faults,302.1333333333333,300.56666666666666,0.5212376621936342,0.4614603899624933
+uniform,8,Predictive-prefetch,Transformer (API config),Markov,total_loads,528.5333333333333,545.1333333333333,-3.04512657453834,0.007010200756689263
+uniform,8,Predictive-prefetch,Transformer (trained),LRU,page_faults,302.9,304.6333333333333,-0.5689900426742532,0.36847804386705724
+uniform,8,Predictive-prefetch,Transformer (trained),LRU,total_loads,596.7,304.6333333333333,95.87482219061167,5.733332489298856e-36
+uniform,8,Predictive-prefetch,Transformer (trained),Markov,page_faults,302.9,300.56666666666666,0.7763114117777532,0.3097027617292114
+uniform,8,Predictive-prefetch,Transformer (trained),Markov,total_loads,596.7,545.1333333333333,9.45945945945946,5.20057390238279e-09
+locality,4,Predictive-protect,Markov,LRU,page_faults,240.23333333333332,254.4,-5.568658280922431,1.51399708608797e-11
+locality,4,Predictive-protect,Markov,LRU,total_loads,240.23333333333332,254.4,-5.568658280922431,1.51399708608797e-11
+locality,4,Predictive-protect,Transformer (API config),LRU,page_faults,241.6,254.4,-5.031446540880503,9.51882318256522e-16
+locality,4,Predictive-protect,Transformer (API config),LRU,total_loads,241.6,254.4,-5.031446540880503,9.51882318256522e-16
+locality,4,Predictive-protect,Transformer (API config),Markov,page_faults,241.6,240.23333333333332,0.5688913556264743,0.2960432409516984
+locality,4,Predictive-protect,Transformer (API config),Markov,total_loads,241.6,240.23333333333332,0.5688913556264743,0.2960432409516984
+locality,4,Predictive-protect,Transformer (trained),LRU,page_faults,245.0,254.4,-3.6949685534591192,3.286838826251899e-11
+locality,4,Predictive-protect,Transformer (trained),LRU,total_loads,245.0,254.4,-3.6949685534591192,3.286838826251899e-11
+locality,4,Predictive-protect,Transformer (trained),Markov,page_faults,245.0,240.23333333333332,1.9841820452338006,0.0009330341647492106
+locality,4,Predictive-protect,Transformer (trained),Markov,total_loads,245.0,240.23333333333332,1.9841820452338006,0.0009330341647492106
+locality,4,Predictive-prefetch,Markov,LRU,page_faults,221.23333333333332,254.4,-13.037211740041927,1.3295418112588267e-17
+locality,4,Predictive-prefetch,Markov,LRU,total_loads,341.3333333333333,254.4,34.17190775681342,2.3076664210624435e-18
+locality,4,Predictive-prefetch,Transformer (API config),LRU,page_faults,240.63333333333333,254.4,-5.411425576519917,0.0019978363887664776
+locality,4,Predictive-prefetch,Transformer (API config),LRU,total_loads,356.46666666666664,254.4,40.12054507337526,5.949066643933719e-09
+locality,4,Predictive-prefetch,Transformer (API config),Markov,page_faults,240.63333333333333,221.23333333333332,8.769022148561096,3.9943486754318045e-05
+locality,4,Predictive-prefetch,Transformer (API config),Markov,total_loads,356.46666666666664,341.3333333333333,4.43359375,0.2456207387672942
+locality,4,Predictive-prefetch,Transformer (trained),LRU,page_faults,245.03333333333333,254.4,-3.6818658280922434,0.0002002422228416499
+locality,4,Predictive-prefetch,Transformer (trained),LRU,total_loads,474.0,254.4,86.32075471698113,5.16655218000661e-28
+locality,4,Predictive-prefetch,Transformer (trained),Markov,page_faults,245.03333333333333,221.23333333333332,10.75787253277083,3.722248845487047e-12
+locality,4,Predictive-prefetch,Transformer (trained),Markov,total_loads,474.0,341.3333333333333,38.8671875,9.064720647723163e-20
+locality,8,Predictive-protect,Markov,LRU,page_faults,92.3,105.96666666666667,-12.897137464611511,3.508872328600691e-19
+locality,8,Predictive-protect,Markov,LRU,total_loads,92.3,105.96666666666667,-12.897137464611511,3.508872328600691e-19
+locality,8,Predictive-protect,Transformer (API config),LRU,page_faults,98.5,105.96666666666667,-7.0462409562755575,3.0025948526582993e-10
+locality,8,Predictive-protect,Transformer (API config),LRU,total_loads,98.5,105.96666666666667,-7.0462409562755575,3.0025948526582993e-10
+locality,8,Predictive-protect,Transformer (API config),Markov,page_faults,98.5,92.3,6.717226435536295,4.050080056992716e-09
+locality,8,Predictive-protect,Transformer (API config),Markov,total_loads,98.5,92.3,6.717226435536295,4.050080056992716e-09
+locality,8,Predictive-protect,Transformer (trained),LRU,page_faults,94.8,105.96666666666667,-10.53790500157282,3.1239714559723263e-14
+locality,8,Predictive-protect,Transformer (trained),LRU,total_loads,94.8,105.96666666666667,-10.53790500157282,3.1239714559723263e-14
+locality,8,Predictive-protect,Transformer (trained),Markov,page_faults,94.8,92.3,2.7085590465872156,0.0011700481746508304
+locality,8,Predictive-protect,Transformer (trained),Markov,total_loads,94.8,92.3,2.7085590465872156,0.0011700481746508304
+locality,8,Predictive-prefetch,Markov,LRU,page_faults,87.66666666666667,105.96666666666667,-17.26958162944322,1.6124257095721137e-19
+locality,8,Predictive-prefetch,Markov,LRU,total_loads,94.2,105.96666666666667,-11.104120792702108,1.4900139436860534e-14
+locality,8,Predictive-prefetch,Transformer (API config),LRU,page_faults,101.1,105.96666666666667,-4.592639194715319,0.028729351430460282
+locality,8,Predictive-prefetch,Transformer (API config),LRU,total_loads,123.36666666666666,105.96666666666667,16.42025794274929,0.0008541649612032146
+locality,8,Predictive-prefetch,Transformer (API config),Markov,page_faults,101.1,87.66666666666667,15.323193916349808,4.232196240284583e-07
+locality,8,Predictive-prefetch,Transformer (API config),Markov,total_loads,123.36666666666666,94.2,30.962491153573957,1.005796692719952e-06
+locality,8,Predictive-prefetch,Transformer (trained),LRU,page_faults,100.76666666666667,105.96666666666667,-4.9072035231204785,0.0008040244359248358
+locality,8,Predictive-prefetch,Transformer (trained),LRU,total_loads,186.4,105.96666666666667,75.90437244416484,1.265727484074198e-19
+locality,8,Predictive-prefetch,Transformer (trained),Markov,page_faults,100.76666666666667,87.66666666666667,14.94296577946768,2.4184217173589824e-12
+locality,8,Predictive-prefetch,Transformer (trained),Markov,total_loads,186.4,94.2,97.87685774946921,9.730992559232475e-22
+sequential,4,Predictive-protect,Markov,LRU,page_faults,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Markov,LRU,total_loads,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (API config),LRU,page_faults,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (API config),LRU,total_loads,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (API config),Markov,page_faults,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (API config),Markov,total_loads,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (trained),LRU,page_faults,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (trained),LRU,total_loads,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (trained),Markov,page_faults,500.0,500.0,0.0,1.0
+sequential,4,Predictive-protect,Transformer (trained),Markov,total_loads,500.0,500.0,0.0,1.0
+sequential,4,Predictive-prefetch,Markov,LRU,page_faults,1.0,500.0,-99.8,0.0
+sequential,4,Predictive-prefetch,Markov,LRU,total_loads,501.0,500.0,0.2,0.0
+sequential,4,Predictive-prefetch,Transformer (API config),LRU,page_faults,375.0,500.0,-25.0,0.0
+sequential,4,Predictive-prefetch,Transformer (API config),LRU,total_loads,776.0,500.0,55.2,0.0
+sequential,4,Predictive-prefetch,Transformer (API config),Markov,page_faults,375.0,1.0,37400.0,0.0
+sequential,4,Predictive-prefetch,Transformer (API config),Markov,total_loads,776.0,501.0,54.89021956087824,0.0
+sequential,4,Predictive-prefetch,Transformer (trained),LRU,page_faults,1.0,500.0,-99.8,0.0
+sequential,4,Predictive-prefetch,Transformer (trained),LRU,total_loads,501.0,500.0,0.2,0.0
+sequential,4,Predictive-prefetch,Transformer (trained),Markov,page_faults,1.0,1.0,0.0,1.0
+sequential,4,Predictive-prefetch,Transformer (trained),Markov,total_loads,501.0,501.0,0.0,1.0
+sequential,8,Predictive-protect,Markov,LRU,page_faults,500.0,500.0,0.0,1.0
+sequential,8,Predictive-protect,Markov,LRU,total_loads,500.0,500.0,0.0,1.0
+sequential,8,Predictive-protect,Transformer (API config),LRU,page_faults,476.0,500.0,-4.8,0.0
+sequential,8,Predictive-protect,Transformer (API config),LRU,total_loads,476.0,500.0,-4.8,0.0
+sequential,8,Predictive-protect,Transformer (API config),Markov,page_faults,476.0,500.0,-4.8,0.0
+sequential,8,Predictive-protect,Transformer (API config),Markov,total_loads,476.0,500.0,-4.8,0.0
+sequential,8,Predictive-protect,Transformer (trained),LRU,page_faults,500.0,500.0,0.0,1.0
+sequential,8,Predictive-protect,Transformer (trained),LRU,total_loads,500.0,500.0,0.0,1.0
+sequential,8,Predictive-protect,Transformer (trained),Markov,page_faults,500.0,500.0,0.0,1.0
+sequential,8,Predictive-protect,Transformer (trained),Markov,total_loads,500.0,500.0,0.0,1.0
+sequential,8,Predictive-prefetch,Markov,LRU,page_faults,1.0,500.0,-99.8,0.0
+sequential,8,Predictive-prefetch,Markov,LRU,total_loads,501.0,500.0,0.2,0.0
+sequential,8,Predictive-prefetch,Transformer (API config),LRU,page_faults,351.0,500.0,-29.8,0.0
+sequential,8,Predictive-prefetch,Transformer (API config),LRU,total_loads,578.0,500.0,15.6,0.0
+sequential,8,Predictive-prefetch,Transformer (API config),Markov,page_faults,351.0,1.0,35000.0,0.0
+sequential,8,Predictive-prefetch,Transformer (API config),Markov,total_loads,578.0,501.0,15.369261477045908,0.0
+sequential,8,Predictive-prefetch,Transformer (trained),LRU,page_faults,1.0,500.0,-99.8,0.0
+sequential,8,Predictive-prefetch,Transformer (trained),LRU,total_loads,501.0,500.0,0.2,0.0
+sequential,8,Predictive-prefetch,Transformer (trained),Markov,page_faults,1.0,1.0,0.0,1.0
+sequential,8,Predictive-prefetch,Transformer (trained),Markov,total_loads,501.0,501.0,0.0,1.0
