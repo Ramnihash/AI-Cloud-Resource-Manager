@@ -37,3 +37,6 @@ data/generated/
 
 # Temporary files
 *.tmp
+
+# Raw Backblaze downloads (large)
+data/device/smart/raw/

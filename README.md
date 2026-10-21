@@ -31,8 +31,11 @@ Transformer page predictor. Without it those parts report "unavailable" and the 
 - CPU models are trained on synthetic data when the app starts, so nothing to prepare.
 - The device anomaly detector must be trained once (the model file is not in git):
   `python -m scripts.train_device_anomaly_detector`
-- Device telemetry comes from a deterministic simulator (`modules/device/`). There is no
-  SMART dataset in this project, so the SMART classifier is not used.
+- Device telemetry comes from a deterministic simulator (`modules/device/`).
+- The SMART disk classifier trains on real Backblaze drive data. Build the labelled sample once on a
+  machine with internet access (downloads about 1 GB): `python -m scripts.build_smart_dataset`.
+  The small result, `data/device/smart/backblaze_failure_windows.csv.gz`, is committed, and the
+  backend trains the model from it on first use.
 
 ## Run
 
@@ -97,7 +100,7 @@ See [docs/CAPABILITIES.md](docs/CAPABILITIES.md) for a table of every capability
 ## Known limits
 
 - State (step history, device actions) is in memory in one gunicorn worker and is lost on restart.
-- Stress testing was sequential on one machine. Concurrent load was not tested.
+- One process serves every request, so throughput does not grow with concurrent users (RESULTS 7.5 C).
 - The memory-leak detector flags allocate-and-free and random-walk patterns as leaks, and the
   pressure forecaster alerts at about the moment memory crosses the threshold, not before.
 - The CPU scheduler choice beats FCFS, Priority and Round Robin on waiting time but not SJF.

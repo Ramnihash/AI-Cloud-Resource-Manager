@@ -16,15 +16,18 @@ import logging
 import math
 import os
 import random
+import threading
 from typing import Any, Optional
 
 import psutil
 from flask import Blueprint, current_app, jsonify, request
 
+from backend.request_log import get_request_log
 from modules.cpu.action_loop import CPUActionLoop
 from modules.cpu.process import Process
 from modules.device.predictive_action import handle_predictive_action
 from ml.device import anomaly_service
+from ml.device.smart import service as smart_service
 from ml.memory.markov_predictor import MarkovPagePredictor
 from ml.memory.memory_leak_detector import MemoryLeakDetector
 from ml.memory.memory_pressure_forecaster import MemoryPressureForecaster
@@ -40,6 +43,11 @@ from modules.memory.page_replacement import (
 api_bp = Blueprint("api", __name__)
 logger = logging.getLogger(__name__)
 
+
+# Guards the lazy creation of the shared CPU loop, monitor and execution manager.
+# Without it, parallel first requests each built (and trained) their own copies
+# and all but one step was lost. Re-entrant because the getters call each other.
+_init_lock = threading.RLock()
 
 MAX_PROCESSES = 1000
 MAX_TIME_VALUE = 10_000.0
@@ -99,7 +107,12 @@ def _extract_json_payload(allow_empty: bool = False) -> tuple[dict[str, Any] | N
 def _get_cpu_action_loop() -> CPUActionLoop:
     """Retrieve injected CPUActionLoop or initialize a default instance."""
     loop = current_app.config.get("CPU_ACTION_LOOP")
-    if loop is None:
+    if loop is not None:
+        return loop
+    with _init_lock:
+        loop = current_app.config.get("CPU_ACTION_LOOP")
+        if loop is not None:
+            return loop
         from ml.cpu.burst_predictor import CPUBurstPredictor
         from ml.cpu.workload_classifier import CPUWorkloadClassifier
         from modules.cpu.action_loop import CPUActionLoop
@@ -112,7 +125,7 @@ def _get_cpu_action_loop() -> CPUActionLoop:
         meta = CPUMetaScheduler(classifier=classifier, burst_predictor=predictor)
         loop = CPUActionLoop(meta_scheduler=meta)
         current_app.config["CPU_ACTION_LOOP"] = loop
-    return loop
+        return loop
 
 
 @api_bp.route("/health", methods=["GET"])
@@ -428,6 +441,22 @@ def device_predictive_action():
     if err:
         return jsonify({"error": err}), 400
 
+    smart_result: Optional[dict[str, Any]] = None
+    if "failure_probability" not in data and "smart_attributes" in data:
+        # The SMART classifier supplies the failure probability instead of the caller.
+        attributes, attr_err = smart_service.validate_attributes(data["smart_attributes"])
+        if attr_err:
+            return jsonify({"error": attr_err}), 400
+        try:
+            smart_result = smart_service.predict_risk(attributes)
+        except smart_service.SmartModelUnavailableError as e:
+            logger.warning("SMART classifier unavailable: %s", e)
+            return jsonify({"error": str(e)}), 503
+        except Exception as e:
+            logger.warning("SMART classifier failed: %s: %s", type(e).__name__, e)
+            return jsonify({"error": "SMART classifier failed; send failure_probability instead"}), 503
+        data["failure_probability"] = smart_result["failure_probability"]
+
     for req_field in ("device_id", "failure_probability", "device_status"):
         if req_field not in data:
             return jsonify({"error": f"Missing required field: {req_field}"}), 400
@@ -488,7 +517,34 @@ def device_predictive_action():
 
     _get_shared_monitor().record_device_action(result)
 
-    return jsonify(dataclasses.asdict(result)), 200
+    body = dataclasses.asdict(result)
+    if smart_result is not None:
+        body["smart_prediction"] = smart_result
+    return jsonify(body), 200
+
+
+@api_bp.route("/api/v1/device/smart-risk", methods=["POST"])
+def device_smart_risk():
+    """Score one drive's SMART raw attributes with the classifier trained on Backblaze data."""
+    data, err = _extract_json_payload(allow_empty=False)
+    if err:
+        return jsonify({"error": err}), 400
+    if "smart_attributes" not in data:
+        return jsonify({"error": "Missing required field: smart_attributes"}), 400
+
+    attributes, attr_err = smart_service.validate_attributes(data["smart_attributes"])
+    if attr_err:
+        return jsonify({"error": attr_err}), 400
+
+    try:
+        result = smart_service.predict_risk(attributes)
+    except smart_service.SmartModelUnavailableError as e:
+        logger.warning("SMART classifier unavailable: %s", e)
+        return jsonify({"error": str(e)}), 503
+    except Exception as e:
+        logger.warning("SMART classifier failed: %s: %s", type(e).__name__, e)
+        return jsonify({"error": "SMART classifier failed"}), 503
+    return jsonify(result), 200
 
 
 @api_bp.route("/api/v1/device/anomaly-score", methods=["POST"])
@@ -560,13 +616,17 @@ def device_anomaly_score():
 def _get_shared_monitor():
     """Retrieve injected SharedMonitor or initialize a default instance."""
     monitor = current_app.config.get("SHARED_MONITOR")
-    if monitor is None:
-        from modules.monitoring.shared_monitor import SharedMonitor
+    if monitor is not None:
+        return monitor
+    with _init_lock:
+        monitor = current_app.config.get("SHARED_MONITOR")
+        if monitor is None:
+            from modules.monitoring.shared_monitor import SharedMonitor
 
-        loop = _get_cpu_action_loop()
-        monitor = SharedMonitor(cpu_action_loop=loop)
-        current_app.config["SHARED_MONITOR"] = monitor
-    return monitor
+            loop = _get_cpu_action_loop()
+            monitor = SharedMonitor(cpu_action_loop=loop)
+            current_app.config["SHARED_MONITOR"] = monitor
+        return monitor
 
 
 @api_bp.route("/api/v1/monitor/overview", methods=["GET"])
@@ -606,17 +666,21 @@ def monitor_overview():
 def _get_integrated_execution_manager():
     """Retrieve injected IntegratedExecutionManager or initialize a consistent default instance."""
     manager = current_app.config.get("INTEGRATED_EXECUTION_MANAGER")
-    if manager is None:
-        from modules.integration.integrated_execution import IntegratedExecutionManager
+    if manager is not None:
+        return manager
+    with _init_lock:
+        manager = current_app.config.get("INTEGRATED_EXECUTION_MANAGER")
+        if manager is None:
+            from modules.integration.integrated_execution import IntegratedExecutionManager
 
-        shared_mon = _get_shared_monitor()
-        manager = IntegratedExecutionManager(
-            shared_monitor=shared_mon,
-            cpu_action_loop=shared_mon.cpu_action_loop,
-            memory_monitor=shared_mon.memory_monitor,
-        )
-        current_app.config["INTEGRATED_EXECUTION_MANAGER"] = manager
-    return manager
+            shared_mon = _get_shared_monitor()
+            manager = IntegratedExecutionManager(
+                shared_monitor=shared_mon,
+                cpu_action_loop=shared_mon.cpu_action_loop,
+                memory_monitor=shared_mon.memory_monitor,
+            )
+            current_app.config["INTEGRATED_EXECUTION_MANAGER"] = manager
+        return manager
 
 
 WORKLOAD_PROFILES = {
@@ -806,9 +870,10 @@ def system_step():
 
 @api_bp.route("/api/v1/system/reset", methods=["POST"])
 def system_reset():
-    """Clear integrated execution history and counters so the next step is step 1."""
+    """Clear integrated execution history, counters and the failed-request log so the next step is step 1."""
     try:
         _get_integrated_execution_manager().reset()
+        get_request_log().clear()
     except Exception:
         return jsonify({"error": "Internal server error"}), 500
     return jsonify({"status": "reset"}), 200
@@ -832,3 +897,18 @@ def system_history():
 
     steps = [record.to_dict() for record in reversed(history[-limit:])]
     return jsonify({"total_steps": len(history), "steps": steps}), 200
+
+
+@api_bp.route("/api/v1/system/errors", methods=["GET"])
+def system_errors():
+    """Return recorded failed API requests (status >= 400), newest first (read-only)."""
+    raw_limit = request.args.get("limit", "50").strip()
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        return jsonify({"error": "Query parameter 'limit' must be an integer"}), 400
+    if limit < 1 or limit > 200:
+        return jsonify({"error": "Query parameter 'limit' must be between 1 and 200"}), 400
+
+    log = get_request_log()
+    return jsonify({"total_errors": log.total, "errors": log.recent(limit)}), 200

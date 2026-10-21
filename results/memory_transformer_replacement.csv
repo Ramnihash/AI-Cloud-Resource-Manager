@@ -1,0 +1,1261 @@
+pattern,frames,seed,predictor,policy,page_faults,prefetches,total_loads,prefetch_useful_rate
+uniform,4,2000,none,LRU,411,0,411,
+uniform,4,2000,Markov,Predictive-protect,405,0,405,
+uniform,4,2000,Markov,Predictive-prefetch,387,353,740,0.15864022662889518
+uniform,4,2000,Transformer (API config),Predictive-protect,412,0,412,
+uniform,4,2000,Transformer (API config),Predictive-prefetch,405,333,738,0.12012012012012012
+uniform,4,2000,Transformer (trained),Predictive-protect,408,0,408,
+uniform,4,2000,Transformer (trained),Predictive-prefetch,393,409,802,0.12469437652811736
+uniform,8,2000,none,LRU,314,0,314,
+uniform,8,2000,Markov,Predictive-protect,310,0,310,
+uniform,8,2000,Markov,Predictive-prefetch,308,237,545,0.3080168776371308
+uniform,8,2000,Transformer (API config),Predictive-protect,318,0,318,
+uniform,8,2000,Transformer (API config),Predictive-prefetch,319,221,540,0.2579185520361991
+uniform,8,2000,Transformer (trained),Predictive-protect,313,0,313,
+uniform,8,2000,Transformer (trained),Predictive-prefetch,300,324,624,0.2777777777777778
+uniform,4,2001,none,LRU,405,0,405,
+uniform,4,2001,Markov,Predictive-protect,397,0,397,
+uniform,4,2001,Markov,Predictive-prefetch,394,368,762,0.11141304347826086
+uniform,4,2001,Transformer (API config),Predictive-protect,403,0,403,
+uniform,4,2001,Transformer (API config),Predictive-prefetch,392,348,740,0.1235632183908046
+uniform,4,2001,Transformer (trained),Predictive-protect,404,0,404,
+uniform,4,2001,Transformer (trained),Predictive-prefetch,399,392,791,0.10204081632653061
+uniform,8,2001,none,LRU,320,0,320,
+uniform,8,2001,Markov,Predictive-protect,316,0,316,
+uniform,8,2001,Markov,Predictive-prefetch,312,270,582,0.2777777777777778
+uniform,8,2001,Transformer (API config),Predictive-protect,312,0,312,
+uniform,8,2001,Transformer (API config),Predictive-prefetch,304,234,538,0.32051282051282054
+uniform,8,2001,Transformer (trained),Predictive-protect,318,0,318,
+uniform,8,2001,Transformer (trained),Predictive-prefetch,322,285,607,0.22456140350877193
+uniform,4,2002,none,LRU,405,0,405,
+uniform,4,2002,Markov,Predictive-protect,402,0,402,
+uniform,4,2002,Markov,Predictive-prefetch,406,337,743,0.1394658753709199
+uniform,4,2002,Transformer (API config),Predictive-protect,405,0,405,
+uniform,4,2002,Transformer (API config),Predictive-prefetch,400,346,746,0.14450867052023122
+uniform,4,2002,Transformer (trained),Predictive-protect,403,0,403,
+uniform,4,2002,Transformer (trained),Predictive-prefetch,410,392,802,0.11224489795918367
+uniform,8,2002,none,LRU,300,0,300,
+uniform,8,2002,Markov,Predictive-protect,305,0,305,
+uniform,8,2002,Markov,Predictive-prefetch,308,212,520,0.3018867924528302
+uniform,8,2002,Transformer (API config),Predictive-protect,303,0,303,
+uniform,8,2002,Transformer (API config),Predictive-prefetch,307,215,522,0.3023255813953488
+uniform,8,2002,Transformer (trained),Predictive-protect,307,0,307,
+uniform,8,2002,Transformer (trained),Predictive-prefetch,296,295,591,0.27796610169491526
+uniform,4,2003,none,LRU,407,0,407,
+uniform,4,2003,Markov,Predictive-protect,410,0,410,
+uniform,4,2003,Markov,Predictive-prefetch,406,389,795,0.12082262210796915
+uniform,4,2003,Transformer (API config),Predictive-protect,402,0,402,
+uniform,4,2003,Transformer (API config),Predictive-prefetch,396,375,771,0.144
+uniform,4,2003,Transformer (trained),Predictive-protect,403,0,403,
+uniform,4,2003,Transformer (trained),Predictive-prefetch,402,395,797,0.1240506329113924
+uniform,8,2003,none,LRU,301,0,301,
+uniform,8,2003,Markov,Predictive-protect,299,0,299,
+uniform,8,2003,Markov,Predictive-prefetch,302,267,569,0.31835205992509363
+uniform,8,2003,Transformer (API config),Predictive-protect,304,0,304,
+uniform,8,2003,Transformer (API config),Predictive-prefetch,294,220,514,0.33636363636363636
+uniform,8,2003,Transformer (trained),Predictive-protect,293,0,293,
+uniform,8,2003,Transformer (trained),Predictive-prefetch,309,295,604,0.26101694915254237
+uniform,4,2004,none,LRU,400,0,400,
+uniform,4,2004,Markov,Predictive-protect,397,0,397,
+uniform,4,2004,Markov,Predictive-prefetch,409,303,712,0.10891089108910891
+uniform,4,2004,Transformer (API config),Predictive-protect,397,0,397,
+uniform,4,2004,Transformer (API config),Predictive-prefetch,406,329,735,0.11854103343465046
+uniform,4,2004,Transformer (trained),Predictive-protect,401,0,401,
+uniform,4,2004,Transformer (trained),Predictive-prefetch,389,388,777,0.14690721649484537
+uniform,8,2004,none,LRU,303,0,303,
+uniform,8,2004,Markov,Predictive-protect,313,0,313,
+uniform,8,2004,Markov,Predictive-prefetch,321,184,505,0.2554347826086957
+uniform,8,2004,Transformer (API config),Predictive-protect,307,0,307,
+uniform,8,2004,Transformer (API config),Predictive-prefetch,301,198,499,0.30303030303030304
+uniform,8,2004,Transformer (trained),Predictive-protect,310,0,310,
+uniform,8,2004,Transformer (trained),Predictive-prefetch,295,291,586,0.281786941580756
+uniform,4,2005,none,LRU,425,0,425,
+uniform,4,2005,Markov,Predictive-protect,426,0,426,
+uniform,4,2005,Markov,Predictive-prefetch,413,396,809,0.12878787878787878
+uniform,4,2005,Transformer (API config),Predictive-protect,427,0,427,
+uniform,4,2005,Transformer (API config),Predictive-prefetch,417,349,766,0.12320916905444126
+uniform,4,2005,Transformer (trained),Predictive-protect,429,0,429,
+uniform,4,2005,Transformer (trained),Predictive-prefetch,423,403,826,0.10173697270471464
+uniform,8,2005,none,LRU,335,0,335,
+uniform,8,2005,Markov,Predictive-protect,335,0,335,
+uniform,8,2005,Markov,Predictive-prefetch,320,293,613,0.2764505119453925
+uniform,8,2005,Transformer (API config),Predictive-protect,340,0,340,
+uniform,8,2005,Transformer (API config),Predictive-prefetch,329,236,565,0.2838983050847458
+uniform,8,2005,Transformer (trained),Predictive-protect,330,0,330,
+uniform,8,2005,Transformer (trained),Predictive-prefetch,331,321,652,0.24299065420560748
+uniform,4,2006,none,LRU,408,0,408,
+uniform,4,2006,Markov,Predictive-protect,408,0,408,
+uniform,4,2006,Markov,Predictive-prefetch,406,365,771,0.136986301369863
+uniform,4,2006,Transformer (API config),Predictive-protect,406,0,406,
+uniform,4,2006,Transformer (API config),Predictive-prefetch,413,330,743,0.13636363636363635
+uniform,4,2006,Transformer (trained),Predictive-protect,403,0,403,
+uniform,4,2006,Transformer (trained),Predictive-prefetch,414,396,810,0.10858585858585859
+uniform,8,2006,none,LRU,319,0,319,
+uniform,8,2006,Markov,Predictive-protect,315,0,315,
+uniform,8,2006,Markov,Predictive-prefetch,298,246,544,0.3333333333333333
+uniform,8,2006,Transformer (API config),Predictive-protect,316,0,316,
+uniform,8,2006,Transformer (API config),Predictive-prefetch,309,196,505,0.3163265306122449
+uniform,8,2006,Transformer (trained),Predictive-protect,314,0,314,
+uniform,8,2006,Transformer (trained),Predictive-prefetch,327,303,630,0.19471947194719472
+uniform,4,2007,none,LRU,400,0,400,
+uniform,4,2007,Markov,Predictive-protect,405,0,405,
+uniform,4,2007,Markov,Predictive-prefetch,402,365,767,0.10684931506849316
+uniform,4,2007,Transformer (API config),Predictive-protect,398,0,398,
+uniform,4,2007,Transformer (API config),Predictive-prefetch,400,336,736,0.12202380952380952
+uniform,4,2007,Transformer (trained),Predictive-protect,398,0,398,
+uniform,4,2007,Transformer (trained),Predictive-prefetch,390,393,783,0.14249363867684478
+uniform,8,2007,none,LRU,294,0,294,
+uniform,8,2007,Markov,Predictive-protect,284,0,284,
+uniform,8,2007,Markov,Predictive-prefetch,302,250,552,0.276
+uniform,8,2007,Transformer (API config),Predictive-protect,294,0,294,
+uniform,8,2007,Transformer (API config),Predictive-prefetch,302,217,519,0.3087557603686636
+uniform,8,2007,Transformer (trained),Predictive-protect,290,0,290,
+uniform,8,2007,Transformer (trained),Predictive-prefetch,300,293,593,0.2593856655290102
+uniform,4,2008,none,LRU,411,0,411,
+uniform,4,2008,Markov,Predictive-protect,413,0,413,
+uniform,4,2008,Markov,Predictive-prefetch,386,387,773,0.15503875968992248
+uniform,4,2008,Transformer (API config),Predictive-protect,408,0,408,
+uniform,4,2008,Transformer (API config),Predictive-prefetch,403,352,755,0.12215909090909091
+uniform,4,2008,Transformer (trained),Predictive-protect,409,0,409,
+uniform,4,2008,Transformer (trained),Predictive-prefetch,403,409,812,0.10757946210268948
+uniform,8,2008,none,LRU,313,0,313,
+uniform,8,2008,Markov,Predictive-protect,308,0,308,
+uniform,8,2008,Markov,Predictive-prefetch,292,265,557,0.33584905660377357
+uniform,8,2008,Transformer (API config),Predictive-protect,310,0,310,
+uniform,8,2008,Transformer (API config),Predictive-prefetch,312,235,547,0.28936170212765955
+uniform,8,2008,Transformer (trained),Predictive-protect,324,0,324,
+uniform,8,2008,Transformer (trained),Predictive-prefetch,316,307,623,0.254071661237785
+uniform,4,2009,none,LRU,392,0,392,
+uniform,4,2009,Markov,Predictive-protect,394,0,394,
+uniform,4,2009,Markov,Predictive-prefetch,402,397,799,0.10579345088161209
+uniform,4,2009,Transformer (API config),Predictive-protect,393,0,393,
+uniform,4,2009,Transformer (API config),Predictive-prefetch,391,367,758,0.1362397820163488
+uniform,4,2009,Transformer (trained),Predictive-protect,397,0,397,
+uniform,4,2009,Transformer (trained),Predictive-prefetch,397,390,787,0.11538461538461539
+uniform,8,2009,none,LRU,282,0,282,
+uniform,8,2009,Markov,Predictive-protect,297,0,297,
+uniform,8,2009,Markov,Predictive-prefetch,299,282,581,0.25886524822695034
+uniform,8,2009,Transformer (API config),Predictive-protect,284,0,284,
+uniform,8,2009,Transformer (API config),Predictive-prefetch,288,244,532,0.28688524590163933
+uniform,8,2009,Transformer (trained),Predictive-protect,297,0,297,
+uniform,8,2009,Transformer (trained),Predictive-prefetch,306,298,604,0.2550335570469799
+uniform,4,2010,none,LRU,412,0,412,
+uniform,4,2010,Markov,Predictive-protect,406,0,406,
+uniform,4,2010,Markov,Predictive-prefetch,421,349,770,0.10601719197707736
+uniform,4,2010,Transformer (API config),Predictive-protect,411,0,411,
+uniform,4,2010,Transformer (API config),Predictive-prefetch,401,374,775,0.1443850267379679
+uniform,4,2010,Transformer (trained),Predictive-protect,413,0,413,
+uniform,4,2010,Transformer (trained),Predictive-prefetch,408,385,793,0.12727272727272726
+uniform,8,2010,none,LRU,326,0,326,
+uniform,8,2010,Markov,Predictive-protect,319,0,319,
+uniform,8,2010,Markov,Predictive-prefetch,313,213,526,0.30985915492957744
+uniform,8,2010,Transformer (API config),Predictive-protect,327,0,327,
+uniform,8,2010,Transformer (API config),Predictive-prefetch,305,258,563,0.313953488372093
+uniform,8,2010,Transformer (trained),Predictive-protect,326,0,326,
+uniform,8,2010,Transformer (trained),Predictive-prefetch,328,278,606,0.2446043165467626
+uniform,4,2011,none,LRU,419,0,419,
+uniform,4,2011,Markov,Predictive-protect,415,0,415,
+uniform,4,2011,Markov,Predictive-prefetch,396,348,744,0.15804597701149425
+uniform,4,2011,Transformer (API config),Predictive-protect,410,0,410,
+uniform,4,2011,Transformer (API config),Predictive-prefetch,405,352,757,0.13636363636363635
+uniform,4,2011,Transformer (trained),Predictive-protect,418,0,418,
+uniform,4,2011,Transformer (trained),Predictive-prefetch,407,384,791,0.11979166666666667
+uniform,8,2011,none,LRU,311,0,311,
+uniform,8,2011,Markov,Predictive-protect,305,0,305,
+uniform,8,2011,Markov,Predictive-prefetch,295,236,531,0.3220338983050847
+uniform,8,2011,Transformer (API config),Predictive-protect,314,0,314,
+uniform,8,2011,Transformer (API config),Predictive-prefetch,313,235,548,0.3021276595744681
+uniform,8,2011,Transformer (trained),Predictive-protect,302,0,302,
+uniform,8,2011,Transformer (trained),Predictive-prefetch,317,298,615,0.22818791946308725
+uniform,4,2012,none,LRU,397,0,397,
+uniform,4,2012,Markov,Predictive-protect,392,0,392,
+uniform,4,2012,Markov,Predictive-prefetch,390,372,762,0.12365591397849462
+uniform,4,2012,Transformer (API config),Predictive-protect,395,0,395,
+uniform,4,2012,Transformer (API config),Predictive-prefetch,392,322,714,0.13354037267080746
+uniform,4,2012,Transformer (trained),Predictive-protect,397,0,397,
+uniform,4,2012,Transformer (trained),Predictive-prefetch,395,392,787,0.11224489795918367
+uniform,8,2012,none,LRU,294,0,294,
+uniform,8,2012,Markov,Predictive-protect,298,0,298,
+uniform,8,2012,Markov,Predictive-prefetch,291,226,517,0.30973451327433627
+uniform,8,2012,Transformer (API config),Predictive-protect,294,0,294,
+uniform,8,2012,Transformer (API config),Predictive-prefetch,290,194,484,0.31443298969072164
+uniform,8,2012,Transformer (trained),Predictive-protect,300,0,300,
+uniform,8,2012,Transformer (trained),Predictive-prefetch,300,293,593,0.2696245733788396
+uniform,4,2013,none,LRU,397,0,397,
+uniform,4,2013,Markov,Predictive-protect,392,0,392,
+uniform,4,2013,Markov,Predictive-prefetch,397,331,728,0.1268882175226586
+uniform,4,2013,Transformer (API config),Predictive-protect,394,0,394,
+uniform,4,2013,Transformer (API config),Predictive-prefetch,405,340,745,0.10882352941176471
+uniform,4,2013,Transformer (trained),Predictive-protect,395,0,395,
+uniform,4,2013,Transformer (trained),Predictive-prefetch,397,397,794,0.11586901763224182
+uniform,8,2013,none,LRU,305,0,305,
+uniform,8,2013,Markov,Predictive-protect,301,0,301,
+uniform,8,2013,Markov,Predictive-prefetch,295,219,514,0.2922374429223744
+uniform,8,2013,Transformer (API config),Predictive-protect,295,0,295,
+uniform,8,2013,Transformer (API config),Predictive-prefetch,292,219,511,0.3470319634703196
+uniform,8,2013,Transformer (trained),Predictive-protect,307,0,307,
+uniform,8,2013,Transformer (trained),Predictive-prefetch,305,299,604,0.23411371237458195
+uniform,4,2014,none,LRU,407,0,407,
+uniform,4,2014,Markov,Predictive-protect,409,0,409,
+uniform,4,2014,Markov,Predictive-prefetch,400,359,759,0.1309192200557103
+uniform,4,2014,Transformer (API config),Predictive-protect,411,0,411,
+uniform,4,2014,Transformer (API config),Predictive-prefetch,399,374,773,0.13368983957219252
+uniform,4,2014,Transformer (trained),Predictive-protect,410,0,410,
+uniform,4,2014,Transformer (trained),Predictive-prefetch,409,393,802,0.10432569974554708
+uniform,8,2014,none,LRU,311,0,311,
+uniform,8,2014,Markov,Predictive-protect,314,0,314,
+uniform,8,2014,Markov,Predictive-prefetch,308,242,550,0.3181818181818182
+uniform,8,2014,Transformer (API config),Predictive-protect,310,0,310,
+uniform,8,2014,Transformer (API config),Predictive-prefetch,301,228,529,0.32456140350877194
+uniform,8,2014,Transformer (trained),Predictive-protect,312,0,312,
+uniform,8,2014,Transformer (trained),Predictive-prefetch,311,295,606,0.2440677966101695
+uniform,4,2015,none,LRU,378,0,378,
+uniform,4,2015,Markov,Predictive-protect,371,0,371,
+uniform,4,2015,Markov,Predictive-prefetch,398,361,759,0.11080332409972299
+uniform,4,2015,Transformer (API config),Predictive-protect,388,0,388,
+uniform,4,2015,Transformer (API config),Predictive-prefetch,411,354,765,0.096045197740113
+uniform,4,2015,Transformer (trained),Predictive-protect,379,0,379,
+uniform,4,2015,Transformer (trained),Predictive-prefetch,396,390,786,0.11794871794871795
+uniform,8,2015,none,LRU,283,0,283,
+uniform,8,2015,Markov,Predictive-protect,285,0,285,
+uniform,8,2015,Markov,Predictive-prefetch,273,232,505,0.33189655172413796
+uniform,8,2015,Transformer (API config),Predictive-protect,282,0,282,
+uniform,8,2015,Transformer (API config),Predictive-prefetch,294,219,513,0.2374429223744292
+uniform,8,2015,Transformer (trained),Predictive-protect,276,0,276,
+uniform,8,2015,Transformer (trained),Predictive-prefetch,273,305,578,0.26229508196721313
+uniform,4,2016,none,LRU,405,0,405,
+uniform,4,2016,Markov,Predictive-protect,407,0,407,
+uniform,4,2016,Markov,Predictive-prefetch,400,379,779,0.11609498680738786
+uniform,4,2016,Transformer (API config),Predictive-protect,402,0,402,
+uniform,4,2016,Transformer (API config),Predictive-prefetch,411,378,789,0.09259259259259259
+uniform,4,2016,Transformer (trained),Predictive-protect,401,0,401,
+uniform,4,2016,Transformer (trained),Predictive-prefetch,401,384,785,0.1171875
+uniform,8,2016,none,LRU,311,0,311,
+uniform,8,2016,Markov,Predictive-protect,305,0,305,
+uniform,8,2016,Markov,Predictive-prefetch,301,271,572,0.2767527675276753
+uniform,8,2016,Transformer (API config),Predictive-protect,314,0,314,
+uniform,8,2016,Transformer (API config),Predictive-prefetch,301,260,561,0.29615384615384616
+uniform,8,2016,Transformer (trained),Predictive-protect,313,0,313,
+uniform,8,2016,Transformer (trained),Predictive-prefetch,310,284,594,0.24647887323943662
+uniform,4,2017,none,LRU,392,0,392,
+uniform,4,2017,Markov,Predictive-protect,394,0,394,
+uniform,4,2017,Markov,Predictive-prefetch,391,330,721,0.16363636363636364
+uniform,4,2017,Transformer (API config),Predictive-protect,396,0,396,
+uniform,4,2017,Transformer (API config),Predictive-prefetch,405,362,767,0.1132596685082873
+uniform,4,2017,Transformer (trained),Predictive-protect,396,0,396,
+uniform,4,2017,Transformer (trained),Predictive-prefetch,397,398,795,0.12814070351758794
+uniform,8,2017,none,LRU,282,0,282,
+uniform,8,2017,Markov,Predictive-protect,287,0,287,
+uniform,8,2017,Markov,Predictive-prefetch,291,216,507,0.3055555555555556
+uniform,8,2017,Transformer (API config),Predictive-protect,284,0,284,
+uniform,8,2017,Transformer (API config),Predictive-prefetch,306,227,533,0.28193832599118945
+uniform,8,2017,Transformer (trained),Predictive-protect,287,0,287,
+uniform,8,2017,Transformer (trained),Predictive-prefetch,284,300,584,0.28
+uniform,4,2018,none,LRU,395,0,395,
+uniform,4,2018,Markov,Predictive-protect,393,0,393,
+uniform,4,2018,Markov,Predictive-prefetch,392,357,749,0.1568627450980392
+uniform,4,2018,Transformer (API config),Predictive-protect,399,0,399,
+uniform,4,2018,Transformer (API config),Predictive-prefetch,413,363,776,0.1046831955922865
+uniform,4,2018,Transformer (trained),Predictive-protect,396,0,396,
+uniform,4,2018,Transformer (trained),Predictive-prefetch,397,371,768,0.14016172506738545
+uniform,8,2018,none,LRU,304,0,304,
+uniform,8,2018,Markov,Predictive-protect,298,0,298,
+uniform,8,2018,Markov,Predictive-prefetch,286,233,519,0.33905579399141633
+uniform,8,2018,Transformer (API config),Predictive-protect,301,0,301,
+uniform,8,2018,Transformer (API config),Predictive-prefetch,305,233,538,0.27896995708154504
+uniform,8,2018,Transformer (trained),Predictive-protect,312,0,312,
+uniform,8,2018,Transformer (trained),Predictive-prefetch,290,262,552,0.2786259541984733
+uniform,4,2019,none,LRU,397,0,397,
+uniform,4,2019,Markov,Predictive-protect,400,0,400,
+uniform,4,2019,Markov,Predictive-prefetch,416,410,826,0.08536585365853659
+uniform,4,2019,Transformer (API config),Predictive-protect,398,0,398,
+uniform,4,2019,Transformer (API config),Predictive-prefetch,409,391,800,0.10485933503836317
+uniform,4,2019,Transformer (trained),Predictive-protect,396,0,396,
+uniform,4,2019,Transformer (trained),Predictive-prefetch,399,382,781,0.13089005235602094
+uniform,8,2019,none,LRU,296,0,296,
+uniform,8,2019,Markov,Predictive-protect,291,0,291,
+uniform,8,2019,Markov,Predictive-prefetch,311,276,587,0.2427536231884058
+uniform,8,2019,Transformer (API config),Predictive-protect,304,0,304,
+uniform,8,2019,Transformer (API config),Predictive-prefetch,312,269,581,0.2342007434944238
+uniform,8,2019,Transformer (trained),Predictive-protect,292,0,292,
+uniform,8,2019,Transformer (trained),Predictive-prefetch,292,291,583,0.2542955326460481
+uniform,4,2020,none,LRU,396,0,396,
+uniform,4,2020,Markov,Predictive-protect,395,0,395,
+uniform,4,2020,Markov,Predictive-prefetch,393,354,747,0.1384180790960452
+uniform,4,2020,Transformer (API config),Predictive-protect,402,0,402,
+uniform,4,2020,Transformer (API config),Predictive-prefetch,396,370,766,0.12972972972972974
+uniform,4,2020,Transformer (trained),Predictive-protect,401,0,401,
+uniform,4,2020,Transformer (trained),Predictive-prefetch,385,411,796,0.1435523114355231
+uniform,8,2020,none,LRU,304,0,304,
+uniform,8,2020,Markov,Predictive-protect,300,0,300,
+uniform,8,2020,Markov,Predictive-prefetch,293,236,529,0.3347457627118644
+uniform,8,2020,Transformer (API config),Predictive-protect,294,0,294,
+uniform,8,2020,Transformer (API config),Predictive-prefetch,300,243,543,0.3045267489711934
+uniform,8,2020,Transformer (trained),Predictive-protect,306,0,306,
+uniform,8,2020,Transformer (trained),Predictive-prefetch,288,313,601,0.2971246006389776
+uniform,4,2021,none,LRU,405,0,405,
+uniform,4,2021,Markov,Predictive-protect,406,0,406,
+uniform,4,2021,Markov,Predictive-prefetch,411,413,824,0.10411622276029056
+uniform,4,2021,Transformer (API config),Predictive-protect,406,0,406,
+uniform,4,2021,Transformer (API config),Predictive-prefetch,402,356,758,0.14325842696629212
+uniform,4,2021,Transformer (trained),Predictive-protect,408,0,408,
+uniform,4,2021,Transformer (trained),Predictive-prefetch,403,387,790,0.12403100775193798
+uniform,8,2021,none,LRU,305,0,305,
+uniform,8,2021,Markov,Predictive-protect,310,0,310,
+uniform,8,2021,Markov,Predictive-prefetch,306,296,602,0.26013513513513514
+uniform,8,2021,Transformer (API config),Predictive-protect,306,0,306,
+uniform,8,2021,Transformer (API config),Predictive-prefetch,291,227,518,0.3436123348017621
+uniform,8,2021,Transformer (trained),Predictive-protect,301,0,301,
+uniform,8,2021,Transformer (trained),Predictive-prefetch,309,285,594,0.256140350877193
+uniform,4,2022,none,LRU,400,0,400,
+uniform,4,2022,Markov,Predictive-protect,404,0,404,
+uniform,4,2022,Markov,Predictive-prefetch,395,385,780,0.12987012987012986
+uniform,4,2022,Transformer (API config),Predictive-protect,399,0,399,
+uniform,4,2022,Transformer (API config),Predictive-prefetch,401,372,773,0.12365591397849462
+uniform,4,2022,Transformer (trained),Predictive-protect,400,0,400,
+uniform,4,2022,Transformer (trained),Predictive-prefetch,389,401,790,0.12718204488778054
+uniform,8,2022,none,LRU,313,0,313,
+uniform,8,2022,Markov,Predictive-protect,309,0,309,
+uniform,8,2022,Markov,Predictive-prefetch,301,278,579,0.302158273381295
+uniform,8,2022,Transformer (API config),Predictive-protect,307,0,307,
+uniform,8,2022,Transformer (API config),Predictive-prefetch,304,239,543,0.30962343096234307
+uniform,8,2022,Transformer (trained),Predictive-protect,317,0,317,
+uniform,8,2022,Transformer (trained),Predictive-prefetch,304,295,599,0.2711864406779661
+uniform,4,2023,none,LRU,404,0,404,
+uniform,4,2023,Markov,Predictive-protect,406,0,406,
+uniform,4,2023,Markov,Predictive-prefetch,418,413,831,0.07506053268765134
+uniform,4,2023,Transformer (API config),Predictive-protect,402,0,402,
+uniform,4,2023,Transformer (API config),Predictive-prefetch,406,369,775,0.1111111111111111
+uniform,4,2023,Transformer (trained),Predictive-protect,400,0,400,
+uniform,4,2023,Transformer (trained),Predictive-prefetch,389,393,782,0.15012722646310434
+uniform,8,2023,none,LRU,316,0,316,
+uniform,8,2023,Markov,Predictive-protect,320,0,320,
+uniform,8,2023,Markov,Predictive-prefetch,312,299,611,0.2508361204013378
+uniform,8,2023,Transformer (API config),Predictive-protect,302,0,302,
+uniform,8,2023,Transformer (API config),Predictive-prefetch,302,241,543,0.3153526970954357
+uniform,8,2023,Transformer (trained),Predictive-protect,306,0,306,
+uniform,8,2023,Transformer (trained),Predictive-prefetch,296,288,584,0.2847222222222222
+uniform,4,2024,none,LRU,386,0,386,
+uniform,4,2024,Markov,Predictive-protect,382,0,382,
+uniform,4,2024,Markov,Predictive-prefetch,409,369,778,0.10569105691056911
+uniform,4,2024,Transformer (API config),Predictive-protect,386,0,386,
+uniform,4,2024,Transformer (API config),Predictive-prefetch,415,337,752,0.0771513353115727
+uniform,4,2024,Transformer (trained),Predictive-protect,393,0,393,
+uniform,4,2024,Transformer (trained),Predictive-prefetch,411,392,803,0.10204081632653061
+uniform,8,2024,none,LRU,292,0,292,
+uniform,8,2024,Markov,Predictive-protect,292,0,292,
+uniform,8,2024,Markov,Predictive-prefetch,289,222,511,0.2927927927927928
+uniform,8,2024,Transformer (API config),Predictive-protect,284,0,284,
+uniform,8,2024,Transformer (API config),Predictive-prefetch,302,202,504,0.26732673267326734
+uniform,8,2024,Transformer (trained),Predictive-protect,289,0,289,
+uniform,8,2024,Transformer (trained),Predictive-prefetch,302,299,601,0.22073578595317725
+uniform,4,2025,none,LRU,399,0,399,
+uniform,4,2025,Markov,Predictive-protect,397,0,397,
+uniform,4,2025,Markov,Predictive-prefetch,405,380,785,0.12631578947368421
+uniform,4,2025,Transformer (API config),Predictive-protect,403,0,403,
+uniform,4,2025,Transformer (API config),Predictive-prefetch,398,370,768,0.14864864864864866
+uniform,4,2025,Transformer (trained),Predictive-protect,405,0,405,
+uniform,4,2025,Transformer (trained),Predictive-prefetch,407,392,799,0.125
+uniform,8,2025,none,LRU,312,0,312,
+uniform,8,2025,Markov,Predictive-protect,309,0,309,
+uniform,8,2025,Markov,Predictive-prefetch,299,260,559,0.29615384615384616
+uniform,8,2025,Transformer (API config),Predictive-protect,305,0,305,
+uniform,8,2025,Transformer (API config),Predictive-prefetch,302,235,537,0.3021276595744681
+uniform,8,2025,Transformer (trained),Predictive-protect,307,0,307,
+uniform,8,2025,Transformer (trained),Predictive-prefetch,297,287,584,0.27177700348432055
+uniform,4,2026,none,LRU,416,0,416,
+uniform,4,2026,Markov,Predictive-protect,415,0,415,
+uniform,4,2026,Markov,Predictive-prefetch,412,328,740,0.1402439024390244
+uniform,4,2026,Transformer (API config),Predictive-protect,415,0,415,
+uniform,4,2026,Transformer (API config),Predictive-prefetch,402,359,761,0.1671309192200557
+uniform,4,2026,Transformer (trained),Predictive-protect,419,0,419,
+uniform,4,2026,Transformer (trained),Predictive-prefetch,418,406,824,0.11330049261083744
+uniform,8,2026,none,LRU,307,0,307,
+uniform,8,2026,Markov,Predictive-protect,310,0,310,
+uniform,8,2026,Markov,Predictive-prefetch,321,194,515,0.29896907216494845
+uniform,8,2026,Transformer (API config),Predictive-protect,315,0,315,
+uniform,8,2026,Transformer (API config),Predictive-prefetch,319,207,526,0.30434782608695654
+uniform,8,2026,Transformer (trained),Predictive-protect,300,0,300,
+uniform,8,2026,Transformer (trained),Predictive-prefetch,322,314,636,0.24203821656050956
+uniform,4,2027,none,LRU,382,0,382,
+uniform,4,2027,Markov,Predictive-protect,380,0,380,
+uniform,4,2027,Markov,Predictive-prefetch,393,357,750,0.11484593837535013
+uniform,4,2027,Transformer (API config),Predictive-protect,381,0,381,
+uniform,4,2027,Transformer (API config),Predictive-prefetch,384,330,714,0.1484848484848485
+uniform,4,2027,Transformer (trained),Predictive-protect,383,0,383,
+uniform,4,2027,Transformer (trained),Predictive-prefetch,387,380,767,0.13157894736842105
+uniform,8,2027,none,LRU,303,0,303,
+uniform,8,2027,Markov,Predictive-protect,307,0,307,
+uniform,8,2027,Markov,Predictive-prefetch,291,232,523,0.3103448275862069
+uniform,8,2027,Transformer (API config),Predictive-protect,292,0,292,
+uniform,8,2027,Transformer (API config),Predictive-prefetch,285,190,475,0.3368421052631579
+uniform,8,2027,Transformer (trained),Predictive-protect,287,0,287,
+uniform,8,2027,Transformer (trained),Predictive-prefetch,282,273,555,0.2967032967032967
+uniform,4,2028,none,LRU,374,0,374,
+uniform,4,2028,Markov,Predictive-protect,375,0,375,
+uniform,4,2028,Markov,Predictive-prefetch,391,343,734,0.12536443148688048
+uniform,4,2028,Transformer (API config),Predictive-protect,385,0,385,
+uniform,4,2028,Transformer (API config),Predictive-prefetch,392,352,744,0.13068181818181818
+uniform,4,2028,Transformer (trained),Predictive-protect,376,0,376,
+uniform,4,2028,Transformer (trained),Predictive-prefetch,392,381,773,0.12335958005249344
+uniform,8,2028,none,LRU,284,0,284,
+uniform,8,2028,Markov,Predictive-protect,292,0,292,
+uniform,8,2028,Markov,Predictive-prefetch,281,205,486,0.32195121951219513
+uniform,8,2028,Transformer (API config),Predictive-protect,292,0,292,
+uniform,8,2028,Transformer (API config),Predictive-prefetch,294,233,527,0.2532188841201717
+uniform,8,2028,Transformer (trained),Predictive-protect,288,0,288,
+uniform,8,2028,Transformer (trained),Predictive-prefetch,278,277,555,0.2490974729241877
+uniform,4,2029,none,LRU,390,0,390,
+uniform,4,2029,Markov,Predictive-protect,395,0,395,
+uniform,4,2029,Markov,Predictive-prefetch,396,387,783,0.12661498708010335
+uniform,4,2029,Transformer (API config),Predictive-protect,386,0,386,
+uniform,4,2029,Transformer (API config),Predictive-prefetch,392,347,739,0.1440922190201729
+uniform,4,2029,Transformer (trained),Predictive-protect,389,0,389,
+uniform,4,2029,Transformer (trained),Predictive-prefetch,404,378,782,0.09788359788359788
+uniform,8,2029,none,LRU,299,0,299,
+uniform,8,2029,Markov,Predictive-protect,305,0,305,
+uniform,8,2029,Markov,Predictive-prefetch,298,245,543,0.2938775510204082
+uniform,8,2029,Transformer (API config),Predictive-protect,296,0,296,
+uniform,8,2029,Transformer (API config),Predictive-prefetch,281,217,498,0.35944700460829493
+uniform,8,2029,Transformer (trained),Predictive-protect,304,0,304,
+uniform,8,2029,Transformer (trained),Predictive-prefetch,297,266,563,0.2556390977443609
+locality,4,2000,none,LRU,240,0,240,
+locality,4,2000,Markov,Predictive-protect,227,0,227,
+locality,4,2000,Markov,Predictive-prefetch,208,148,356,0.5405405405405406
+locality,4,2000,Transformer (API config),Predictive-protect,225,0,225,
+locality,4,2000,Transformer (API config),Predictive-prefetch,202,77,279,0.6363636363636364
+locality,4,2000,Transformer (trained),Predictive-protect,234,0,234,
+locality,4,2000,Transformer (trained),Predictive-prefetch,234,218,452,0.3623853211009174
+locality,8,2000,none,LRU,92,0,92,
+locality,8,2000,Markov,Predictive-protect,82,0,82,
+locality,8,2000,Markov,Predictive-prefetch,77,5,82,1.0
+locality,8,2000,Transformer (API config),Predictive-protect,86,0,86,
+locality,8,2000,Transformer (API config),Predictive-prefetch,81,7,88,1.0
+locality,8,2000,Transformer (trained),Predictive-protect,83,0,83,
+locality,8,2000,Transformer (trained),Predictive-prefetch,88,75,163,0.32
+locality,4,2001,none,LRU,242,0,242,
+locality,4,2001,Markov,Predictive-protect,215,0,215,
+locality,4,2001,Markov,Predictive-prefetch,195,116,311,0.603448275862069
+locality,4,2001,Transformer (API config),Predictive-protect,224,0,224,
+locality,4,2001,Transformer (API config),Predictive-prefetch,204,81,285,0.6049382716049383
+locality,4,2001,Transformer (trained),Predictive-protect,224,0,224,
+locality,4,2001,Transformer (trained),Predictive-prefetch,218,176,394,0.3522727272727273
+locality,8,2001,none,LRU,80,0,80,
+locality,8,2001,Markov,Predictive-protect,73,0,73,
+locality,8,2001,Markov,Predictive-prefetch,67,6,73,1.0
+locality,8,2001,Transformer (API config),Predictive-protect,73,0,73,
+locality,8,2001,Transformer (API config),Predictive-prefetch,69,6,75,1.0
+locality,8,2001,Transformer (trained),Predictive-protect,76,0,76,
+locality,8,2001,Transformer (trained),Predictive-prefetch,81,55,136,0.36363636363636365
+locality,4,2002,none,LRU,250,0,250,
+locality,4,2002,Markov,Predictive-protect,231,0,231,
+locality,4,2002,Markov,Predictive-prefetch,211,120,331,0.625
+locality,4,2002,Transformer (API config),Predictive-protect,238,0,238,
+locality,4,2002,Transformer (API config),Predictive-prefetch,243,111,354,0.45045045045045046
+locality,4,2002,Transformer (trained),Predictive-protect,240,0,240,
+locality,4,2002,Transformer (trained),Predictive-prefetch,221,187,408,0.4385026737967914
+locality,8,2002,none,LRU,108,0,108,
+locality,8,2002,Markov,Predictive-protect,96,0,96,
+locality,8,2002,Markov,Predictive-prefetch,90,8,98,1.0
+locality,8,2002,Transformer (API config),Predictive-protect,95,0,95,
+locality,8,2002,Transformer (API config),Predictive-prefetch,90,27,117,0.5185185185185185
+locality,8,2002,Transformer (trained),Predictive-protect,97,0,97,
+locality,8,2002,Transformer (trained),Predictive-prefetch,96,65,161,0.46153846153846156
+locality,4,2003,none,LRU,253,0,253,
+locality,4,2003,Markov,Predictive-protect,236,0,236,
+locality,4,2003,Markov,Predictive-prefetch,227,136,363,0.5294117647058824
+locality,4,2003,Transformer (API config),Predictive-protect,239,0,239,
+locality,4,2003,Transformer (API config),Predictive-prefetch,266,160,426,0.375
+locality,4,2003,Transformer (trained),Predictive-protect,245,0,245,
+locality,4,2003,Transformer (trained),Predictive-prefetch,247,229,476,0.33624454148471616
+locality,8,2003,none,LRU,100,0,100,
+locality,8,2003,Markov,Predictive-protect,89,0,89,
+locality,8,2003,Markov,Predictive-prefetch,85,5,90,0.8
+locality,8,2003,Transformer (API config),Predictive-protect,98,0,98,
+locality,8,2003,Transformer (API config),Predictive-prefetch,103,14,117,0.42857142857142855
+locality,8,2003,Transformer (trained),Predictive-protect,89,0,89,
+locality,8,2003,Transformer (trained),Predictive-prefetch,109,103,212,0.3106796116504854
+locality,4,2004,none,LRU,272,0,272,
+locality,4,2004,Markov,Predictive-protect,249,0,249,
+locality,4,2004,Markov,Predictive-prefetch,229,125,354,0.616
+locality,4,2004,Transformer (API config),Predictive-protect,260,0,260,
+locality,4,2004,Transformer (API config),Predictive-prefetch,240,130,370,0.46923076923076923
+locality,4,2004,Transformer (trained),Predictive-protect,257,0,257,
+locality,4,2004,Transformer (trained),Predictive-prefetch,261,230,491,0.3347826086956522
+locality,8,2004,none,LRU,108,0,108,
+locality,8,2004,Markov,Predictive-protect,96,0,96,
+locality,8,2004,Markov,Predictive-prefetch,94,2,96,1.0
+locality,8,2004,Transformer (API config),Predictive-protect,97,0,97,
+locality,8,2004,Transformer (API config),Predictive-prefetch,105,27,132,0.4074074074074074
+locality,8,2004,Transformer (trained),Predictive-protect,94,0,94,
+locality,8,2004,Transformer (trained),Predictive-prefetch,108,83,191,0.3253012048192771
+locality,4,2005,none,LRU,247,0,247,
+locality,4,2005,Markov,Predictive-protect,235,0,235,
+locality,4,2005,Markov,Predictive-prefetch,204,137,341,0.6204379562043796
+locality,4,2005,Transformer (API config),Predictive-protect,235,0,235,
+locality,4,2005,Transformer (API config),Predictive-prefetch,241,97,338,0.41237113402061853
+locality,4,2005,Transformer (trained),Predictive-protect,228,0,228,
+locality,4,2005,Transformer (trained),Predictive-prefetch,229,213,442,0.37089201877934275
+locality,8,2005,none,LRU,98,0,98,
+locality,8,2005,Markov,Predictive-protect,83,0,83,
+locality,8,2005,Markov,Predictive-prefetch,79,4,83,1.0
+locality,8,2005,Transformer (API config),Predictive-protect,91,0,91,
+locality,8,2005,Transformer (API config),Predictive-prefetch,93,22,115,0.3181818181818182
+locality,8,2005,Transformer (trained),Predictive-protect,85,0,85,
+locality,8,2005,Transformer (trained),Predictive-prefetch,91,78,169,0.3333333333333333
+locality,4,2006,none,LRU,260,0,260,
+locality,4,2006,Markov,Predictive-protect,254,0,254,
+locality,4,2006,Markov,Predictive-prefetch,224,158,382,0.5063291139240507
+locality,4,2006,Transformer (API config),Predictive-protect,250,0,250,
+locality,4,2006,Transformer (API config),Predictive-prefetch,264,154,418,0.3116883116883117
+locality,4,2006,Transformer (trained),Predictive-protect,258,0,258,
+locality,4,2006,Transformer (trained),Predictive-prefetch,262,243,505,0.34156378600823045
+locality,8,2006,none,LRU,114,0,114,
+locality,8,2006,Markov,Predictive-protect,97,0,97,
+locality,8,2006,Markov,Predictive-prefetch,90,7,97,1.0
+locality,8,2006,Transformer (API config),Predictive-protect,105,0,105,
+locality,8,2006,Transformer (API config),Predictive-prefetch,117,50,167,0.4
+locality,8,2006,Transformer (trained),Predictive-protect,98,0,98,
+locality,8,2006,Transformer (trained),Predictive-prefetch,108,76,184,0.35526315789473684
+locality,4,2007,none,LRU,266,0,266,
+locality,4,2007,Markov,Predictive-protect,250,0,250,
+locality,4,2007,Markov,Predictive-prefetch,228,95,323,0.6736842105263158
+locality,4,2007,Transformer (API config),Predictive-protect,249,0,249,
+locality,4,2007,Transformer (API config),Predictive-prefetch,245,68,313,0.6029411764705882
+locality,4,2007,Transformer (trained),Predictive-protect,255,0,255,
+locality,4,2007,Transformer (trained),Predictive-prefetch,261,222,483,0.3063063063063063
+locality,8,2007,none,LRU,122,0,122,
+locality,8,2007,Markov,Predictive-protect,110,0,110,
+locality,8,2007,Markov,Predictive-prefetch,102,10,112,1.0
+locality,8,2007,Transformer (API config),Predictive-protect,117,0,117,
+locality,8,2007,Transformer (API config),Predictive-prefetch,113,12,125,0.75
+locality,8,2007,Transformer (trained),Predictive-protect,113,0,113,
+locality,8,2007,Transformer (trained),Predictive-prefetch,111,82,193,0.4024390243902439
+locality,4,2008,none,LRU,247,0,247,
+locality,4,2008,Markov,Predictive-protect,231,0,231,
+locality,4,2008,Markov,Predictive-prefetch,213,100,313,0.55
+locality,4,2008,Transformer (API config),Predictive-protect,234,0,234,
+locality,4,2008,Transformer (API config),Predictive-prefetch,217,87,304,0.5632183908045977
+locality,4,2008,Transformer (trained),Predictive-protect,241,0,241,
+locality,4,2008,Transformer (trained),Predictive-prefetch,254,247,501,0.29554655870445345
+locality,8,2008,none,LRU,97,0,97,
+locality,8,2008,Markov,Predictive-protect,87,0,87,
+locality,8,2008,Markov,Predictive-prefetch,84,4,88,0.75
+locality,8,2008,Transformer (API config),Predictive-protect,90,0,90,
+locality,8,2008,Transformer (API config),Predictive-prefetch,88,14,102,0.35714285714285715
+locality,8,2008,Transformer (trained),Predictive-protect,85,0,85,
+locality,8,2008,Transformer (trained),Predictive-prefetch,97,94,191,0.2765957446808511
+locality,4,2009,none,LRU,266,0,266,
+locality,4,2009,Markov,Predictive-protect,255,0,255,
+locality,4,2009,Markov,Predictive-prefetch,252,110,362,0.4636363636363636
+locality,4,2009,Transformer (API config),Predictive-protect,249,0,249,
+locality,4,2009,Transformer (API config),Predictive-prefetch,237,38,275,0.6052631578947368
+locality,4,2009,Transformer (trained),Predictive-protect,264,0,264,
+locality,4,2009,Transformer (trained),Predictive-prefetch,252,247,499,0.32388663967611336
+locality,8,2009,none,LRU,122,0,122,
+locality,8,2009,Markov,Predictive-protect,109,0,109,
+locality,8,2009,Markov,Predictive-prefetch,108,7,115,0.7142857142857143
+locality,8,2009,Transformer (API config),Predictive-protect,113,0,113,
+locality,8,2009,Transformer (API config),Predictive-prefetch,112,7,119,0.5714285714285714
+locality,8,2009,Transformer (trained),Predictive-protect,111,0,111,
+locality,8,2009,Transformer (trained),Predictive-prefetch,119,92,211,0.391304347826087
+locality,4,2010,none,LRU,283,0,283,
+locality,4,2010,Markov,Predictive-protect,263,0,263,
+locality,4,2010,Markov,Predictive-prefetch,248,161,409,0.484472049689441
+locality,4,2010,Transformer (API config),Predictive-protect,267,0,267,
+locality,4,2010,Transformer (API config),Predictive-prefetch,245,131,376,0.44274809160305345
+locality,4,2010,Transformer (trained),Predictive-protect,275,0,275,
+locality,4,2010,Transformer (trained),Predictive-prefetch,252,246,498,0.35365853658536583
+locality,8,2010,none,LRU,118,0,118,
+locality,8,2010,Markov,Predictive-protect,95,0,95,
+locality,8,2010,Markov,Predictive-prefetch,88,10,98,1.0
+locality,8,2010,Transformer (API config),Predictive-protect,105,0,105,
+locality,8,2010,Transformer (API config),Predictive-prefetch,105,26,131,0.46153846153846156
+locality,8,2010,Transformer (trained),Predictive-protect,110,0,110,
+locality,8,2010,Transformer (trained),Predictive-prefetch,106,84,190,0.39285714285714285
+locality,4,2011,none,LRU,229,0,229,
+locality,4,2011,Markov,Predictive-protect,233,0,233,
+locality,4,2011,Markov,Predictive-prefetch,221,94,315,0.5
+locality,4,2011,Transformer (API config),Predictive-protect,221,0,221,
+locality,4,2011,Transformer (API config),Predictive-prefetch,221,69,290,0.36231884057971014
+locality,4,2011,Transformer (trained),Predictive-protect,225,0,225,
+locality,4,2011,Transformer (trained),Predictive-prefetch,241,249,490,0.3172690763052209
+locality,8,2011,none,LRU,115,0,115,
+locality,8,2011,Markov,Predictive-protect,98,0,98,
+locality,8,2011,Markov,Predictive-prefetch,93,8,101,0.875
+locality,8,2011,Transformer (API config),Predictive-protect,107,0,107,
+locality,8,2011,Transformer (API config),Predictive-prefetch,104,28,132,0.4642857142857143
+locality,8,2011,Transformer (trained),Predictive-protect,95,0,95,
+locality,8,2011,Transformer (trained),Predictive-prefetch,98,104,202,0.33653846153846156
+locality,4,2012,none,LRU,269,0,269,
+locality,4,2012,Markov,Predictive-protect,258,0,258,
+locality,4,2012,Markov,Predictive-prefetch,239,140,379,0.4642857142857143
+locality,4,2012,Transformer (API config),Predictive-protect,262,0,262,
+locality,4,2012,Transformer (API config),Predictive-prefetch,256,113,369,0.36283185840707965
+locality,4,2012,Transformer (trained),Predictive-protect,261,0,261,
+locality,4,2012,Transformer (trained),Predictive-prefetch,260,226,486,0.3008849557522124
+locality,8,2012,none,LRU,129,0,129,
+locality,8,2012,Markov,Predictive-protect,113,0,113,
+locality,8,2012,Markov,Predictive-prefetch,111,17,128,0.5882352941176471
+locality,8,2012,Transformer (API config),Predictive-protect,122,0,122,
+locality,8,2012,Transformer (API config),Predictive-prefetch,128,37,165,0.35135135135135137
+locality,8,2012,Transformer (trained),Predictive-protect,117,0,117,
+locality,8,2012,Transformer (trained),Predictive-prefetch,132,92,224,0.32608695652173914
+locality,4,2013,none,LRU,246,0,246,
+locality,4,2013,Markov,Predictive-protect,229,0,229,
+locality,4,2013,Markov,Predictive-prefetch,221,113,334,0.48672566371681414
+locality,4,2013,Transformer (API config),Predictive-protect,231,0,231,
+locality,4,2013,Transformer (API config),Predictive-prefetch,267,214,481,0.26635514018691586
+locality,4,2013,Transformer (trained),Predictive-protect,242,0,242,
+locality,4,2013,Transformer (trained),Predictive-prefetch,248,247,495,0.3319838056680162
+locality,8,2013,none,LRU,101,0,101,
+locality,8,2013,Markov,Predictive-protect,87,0,87,
+locality,8,2013,Markov,Predictive-prefetch,80,7,87,1.0
+locality,8,2013,Transformer (API config),Predictive-protect,91,0,91,
+locality,8,2013,Transformer (API config),Predictive-prefetch,102,42,144,0.40476190476190477
+locality,8,2013,Transformer (trained),Predictive-protect,88,0,88,
+locality,8,2013,Transformer (trained),Predictive-prefetch,94,93,187,0.26881720430107525
+locality,4,2014,none,LRU,229,0,229,
+locality,4,2014,Markov,Predictive-protect,216,0,216,
+locality,4,2014,Markov,Predictive-prefetch,201,137,338,0.5985401459854015
+locality,4,2014,Transformer (API config),Predictive-protect,227,0,227,
+locality,4,2014,Transformer (API config),Predictive-prefetch,281,227,508,0.2026431718061674
+locality,4,2014,Transformer (trained),Predictive-protect,216,0,216,
+locality,4,2014,Transformer (trained),Predictive-prefetch,225,233,458,0.3562231759656652
+locality,8,2014,none,LRU,82,0,82,
+locality,8,2014,Markov,Predictive-protect,71,0,71,
+locality,8,2014,Markov,Predictive-prefetch,66,7,73,1.0
+locality,8,2014,Transformer (API config),Predictive-protect,81,0,81,
+locality,8,2014,Transformer (API config),Predictive-prefetch,111,66,177,0.2727272727272727
+locality,8,2014,Transformer (trained),Predictive-protect,75,0,75,
+locality,8,2014,Transformer (trained),Predictive-prefetch,81,74,155,0.25675675675675674
+locality,4,2015,none,LRU,267,0,267,
+locality,4,2015,Markov,Predictive-protect,264,0,264,
+locality,4,2015,Markov,Predictive-prefetch,232,136,368,0.5735294117647058
+locality,4,2015,Transformer (API config),Predictive-protect,258,0,258,
+locality,4,2015,Transformer (API config),Predictive-prefetch,245,87,332,0.5747126436781609
+locality,4,2015,Transformer (trained),Predictive-protect,259,0,259,
+locality,4,2015,Transformer (trained),Predictive-prefetch,256,209,465,0.3444976076555024
+locality,8,2015,none,LRU,122,0,122,
+locality,8,2015,Markov,Predictive-protect,106,0,106,
+locality,8,2015,Markov,Predictive-prefetch,98,8,106,1.0
+locality,8,2015,Transformer (API config),Predictive-protect,112,0,112,
+locality,8,2015,Transformer (API config),Predictive-prefetch,107,6,113,1.0
+locality,8,2015,Transformer (trained),Predictive-protect,104,0,104,
+locality,8,2015,Transformer (trained),Predictive-prefetch,111,87,198,0.39080459770114945
+locality,4,2016,none,LRU,275,0,275,
+locality,4,2016,Markov,Predictive-protect,254,0,254,
+locality,4,2016,Markov,Predictive-prefetch,233,163,396,0.5337423312883436
+locality,4,2016,Transformer (API config),Predictive-protect,261,0,261,
+locality,4,2016,Transformer (API config),Predictive-prefetch,250,147,397,0.48299319727891155
+locality,4,2016,Transformer (trained),Predictive-protect,266,0,266,
+locality,4,2016,Transformer (trained),Predictive-prefetch,273,258,531,0.29844961240310075
+locality,8,2016,none,LRU,118,0,118,
+locality,8,2016,Markov,Predictive-protect,100,0,100,
+locality,8,2016,Markov,Predictive-prefetch,96,4,100,1.0
+locality,8,2016,Transformer (API config),Predictive-protect,108,0,108,
+locality,8,2016,Transformer (API config),Predictive-prefetch,105,22,127,0.45454545454545453
+locality,8,2016,Transformer (trained),Predictive-protect,101,0,101,
+locality,8,2016,Transformer (trained),Predictive-prefetch,115,104,219,0.2980769230769231
+locality,4,2017,none,LRU,240,0,240,
+locality,4,2017,Markov,Predictive-protect,218,0,218,
+locality,4,2017,Markov,Predictive-prefetch,203,86,289,0.6627906976744186
+locality,4,2017,Transformer (API config),Predictive-protect,226,0,226,
+locality,4,2017,Transformer (API config),Predictive-prefetch,245,162,407,0.3271604938271605
+locality,4,2017,Transformer (trained),Predictive-protect,230,0,230,
+locality,4,2017,Transformer (trained),Predictive-prefetch,219,198,417,0.41414141414141414
+locality,8,2017,none,LRU,92,0,92,
+locality,8,2017,Markov,Predictive-protect,78,0,78,
+locality,8,2017,Markov,Predictive-prefetch,75,3,78,1.0
+locality,8,2017,Transformer (API config),Predictive-protect,94,0,94,
+locality,8,2017,Transformer (API config),Predictive-prefetch,103,34,137,0.4117647058823529
+locality,8,2017,Transformer (trained),Predictive-protect,80,0,80,
+locality,8,2017,Transformer (trained),Predictive-prefetch,80,54,134,0.35185185185185186
+locality,4,2018,none,LRU,247,0,247,
+locality,4,2018,Markov,Predictive-protect,237,0,237,
+locality,4,2018,Markov,Predictive-prefetch,223,103,326,0.5631067961165048
+locality,4,2018,Transformer (API config),Predictive-protect,233,0,233,
+locality,4,2018,Transformer (API config),Predictive-prefetch,223,93,316,0.6666666666666666
+locality,4,2018,Transformer (trained),Predictive-protect,236,0,236,
+locality,4,2018,Transformer (trained),Predictive-prefetch,240,225,465,0.36
+locality,8,2018,none,LRU,94,0,94,
+locality,8,2018,Markov,Predictive-protect,82,0,82,
+locality,8,2018,Markov,Predictive-prefetch,79,3,82,1.0
+locality,8,2018,Transformer (API config),Predictive-protect,85,0,85,
+locality,8,2018,Transformer (API config),Predictive-prefetch,83,4,87,0.75
+locality,8,2018,Transformer (trained),Predictive-protect,88,0,88,
+locality,8,2018,Transformer (trained),Predictive-prefetch,96,82,178,0.3048780487804878
+locality,4,2019,none,LRU,266,0,266,
+locality,4,2019,Markov,Predictive-protect,251,0,251,
+locality,4,2019,Markov,Predictive-prefetch,235,79,314,0.5822784810126582
+locality,4,2019,Transformer (API config),Predictive-protect,243,0,243,
+locality,4,2019,Transformer (API config),Predictive-prefetch,234,33,267,0.5757575757575758
+locality,4,2019,Transformer (trained),Predictive-protect,253,0,253,
+locality,4,2019,Transformer (trained),Predictive-prefetch,261,234,495,0.3247863247863248
+locality,8,2019,none,LRU,102,0,102,
+locality,8,2019,Markov,Predictive-protect,91,0,91,
+locality,8,2019,Markov,Predictive-prefetch,92,9,101,0.6666666666666666
+locality,8,2019,Transformer (API config),Predictive-protect,92,0,92,
+locality,8,2019,Transformer (API config),Predictive-prefetch,90,3,93,0.6666666666666666
+locality,8,2019,Transformer (trained),Predictive-protect,92,0,92,
+locality,8,2019,Transformer (trained),Predictive-prefetch,93,97,190,0.35051546391752575
+locality,4,2020,none,LRU,269,0,269,
+locality,4,2020,Markov,Predictive-protect,249,0,249,
+locality,4,2020,Markov,Predictive-prefetch,226,94,320,0.6170212765957447
+locality,4,2020,Transformer (API config),Predictive-protect,254,0,254,
+locality,4,2020,Transformer (API config),Predictive-prefetch,254,115,369,0.40869565217391307
+locality,4,2020,Transformer (trained),Predictive-protect,261,0,261,
+locality,4,2020,Transformer (trained),Predictive-prefetch,250,224,474,0.3482142857142857
+locality,8,2020,none,LRU,120,0,120,
+locality,8,2020,Markov,Predictive-protect,104,0,104,
+locality,8,2020,Markov,Predictive-prefetch,97,8,105,1.0
+locality,8,2020,Transformer (API config),Predictive-protect,108,0,108,
+locality,8,2020,Transformer (API config),Predictive-prefetch,118,33,151,0.3333333333333333
+locality,8,2020,Transformer (trained),Predictive-protect,109,0,109,
+locality,8,2020,Transformer (trained),Predictive-prefetch,104,75,179,0.41333333333333333
+locality,4,2021,none,LRU,264,0,264,
+locality,4,2021,Markov,Predictive-protect,253,0,253,
+locality,4,2021,Markov,Predictive-prefetch,216,151,367,0.609271523178808
+locality,4,2021,Transformer (API config),Predictive-protect,256,0,256,
+locality,4,2021,Transformer (API config),Predictive-prefetch,226,117,343,0.5811965811965812
+locality,4,2021,Transformer (trained),Predictive-protect,250,0,250,
+locality,4,2021,Transformer (trained),Predictive-prefetch,265,236,501,0.3008474576271186
+locality,8,2021,none,LRU,122,0,122,
+locality,8,2021,Markov,Predictive-protect,106,0,106,
+locality,8,2021,Markov,Predictive-prefetch,100,7,107,0.8571428571428571
+locality,8,2021,Transformer (API config),Predictive-protect,110,0,110,
+locality,8,2021,Transformer (API config),Predictive-prefetch,102,8,110,1.0
+locality,8,2021,Transformer (trained),Predictive-protect,115,0,115,
+locality,8,2021,Transformer (trained),Predictive-prefetch,125,98,223,0.29591836734693877
+locality,4,2022,none,LRU,272,0,272,
+locality,4,2022,Markov,Predictive-protect,260,0,260,
+locality,4,2022,Markov,Predictive-prefetch,233,120,353,0.5833333333333334
+locality,4,2022,Transformer (API config),Predictive-protect,254,0,254,
+locality,4,2022,Transformer (API config),Predictive-prefetch,260,181,441,0.40331491712707185
+locality,4,2022,Transformer (trained),Predictive-protect,266,0,266,
+locality,4,2022,Transformer (trained),Predictive-prefetch,257,241,498,0.33195020746887965
+locality,8,2022,none,LRU,112,0,112,
+locality,8,2022,Markov,Predictive-protect,99,0,99,
+locality,8,2022,Markov,Predictive-prefetch,94,5,99,1.0
+locality,8,2022,Transformer (API config),Predictive-protect,104,0,104,
+locality,8,2022,Transformer (API config),Predictive-prefetch,106,18,124,0.4444444444444444
+locality,8,2022,Transformer (trained),Predictive-protect,99,0,99,
+locality,8,2022,Transformer (trained),Predictive-prefetch,114,93,207,0.3010752688172043
+locality,4,2023,none,LRU,246,0,246,
+locality,4,2023,Markov,Predictive-protect,224,0,224,
+locality,4,2023,Markov,Predictive-prefetch,205,110,315,0.5727272727272728
+locality,4,2023,Transformer (API config),Predictive-protect,242,0,242,
+locality,4,2023,Transformer (API config),Predictive-prefetch,264,220,484,0.2863636363636364
+locality,4,2023,Transformer (trained),Predictive-protect,225,0,225,
+locality,4,2023,Transformer (trained),Predictive-prefetch,208,210,418,0.3761904761904762
+locality,8,2023,none,LRU,110,0,110,
+locality,8,2023,Markov,Predictive-protect,96,0,96,
+locality,8,2023,Markov,Predictive-prefetch,93,7,100,1.0
+locality,8,2023,Transformer (API config),Predictive-protect,108,0,108,
+locality,8,2023,Transformer (API config),Predictive-prefetch,132,44,176,0.3181818181818182
+locality,8,2023,Transformer (trained),Predictive-protect,97,0,97,
+locality,8,2023,Transformer (trained),Predictive-prefetch,99,71,170,0.36619718309859156
+locality,4,2024,none,LRU,261,0,261,
+locality,4,2024,Markov,Predictive-protect,246,0,246,
+locality,4,2024,Markov,Predictive-prefetch,230,109,339,0.5504587155963303
+locality,4,2024,Transformer (API config),Predictive-protect,246,0,246,
+locality,4,2024,Transformer (API config),Predictive-prefetch,245,73,318,0.4520547945205479
+locality,4,2024,Transformer (trained),Predictive-protect,255,0,255,
+locality,4,2024,Transformer (trained),Predictive-prefetch,271,226,497,0.28761061946902655
+locality,8,2024,none,LRU,128,0,128,
+locality,8,2024,Markov,Predictive-protect,109,0,109,
+locality,8,2024,Markov,Predictive-prefetch,102,8,110,1.0
+locality,8,2024,Transformer (API config),Predictive-protect,113,0,113,
+locality,8,2024,Transformer (API config),Predictive-prefetch,111,14,125,0.6428571428571429
+locality,8,2024,Transformer (trained),Predictive-protect,108,0,108,
+locality,8,2024,Transformer (trained),Predictive-prefetch,108,87,195,0.42528735632183906
+locality,4,2025,none,LRU,245,0,245,
+locality,4,2025,Markov,Predictive-protect,230,0,230,
+locality,4,2025,Markov,Predictive-prefetch,226,80,306,0.5375
+locality,4,2025,Transformer (API config),Predictive-protect,230,0,230,
+locality,4,2025,Transformer (API config),Predictive-prefetch,216,113,329,0.6106194690265486
+locality,4,2025,Transformer (trained),Predictive-protect,237,0,237,
+locality,4,2025,Transformer (trained),Predictive-prefetch,235,239,474,0.3389121338912134
+locality,8,2025,none,LRU,91,0,91,
+locality,8,2025,Markov,Predictive-protect,78,0,78,
+locality,8,2025,Markov,Predictive-prefetch,74,5,79,1.0
+locality,8,2025,Transformer (API config),Predictive-protect,82,0,82,
+locality,8,2025,Transformer (API config),Predictive-prefetch,81,9,90,0.6666666666666666
+locality,8,2025,Transformer (trained),Predictive-protect,77,0,77,
+locality,8,2025,Transformer (trained),Predictive-prefetch,85,85,170,0.4117647058823529
+locality,4,2026,none,LRU,241,0,241,
+locality,4,2026,Markov,Predictive-protect,246,0,246,
+locality,4,2026,Markov,Predictive-prefetch,216,112,328,0.6071428571428571
+locality,4,2026,Transformer (API config),Predictive-protect,232,0,232,
+locality,4,2026,Transformer (API config),Predictive-prefetch,260,154,414,0.3051948051948052
+locality,4,2026,Transformer (trained),Predictive-protect,230,0,230,
+locality,4,2026,Transformer (trained),Predictive-prefetch,241,232,473,0.3232758620689655
+locality,8,2026,none,LRU,93,0,93,
+locality,8,2026,Markov,Predictive-protect,80,0,80,
+locality,8,2026,Markov,Predictive-prefetch,77,4,81,1.0
+locality,8,2026,Transformer (API config),Predictive-protect,95,0,95,
+locality,8,2026,Transformer (API config),Predictive-prefetch,105,39,144,0.3333333333333333
+locality,8,2026,Transformer (trained),Predictive-protect,87,0,87,
+locality,8,2026,Transformer (trained),Predictive-prefetch,91,71,162,0.352112676056338
+locality,4,2027,none,LRU,238,0,238,
+locality,4,2027,Markov,Predictive-protect,221,0,221,
+locality,4,2027,Markov,Predictive-prefetch,190,122,312,0.6147540983606558
+locality,4,2027,Transformer (API config),Predictive-protect,227,0,227,
+locality,4,2027,Transformer (API config),Predictive-prefetch,201,112,313,0.5803571428571429
+locality,4,2027,Transformer (trained),Predictive-protect,224,0,224,
+locality,4,2027,Transformer (trained),Predictive-prefetch,217,245,462,0.3346938775510204
+locality,8,2027,none,LRU,90,0,90,
+locality,8,2027,Markov,Predictive-protect,80,0,80,
+locality,8,2027,Markov,Predictive-prefetch,73,7,80,1.0
+locality,8,2027,Transformer (API config),Predictive-protect,83,0,83,
+locality,8,2027,Transformer (API config),Predictive-prefetch,75,16,91,0.75
+locality,8,2027,Transformer (trained),Predictive-protect,85,0,85,
+locality,8,2027,Transformer (trained),Predictive-prefetch,94,112,206,0.3482142857142857
+locality,4,2028,none,LRU,247,0,247,
+locality,4,2028,Markov,Predictive-protect,227,0,227,
+locality,4,2028,Markov,Predictive-prefetch,217,162,379,0.5370370370370371
+locality,4,2028,Transformer (API config),Predictive-protect,230,0,230,
+locality,4,2028,Transformer (API config),Predictive-prefetch,214,62,276,0.6451612903225806
+locality,4,2028,Transformer (trained),Predictive-protect,238,0,238,
+locality,4,2028,Transformer (trained),Predictive-prefetch,236,227,463,0.3700440528634361
+locality,8,2028,none,LRU,102,0,102,
+locality,8,2028,Markov,Predictive-protect,84,0,84,
+locality,8,2028,Markov,Predictive-prefetch,80,6,86,0.8333333333333334
+locality,8,2028,Transformer (API config),Predictive-protect,93,0,93,
+locality,8,2028,Transformer (API config),Predictive-prefetch,92,9,101,0.7777777777777778
+locality,8,2028,Transformer (trained),Predictive-protect,91,0,91,
+locality,8,2028,Transformer (trained),Predictive-prefetch,85,77,162,0.4025974025974026
+locality,4,2029,none,LRU,255,0,255,
+locality,4,2029,Markov,Predictive-protect,245,0,245,
+locality,4,2029,Markov,Predictive-prefetch,231,86,317,0.5465116279069767
+locality,4,2029,Transformer (API config),Predictive-protect,245,0,245,
+locality,4,2029,Transformer (API config),Predictive-prefetch,253,49,302,0.3877551020408163
+locality,4,2029,Transformer (trained),Predictive-protect,255,0,255,
+locality,4,2029,Transformer (trained),Predictive-prefetch,257,252,509,0.30158730158730157
+locality,8,2029,none,LRU,97,0,97,
+locality,8,2029,Markov,Predictive-protect,90,0,90,
+locality,8,2029,Markov,Predictive-prefetch,86,5,91,1.0
+locality,8,2029,Transformer (API config),Predictive-protect,97,0,97,
+locality,8,2029,Transformer (API config),Predictive-prefetch,102,24,126,0.375
+locality,8,2029,Transformer (trained),Predictive-protect,95,0,95,
+locality,8,2029,Transformer (trained),Predictive-prefetch,104,126,230,0.31746031746031744
+sequential,4,2000,none,LRU,500,0,500,
+sequential,4,2000,Markov,Predictive-protect,500,0,500,
+sequential,4,2000,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2000,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2000,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2000,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2000,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2000,none,LRU,500,0,500,
+sequential,8,2000,Markov,Predictive-protect,500,0,500,
+sequential,8,2000,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2000,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2000,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2000,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2000,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2001,none,LRU,500,0,500,
+sequential,4,2001,Markov,Predictive-protect,500,0,500,
+sequential,4,2001,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2001,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2001,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2001,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2001,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2001,none,LRU,500,0,500,
+sequential,8,2001,Markov,Predictive-protect,500,0,500,
+sequential,8,2001,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2001,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2001,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2001,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2001,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2002,none,LRU,500,0,500,
+sequential,4,2002,Markov,Predictive-protect,500,0,500,
+sequential,4,2002,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2002,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2002,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2002,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2002,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2002,none,LRU,500,0,500,
+sequential,8,2002,Markov,Predictive-protect,500,0,500,
+sequential,8,2002,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2002,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2002,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2002,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2002,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2003,none,LRU,500,0,500,
+sequential,4,2003,Markov,Predictive-protect,500,0,500,
+sequential,4,2003,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2003,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2003,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2003,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2003,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2003,none,LRU,500,0,500,
+sequential,8,2003,Markov,Predictive-protect,500,0,500,
+sequential,8,2003,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2003,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2003,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2003,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2003,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2004,none,LRU,500,0,500,
+sequential,4,2004,Markov,Predictive-protect,500,0,500,
+sequential,4,2004,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2004,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2004,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2004,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2004,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2004,none,LRU,500,0,500,
+sequential,8,2004,Markov,Predictive-protect,500,0,500,
+sequential,8,2004,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2004,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2004,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2004,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2004,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2005,none,LRU,500,0,500,
+sequential,4,2005,Markov,Predictive-protect,500,0,500,
+sequential,4,2005,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2005,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2005,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2005,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2005,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2005,none,LRU,500,0,500,
+sequential,8,2005,Markov,Predictive-protect,500,0,500,
+sequential,8,2005,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2005,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2005,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2005,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2005,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2006,none,LRU,500,0,500,
+sequential,4,2006,Markov,Predictive-protect,500,0,500,
+sequential,4,2006,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2006,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2006,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2006,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2006,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2006,none,LRU,500,0,500,
+sequential,8,2006,Markov,Predictive-protect,500,0,500,
+sequential,8,2006,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2006,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2006,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2006,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2006,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2007,none,LRU,500,0,500,
+sequential,4,2007,Markov,Predictive-protect,500,0,500,
+sequential,4,2007,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2007,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2007,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2007,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2007,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2007,none,LRU,500,0,500,
+sequential,8,2007,Markov,Predictive-protect,500,0,500,
+sequential,8,2007,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2007,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2007,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2007,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2007,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2008,none,LRU,500,0,500,
+sequential,4,2008,Markov,Predictive-protect,500,0,500,
+sequential,4,2008,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2008,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2008,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2008,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2008,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2008,none,LRU,500,0,500,
+sequential,8,2008,Markov,Predictive-protect,500,0,500,
+sequential,8,2008,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2008,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2008,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2008,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2008,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2009,none,LRU,500,0,500,
+sequential,4,2009,Markov,Predictive-protect,500,0,500,
+sequential,4,2009,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2009,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2009,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2009,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2009,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2009,none,LRU,500,0,500,
+sequential,8,2009,Markov,Predictive-protect,500,0,500,
+sequential,8,2009,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2009,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2009,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2009,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2009,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2010,none,LRU,500,0,500,
+sequential,4,2010,Markov,Predictive-protect,500,0,500,
+sequential,4,2010,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2010,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2010,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2010,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2010,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2010,none,LRU,500,0,500,
+sequential,8,2010,Markov,Predictive-protect,500,0,500,
+sequential,8,2010,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2010,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2010,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2010,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2010,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2011,none,LRU,500,0,500,
+sequential,4,2011,Markov,Predictive-protect,500,0,500,
+sequential,4,2011,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2011,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2011,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2011,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2011,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2011,none,LRU,500,0,500,
+sequential,8,2011,Markov,Predictive-protect,500,0,500,
+sequential,8,2011,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2011,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2011,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2011,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2011,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2012,none,LRU,500,0,500,
+sequential,4,2012,Markov,Predictive-protect,500,0,500,
+sequential,4,2012,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2012,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2012,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2012,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2012,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2012,none,LRU,500,0,500,
+sequential,8,2012,Markov,Predictive-protect,500,0,500,
+sequential,8,2012,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2012,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2012,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2012,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2012,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2013,none,LRU,500,0,500,
+sequential,4,2013,Markov,Predictive-protect,500,0,500,
+sequential,4,2013,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2013,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2013,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2013,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2013,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2013,none,LRU,500,0,500,
+sequential,8,2013,Markov,Predictive-protect,500,0,500,
+sequential,8,2013,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2013,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2013,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2013,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2013,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2014,none,LRU,500,0,500,
+sequential,4,2014,Markov,Predictive-protect,500,0,500,
+sequential,4,2014,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2014,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2014,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2014,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2014,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2014,none,LRU,500,0,500,
+sequential,8,2014,Markov,Predictive-protect,500,0,500,
+sequential,8,2014,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2014,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2014,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2014,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2014,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2015,none,LRU,500,0,500,
+sequential,4,2015,Markov,Predictive-protect,500,0,500,
+sequential,4,2015,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2015,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2015,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2015,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2015,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2015,none,LRU,500,0,500,
+sequential,8,2015,Markov,Predictive-protect,500,0,500,
+sequential,8,2015,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2015,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2015,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2015,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2015,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2016,none,LRU,500,0,500,
+sequential,4,2016,Markov,Predictive-protect,500,0,500,
+sequential,4,2016,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2016,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2016,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2016,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2016,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2016,none,LRU,500,0,500,
+sequential,8,2016,Markov,Predictive-protect,500,0,500,
+sequential,8,2016,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2016,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2016,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2016,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2016,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2017,none,LRU,500,0,500,
+sequential,4,2017,Markov,Predictive-protect,500,0,500,
+sequential,4,2017,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2017,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2017,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2017,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2017,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2017,none,LRU,500,0,500,
+sequential,8,2017,Markov,Predictive-protect,500,0,500,
+sequential,8,2017,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2017,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2017,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2017,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2017,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2018,none,LRU,500,0,500,
+sequential,4,2018,Markov,Predictive-protect,500,0,500,
+sequential,4,2018,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2018,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2018,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2018,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2018,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2018,none,LRU,500,0,500,
+sequential,8,2018,Markov,Predictive-protect,500,0,500,
+sequential,8,2018,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2018,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2018,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2018,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2018,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2019,none,LRU,500,0,500,
+sequential,4,2019,Markov,Predictive-protect,500,0,500,
+sequential,4,2019,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2019,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2019,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2019,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2019,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2019,none,LRU,500,0,500,
+sequential,8,2019,Markov,Predictive-protect,500,0,500,
+sequential,8,2019,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2019,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2019,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2019,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2019,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2020,none,LRU,500,0,500,
+sequential,4,2020,Markov,Predictive-protect,500,0,500,
+sequential,4,2020,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2020,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2020,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2020,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2020,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2020,none,LRU,500,0,500,
+sequential,8,2020,Markov,Predictive-protect,500,0,500,
+sequential,8,2020,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2020,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2020,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2020,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2020,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2021,none,LRU,500,0,500,
+sequential,4,2021,Markov,Predictive-protect,500,0,500,
+sequential,4,2021,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2021,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2021,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2021,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2021,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2021,none,LRU,500,0,500,
+sequential,8,2021,Markov,Predictive-protect,500,0,500,
+sequential,8,2021,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2021,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2021,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2021,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2021,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2022,none,LRU,500,0,500,
+sequential,4,2022,Markov,Predictive-protect,500,0,500,
+sequential,4,2022,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2022,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2022,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2022,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2022,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2022,none,LRU,500,0,500,
+sequential,8,2022,Markov,Predictive-protect,500,0,500,
+sequential,8,2022,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2022,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2022,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2022,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2022,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2023,none,LRU,500,0,500,
+sequential,4,2023,Markov,Predictive-protect,500,0,500,
+sequential,4,2023,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2023,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2023,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2023,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2023,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2023,none,LRU,500,0,500,
+sequential,8,2023,Markov,Predictive-protect,500,0,500,
+sequential,8,2023,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2023,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2023,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2023,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2023,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2024,none,LRU,500,0,500,
+sequential,4,2024,Markov,Predictive-protect,500,0,500,
+sequential,4,2024,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2024,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2024,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2024,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2024,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2024,none,LRU,500,0,500,
+sequential,8,2024,Markov,Predictive-protect,500,0,500,
+sequential,8,2024,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2024,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2024,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2024,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2024,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2025,none,LRU,500,0,500,
+sequential,4,2025,Markov,Predictive-protect,500,0,500,
+sequential,4,2025,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2025,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2025,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2025,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2025,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2025,none,LRU,500,0,500,
+sequential,8,2025,Markov,Predictive-protect,500,0,500,
+sequential,8,2025,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2025,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2025,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2025,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2025,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2026,none,LRU,500,0,500,
+sequential,4,2026,Markov,Predictive-protect,500,0,500,
+sequential,4,2026,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2026,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2026,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2026,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2026,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2026,none,LRU,500,0,500,
+sequential,8,2026,Markov,Predictive-protect,500,0,500,
+sequential,8,2026,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2026,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2026,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2026,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2026,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2027,none,LRU,500,0,500,
+sequential,4,2027,Markov,Predictive-protect,500,0,500,
+sequential,4,2027,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2027,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2027,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2027,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2027,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2027,none,LRU,500,0,500,
+sequential,8,2027,Markov,Predictive-protect,500,0,500,
+sequential,8,2027,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2027,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2027,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2027,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2027,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2028,none,LRU,500,0,500,
+sequential,4,2028,Markov,Predictive-protect,500,0,500,
+sequential,4,2028,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2028,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2028,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2028,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2028,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2028,none,LRU,500,0,500,
+sequential,8,2028,Markov,Predictive-protect,500,0,500,
+sequential,8,2028,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2028,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2028,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2028,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2028,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,4,2029,none,LRU,500,0,500,
+sequential,4,2029,Markov,Predictive-protect,500,0,500,
+sequential,4,2029,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,4,2029,Transformer (API config),Predictive-protect,500,0,500,
+sequential,4,2029,Transformer (API config),Predictive-prefetch,375,401,776,0.3117206982543641
+sequential,4,2029,Transformer (trained),Predictive-protect,500,0,500,
+sequential,4,2029,Transformer (trained),Predictive-prefetch,1,500,501,0.998
+sequential,8,2029,none,LRU,500,0,500,
+sequential,8,2029,Markov,Predictive-protect,500,0,500,
+sequential,8,2029,Markov,Predictive-prefetch,1,500,501,0.998
+sequential,8,2029,Transformer (API config),Predictive-protect,476,0,476,
+sequential,8,2029,Transformer (API config),Predictive-prefetch,351,227,578,0.5506607929515418
+sequential,8,2029,Transformer (trained),Predictive-protect,500,0,500,
+sequential,8,2029,Transformer (trained),Predictive-prefetch,1,500,501,0.998

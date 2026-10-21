@@ -89,3 +89,16 @@ The validation confirmed that:
 - Additional Backblaze metadata is excluded because the pipeline selects only `smart_*` attributes and the `failure` target.
 - Full raw Backblaze datasets are not committed to the Git repository.
 - Severe class imbalance, downstream SMART feature selection, and construction of future failure prediction windows are concerns for CP3.8/CP7 rather than changes to the CP2.5 preparation pipeline.
+
+## Labelled forecasting set (CP7.3)
+
+`build_failure_windows.py` turns a raw quarter into the set the classifier trains on: a day is
+labelled 1 when that drive fails within 30 days, and healthy days are a seeded sample from drives
+that did not fail. `scripts/build_smart_dataset.py` downloads the quarter and runs it:
+
+    python -m scripts.build_smart_dataset            # downloads data_Q1_2025.zip (about 1 GB)
+    python -m scripts.build_smart_dataset --zip path/to/data_Q1_2025.zip
+
+The raw zip stays in `raw/` (git-ignored). The output `backblaze_failure_windows.csv.gz` and its
+`.meta.json` (period, row counts, real prevalence, missing-value rates) are small and committed.
+Data source: Backblaze Drive Stats, used with attribution to Backblaze.
