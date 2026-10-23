@@ -176,16 +176,20 @@ class TestCPUWorkloadClassifier(unittest.TestCase):
         fallback_clf.feature_medians = self.classifier.feature_medians
         fallback_clf.is_fitted = True
 
+        # Boundary batch between the classes (the same shape as the FALLBACK evaluation scenario),
+        # so the forest's vote is split and the confidence is below the threshold.
+        bursts = [8.0, 8.5, 9.0, 9.5, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0,
+                  16.0, 17.0, 18.0, 19.0, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5]
         procs = [
             Process(
                 pid=f"P{i}",
-                arrival_time=0.0,
-                burst_time=10.0,
-                priority=2,
-                predicted_burst_time=10.0,
-                metadata={"cpu_intensity": 0.5, "io_wait_ratio": 0.4},
+                arrival_time=i * 0.5,
+                burst_time=b,
+                priority=1 if i < 9 else 4,
+                predicted_burst_time=b,
+                metadata={"cpu_intensity": 0.675, "io_wait_ratio": 0.548},
             )
-            for i in range(12)
+            for i, b in enumerate(bursts)
         ]
         result = fallback_clf.predict_workload(procs)
         self.assertTrue(result.is_fallback)

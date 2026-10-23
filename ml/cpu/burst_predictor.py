@@ -1,4 +1,4 @@
-"""CPU burst-time regression predictor using scikit-learn RandomForestRegressor."""
+"""CPU burst-time regression predictor: degree-3 polynomial ridge regression (scikit-learn)."""
 
 from __future__ import annotations
 
@@ -8,9 +8,11 @@ from typing import Optional
 
 import joblib
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
 from data.cpu.generator import CPUWorkloadGenerator, WorkloadConfig
 from modules.cpu.process import Process
@@ -20,11 +22,14 @@ class CPUBurstPredictor:
     """Machine learning regression model predicting CPU burst time from process workload features.
 
     Architecture & Preprocessing:
-        - Estimator: RandomForestRegressor(n_estimators=100, max_depth=10, random_state=42)
-        - Preprocessing Note: StandardScaler is explicitly NOT used. RandomForestRegressor
-          is a decision tree ensemble invariant to monotonic feature scaling. Operating
-          directly on original feature scales avoids unnecessary transformation overhead
-          and guarantees scale transparency.
+        - Estimator: StandardScaler -> PolynomialFeatures(degree=3) -> Ridge(alpha=1.0)
+        - Why this model: the model-selection study (experiments/model_selection_eval.py,
+          RESULTS 7.6) compared ten regressors on 25 paired folds. Polynomial ridge had the
+          lowest error (MAE 0.36 vs 2.18 for the Random Forest used before, R2 0.9995) with a
+          1.4 KB model, because burst time is a smooth product of the features divided by
+          (1 + io_wait_ratio), which a cubic polynomial nearly reproduces.
+        - Features are standardised first so the polynomial terms have comparable scales and
+          the ridge penalty treats them evenly.
         - Features (strictly in this order):
             1. instruction_count
             2. cpu_intensity
@@ -43,17 +48,17 @@ class CPUBurstPredictor:
 
     def __init__(
         self,
-        n_estimators: int = 100,
-        max_depth: Optional[int] = 10,
+        degree: int = 3,
+        alpha: float = 1.0,
         random_state: int = 42,
         min_prediction_floor: float = 0.1,
     ) -> None:
-        self.n_estimators = n_estimators
-        self.max_depth = max_depth
+        self.degree = int(degree)
+        self.alpha = float(alpha)
         self.random_state = random_state
         self.min_prediction_floor = float(min_prediction_floor)
 
-        self.model: Optional[RandomForestRegressor] = None
+        self.model: Optional[Pipeline] = None
         self.feature_medians: dict[str, float] = {}
         self.evaluation_metrics: dict[str, float] = {}
         self.is_fitted: bool = False
@@ -65,7 +70,7 @@ class CPUBurstPredictor:
         test_size: float = 0.20,
         random_state: Optional[int] = None,
     ) -> dict[str, float]:
-        """Train the RandomForestRegressor on feature matrix X and target vector y.
+        """Train the polynomial ridge regressor on feature matrix X and target vector y.
 
         Calculates and stores feature medians from the training split for fallback.
         Evaluates on the held-out test split and returns MAE, MSE, RMSE, and R2.
@@ -94,10 +99,10 @@ class CPUBurstPredictor:
         }
 
 
-        self.model = RandomForestRegressor(
-            n_estimators=self.n_estimators,
-            max_depth=self.max_depth,
-            random_state=self.random_state,
+        self.model = make_pipeline(
+            StandardScaler(),
+            PolynomialFeatures(degree=self.degree),
+            Ridge(alpha=self.alpha),
         )
         self.model.fit(X_train, y_train)
         self.is_fitted = True
@@ -242,11 +247,11 @@ class CPUBurstPredictor:
             "feature_names": list(self.FEATURE_NAMES),
             "feature_medians": dict(self.feature_medians),
             "evaluation_metrics": dict(self.evaluation_metrics),
-            "n_estimators": self.n_estimators,
-            "max_depth": self.max_depth,
+            "degree": self.degree,
+            "alpha": self.alpha,
             "random_state": self.random_state,
             "min_prediction_floor": self.min_prediction_floor,
-            "model_type": "RandomForestRegressor",
+            "model_type": "PolynomialRidge",
         }
         joblib.dump(artifact, path)
         return path
@@ -269,8 +274,8 @@ class CPUBurstPredictor:
             )
 
         predictor = cls(
-            n_estimators=artifact.get("n_estimators", 100),
-            max_depth=artifact.get("max_depth", 10),
+            degree=artifact.get("degree", 3),
+            alpha=artifact.get("alpha", 1.0),
             random_state=artifact.get("random_state", 42),
             min_prediction_floor=artifact.get("min_prediction_floor", 0.1),
         )

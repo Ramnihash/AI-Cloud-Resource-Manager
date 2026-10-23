@@ -1,0 +1,78 @@
+model,condition,precision,recall,false_positive_rate,roc_auc,fit_ms,size_kb
+z_score_max,clean,1.0,1.0,0.0,1.0,0.3992169999946782,0.00390625
+z_score_max,noisy,1.0,1.0,0.0,1.0,0.3992169999946782,0.00390625
+z_score_max,severity 0.05,,0.37166666666666665,,,,
+z_score_max,severity 0.1,,0.5816666666666667,,,,
+z_score_max,severity 0.25,,0.9,,,,
+z_score_max,severity 0.5,,1.0,,,,
+z_score_max,severity 1,,1.0,,,,
+z_score_max [threshold = max normal],clean,1.0,1.0,0.0,1.0,0.3992169999946782,0.00390625
+z_score_max [threshold = max normal],noisy,0.9724473257698542,1.0,0.14166666666666666,1.0,0.3992169999946782,0.00390625
+z_score_max [threshold = max normal],severity 0.05,,0.37666666666666665,,,,
+z_score_max [threshold = max normal],severity 0.1,,0.6533333333333333,,,,
+z_score_max [threshold = max normal],severity 0.25,,0.915,,,,
+z_score_max [threshold = max normal],severity 0.5,,1.0,,,,
+z_score_max [threshold = max normal],severity 1,,1.0,,,,
+pca_reconstruction,clean,1.0,1.0,0.0,1.0,1.778712000032101,4.0595703125
+pca_reconstruction,noisy,1.0,1.0,0.0,1.0,1.778712000032101,4.0595703125
+pca_reconstruction,severity 0.05,,0.21666666666666667,,,,
+pca_reconstruction,severity 0.1,,0.6066666666666667,,,,
+pca_reconstruction,severity 0.25,,1.0,,,,
+pca_reconstruction,severity 0.5,,1.0,,,,
+pca_reconstruction,severity 1,,1.0,,,,
+pca_reconstruction [threshold = max normal],clean,1.0,1.0,0.0,1.0,1.778712000032101,4.0595703125
+pca_reconstruction [threshold = max normal],noisy,0.9983361064891847,1.0,0.008333333333333333,1.0,1.778712000032101,4.0595703125
+pca_reconstruction [threshold = max normal],severity 0.05,,0.37,,,,
+pca_reconstruction [threshold = max normal],severity 0.1,,0.715,,,,
+pca_reconstruction [threshold = max normal],severity 0.25,,1.0,,,,
+pca_reconstruction [threshold = max normal],severity 0.5,,1.0,,,,
+pca_reconstruction [threshold = max normal],severity 1,,1.0,,,,
+isolation_forest,clean,0.0,0.0,0.0,0.7615000000000001,197.51085899997634,4235.333984375
+isolation_forest,noisy,0.0,0.0,0.0,0.7515277777777778,197.51085899997634,4235.333984375
+isolation_forest,severity 0.05,,0.0,,,,
+isolation_forest,severity 0.1,,0.0,,,,
+isolation_forest,severity 0.25,,0.0,,,,
+isolation_forest,severity 0.5,,0.0,,,,
+isolation_forest,severity 1,,0.0,,,,
+isolation_forest [threshold = max normal],clean,0.9310344827586207,0.045,0.016666666666666666,0.7615000000000001,197.51085899997634,4235.333984375
+isolation_forest [threshold = max normal],noisy,0.9555555555555556,0.07166666666666667,0.016666666666666666,0.7515277777777778,197.51085899997634,4235.333984375
+isolation_forest [threshold = max normal],severity 0.05,,0.03166666666666667,,,,
+isolation_forest [threshold = max normal],severity 0.1,,0.041666666666666664,,,,
+isolation_forest [threshold = max normal],severity 0.25,,0.045,,,,
+isolation_forest [threshold = max normal],severity 0.5,,0.045,,,,
+isolation_forest [threshold = max normal],severity 1,,0.045,,,,
+one_class_svm,clean,1.0,1.0,0.0,1.0,3.0168360000288885,26.77734375
+one_class_svm,noisy,1.0,1.0,0.0,1.0,3.0168360000288885,26.77734375
+one_class_svm,severity 0.05,,0.37166666666666665,,,,
+one_class_svm,severity 0.1,,0.695,,,,
+one_class_svm,severity 0.25,,1.0,,,,
+one_class_svm,severity 0.5,,1.0,,,,
+one_class_svm,severity 1,,1.0,,,,
+one_class_svm [threshold = max normal],clean,1.0,1.0,0.0,1.0,3.0168360000288885,26.77734375
+one_class_svm [threshold = max normal],noisy,0.9950248756218906,1.0,0.025,1.0,3.0168360000288885,26.77734375
+one_class_svm [threshold = max normal],severity 0.05,,0.615,,,,
+one_class_svm [threshold = max normal],severity 0.1,,0.9033333333333333,,,,
+one_class_svm [threshold = max normal],severity 0.25,,1.0,,,,
+one_class_svm [threshold = max normal],severity 0.5,,1.0,,,,
+one_class_svm [threshold = max normal],severity 1,,1.0,,,,
+local_outlier_factor,clean,1.0,1.0,0.0,1.0,21.075816000006853,430.4638671875
+local_outlier_factor,noisy,1.0,1.0,0.0,1.0,21.075816000006853,430.4638671875
+local_outlier_factor,severity 0.05,,0.24666666666666667,,,,
+local_outlier_factor,severity 0.1,,0.6533333333333333,,,,
+local_outlier_factor,severity 0.25,,0.9966666666666667,,,,
+local_outlier_factor,severity 0.5,,1.0,,,,
+local_outlier_factor,severity 1,,1.0,,,,
+local_outlier_factor [threshold = max normal],clean,1.0,1.0,0.0,1.0,21.075816000006853,430.4638671875
+local_outlier_factor [threshold = max normal],noisy,1.0,1.0,0.0,1.0,21.075816000006853,430.4638671875
+local_outlier_factor [threshold = max normal],severity 0.05,,0.32666666666666666,,,,
+local_outlier_factor [threshold = max normal],severity 0.1,,0.7116666666666667,,,,
+local_outlier_factor [threshold = max normal],severity 0.25,,1.0,,,,
+local_outlier_factor [threshold = max normal],severity 0.5,,1.0,,,,
+local_outlier_factor [threshold = max normal],severity 1,,1.0,,,,
+transformer (in use),clean,1.0,1.0,0.0,1.0,,
+transformer (in use),noisy,0.9966777408637874,1.0,0.0166666666666666,1.0,,
+transformer (in use),severity 0.05,,0.8216666666666667,,,,
+transformer (in use),severity 0.1,,0.9783333333333333,,,,
+transformer (in use),severity 0.25,,1.0,,,,
+transformer (in use),severity 0.5,,1.0,,,,
+transformer (in use),severity 1,,1.0,,,,

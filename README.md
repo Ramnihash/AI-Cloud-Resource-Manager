@@ -3,8 +3,8 @@
 AI-driven cloud resource manager (OS project). It simulates a small cloud node and uses
 machine learning to make decisions in three areas, with a web dashboard on top:
 
-- **CPU:** a workload classifier and burst predictor pick the scheduling algorithm (FCFS, SJF,
-  Priority, Round Robin) for each workload. If a model fails, the system falls back to FCFS.
+- **CPU:** a Random Forest workload classifier and a polynomial-regression burst predictor pick the
+  scheduling algorithm (FCFS, SJF, Priority, Round Robin) for each workload. If a model fails, the system falls back to FCFS.
 - **Memory:** page replacement (FIFO, LRU, Optimal), Markov and Transformer page prediction,
   a memory-leak detector and a memory-pressure forecaster.
 - **Device:** a Transformer anomaly detector scores simulated device telemetry. When risk is

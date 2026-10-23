@@ -241,8 +241,8 @@ def generate_evaluation_scenarios(
     for i in range(20):
         b = bursts[i]
         pri = 1 if i < 9 else 4
-        cpu = 0.715
-        io = 0.552
+        cpu = 0.675
+        io = 0.548
         comp = 2.5
 
         ic = b * 2500.0 * (1.0 + io) / (comp * cpu)
@@ -563,7 +563,7 @@ def run_full_evaluation(output_dir: str = "reports/cpu", seed: int = 42) -> dict
     print("=" * 70)
 
 
-    print("[1/5] Evaluating Burst Predictor (RandomForestRegressor)...")
+    print("[1/5] Evaluating Burst Predictor (polynomial ridge regression)...")
     eval_burst = evaluate_burst_predictor(seed=seed)
     predictor = eval_burst["predictor_instance"]
     print(f"      MAE: {eval_burst['metrics']['mae']:.4f} | R²: {eval_burst['metrics']['r2']:.4f}")
@@ -588,8 +588,8 @@ def run_full_evaluation(output_dir: str = "reports/cpu", seed: int = 42) -> dict
         "timestamp_utc": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
         "reproducibility": {
             "seed": seed,
-            "burst_predictor_n_estimators": predictor.n_estimators,
-            "burst_predictor_max_depth": predictor.max_depth,
+            "burst_predictor_degree": predictor.degree,
+            "burst_predictor_alpha": predictor.alpha,
             "classifier_n_estimators": classifier.n_estimators,
             "classifier_max_depth": classifier.max_depth,
             "min_confidence_threshold": classifier.min_confidence,

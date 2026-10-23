@@ -18,31 +18,31 @@ time of the processes with the lowest priority number.
 
 | Workload type | Scheduler chosen | Avg waiting: AI | FCFS | SJF | Priority | Round Robin |
 |---------------|------------------|-----------------|------|-----|----------|-------------|
-| CPU-bound | SJF (30/30) | 664.7 | 776.1 | 664.7 | 787.8 | 1299.4 |
+| CPU-bound | SJF (30/30) | 661.3 | 776.1 | 661.3 | 787.8 | 1299.4 |
 | I/O-bound | Round Robin (30/30) | 40.7 | 34.5 | 21.6 | 35.7 | 40.7 |
-| Priority-critical | Priority (30/30) | 52.2 | 53.3 | 33.2 | 52.2 | 64.2 |
-| Balanced | FCFS (30/30) | 56.9 | 56.9 | 45.7 | 56.6 | 88.6 |
+| Priority-critical | Priority (30/30) | 52.2 | 53.3 | 33.0 | 52.2 | 64.2 |
+| Balanced | FCFS (30/30) | 56.9 | 56.9 | 45.4 | 56.6 | 88.6 |
 
 Paired differences in average waiting time over all 120 workloads (negative means the AI
-choice is better, all p < 0.001 unless noted): AI vs FCFS -11.5%, vs Priority -12.6%, vs
-Round Robin -45.4%, and vs SJF +6.4% (worse). Per type, the AI choice is 14% to 16% better
-than FCFS and Priority on CPU-bound work, identical to SJF there, and 25% to 88% worse than
+choice is better, all p < 0.001 unless noted): AI vs FCFS -11.9%, vs Priority -13.0%, vs
+Round Robin -45.7%, and vs SJF +6.6% (worse). Per type, the AI choice is 15% to 16% better
+than FCFS and Priority on CPU-bound work, identical to SJF there, and 25% to 89% worse than
 SJF on the other three types. Against FCFS on I/O-bound work it is 17.8% worse on waiting time.
 
 Other metrics where the AI choice wins:
 - **Response time, I/O-bound:** 14.5 vs 34.5 (FCFS), 21.6 (SJF) and 35.7 (Priority), which is
   33% to 59% lower. Over all workloads Round Robin still has the best response time (16.5 vs
-  197.1 for the AI choice) because it is the only scheduler built for it.
-- **Urgent-process waiting, priority-critical:** 6.0 vs 52.9 (FCFS), 30.0 (SJF) and 64.7
+  196.2 for the AI choice) because it is the only scheduler built for it.
+- **Urgent-process waiting, priority-critical:** 6.0 vs 52.9 (FCFS), 29.4 (SJF) and 64.7
   (Round Robin), which is 80% to 91% lower. It is identical to the Priority scheduler there
   because that is the scheduler the classifier selected.
 
 Other findings:
 - **Utilization** is 99.3% to 99.97% for every scheduler (the simulator never leaves the CPU
   idle with work waiting), so utilization does not separate them.
-- **Scheduling overhead** inside the simulator is 0.05 to 1.0 ms for every scheduler (the largest is Round Robin on CPU-bound work). Selecting
-  the scheduler (burst prediction plus classification) adds about 10 ms of wall time per
-  workload (9.9 to 11.2 ms vs 0.3 to 1.4 ms for a fixed scheduler).
+- **Scheduling overhead** inside the simulator is 0.04 to 0.6 ms for every scheduler (the largest is Round Robin on CPU-bound work). Selecting
+  the scheduler (burst prediction plus classification) adds about 4 ms of wall time per
+  workload (3.9 to 4.7 ms vs 0.3 to 1.0 ms for a fixed scheduler).
 - **Classifier choices:** on all 120 workloads the predicted class matched the ground-truth
   label and the fallback was never used.
 
@@ -50,7 +50,7 @@ Other findings:
 meant to optimise: Round Robin for responsiveness on I/O-bound work, Priority for urgent
 processes, SJF for long CPU-bound batches. It clearly beats FCFS, Priority and Round Robin
 on average waiting time, but it does not beat plain SJF, which gives the lowest average
-waiting time on three of the four types (6.4% lower overall). So the claim the numbers
+waiting time on three of the four types (6.6% lower overall). So the claim the numbers
 support is "better than the other three fixed schedulers on average waiting time, and better
 on response time or urgent-process waiting for the types where the policy targets those", not
 "better than the best fixed scheduler". Mapping balanced and priority-critical work to SJF
@@ -374,7 +374,7 @@ cost rather than a measured failure cost.
 
 | Component | AI on | AI off | Source |
 |-----------|-------|--------|--------|
-| CPU scheduler | average waiting 11.5% lower than FCFS over 120 workloads (p < 0.001); 6.4% higher than SJF | FCFS fallback, which is what runs when the model fails | 7.1 |
+| CPU scheduler | average waiting 11.9% lower than FCFS over 120 workloads (p < 0.001); 6.6% higher than SJF | FCFS fallback, which is what runs when the model fails | 7.1 |
 | Page replacement | predictive-protect cuts demand faults 5.6% (4 frames) and 12.9% (8 frames) on locality strings; no gain on random access | baseline replacement policy | 7.2 |
 | Device anomaly detection | recall 1.000, false-positive rate 0.000 clean and 0.017 noisy | no anomaly score, so the system raises no flag of its own. This follows from the call chain; it was not measured | 7.3 |
 
@@ -479,3 +479,35 @@ clients a request waits a median of 56 ms (p99 139 ms), because gunicorn has onl
 work inside the one process is serialised. For a demo with a handful of users that is fine. Many
 simultaneous users would queue, and the next step would be more worker processes with the state
 moved out of process memory (for example Redis or a small database).
+
+## 7.6 Model selection: why each module uses the model it does
+
+Script: `experiments/model_selection_eval.py` (scikit-learn only). Outputs: `results/model_selection_<part>.csv`
+and `results/model_selection_<part>_folds.csv` for `cpu_burst`, `cpu_workload`, `smart` and `device`.
+
+**Setup.** Each learned component is compared with common alternatives on identical splits. CPU models: 5
+generated datasets (seeds 42 to 46) x 5 folds = 25 paired splits. SMART: the 5 drive-grouped folds of 7.3.
+Device: the same normal training windows, threshold rule (1.5 x the largest held-out normal score) and
+evaluation windows as 7.3; the Transformer row is copied from 7.3 because this study runs without PyTorch.
+Every alternative is tested against the model in use with a paired t-test over folds (fold scores are not
+independent, so p-values are indicative). Fit time, single-prediction latency and pickled size were recorded
+too, since the server has about 1 GB of RAM.
+
+| Part | Model in use | Best alternative | Result |
+|------|--------------|------------------|--------|
+| Burst-time regression | Polynomial ridge (degree 3): MAE 0.36, R² 0.9995, 1.4 KB (Random Forest until this study) | SVR (RBF): MAE 0.52 | **Changed to polynomial ridge.** Better than all 9 alternatives (p < 0.001), including the Random Forest used before (MAE 2.18, R² 0.977, 8.2 MB) |
+| Workload classification | Random Forest: macro-F1 0.980 | SVM (RBF): 0.977 (p = 0.018) | **Confirmed.** Best of 9; significantly better than all 8 alternatives |
+| SMART failure risk | Random Forest (100 trees, depth 10): AUC 0.902, recall 0.573 at 1% FPR, 3.8 MB | Unlimited RF (200 trees): AUC 0.900 (p = 0.50), 61 MB; logistic regression 0.894 (p = 0.057) | **Confirmed.** Best AUC and best recall at 1% FPR of 8; the depth cap costs nothing |
+| Device anomaly | Transformer: recall 0.82 at severity 0.05, 0.98 at 0.1; FPR 1.7% noisy | One-Class SVM: 0.37 and 0.70; FPR 0% | **Confirmed for mild faults.** At full severity every detector except Isolation Forest is perfect |
+
+**Interpretation.** Three of the four original choices held up. For burst time the Random Forest was beaten by
+five models, because the synthetic burst time is a smooth product of the features divided by (1 + I/O wait),
+which a cubic polynomial nearly reproduces while a forest approximates it with steps. The burst predictor was
+therefore switched to polynomial ridge regression (DECISIONS D011). With the new predictor the workload
+classifier was retrained and retested (its training features include predicted bursts): it is still the best
+classifier, and 7.1 was rerun (scheduler choices unchanged, SJF slightly better because its predicted bursts are
+more accurate, selection about 4 ms instead of 10 ms). The study was run before the switch with the Random Forest
+as the reference; the table shows the rerun after the switch. Isolation Forest fails on device windows because
+its scores sit in a narrow band (the 1.5x margin puts the threshold above every window) and, even at the
+largest normal score, random splits on a flattened 50-value window rarely isolate a fault that fills half of it
+(AUC 0.76).

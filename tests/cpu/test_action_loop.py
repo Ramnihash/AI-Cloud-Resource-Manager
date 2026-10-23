@@ -66,8 +66,8 @@ class TestCPUActionLoop(unittest.TestCase):
         for i in range(20):
             b = bursts[i]
             pri = 1 if i < 9 else 4
-            cpu = 0.715
-            io = 0.552
+            cpu = 0.675
+            io = 0.548
             comp = 2.5
             ic = b * 2500.0 * (1.0 + io) / (comp * cpu)
             processes.append(
@@ -320,7 +320,7 @@ class TestCPUActionLoop(unittest.TestCase):
 
 
         b1 = [self._create_sample_process("P1", burst=20.0), self._create_sample_process("P2", burst=10.0)]
-        b2 = [self._create_sample_process("P3", burst=5.0)]
+        b2 = [self._create_sample_process("P3", burst=20.0)]
         fb = self._create_fallback_batch()
 
         loop.step(b1, compare_with_baseline=True)
