@@ -368,6 +368,26 @@ The project should not unnecessarily skip ahead to later development stages.
 
 
 
+D011 — Burst-Time Predictor Model
+
+
+
+Decision:
+
+The CPU burst-time predictor uses degree-3 polynomial ridge regression (StandardScaler, PolynomialFeatures(3), Ridge) instead of a Random Forest regressor. The workload classifier and the SMART classifier stay Random Forests.
+
+
+
+Status: Approved
+
+
+
+Reason:
+
+The model-selection study (experiments/model_selection_eval.py, RESULTS 7.6) compared ten regressors on 25 paired folds. Polynomial ridge had the lowest error (MAE 0.36 vs 2.18 for the Random Forest) and a 1.4 KB model instead of 8 MB. In the same study the Random Forest was the best workload classifier and the best SMART classifier, so it is kept there.
+
+
+
 Decision Status Legend
 
 

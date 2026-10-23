@@ -10,7 +10,8 @@ the same data and the same folds, and records accuracy, training time,
 single-prediction latency and the size of the fitted model (the server has
 about 1 GB of RAM, so size and latency matter as much as accuracy).
 
-Part A  cpu_burst      burst-time regression (4 process features), 5 dataset seeds x 5 folds
+Part A  cpu_burst      burst-time regression (4 process features), 5 dataset seeds x 5 folds; this study
+                       is why the backend switched from a Random Forest to polynomial ridge regression
 Part B  cpu_workload   workload-class classification (5 batch features), 5 seeds x 5 stratified folds
 Part C  smart          SMART failure classification on the Backblaze sample, 5 folds split by drive
 Part D  device         unsupervised telemetry anomaly detectors on the CP7.3 windows; the
@@ -115,9 +116,9 @@ def _summarise(folds: pd.DataFrame, metrics: list[str]) -> pd.DataFrame:
 def burst_models() -> dict[str, object]:
     scaled = lambda m: make_pipeline(StandardScaler(), m)  # noqa: E731
     return {
-        "random_forest (in use)": RandomForestRegressor(n_estimators=100, max_depth=10, random_state=SEED, n_jobs=1),
+        "polynomial_ridge_deg3 (in use)": make_pipeline(StandardScaler(), PolynomialFeatures(3), Ridge(alpha=1.0)),
+        "random_forest": RandomForestRegressor(n_estimators=100, max_depth=10, random_state=SEED, n_jobs=1),
         "linear_regression": LinearRegression(),
-        "polynomial_ridge_deg3": make_pipeline(StandardScaler(), PolynomialFeatures(3), Ridge(alpha=1.0)),
         "decision_tree": DecisionTreeRegressor(max_depth=10, random_state=SEED),
         "knn_k5": scaled(KNeighborsRegressor(n_neighbors=5)),
         "svr_rbf": scaled(SVR(C=10.0)),
@@ -158,7 +159,7 @@ def run_cpu_burst(out: str) -> tuple[pd.DataFrame, pd.DataFrame]:
                              "size_kb": _size_kb(model) if fold == 0 else np.nan})
     folds = pd.DataFrame(rows)
     summary = _summarise(folds, ["mae", "rmse", "r2", "fit_ms", "predict_one_ms", "size_kb"])
-    summary = summary.merge(_paired(folds, "mae", "random_forest (in use)", higher_is_better=False), on="model")
+    summary = summary.merge(_paired(folds, "mae", "polynomial_ridge_deg3 (in use)", higher_is_better=False), on="model")
     return folds, summary.sort_values("mae_mean").reset_index(drop=True)
 
 

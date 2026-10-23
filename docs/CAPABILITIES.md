@@ -8,8 +8,8 @@ on), **Real dataset** (evaluated on data that did not come from our simulators: 
 
 | Capability | Status | Evidence and limits |
 |------------|--------|---------------------|
-| CPU workload classifier and burst predictor | Implemented, Simulated, Deployed | Trained on synthetic workloads at start-up. 100% class accuracy on workloads from the same generator, so it shows consistency, not real-world accuracy (7.1). |
-| CPU scheduling (FCFS, SJF, Priority, Round Robin) | Simulated, Deployed | A scheduling simulator, not the OS scheduler. The AI choice beats FCFS, Priority and Round Robin on average waiting time (-11.5% vs FCFS) but is 6.4% worse than SJF (7.1). |
+| CPU workload classifier and burst predictor | Implemented, Simulated, Deployed | Trained on synthetic workloads at start-up. Random Forest classifier; polynomial ridge burst predictor, chosen by the model-selection study (7.6). 100% class accuracy on workloads from the same generator, so it shows consistency, not real-world accuracy (7.1). |
+| CPU scheduling (FCFS, SJF, Priority, Round Robin) | Simulated, Deployed | A scheduling simulator, not the OS scheduler. The AI choice beats FCFS, Priority and Round Robin on average waiting time (-11.9% vs FCFS) but is 6.6% worse than SJF (7.1). |
 | Fallback when a CPU model fails | Implemented, Deployed | Falls back to FCFS and says so in the response (7.4). |
 | Page replacement (FIFO, LRU, Optimal) | Simulated, Deployed | Runs on supplied reference strings (API contract). |
 | Page prediction (Markov, Transformer) | Simulated | Gains only on patterns with learnable structure; synthetic patterns only (7.2). The Transformer is never better than Markov on 1000-reference strings, and the configuration the API runs is undertrained (25% top-1 on the cyclic pattern vs 100% for Markov). It is slightly better top-3 on very short strings (7.2 D). Not available on the live instance (no PyTorch). |
