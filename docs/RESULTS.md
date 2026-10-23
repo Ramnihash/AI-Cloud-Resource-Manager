@@ -479,3 +479,32 @@ clients a request waits a median of 56 ms (p99 139 ms), because gunicorn has onl
 work inside the one process is serialised. For a demo with a handful of users that is fine. Many
 simultaneous users would queue, and the next step would be more worker processes with the state
 moved out of process memory (for example Redis or a small database).
+
+## 7.6 Model selection: why each module uses the model it does
+
+Script: `experiments/model_selection_eval.py` (scikit-learn only). Outputs: `results/model_selection_<part>.csv`
+and `results/model_selection_<part>_folds.csv` for `cpu_burst`, `cpu_workload`, `smart` and `device`.
+
+**Setup.** Each learned component is compared with common alternatives on identical splits. CPU models: 5
+generated datasets (seeds 42 to 46) x 5 folds = 25 paired splits. SMART: the 5 drive-grouped folds of 7.3.
+Device: the same normal training windows, threshold rule (1.5 x the largest held-out normal score) and
+evaluation windows as 7.3; the Transformer row is copied from 7.3 because this study runs without PyTorch.
+Every alternative is tested against the model in use with a paired t-test over folds (fold scores are not
+independent, so p-values are indicative). Fit time, single-prediction latency and pickled size were recorded
+too, since the server has about 1 GB of RAM.
+
+| Part | Model in use | Best alternative | Result |
+|------|--------------|------------------|--------|
+| Burst-time regression | Random Forest: MAE 2.18, R² 0.977, 8.2 MB | Polynomial ridge (degree 3): MAE 0.36, R² 0.9995, 1.4 KB | **Not the best.** Five models are significantly better (p < 0.001); the RF beats linear regression (MAE 7.51), a single tree (4.04), k-NN (2.32) and gradient boosting (2.41) |
+| Workload classification | Random Forest: macro-F1 0.980 | k-NN: 0.978 (p = 0.13) | **Confirmed.** Best of 9; significantly better than 7 of 8 alternatives |
+| SMART failure risk | Random Forest (100 trees, depth 10): AUC 0.902, recall 0.573 at 1% FPR, 3.8 MB | Unlimited RF (200 trees): AUC 0.900 (p = 0.50), 61 MB; logistic regression 0.894 (p = 0.057) | **Confirmed.** Best AUC and best recall at 1% FPR of 8; the depth cap costs nothing |
+| Device anomaly | Transformer: recall 0.82 at severity 0.05, 0.98 at 0.1; FPR 1.7% noisy | One-Class SVM: 0.37 and 0.70; FPR 0% | **Confirmed for mild faults.** At full severity every detector except Isolation Forest is perfect |
+
+**Interpretation.** Three of the four choices hold up. The burst-time result is a real finding: the synthetic
+burst time is a smooth product of the features divided by (1 + I/O wait), which a cubic polynomial nearly
+reproduces, while a forest approximates it with steps. The scheduler choice does not change (the classifier
+is already correct on all 120 evaluation workloads in 7.1), but SJF ordering inside a batch uses the predicted
+bursts, so a smoother regressor is the obvious improvement. Isolation Forest fails on device windows because
+its scores sit in a narrow band (the 1.5x margin puts the threshold above every window) and, even at the
+largest normal score, random splits on a flattened 50-value window rarely isolate a fault that fills half of it
+(AUC 0.76).
