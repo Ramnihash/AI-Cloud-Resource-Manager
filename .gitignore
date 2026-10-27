@@ -41,3 +41,4 @@ data/generated/
 # Raw Backblaze downloads (large)
 data/device/smart/raw/
 results/live/
+results/simple/
